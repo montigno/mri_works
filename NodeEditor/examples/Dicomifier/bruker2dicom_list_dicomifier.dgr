@@ -1,0 +1,13 @@
+[diagram]
+link=[N0] node=[U1:filePath#Node#U0:rep_data_bruker]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_directory] valInputs=[(['RepDefault', 'title'], ['path', 'choose directory of Bruker data'], ['filePath'], ['path'])] RectF=[(-582.7722629144179, -90.76474556669237, 160.171875, 80.0)]
+link=[N1] node=[U0:outText#Node#U2:in_String]
+block=[U2] category=[Tools.Print] class=[Print_String] valInputs=[(['comment', 'in_String'], ['', 'Node(N1)'], [], [])] RectF=[(-98.0, -106.0, 150.0, 80.0)]
+block=[U0] category=[Dicomifier.bruker2dicom] class=[bruker2dicom_list] valInputs=[(['rep_data_bruker'], ['Node(N0)'], ['outText'], ['str'])] RectF=[(-361.0, -92.0, 194.21875, 80.0)]
+[execution]
+[]
+['U1', 'U0', 'U2']
+{'U0': ('Dicomifier.bruker2dicom', 'bruker2dicom_list', "(['rep_data_bruker'], ['U1:filePath'], ['outText'], ['str'])"), 'U2': ('Tools.Print', 'Print_String', "(['comment', 'in_String'], ['', 'U0:outText'], [], [])"), 'U1': ('File_IO.Dialog_files_directories', 'Choose_directory', "(['RepDefault', 'title'], ['path', 'choose directory of Bruker data'], ['filePath'], ['path'])")}
+['U0:outText', 'U1:filePath']
+{}
+[]

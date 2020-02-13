@@ -1,0 +1,13 @@
+[diagram]
+link=[N0] node=[U1:filePath#Node#U0:yaml_file]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.yml', 'choose Yaml file'], ['filePath'], ['path'])] RectF=[(-524.8872397841171, -38.08548573631457, 154.3125, 80.0)]
+link=[N1] node=[U0:dict_yaml#Node#U2:in_dict]
+block=[U2] category=[Tools.Print] class=[Print_dict] valInputs=[(['comment', 'in_dict'], ['', 'Node(N1)'], [], [])] RectF=[(-4.0, -88.0, 150.0, 80.0)]
+block=[U0] category=[Yaml_Json.yaml_tools] class=[outYaml] valInputs=[(['yaml_file'], ['Node(N0)'], ['dict_yaml'], ['dict'])] RectF=[(-285.0, -51.0, 158.359375, 80.0)]
+[execution]
+[]
+['U1', 'U0', 'U2']
+{'U0': ('Yaml_Json.yaml_tools', 'outYaml', "(['yaml_file'], ['U1:filePath'], ['dict_yaml'], ['dict'])"), 'U2': ('Tools.Print', 'Print_dict', "(['comment', 'in_dict'], ['', 'U0:dict_yaml'], [], [])"), 'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.yml', 'choose Yaml file'], ['filePath'], ['path'])")}
+['U0:dict_yaml', 'U1:filePath']
+{}
+[]

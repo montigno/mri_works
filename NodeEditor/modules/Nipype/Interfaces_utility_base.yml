@@ -1,0 +1,13 @@
+utility_Merge:
+  in2: 0
+  in3: 0
+  in4: 0
+  axis: enumerate(('vstack','hstack'))
+  no_flatten: False
+  ravel_inputs: False
+utility_Rename:
+  keep_ext: True
+  parse_string: ''
+  use_fullpath: False
+utility_Split:
+  squeeze: False

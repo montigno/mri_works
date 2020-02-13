@@ -1,0 +1,28 @@
+[diagram]
+constant=[A3] value=[1.0] format=[float] label=[] RectF=[(-342.0, 38.0, 119.0, 31.0)]
+constant=[A2] value=[0.0] format=[float] label=[] RectF=[(-343.0, 1.0, 119.0, 31.0)]
+constant=[A1] value=[0.0] format=[float] label=[] RectF=[(-346.0, -71.0, 119.0, 31.0)]
+constant=[A0] value=[1.0] format=[float] label=[] RectF=[(-345.0, -107.0, 119.0, 31.0)]
+link=[N5] node=[M0:out1#Node#U1:in_array_Int]
+link=[N4] node=[M0:out0#Node#U0:in_array_Int]
+block=[U1] category=[Tools.Print] class=[Print_array_Int] valInputs=[(['comment', 'in_array_Int'], ['', 'Node(N5)'], [], [])] RectF=[(272.0, 40.0, 150.0, 80.0)]
+block=[U0] category=[Tools.Print] class=[Print_array_Int] valInputs=[(['comment', 'in_array_Int'], ['', 'Node(N4)'], [], [])] RectF=[(274.0, -92.0, 150.0, 80.0)]
+link=[N3] node=[A3:#Node#M0:y2]
+link=[N2] node=[A2:#Node#M0:x2]
+link=[N1] node=[A1:#Node#M0:y1]
+link=[N0] node=[A0:#Node#M0:x1]
+submod=[M0] nameMod=[loop_if_2] valInputs=[(['x1', 'y1', 'arrayInt', 'x2', 'y2', 'arrayInt_0', 'arrayInt_1', 'arrayInt_2'], ['Node(N0)', 'Node(N1)', [[0]], 'Node(N2)', 'Node(N3)', [[1]], [[2]], [[3]]], ['out0', 'out1'], ['array_int', 'array_int'])] RectF=[(-41.0, -64.0, 150.0, 160.0)]
+[execution]
+[]
+['M0', 'U0', 'U1']
+{'U0': ('Tools.Print', 'Print_array_Int', "(['comment', 'in_array_Int'], ['', 'M0:out0'], [], [])"), 'U1': ('Tools.Print', 'Print_array_Int', "(['comment', 'in_array_Int'], ['', 'M0:out1'], [], [])")}
+['A0:', 'A1:', 'A2:', 'A3:', 'M0:out0', 'M0:out1']
+{'M0': ('loop_if_2', "(['x1', 'y1', 'arrayInt', 'x2', 'y2', 'arrayInt_0', 'arrayInt_1', 'arrayInt_2'], [1.0, 0.0, [[0]], 0.0, 1.0, [[1]], [[2]], [[3]]], ['out0', 'out1'], ['array_int', 'array_int'])")}
+[]
+[submod M0]
+['C5:x1=1.0', 'C6:y1=0.0', 'C7:arrayInt=[[0]]', 'C0:x2=0.0', 'C1:y2=1.0', 'C2:arrayInt_0=[[1]]', 'C3:arrayInt_1=[[2]]', 'C4:arrayInt_2=[[3]]']
+['M1', 'M0']
+{}
+['M0:out1', 'M0:out0', 'C7:arrayInt', 'C6:y1', 'C5:x1', 'C4:arrayInt_2', 'C3:arrayInt_1', 'C2:arrayInt_0', 'C1:y2', 'C0:x2', 'M1:out0', 'M1:out1']
+{'M0': ('loop_if', "(['x', 'y', 'arrayInt', 'arrayInt_1', 'arrayInt_2'], ['C5:x1', 'C6:y1', 'M1:out0', 'C7:arrayInt', 'M1:out1'], ['out0', 'out1'], ['array_int', 'array_int'])"), 'M1': ('loop_if', "(['x', 'y', 'arrayInt', 'arrayInt_1', 'arrayInt_2'], ['C0:x2', 'C1:y2', 'C2:arrayInt_0', 'C3:arrayInt_1', 'C4:arrayInt_2'], ['out0', 'out1'], ['array_int', 'array_int'])")}
+['M0:out0=M0:out0', 'M0:out1=M0:out1']

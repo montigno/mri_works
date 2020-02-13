@@ -1,0 +1,11 @@
+[diagram]
+link=[N0] node=[U1:filePath#Node#U0:file]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii', ''], ['filePath'], ['path'])] RectF=[(-732.6134499193946, -27.842877900049068, 154.3125, 80.0)]
+block=[U0] category=[ImageJ.ImageJ_open] class=[openImageJ] valInputs=[(['file'], ['Node(N0)'], ['currentImage'], ['str'])] RectF=[(-480.7492715848087, -29.640180654100984, 150.0, 80.0)]
+[execution]
+[]
+['U1', 'U0']
+{'U0': ('ImageJ.ImageJ_open', 'openImageJ', "(['file'], ['U1:filePath'], ['currentImage'], ['str'])"), 'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', ''], ['filePath'], ['path'])")}
+['U1:filePath']
+{}
+[]

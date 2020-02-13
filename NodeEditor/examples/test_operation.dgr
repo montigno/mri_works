@@ -1,0 +1,11 @@
+[diagram]
+link=[N0] node=[U1:addition#Node#U0:inFloat]
+block=[U1] category=[Tools.SimpleOperation] class=[add_float] valInputs=[(['int1', 'int2'], [1.0, 2.0], ['addition'], ['float'])] RectF=[(-296.0, 11.0, 150.0, 80.0)]
+block=[U0] category=[Tools.Print] class=[Print_Float] valInputs=[(['comment', 'inFloat'], ['', 'Node(N0)'], [], [])] RectF=[(-23.0, -18.0, 150.0, 80.0)]
+[execution]
+[]
+['U1', 'U0']
+{'U0': ('Tools.Print', 'Print_Float', "(['comment', 'inFloat'], ['', 'U1:addition'], [], [])"), 'U1': ('Tools.SimpleOperation', 'add_float', "(['int1', 'int2'], [1.0, 2.0], ['addition'], ['float'])")}
+['U1:addition']
+{}
+[]

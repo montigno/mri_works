@@ -1,0 +1,15 @@
+[diagram]
+link=[N2] node=[U3:CannyEdge#Node#U0:image]
+link=[N1] node=[U2:image#Node#U3:image]
+link=[N0] node=[U1:filePath#Node#U2:fileSource]
+block=[U0] category=[File_IO.Save_image_nii_gz] class=[Save_NiiGz] valInputs=[(['image', 'filepath', 'mode', 'defaultextension', 'title', 'initialfile', 'initialdir', 'filetypes'], ['Node(N2)', 'path', 'w', '*.nii.gz', 'choose file path', 'path', 'path', (('Nifti files', '*.nii.gz'), ('Nifti files', '*.nii'))], ['pathFile'], ['path'])] RectF=[(-1.1935653621520856, 9.362453630675319, 195.140625, 160.0)]
+block=[U3] category=[Numpy.Image_filters] class=[CannyEdge_Filter] valInputs=[(['image', 'sigma'], ['Node(N1)', 3], ['CannyEdge'], ['array_float'])] RectF=[(-291.0, -14.0, 150.0, 80.0)]
+block=[U2] category=[Nifti.Nifti] class=[Open_Nifti] valInputs=[(['fileSource'], ['Node(N0)'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])] RectF=[(-555.3735907602993, -8.45224828608476, 150.734375, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', ''], ['filePath'], ['path'])] RectF=[(-809.8969645268664, -10.2266803924107, 154.3125, 80.0)]
+[execution]
+[]
+['U1', 'U2', 'U3', 'U0']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', ''], ['filePath'], ['path'])"), 'U2': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['U1:filePath'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U3': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U2:image', 3], ['CannyEdge'], ['array_float'])"), 'U0': ('File_IO.Save_image_nii_gz', 'Save_NiiGz', "(['image', 'filepath', 'mode', 'defaultextension', 'title', 'initialfile', 'initialdir', 'filetypes'], ['U3:CannyEdge', 'path', 'w', '*.nii.gz', 'choose file path', 'path', 'path', (('Nifti files', '*.nii.gz'), ('Nifti files', '*.nii'))], ['pathFile'], ['path'])")}
+['U1:filePath', 'U2:image', 'U3:CannyEdge']
+{}
+[]

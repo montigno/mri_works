@@ -1,0 +1,11 @@
+[diagram]
+link=[N0] node=[U0:filesPath#Node#U1:file]
+block=[U1] category=[ImageJ.ImageJ_open] class=[openImagej_multiFiles] valInputs=[(['file'], ['Node(N0)'], [], [])] RectF=[(-57.98045156270124, 30.65445534500425, 150.0, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*.*', ''], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-417.4733363175637, 42.058880897665, 206.59375, 80.0)]
+[execution]
+[]
+['U0', 'U1']
+{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*.*', ''], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U1': ('ImageJ.ImageJ_open', 'openImagej_multiFiles', "(['file'], ['U0:filesPath'], [], [])")}
+['U0:filesPath']
+{}
+[]

@@ -1,0 +1,32 @@
+[diagram]
+submod=[M0] nameMod=[Fact_C] valInputs=[(['enter_int'], ['Node(N1)'], ['factorial', 'str_conc'], ['int', 'str'])] RectF=[(-228.7529674004619, -41.89730130927553, 148.359375, 54.03715636238802)]
+block=[U1] category=[Tools.Print] class=[Print_Int] valInputs=[(['comment', 'inInt'], ['Node(N3)', 'Node(N2)'], [], [])] RectF=[(-12.542969518584847, -39.96781991518479, 133.77841793964922, 61.47339689437666)]
+block=[U0] category=[Generator.Integer] class=[ListOfInt] valInputs=[(['n'], ['Node(N4)'], ['serie_int'], ['list_int'])] RectF=[(-500.401032139012, -38.87565730699846, 145.3058831276325, 51.83387889274613)]
+constant=[A0] value=[15] format=[int] RectF=[(-646.2963297168337, -28.977997352650174, 82.0, 31.0)]
+link=[N3] node=[M0:str_conc#Node#U1:comment]
+link=[N2] node=[M0:factorial#Node#U1:inInt]
+link=[N1] node=[F0:in0#Node#M0:enter_int]
+link=[N4] node=[A0:#Node#U0:n]
+link=[N0] node=[U0:serie_int#Node#F0:in0]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_int'], ['in0', 'out', 'int']]]] outputs=[[]] listItems=[['M0', 'U1']] RectF=[(-298.60421780778, -127.73035916255316, 501.537061604021, 225.80857283610686)]
+[execution]
+[]
+['U0', 'F0']
+{'U0': ('Generator.Integer', 'ListOfInt', "(['n'], [15], ['serie_int'], ['list_int'])")}
+['U0:serie_int', 'A0:', 'F0:in0', 'M0:str_conc']
+{}
+[]
+[loopfor F0]
+['F0:in0=U0:serie_int']
+['M0', 'U1']
+{'U1': ('Tools.Print', 'Print_Int', "(['comment', 'inInt'], ['M0:str_conc', 'M0:factorial'], [], [])")}
+['F0:in0', 'M0:factorial', 'M0:str_conc']
+{'M0': ('Fact_C', "(['enter_int'], ['F0:in0'], ['factorial', 'str_conc'], ['int', 'str'])")}
+[]
+[submod M0]
+['C0:enter_int=F0:in0']
+['ThreadOn', 'U3', 'U0', 'ThreadOff', 'U1']
+{'U0': ('C.Maths', 'fact', "(['enter_int'], ['C0:enter_int'], ['factorial'], ['int'])"), 'U3': ('Tools.Conversion', 'IntToString', "(['inInt'], ['C0:enter_int'], ['outString'], ['str'])"), 'U1': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['U3:outString', ' != '], ['str_conc'], ['str'])")}
+['A1:', 'C0:enter_int', 'C0:enter_int', 'U0:factorial', 'U3:outString', 'U1:str_conc']
+{}
+['M0:factorial=U0:factorial', 'M0:str_conc=U1:str_conc']

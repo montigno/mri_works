@@ -1,0 +1,17 @@
+[diagram]
+link=[N3] node=[U0:image#Node#U7:in_array_Float]
+link=[N2] node=[U3:outArrayFloat#Node#U0:image2_0]
+link=[N1] node=[U2:outArrayFloat#Node#U0:image2]
+link=[N0] node=[U1:outArrayFloat#Node#U0:image1]
+block=[U0] category=[Numpy.Image_operations] class=[addImage_dyn] valInputs=[(['image1', 'image2', 'image2_0'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['image'], ['array_float'])] RectF=[(-362.070288912731, -40.00062354109638, 150.0, 80.0)]
+block=[U1] category=[Tools.Constants] class=[Constant_float_array] valInputs=[(['arrayFloat'], [[[0.0]]], ['outArrayFloat'], ['array_float'])] RectF=[(-680.0, -207.29660707770884, 198.359375, 80.0)]
+block=[U2] category=[Tools.Constants] class=[Constant_float_array] valInputs=[(['arrayFloat'], [[[1.0]]], ['outArrayFloat'], ['array_float'])] RectF=[(-683.9999999999999, -27.487291742672987, 198.359375, 80.0)]
+block=[U3] category=[Tools.Constants] class=[Constant_float_array] valInputs=[(['arrayFloat'], [[[2.0]]], ['outArrayFloat'], ['array_float'])] RectF=[(-676.9321415541774, 133.76261704973854, 198.359375, 80.0)]
+block=[U7] category=[Tools.Print] class=[Print_array_Float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N3)'], [], [])] RectF=[(59.54413656687689, -56.612389474271495, 150.0, 80.0)]
+[execution]
+[]
+['U1', 'U2', 'U3', 'U0', 'U7']
+{'U7': ('Tools.Print', 'Print_array_Float', "(['comment', 'in_array_Float'], ['', 'U0:image'], [], [])"), 'U3': ('Tools.Constants', 'Constant_float_array', "(['arrayFloat'], [[[2.0]]], ['outArrayFloat'], ['array_float'])"), 'U2': ('Tools.Constants', 'Constant_float_array', "(['arrayFloat'], [[[1.0]]], ['outArrayFloat'], ['array_float'])"), 'U1': ('Tools.Constants', 'Constant_float_array', "(['arrayFloat'], [[[0.0]]], ['outArrayFloat'], ['array_float'])"), 'U0': ('Numpy.Image_operations', 'addImage_dyn', "(['image1', 'image2', 'image2_0'], ['U1:outArrayFloat', 'U2:outArrayFloat', 'U3:outArrayFloat'], ['image'], ['array_float'])")}
+['U1:outArrayFloat', 'U2:outArrayFloat', 'U3:outArrayFloat', 'U0:image']
+{}
+[]

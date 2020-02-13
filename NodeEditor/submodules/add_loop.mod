@@ -1,0 +1,28 @@
+[diagram]
+constant=[A1] value=[3] format=[int] label=[A1] RectF=[(-112.02916214227515, 174.6895409676155, 82.0, 31.0)]
+block=[U1] category=[Tools.SimpleOperation] class=[mult_int] valInputs=[(['int1', 'int2'], ['Node(N3)', 'Node(N5)'], ['multiplication'], ['int'])] RectF=[(46.520584279419325, 25.633791337639224, 151.84375, 80.0)]
+block=[U0] category=[Tools.SimpleOperation] class=[add_int] valInputs=[(['int1', 'int2'], ['Node(N0)', 'Node(N1)'], ['addition'], ['int'])] RectF=[(-179.58500573446867, -11.40222769495577, 145.5062624846751, 130.71503767295255)]
+link=[N6] node=[U1:multiplication#Node#F0:out0]
+link=[N5] node=[A1:#Node#U1:int2]
+link=[N3] node=[U0:addition#Node#U1:int1]
+link=[N0] node=[F0:in0#Node#U0:int1]
+link=[N1] node=[F0:in0#Node#U0:int2]
+link=[N2] node=[C0:in0#Node#F0:in0]
+link=[N4] node=[F0:out0#Node#C1:out0]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_int'], ['in0', 'out', 'int']]]] outputs=[[[['out0', 'in', 'int'], ['out0', 'out', 'list_int']]]] listItems=[['U0', 'U1']] RectF=[(-246.83876727552595, -103.0, 503.0943435342409, 327.8387672755259)]
+connt=[C0] name=[in0] type=[in] format=[list_int] valOut=[[0]] RectF=[(-422.2988013535322, 37.543837175630024, 70, 24)]
+connt=[C1] name=[out0] type=[out] format=[list_int] RectF=[(385.35859183512446, 39.98339839450659, 70, 24)]
+[execution]
+['C0:in0=']
+['F0']
+{}
+['F0:out0', 'C0:in0', 'F0:in0', 'F0:in0', 'A1:']
+{}
+['C1:out0=F0:out0']
+[loopfor F0]
+['F0:in0=C0:in0']
+['U0', 'U1']
+{'U0': ('Tools.SimpleOperation', 'add_int', "(['int1', 'int2'], ['F0:in0', 'F0:in0'], ['addition'], ['int'])"), 'U1': ('Tools.SimpleOperation', 'mult_int', "(['int1', 'int2'], ['U0:addition', 3], ['multiplication'], ['int'])")}
+['F0:in0', 'F0:in0', 'U0:addition', 'U1:multiplication']
+{}
+['F0:out0=U1:multiplication']

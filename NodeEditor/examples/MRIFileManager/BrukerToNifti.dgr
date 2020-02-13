@@ -1,0 +1,17 @@
+[diagram]
+link=[N3] node=[U4:str_conc#Node#U0:naming]
+link=[N2] node=[U0:list_files_exported#Node#U3:file]
+link=[N1] node=[U1:outFile#Node#U0:path_export]
+link=[N0] node=[U2:list_repertories#Node#U0:Bruker_files]
+block=[U4] category=[Tools.StringManipulation] class=[string_concatenat_dyn] valInputs=[(['stringIn', 'stringIn_1', 'stringIn_2', 'stringIn_3', 'stringIn_4', 'stringIn_5', 'stringIn_6'], ['PatientName/', 'StudyName/', 'CreationDate-', 'SeqNumber-', 'Protocol-', 'SequenceName-', 'AcquisitionTime'], ['str_conc'], ['str'])] RectF=[(-512.1484002733653, -133.6576151852215, 156.71875, 140.0)]
+block=[U0] category=[Java.MRIFileManager] class=[BrukerToNifti] valInputs=[(['Bruker_files', 'naming', 'path_export', 'bvals_bvecs'], ['Node(N0)', 'Node(N3)', 'Node(N1)', False], ['list_files_exported'], ['list_path'])] RectF=[(-220.62987114595109, -161.07401907879617, 233.421875, 236.03194736606287)]
+block=[U3] category=[ImageJ.ImageJ_open] class=[openImagej_multiFiles] valInputs=[(['file'], ['Node(N2)'], [], [])] RectF=[(86.3113523527081, -81.74027398446181, 150.0, 80.0)]
+block=[U1] category=[Tools.PathManipulation] class=[joinPath] valInputs=[(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])] RectF=[(-509.4025541849657, 70.77906978036414, 150.0, 80.0)]
+block=[U2] category=[Java.JFileChooser] class=[ChooseRepertories] valInputs=[([], [], ['list_repertories', 'list_files'], ['list_path', 'list_path'])] RectF=[(-516.6197136066723, -268.94155567793064, 150.0, 80.0)]
+[execution]
+[]
+['U1', 'U2', 'U4', 'U0', 'U3']
+{'U2': ('Java.JFileChooser', 'ChooseRepertories', "([], [], ['list_repertories', 'list_files'], ['list_path', 'list_path'])"), 'U1': ('Tools.PathManipulation', 'joinPath', "(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])"), 'U3': ('ImageJ.ImageJ_open', 'openImagej_multiFiles', "(['file'], ['U0:list_files_exported'], [], [])"), 'U0': ('Java.MRIFileManager', 'BrukerToNifti', "(['Bruker_files', 'naming', 'path_export', 'bvals_bvecs'], ['U2:list_repertories', 'U4:str_conc', 'U1:outFile', False], ['list_files_exported'], ['list_path'])"), 'U4': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_1', 'stringIn_2', 'stringIn_3', 'stringIn_4', 'stringIn_5', 'stringIn_6'], ['PatientName/', 'StudyName/', 'CreationDate-', 'SeqNumber-', 'Protocol-', 'SequenceName-', 'AcquisitionTime'], ['str_conc'], ['str'])")}
+['U2:list_repertories', 'U1:outFile', 'U0:list_files_exported', 'U4:str_conc']
+{}
+[]

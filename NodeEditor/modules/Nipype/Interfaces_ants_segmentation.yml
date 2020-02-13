@@ -1,0 +1,47 @@
+ants_AntsJointFusion:
+  patch_radius: [2,2,2]
+  constrain_nonnegative: False
+  search_radius: [3,3,3]
+  out_label_fusion: 'path'
+  patch_metric: enumerate(('PC','MSQ'))
+  alpha: 0.1
+  dimension: enumerate(('2','3','4'))
+  mask_image: 'path'
+  retain_atlas_voting_images: False
+  verbose: False
+  exclusion_image_label: ['']
+  out_atlas_voting_weight_name_format: ''
+  exclusion_image: ['path']
+  environ: {}
+  num_threads: 1
+  out_intensity_fusion_name_format: ''
+  out_label_post_prob_name_format: ''
+  retain_label_posterior_images: False
+  beta: 2.0
+  args: ''
+ants_N4BiasFieldCorrection:
+  dimension: 3
+  mask_image: 'path'
+  weight_image: 'path'
+  output_image: 'path'
+  bspline_fitting_distance: 0.0
+  bspline_order: 0
+  shrink_factor: 0
+  n_iterations: [0]
+  convergence_threshold: 0.0
+  bias_image: 'path'
+  num_threads: 1
+  args: ''
+  environ: {}
+ants_BrainExtraction:
+  dimension: 3
+  out_prefix: 'highres001'
+  extraction_registration_mask: 'path'
+  image_suffix: 'nii.gz'
+  use_random_seeding: 1
+  keep_temporary_files: 0
+  use_floatingpoint_precision: 0
+  debug: False
+  num_threads: 1
+  args: ''
+  environ: {}

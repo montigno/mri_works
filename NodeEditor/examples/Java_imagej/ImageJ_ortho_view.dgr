@@ -1,0 +1,15 @@
+[diagram]
+link=[N1] node=[U0:cmd_post#Node#U2:cmd_ant]
+link=[N2] node=[U2:cmd_post#Node#U3:command]
+link=[N0] node=[U1:filePath#Node#U0:file]
+block=[U0] category=[ImageJ.ImageJ_open] class=[ImageJ_load_Image] valInputs=[(['file'], ['Node(N0)'], ['cmd_post'], ['str'])] RectF=[(-579.0, -51.0, 150.0, 80.0)]
+block=[U2] category=[ImageJ.ImageJ_stacks] class=[ortho_view] valInputs=[(['cmd_ant'], ['Node(N1)'], ['cmd_post'], ['str'])] RectF=[(-372.0, -49.0, 153.390625, 80.0)]
+block=[U3] category=[ImageJ.ImageJ_exec] class=[ImageJ_execution] valInputs=[(['command'], ['Node(N2)'], [], [])] RectF=[(-152.0, -45.0, 150.0, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii', ''], ['filePath'], ['path'])] RectF=[(-800.274359711222, -52.44684509707717, 154.3125, 80.0)]
+[execution]
+[]
+['U1', 'U0', 'U2', 'U3']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', ''], ['filePath'], ['path'])"), 'U3': ('ImageJ.ImageJ_exec', 'ImageJ_execution', "(['command'], ['U2:cmd_post'], [], [])"), 'U2': ('ImageJ.ImageJ_stacks', 'ortho_view', "(['cmd_ant'], ['U0:cmd_post'], ['cmd_post'], ['str'])"), 'U0': ('ImageJ.ImageJ_open', 'ImageJ_load_Image', "(['file'], ['U1:filePath'], ['cmd_post'], ['str'])")}
+['U1:filePath', 'U2:cmd_post', 'U0:cmd_post']
+{}
+[]

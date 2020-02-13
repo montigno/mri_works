@@ -1,0 +1,15 @@
+[diagram]
+link=[N0] node=[U0:filePath#Node#U1:fileSource]
+link=[N1] node=[U1:image#Node#U3:inArray]
+link=[N3] node=[U1:image#Node#U4:inArray]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'choose Nifti'], ['filePath'], ['path'])] RectF=[(-404.0, 29.0, 154.3125, 80.0)]
+block=[U1] category=[Nifti.Nifti] class=[Open_Nifti] valInputs=[(['fileSource'], ['Node(N0)'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])] RectF=[(-181.0, 29.0, 150.734375, 80.0)]
+block=[U3] category=[Tools.ArrayManipulation] class=[arrayIndex] valInputs=[(['inArray', 'index3', 'index4', 'index5'], ['Node(N1)', 0, 0, 0], ['outArray'], ['array_float'])] RectF=[(69.0, -81.0, 150.0, 80.0)]
+block=[U4] category=[Tools.ArrayManipulation] class=[arrayIndex] valInputs=[(['inArray', 'index3', 'index4', 'index5'], ['Node(N3)', 0, 1, 0], ['outArray'], ['array_float'])] RectF=[(76.52854122621568, 102.12262156448199, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'U1', 'U3', 'U4']
+{'U4': ('Tools.ArrayManipulation', 'arrayIndex', "(['inArray', 'index3', 'index4', 'index5'], ['U1:image', 0, 1, 0], ['outArray'], ['array_float'])"), 'U3': ('Tools.ArrayManipulation', 'arrayIndex', "(['inArray', 'index3', 'index4', 'index5'], ['U1:image', 0, 0, 0], ['outArray'], ['array_float'])"), 'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['U0:filePath'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'choose Nifti'], ['filePath'], ['path'])")}
+['U1:image', 'U1:image', 'U0:filePath']
+{}
+[]

@@ -1,0 +1,13 @@
+[diagram]
+link=[N0] node=[U0:filePath#Node#U2:pathImage]
+link=[N1] node=[U1:filePath#Node#U2:filemacro]
+block=[U2] category=[ImageJ.ImageJ_open] class=[ImageJ_macrofile] valInputs=[(['pathImage', 'filemacro'], ['Node(N0)', 'Node(N1)'], [], [])] RectF=[(-50.91262463053829, -13.828644692155962, 150.0, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'choose Nifti'], ['filePath'], ['path'])] RectF=[(-304.4852805620123, -77.9054135812961, 154.3125, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.* *', 'choose macro'], ['filePath'], ['path'])] RectF=[(-300.78726906172506, 61.978397232859834, 154.3125, 80.0)]
+[execution]
+[]
+['U0', 'U1', 'U2']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.* *', 'choose macro'], ['filePath'], ['path'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'choose Nifti'], ['filePath'], ['path'])"), 'U2': ('ImageJ.ImageJ_open', 'ImageJ_macrofile', "(['pathImage', 'filemacro'], ['U0:filePath', 'U1:filePath'], [], [])")}
+['U1:filePath', 'U0:filePath']
+{}
+[]

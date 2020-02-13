@@ -1,0 +1,18 @@
+dcm2nii_Dcm2nii:
+  anonymize: True
+  config_file: 'path'
+  collapse_folders: True
+  date_in_filename: True
+  events_in_filename: True
+  source_in_filename: False
+  gzip_output: False
+  id_in_filename: False
+  nii_output: True
+  output_dir: 'path'
+  protocol_in_filename: True
+  reorient: False
+  spm_analyze: False
+  convert_all_pars: True
+  reorient_and_crop: False
+  args: ''
+  environ: {}

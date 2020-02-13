@@ -1,0 +1,25 @@
+[diagram]
+constant=[A2] value=[1.0] format=[float] label=[] RectF=[(-436.0, 97.0, 119.0, 31.0)]
+constant=[A1] value=[2880.0] format=[float] label=[] RectF=[(-438.0, 44.0, 119.0, 31.0)]
+constant=[A0] value=[0.0] format=[float] label=[] RectF=[(-438.0, -7.0, 119.0, 31.0)]
+link=[N4] node=[M0:out1#Node#U0:x]
+link=[N3] node=[M0:out0#Node#U0:data]
+block=[U0] category=[Matplotlib.MatplotCurve] class=[MatPlotCurve2] valInputs=[(['data', 'x'], ['Node(N3)', 'Node(N4)'], [], [])] RectF=[(-28.0, 21.0, 150.0, 80.0)]
+link=[N2] node=[A0:#Node#M0:xmin]
+link=[N1] node=[A1:#Node#M0:xmax]
+link=[N0] node=[A2:#Node#M0:delta_x]
+submod=[M0] nameMod=[spiral] valInputs=[(['xmin', 'xmax', 'delta_x'], ['Node(N2)', 'Node(N1)', 'Node(N0)'], ['out0', 'out1'], ['list_float', 'list_float'])] RectF=[(-249.0, 22.0, 150.0, 80.0)]
+[execution]
+[]
+['M0', 'U0']
+{'U0': ('Matplotlib.MatplotCurve', 'MatPlotCurve2', "(['data', 'x'], ['M0:out0', 'M0:out1'], [], [])")}
+['A2:', 'A1:', 'A0:', 'M0:out0', 'M0:out1']
+{'M0': ('spiral', "(['xmin', 'xmax', 'delta_x'], [0.0, 2880.0, 1.0], ['out0', 'out1'], ['list_float', 'list_float'])")}
+[]
+[submod M0]
+['C2:xmin=0.0', 'C3:xmax=2880.0', 'C4:delta_x=1.0']
+['U0', 'F0']
+{'U0': ('Generator.Abscissa', 'AbsX', "(['xmin', 'xmax', 'delta_x'], ['C2:xmin', 'C3:xmax', 'C4:delta_x'], ['outAbscissa'], ['list_float'])")}
+['U0:outAbscissa', 'F0:in0', 'F0:in0', 'F0:in0', 'U1:multiplication', 'A1:', 'F0:out0', 'F0:out1', 'C2:xmin', 'C3:xmax', 'C4:delta_x']
+{}
+['M0:out0=F0:out0', 'M0:out1=F0:out1']

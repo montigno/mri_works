@@ -1,0 +1,7 @@
+Save_NiiGz:
+  mode: enumerate(('r', 'w'))
+  defaultextension: '*.*'
+  title: ''
+  initialfile: 'path'
+  initialdir: 'path'
+  filetypes: (("text files","*.txt"),("all files","*.*"))

@@ -1,0 +1,48 @@
+[diagram]
+link=[N6] node=[M0:abs_image#Node#U4:image]
+link=[N8] node=[M2:abs_image#Node#U6:image]
+link=[N7] node=[M1:abs_image#Node#U5:image]
+block=[U6] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N8)', 'abs3'], [], [])] RectF=[(426.96739676087805, 314.37667912187936, 150.0, 80.0)]
+block=[U5] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N7)', 'abs2'], [], [])] RectF=[(434.27848232185204, 131.59954009753088, 150.0, 80.0)]
+block=[U4] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N6)', 'abs1'], [], [])] RectF=[(463.11013792451274, -53.96956475950593, 150.0, 80.0)]
+link=[N0] node=[U0:filePath#Node#M0:fileSource]
+link=[N1] node=[U0:filePath#Node#M1:fileSource]
+link=[N2] node=[U0:filePath#Node#M2:fileSource]
+link=[N3] node=[M0:image#Node#U1:image]
+link=[N4] node=[M1:image#Node#U2:image]
+link=[N5] node=[M2:image#Node#U3:image]
+submod=[M0] nameMod=[canny_test] valInputs=[(['fileSource'], ['Node(N0)'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])] RectF=[(-97.31222402601564, -48.3696607141484, 167.265625, 80.0)]
+submod=[M1] nameMod=[canny_test] valInputs=[(['fileSource'], ['Node(N1)'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])] RectF=[(-105.75299704796632, 109.28468661318055, 167.265625, 80.0)]
+submod=[M2] nameMod=[canny_test] valInputs=[(['fileSource'], ['Node(N2)'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])] RectF=[(-104.95640797031594, 265.83393933961065, 167.265625, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.*', ''], ['filePath'], ['path'])] RectF=[(-422.2665452787994, -47.82673253352738, 154.3125, 80.0)]
+block=[U1] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N3)', '1'], [], [])] RectF=[(224.6539196119184, -146.59183357770382, 150.0, 80.0)]
+block=[U2] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N4)', '2'], [], [])] RectF=[(221.85095259400583, 38.79360919676603, 150.0, 80.0)]
+block=[U3] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N5)', '3'], [], [])] RectF=[(225.73777028099835, 211.0410314858898, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'ThreadOn', 'M0', 'M2', 'M1', 'ThreadOff', 'U1', 'U2', 'U3', 'U4', 'U5', 'U6']
+{'U3': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M2:image', '3'], [], [])"), 'U2': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M1:image', '2'], [], [])"), 'U1': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M0:image', '1'], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.*', ''], ['filePath'], ['path'])"), 'U4': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M0:abs_image', 'abs1'], [], [])"), 'U5': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M1:abs_image', 'abs2'], [], [])"), 'U6': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['M2:abs_image', 'abs3'], [], [])")}
+['M2:image', 'M1:image', 'M0:image', 'U0:filePath', 'U0:filePath', 'U0:filePath', 'M1:abs_image', 'M2:abs_image', 'M0:abs_image']
+{'M2': ('canny_test', "(['fileSource'], ['U0:filePath'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])"), 'M1': ('canny_test', "(['fileSource'], ['U0:filePath'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])"), 'M0': ('canny_test', "(['fileSource'], ['U0:filePath'], ['str_conc', 'image', 'abs_image', 'str_conc'], ['str', 'array_float', 'array_float', 'str'])")}
+[]
+[submod M2]
+['C0:fileSource=U0:filePath']
+['ThreadOn', 'U10', 'U11', 'ThreadOff', 'U1', 'ThreadOn', 'U3', 'U4', 'ThreadOff', 'U6', 'U8']
+{'U8': ('Numpy.Image_operations', 'AbsImage', "(['image'], ['U6:image'], ['abs_image'], ['array_float'])"), 'U6': ('Numpy.Image_operations', 'subtractImage_dyn', "(['image1', 'image2'], ['U3:CannyEdge', 'U4:CannyEdge'], ['image'], ['array_float'])"), 'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['C0:fileSource'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U11': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 5], ['str_conc'], ['str'])"), 'U10': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 2], ['str_conc'], ['str'])"), 'U4': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 5], ['CannyEdge'], ['array_float'])"), 'U3': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 2], ['CannyEdge'], ['array_float'])")}
+['A2:', 'A2:', 'A1:', 'A0:', 'A1:', 'U6:image', 'U4:CannyEdge', 'U3:CannyEdge', 'U1:image', 'U1:image', 'A0:', 'C0:fileSource', 'U10:str_conc', 'U11:str_conc', 'U6:image', 'U8:abs_image']
+{}
+['M2:str_conc=U10:str_conc', 'M2:image=U6:image', 'M2:abs_image=U8:abs_image', 'M2:str_conc=U11:str_conc']
+[submod M1]
+['C0:fileSource=U0:filePath']
+['ThreadOn', 'U10', 'U11', 'ThreadOff', 'U1', 'ThreadOn', 'U3', 'U4', 'ThreadOff', 'U6', 'U8']
+{'U8': ('Numpy.Image_operations', 'AbsImage', "(['image'], ['U6:image'], ['abs_image'], ['array_float'])"), 'U6': ('Numpy.Image_operations', 'subtractImage_dyn', "(['image1', 'image2'], ['U3:CannyEdge', 'U4:CannyEdge'], ['image'], ['array_float'])"), 'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['C0:fileSource'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U11': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 5], ['str_conc'], ['str'])"), 'U10': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 2], ['str_conc'], ['str'])"), 'U4': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 5], ['CannyEdge'], ['array_float'])"), 'U3': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 2], ['CannyEdge'], ['array_float'])")}
+['A2:', 'A2:', 'A1:', 'A0:', 'A1:', 'U6:image', 'U4:CannyEdge', 'U3:CannyEdge', 'U1:image', 'U1:image', 'A0:', 'C0:fileSource', 'U10:str_conc', 'U11:str_conc', 'U6:image', 'U8:abs_image']
+{}
+['M1:str_conc=U10:str_conc', 'M1:image=U6:image', 'M1:abs_image=U8:abs_image', 'M1:str_conc=U11:str_conc']
+[submod M0]
+['C0:fileSource=U0:filePath']
+['ThreadOn', 'U10', 'U11', 'ThreadOff', 'U1', 'ThreadOn', 'U3', 'U4', 'ThreadOff', 'U6', 'U8']
+{'U8': ('Numpy.Image_operations', 'AbsImage', "(['image'], ['U6:image'], ['abs_image'], ['array_float'])"), 'U6': ('Numpy.Image_operations', 'subtractImage_dyn', "(['image1', 'image2'], ['U3:CannyEdge', 'U4:CannyEdge'], ['image'], ['array_float'])"), 'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['C0:fileSource'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U11': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 5], ['str_conc'], ['str'])"), 'U10': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['canny=', 2], ['str_conc'], ['str'])"), 'U4': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 5], ['CannyEdge'], ['array_float'])"), 'U3': ('Numpy.Image_filters', 'CannyEdge_Filter', "(['image', 'sigma'], ['U1:image', 2], ['CannyEdge'], ['array_float'])")}
+['A2:', 'A2:', 'A1:', 'A0:', 'A1:', 'U6:image', 'U4:CannyEdge', 'U3:CannyEdge', 'U1:image', 'U1:image', 'A0:', 'C0:fileSource', 'U10:str_conc', 'U11:str_conc', 'U6:image', 'U8:abs_image']
+{}
+['M0:str_conc=U10:str_conc', 'M0:image=U6:image', 'M0:abs_image=U8:abs_image', 'M0:str_conc=U11:str_conc']

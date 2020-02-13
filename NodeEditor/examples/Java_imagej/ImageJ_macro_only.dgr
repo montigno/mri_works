@@ -1,0 +1,11 @@
+[diagram]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.*', ''], ['filePath'], ['path'])] RectF=[(-172.52854122621562, -24.279069767441865, 154.3125, 80.0)]
+block=[U0] category=[ImageJ.ImageJ_open] class=[ImageJ_macro] valInputs=[(['file_macro'], ['Node(N0)'], [], [])] RectF=[(73.0, -54.0, 150.0, 80.0)]
+link=[N0] node=[U1:filePath#Node#U0:file_macro]
+[execution]
+[]
+['U1', 'U0']
+{'U0': ('ImageJ.ImageJ_open', 'ImageJ_macro', "(['file_macro'], ['U1:filePath'], [], [])"), 'U1': ('Tools.File_dialog', 'Choose_File', "(['fileDefault', 'extension', 'title'], ['path', '*.*', ''], ['filePath'], ['path'])")}
+['U1:filePath']
+{}
+[]

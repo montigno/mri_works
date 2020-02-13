@@ -1,0 +1,54 @@
+[diagram]
+constant=[A0] value=[True] format=[bool] label=[A0] RectF=[(-390.93586019374976, -213.57813250976682, 79.0, 31.0)]
+submod=[M1] nameMod=[add_loop] valInputs=[(['in0'], ['Node(N0)'], ['out0'], ['list_int'])] RectF=[(189.8920836583226, 8.662679778125323, 150.0, 80.0)]
+submod=[M0] nameMod=[add_loop] valInputs=[(['in0'], ['Node(N14)'], ['out0'], ['list_int'])] RectF=[(-65.4377466041196, 9.61598409375938, 150.0, 80.0)]
+link=[N5] node=[I0:out2#Node#U0:in_list_Float]
+block=[U0] category=[Tools.Print] class=[Print_list_Float] valInputs=[(['comment', 'in_list_Float'], ['out 2 : ', 'Node(N5)'], [], [])] RectF=[(549.2078663360924, -3.840614449902752, 150.0, 80.0)]
+link=[N1] node=[M1:out0#Node#I0:out2]
+link=[N0] node=[M0:out0#Node#M1:in0]
+link=[N16] node=[I0:in2#Node#I0:out2]
+link=[N15] node=[U7:serie_int#Node#I0:in2]
+link=[N14] node=[I0:in2#Node#M0:in0]
+link=[N11] node=[I0:in1#Node#I0:out1]
+link=[N13] node=[I0:out1#Node#U8:inBool]
+link=[N2] node=[I0:in1#Node#I0:out1]
+link=[N3] node=[A0:#Node#I0:val]
+link=[N4] node=[A0:#Node#I0:in1]
+block=[U7] category=[Generator.Integer] class=[ListOfInt] valInputs=[(['n'], [10], ['serie_int'], ['list_int'])] RectF=[(-396.08817107720625, 9.044960650955986, 150.0, 80.0)]
+block=[U8] category=[Tools.Print] class=[Print_Boolean] valInputs=[(['comment', 'inBool'], ['out 1 : ', 'Node(N13)'], [], [])] RectF=[(530.4361575247264, -143.28471680562797, 150.0, 80.0)]
+loopIf=[I0] inputs=[[[['in1', 'in', 'bool'], ['in1', 'out', 'bool']], [['in2', 'in', 'list_int'], ['in2', 'out', 'list_int']]]] outputs=[[[['out1', 'in', 'bool'], ['out1', 'out', 'bool']], [['out2', 'in', 'list_int'], ['out2', 'out', 'list_int']]]] listItems=[[['N16', 'N2'], ['M1', 'N11', 'M0']]] RectF=[(-168.40029095615682, -230.65046844987836, 603.6357395221821, 419.42950261439967)]
+[execution]
+[]
+['U7', 'I0', 'U0', 'U8']
+{'U8': ('Tools.Print', 'Print_Boolean', "(['comment', 'inBool'], ['out 1 : ', 'I0:out1'], [], [])"), 'U7': ('Generator.Integer', 'ListOfInt', "(['n'], [10], ['serie_int'], ['list_int'])"), 'U0': ('Tools.Print', 'Print_list_Float', "(['comment', 'in_list_Float'], ['out 2 : ', 'I0:out2'], [], [])")}
+['A0:', 'A0:', 'I0:in1', 'I0:out1', 'I0:in1', 'I0:in2', 'U7:serie_int', 'I0:in2', 'I0:out2']
+{}
+[]
+[loopif I0 True]
+['I0:in2=U7:serie_int', 'I0:in1=True', 'I0:val=True']
+[]
+{}
+['I0:in1', 'I0:in1', 'I0:in2']
+{}
+['I0:out2=I0:in2', 'I0:out1=I0:in1']
+[loopif I0 False]
+['I0:in2=U7:serie_int', 'I0:in1=True', 'I0:val=True']
+['M0', 'M1']
+{}
+['I0:in1', 'I0:in1', 'I0:in2', 'I0:in2', 'M0:out0', 'M1:out0']
+{'M0': ('add_loop', "(['in0'], ['I0:in2'], ['out0'], ['list_int'])"), 'M1': ('add_loop', "(['in0'], ['M0:out0'], ['out0'], ['list_int'])")}
+['I0:out2=M1:out0', 'I0:out1=I0:in1']
+[submod M0]
+['C0:in0=I0:in2']
+['F0']
+{}
+['F0:out0', 'C0:in0', 'F0:in0', 'F0:in0', 'A1:']
+{}
+['M0:out0=F0:out0']
+[submod M1]
+['C0:in0=M0:out0']
+['F0']
+{}
+['F0:out0', 'C0:in0', 'F0:in0', 'F0:in0', 'A1:']
+{}
+['M1:out0=F0:out0']

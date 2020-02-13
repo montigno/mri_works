@@ -1,0 +1,18 @@
+[diagram]
+link=[N4] node=[U3:rms#Node#U4:inFloat]
+link=[N3] node=[U1:outFonction#Node#U3:y]
+link=[N2] node=[U0:outAbscissa#Node#U2:x]
+link=[N1] node=[U1:outFonction#Node#U2:data]
+link=[N0] node=[U0:outAbscissa#Node#U1:x_degree]
+block=[U4] category=[Tools.Print] class=[Print_Float] valInputs=[(['comment', 'inFloat'], ['RMS = ', 'Node(N4)'], [], [])] RectF=[(227.0, 148.0, 150.0, 80.0)]
+block=[U3] category=[Numpy.Maths] class=[numpy_RMS] valInputs=[(['y'], ['Node(N3)'], ['rms'], ['float'])] RectF=[(7.906735751295344, 162.18221070811748, 150.0, 80.0)]
+block=[U2] category=[Matplotlib.MatplotCurve] class=[MatPlotCurve2] valInputs=[(['data', 'x'], ['Node(N1)', 'Node(N2)'], [], [])] RectF=[(1.5692544191158433, 22.834053573449886, 150.0, 80.0)]
+block=[U1] category=[Generator.Functions] class=[trigonometric] valInputs=[(['angle', 'function', 'x_degree'], [0.0, 'sin(x)', 'Node(N0)'], ['outFonction'], ['list_float'])] RectF=[(-357.36226252158895, -68.37521588946461, 171.609375, 87.2711571675302)]
+block=[U0] category=[Generator.Abscissa] class=[AbsX] valInputs=[(['xmin', 'xmax', 'delta_x'], [0.0, 1439.0, 1.0], ['outAbscissa'], ['list_float'])] RectF=[(-668.0, 30.0, 158.390625, 80.0)]
+[execution]
+[]
+['U0', 'U1', 'U3', 'U2', 'U4']
+{'U0': ('Generator.Abscissa', 'AbsX', "(['xmin', 'xmax', 'delta_x'], [0.0, 1439.0, 1.0], ['outAbscissa'], ['list_float'])"), 'U1': ('Generator.Functions', 'trigonometric', "(['angle', 'function', 'x_degree'], [0.0, 'sin(x)', 'U0:outAbscissa'], ['outFonction'], ['list_float'])"), 'U2': ('Matplotlib.MatplotCurve', 'MatPlotCurve2', "(['data', 'x'], ['U1:outFonction', 'U0:outAbscissa'], [], [])"), 'U3': ('Numpy.Maths', 'numpy_RMS', "(['y'], ['U1:outFonction'], ['rms'], ['float'])"), 'U4': ('Tools.Print', 'Print_Float', "(['comment', 'inFloat'], ['RMS = ', 'U3:rms'], [], [])")}
+['U0:outAbscissa', 'U1:outFonction', 'U0:outAbscissa', 'U1:outFonction', 'U3:rms']
+{}
+[]
