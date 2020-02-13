@@ -10,7 +10,7 @@ Documentation will be available soon
 
 # License
 
-mri_Works is open source and is released under the [Cecill-b software license](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html).
+mri_works is open source and is released under the [CeCILL-b software license](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html).
 
 # Release history
 
