@@ -1,6 +1,6 @@
 [![](https://img.shields.io/badge/Python-3.5%2C%203.6%2C%203.7-yellow.svg)](#)
 [![](https://img.shields.io/badge/platform-Linux-orange.svg)](#)
-[![](https://img.shields.io/badge/license-CeCILL-b-blue.svg)](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html)
+[![](https://img.shields.io/badge/license-CeCILL_b-blue.svg)](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 
 mri_works is a graphical programming software written in Python and oriented MRI.
 
@@ -10,7 +10,7 @@ Documentation will be available soon
 
 # License
 
-mri_Works is open source and is released under the [Cecill-b software license](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html).
+mri_works is open source and is released under the [CeCILL-b software license](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html).
 
 # Release history
 
