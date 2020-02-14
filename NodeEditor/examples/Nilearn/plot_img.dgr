@@ -1,0 +1,23 @@
+[diagram]
+block=[U0] category=[Nilearn.Plotting] class=[Plot_img] valInputs=[(['sourceFile', 'display_mode', 'title'], ['Node(N1)', 'ortho', 'Node(N3)'], [], [])] RectF=[(-201.0, 104.0, 150.0, 80.0)]
+block=[U2] category=[Tools.PathManipulation] class=[separatePath] valInputs=[(['inPath'], ['Node(N2)'], ['directory', 'nameFile', 'extension'], ['path', 'str', 'str'])] RectF=[(-446.0, 221.0, 150.0, 80.0)]
+link=[N1] node=[F0:in0#Node#U0:sourceFile]
+link=[N0] node=[U1:filesPath#Node#F0:in0]
+link=[N2] node=[F0:in0#Node#U2:inPath]
+link=[N3] node=[U2:nameFile#Node#U0:title]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[]] listItems=[['U2', 'U0']] RectF=[(-500.0, -27.0, 475.0, 385.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-883.0, 132.0, 206.59375, 80.0)]
+[execution]
+[]
+['U1', 'F0']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])")}
+['F0:in0', 'U1:filesPath', 'F0:in0']
+{}
+[]
+[loopfor F0]
+['F0:in0=U1:filesPath']
+['U2', 'U0']
+{'U2': ('Tools.PathManipulation', 'separatePath', "(['inPath'], ['F0:in0'], ['directory', 'nameFile', 'extension'], ['path', 'str', 'str'])"), 'U0': ('Nilearn.Plotting', 'Plot_img', "(['sourceFile', 'display_mode', 'title'], ['F0:in0', 'ortho', 'U2:nameFile'], [], [])")}
+['U2:nameFile', 'F0:in0', 'F0:in0']
+{}
+[]

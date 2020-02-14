@@ -1,0 +1,3 @@
+fetch_atlas_harvard_oxford:
+  data_dir: 'path'
+  symmetric_split: True

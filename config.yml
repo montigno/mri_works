@@ -17,16 +17,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/Plot_exponential2.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/comparison_operators.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/tst_save_image.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/test-eval-print.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
   - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
   - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/sinusoidal_rms.dgr
   - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/IfLoop/test_if_6.dgr
   - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/ForLoop/generate_spiral.dgr
   - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/FSL/FSL_bet_fast.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_img.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_atlas.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
   modules: modules
   projects: ../data
 version: 1.0.0

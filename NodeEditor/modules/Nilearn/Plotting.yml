@@ -27,3 +27,58 @@ Plot_epi:
   cmap: ''
   vmin: 0.0
   vmax: 0.0
+Plot_img:
+  cut_coords: (0.0, 0.0, 0.0)
+  output_file: ''
+  display_mode: enumerate(('ortho', 'tiled', 'x', 'y', 'z', 'yx', 'xz', 'yz'))
+  figure: 0
+  axes: (0.0, 0.0, 0.0, 0.0)
+  title: ''
+  threshold: 'auto'
+  annotate: True
+  draw_cross: True
+  black_bg: True
+  colorbar: True
+  resampling_interpolation: ''
+  bg_img: ''
+  vmin: 0.0
+  vmax: 0.0
+  kwargs: ''
+Plot_prob_atlas:
+  bg_img: ''
+  view_type: enumerate((‘auto’, ‘contours’, ‘filled_contours’, ‘continuous’))
+  threshold: ''
+  linewidths: 0.0
+  cut_coords: (0.0, 0.0, 0.0)
+  output_file: ''
+  display_mode: enumerate(('ortho', 'tiled', 'x', 'y', 'z', 'yx', 'xz', 'yz'))
+  figure: 0
+  axes: (0.0, 0.0, 0.0, 0.0)
+  title: ''
+  annotate: True
+  draw_cross: True
+  black_bg: True
+  dim: 'auto'
+  cmap: ''
+  colorbar: True
+  vmin: 0.0
+  vmax: 0.0
+  alpha: 0.0
+Plot_roi:
+  bg_img: ''
+  cut_coords: (0.0, 0.0, 0.0)
+  output_file: ''
+  display_mode: enumerate(('ortho', 'tiled', 'x', 'y', 'z', 'yx', 'xz', 'yz'))
+  figure: 0
+  axes: (0.0, 0.0, 0.0, 0.0)
+  title: ''
+  annotate: True
+  draw_cross: True
+  black_bg: True
+  threshold: 'auto'
+  dim: 'auto'
+  vmin: 0.0
+  vmax: 0.0
+  resampling_interpolation: ''
+  
+  
