@@ -13,10 +13,12 @@ def fetch_atlas_harvard_oxford(atlas_name,):
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="atlas_filename" type="file" doc=""/>
+	<input name="maps_img" type="file" doc=""/>
+	<input name="display_mode" type="string" doc=""/>
+	<input name="colorbar" type="bool" doc=""/>
 </process>
 ''')
-def Plot_roi(atlas_filename,):
-	listInputs=dict(zip(('atlas_filename',),(atlas_filename,)))
-	return cs.Plot_roi(**listInputs)
+def Plot_prob_atlas(maps_img, display_mode, colorbar):
+	listInputs=dict(zip(('maps_img', 'display_mode', 'colorbar'),(maps_img, display_mode, colorbar)))
+	return cs.Plot_prob_atlas(**listInputs)
 

@@ -17,16 +17,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/sinusoidal_rms.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/IfLoop/test_if_6.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/ForLoop/generate_spiral.dgr
-  - /home/ommaster/Documents/eclipse-workspace/Python/mriWorks/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/FSL/FSL_bet_fast.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_img.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_atlas.dgr
   - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
   - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_multiprocessing.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/mri/sinuscardinal_rms.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/mri/FID.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/test_dynamics_inputs.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Fibonacci.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/IfLoop/test_if_7.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

@@ -80,5 +80,3 @@ Plot_roi:
   vmin: 0.0
   vmax: 0.0
   resampling_interpolation: ''
-  
-  

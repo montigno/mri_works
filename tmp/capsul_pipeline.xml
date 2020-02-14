@@ -2,11 +2,13 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U0" x="-494.5377391066941" y="-57.27079325619075"/>
-    <position name="U1" x="-149.6790721365328" y="-57.23023346396842"/>
+    <position name="U0" x="-460.33926178128314" y="-74.15688175257866"/>
+    <position name="U1" x="-169.76139758793346" y="-68.7805869395539"/>
   </gui>
   <process module="capsul_moduls.fetch_atlas_harvard_oxford" name="U0"/>
-  <process module="capsul_moduls.Plot_roi" name="U1"/>
-  <link dest="U1.atlas_filename" source="U0.atlas_filename"/>
+  <process module="capsul_moduls.Plot_prob_atlas" name="U1"/>
+  <link dest="U1.display_mode" source="U1_display_mode"/>
+  <link dest="U1.colorbar" source="U1_colorbar"/>
+  <link dest="U1.maps_img" source="U0.atlas_filename"/>
   <link dest="U0.atlas_name" source="Atlas_name"/>
 </pipeline>

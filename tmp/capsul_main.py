@@ -16,7 +16,9 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.Atlas_name="cort-maxprob-thr25-2mm"
+	xmlpipe.Atlas_name="sub-prob-2mm"
+	xmlpipe.U1_display_mode="ortho"
+	xmlpipe.U1_colorbar=True
 	if sys.argv[1] == "runPipeline":
 		if parameter_dict:
 			xmlpipe(**parameter_dict)
