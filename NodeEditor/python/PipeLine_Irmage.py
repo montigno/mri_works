@@ -1359,7 +1359,7 @@ class DiagramView(QGraphicsView):
                 self.scene().addItem(self.a1)
                 
             if type(itemStored) == Constants:
-                self.a1 = Constants('newConstant', 80, 30, itemStored.val, itemStored.form, itemStored.label, True)
+                self.a1 = Constants('newConstant', 80, 30, itemStored.val, itemStored.form, '', True)
                 self.a1.setPos(self.m_originX, self.m_originY)
                 self.scene().addItem(self.a1)
                 listItems[editor.currentTab][self.a1.unit]=self.a1
@@ -3569,8 +3569,10 @@ class Constants(QGraphicsRectItem):
 #             UpdateUndoRedo()
 #             self.moved = False
 #         return QGraphicsRectItem.mouseReleaseEvent(self, event)
-
+   
     def mouseMoveEvent(self, event):
+        self.moved = True
+        event.accept()  
         pos = event.scenePos()
         if not self.preview:
             listTypeItems = []
@@ -3649,7 +3651,6 @@ class Constants(QGraphicsRectItem):
         if self.moved:
             UpdateUndoRedo()
             self.moved = False
-         
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
     
     def mousePressEvent(self, event):
