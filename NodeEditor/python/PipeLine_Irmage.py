@@ -3364,13 +3364,14 @@ class Constants(QGraphicsRectItem):
             self.unit = unit
         
         if label:
-            listLabCts = []
-            for x,y in listConstants[editor.currentTab].items():
-                listLabCts.append(y[2])
-            if label not in listLabCts:
-                self.label=label
-            else:               
-                self.label = self.unit
+#             listLabCts = []
+#             for x,y in listConstants[editor.currentTab].items():
+#                 listLabCts.append(y[2])
+#             if label not in listLabCts:
+#                 self.label=label
+#             else:               
+#                 self.label = self.unit
+            self.label=label
         else:
             self.label = self.unit
       
@@ -3427,7 +3428,6 @@ class Constants(QGraphicsRectItem):
 #         lw, lh = - rect.width()-10, 0
 #         self.lab.setPos(lw, lh)
         self.lab.setVisible(True)
-        
         
         self.wmin = self.w
         self.hmin = self.h
@@ -3500,8 +3500,9 @@ class Constants(QGraphicsRectItem):
             self.lab.setPlainText(self.label)
             del listConstants[editor.currentTab][self.unit]
             listConstants[editor.currentTab][self.unit] = (listVal[0],listVal[1],self.label)
-        except:
-            pass
+            UpdateUndoRedo()
+        except OSError as err:
+            print("OS error: {0}".format(err))
     
     def contextMenuEvent(self,event):
         if self.isMod:
@@ -3511,7 +3512,7 @@ class Constants(QGraphicsRectItem):
             pa = menu.addAction('Change label')
             pa.triggered.connect(self.changeLabel)
             menu.exec_(event.screenPos())
-            return QGraphicsRectItem.contextMenuEvent(self, event)
+#             return QGraphicsRectItem.contextMenuEvent(self, event)
     
     def hoverEnterEvent(self, event):
         self.setSelected(True)

@@ -17,16 +17,15 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_multiprocessing.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/mri/sinuscardinal_rms.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/mri/FID.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/test_dynamics_inputs.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Fibonacci.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/IfLoop/test_if_7.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/filtering.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/NLargestValue_in_image.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/with_LoopFor.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/testForIncrement4.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/ForLoopDirect.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
