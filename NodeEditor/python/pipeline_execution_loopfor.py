@@ -20,6 +20,8 @@ class executionFor:
 #         print(txt)
 #         print('txtfull pipeline for : ')
 #         print(txtfull)
+#         print('listDynamicValue : ')
+#         print(listDynamicValue)
 
         listConnctIn=[]
         listBlockExecution=[]

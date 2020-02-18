@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 ##########################################################################
 # mriWorks - Copyright (C) IRMAGE/INSERM, 2020
 # Distributed under the terms of the CeCILL-B license, as published by
@@ -273,7 +271,9 @@ class analyze:
                 tmpUnitAval = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
                 tmpPortAval = tmp
+#                 print('info 1 : ',tmpUnitAmont,tmpPortAmont,tmpUnitAval,tmpPortAval)
                 for keyF, valueF in self.listLoopFor.items():
+#                     print('keyF & valueF : ',keyF,valueF)
                     if (keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont) or (keyF + ':out' in tmpUnitAval + ':' + tmpPortAval) or (
                                 tmpUnitAmont in eval(self.listLoopFor[keyF][2]) or tmpUnitAval in eval(self.listLoopFor[keyF][2])) :
                         if keyA in listArrow.keys():
@@ -283,6 +283,8 @@ class analyze:
                             self.listLoopFor[keyF][3] = listArrowFor
 
         ############## search arrows within loop If ###############
+        
+#         print('listLoopFor ',self.listLoopFor)
 
         if self.listLoopIf:
             for keyF, valueF in self.listLoopIf.items():
@@ -359,6 +361,8 @@ class analyze:
                 tmp = analyzeLoopFor(keyF, valueF, self.listBlock, self.listModul, self.listModExecution, listArrow, self.listConstantLoop)
                 self.listBlockExecutionInLoopFor.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopFor[keyF] = tmp.getListForExecution()
+#                 print('getListForExecution : ',tmp.getListForExecution())
+
                 
         self.textExecutionInLoopIf = {}
         self.listBlockExecutionInLoopIf = []

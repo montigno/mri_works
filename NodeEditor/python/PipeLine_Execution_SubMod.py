@@ -120,8 +120,6 @@ class executionSubmod:
                     elif i>6:
                         break;
                 listIfExecution[ls+'-false']=tmp2
-                
-
 
         
         ##########################################################################

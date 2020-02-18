@@ -25,7 +25,7 @@ class analyzeLoopFor:
 #         print('listBlock', listBlock)
 #         print('listModul', listModul)
 #         print('ModulExecution', ModulExecution)
-#         print('listArraoExtern', listArrowExtern)
+#         print('listArrowExtern', listArrowExtern)
 #         print('listConstants', listConstants)
         
         listBlockStart = []
