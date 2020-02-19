@@ -1,4 +1,4 @@
-class dicom2nifti():
+class dicom2nifti_convert():
     def __init__(self,rep_data_dicom='path', rep_out='path'):
         import subprocess, os
         listRep1 = os.listdir(rep_out)
