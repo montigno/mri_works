@@ -17,16 +17,16 @@ packages:
 paths:
   data: /tmp/
   histories:
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/FSL/UnaryMaths.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/FSL/FSL_fast.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/FSL/FSL_bet_fast.dgr
   - /home/ommaster/Bureau/ForLoop_recursive.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
-  - /home/ommaster/Bureau/ForLoop_submod.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Fibonacci.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
+  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/array_operation.dgr
   - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/image_manipulation/NLargestValue_in_image.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/image_manipulation/filtering.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/image_manipulation/Rescale_nipype.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Plot_exponential2.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/test_submod_loopif.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nilearn/smith_2009.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

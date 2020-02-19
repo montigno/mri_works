@@ -6,7 +6,6 @@
 # for details.
 ##########################################################################
 
-
 import re
 import ast
 import sys
@@ -31,7 +30,7 @@ class analyze:
         listConnectInPos = {}
         listConnectOutPos = {}
         listConstant = {}
-        listConstantInLoopIf={}
+        listConstantInLoopIf = {}
         tmpIn = {}
         tmpOut = {}
         self.listOut = []
@@ -229,9 +228,9 @@ class analyze:
                     del self.listModul[tmpUnitend]
                     self.listModul[tmpUnitend] = (listInBl[0], str((nameEnter, valEnter, nameOut, valOut)))
                 elif 'I' in tmpUnitend :
-                    tmpKey = tmpUnitend+":"+tmpEntend
+                    tmpKey = tmpUnitend + ":" + tmpEntend
                     if 'out' in tmpEntend: 
-                        if tmpKey in self.listConstantLoop: # already exist ?
+                        if tmpKey in self.listConstantLoop:  # already exist ?
                             tmpVal = self.listConstantLoop[tmpKey]
                         else:
                             tmpVal = [[], []]
@@ -271,11 +270,16 @@ class analyze:
                 tmpUnitAval = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
                 tmpPortAval = tmp
-#                 print('info 1 : ',tmpUnitAmont,tmpPortAmont,tmpUnitAval,tmpPortAval)
+#                 print('info 1 : ', keyA, valueA)
                 for keyF, valueF in self.listLoopFor.items():
-#                     print('keyF & valueF : ',keyF,valueF)
-                    if (keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont) or (keyF + ':out' in tmpUnitAval + ':' + tmpPortAval) or (
-                                tmpUnitAmont in eval(self.listLoopFor[keyF][2]) or tmpUnitAval in eval(self.listLoopFor[keyF][2])) :
+#                     print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
+#                     print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
+#                     print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
+#                     print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
+                    if  keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont or \
+                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
+                        (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and keyF == tmpUnitAmont)  or \
+                        tmpUnitAval in eval(self.listLoopFor[keyF][2]) :
                         if keyA in listArrow.keys():
                             del listArrow[keyA]  # links from LoopFor deleted from the listArrow
                             listArrowFor = self.listLoopFor[keyF][3]
@@ -284,7 +288,7 @@ class analyze:
 
         ############## search arrows within loop If ###############
         
-#         print('listLoopFor ',self.listLoopFor)
+#         print('listLoopFor ', self.listLoopFor)
 
         if self.listLoopIf:
             for keyF, valueF in self.listLoopIf.items():
@@ -362,7 +366,6 @@ class analyze:
                 self.listBlockExecutionInLoopFor.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopFor[keyF] = tmp.getListForExecution()
 #                 print('getListForExecution : ',tmp.getListForExecution())
-
                 
         self.textExecutionInLoopIf = {}
         self.listBlockExecutionInLoopIf = []
@@ -464,7 +467,7 @@ class analyze:
                     for ele in tmpList:
                         unit = ele[0:ele.index(':')]
                         if unit in listBlockRemainingNodeGen1:
-                            tmpVal=[]
+                            tmpVal = []
                             tmpVal.extend(listBlockRemainingNodeGen1[unit])
                             tmpVal.extend(ele)
                             listBlockRemainingNodeGen1[unit] = tmpVal

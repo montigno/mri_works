@@ -1,17 +1,35 @@
-class fetch_atlas_smith_2009():
-    def __init__(self,atlas_name=''):
-        from nilearn import datasets
-        smith = datasets.fetch_atlas_smith_2009()
-        self.dataset = getattr(smith, atlas_name)
+class sub_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = in1-in2
+        for di in dynamicsInputs:
+            self.res-=dynamicsInputs[di]
+  
+    def subtract(self:'float'):
+        return self.res
+
+
+class add_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = in1+in2
+        for di in dynamicsInputs:
+            self.res+=dynamicsInputs[di]
         
-    def atlas_filename(self:'str'):
-        return self.dataset
+    def addition(self:'float'):
+        return self.res    
 
 
-class Plot_prob_atlas:
-    def __init__(self,maps_img='path',**options):
-        from nilearn import plotting
-        plotting.plot_prob_atlas(maps_img,**options)
-        plotting.show()
+class Print_Float:
+    def __init__(self,comment='',inFloat=0.0):
+        print('\033[92m' + comment, inFloat)
+
+
+class mult_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = float(in1)*float(in2)
+        for di in dynamicsInputs:
+            self.res*=dynamicsInputs[di]
+        
+    def multiplication(self:'float'):
+        return self.res      
 
 

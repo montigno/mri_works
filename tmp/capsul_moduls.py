@@ -3,23 +3,45 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="maps_img" type="string" doc=""/>
-	<input name="display_mode" type="string" doc=""/>
-	<input name="title" type="string" doc=""/>
-	<input name="colorbar" type="bool" doc=""/>
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<return name="subtract" type="float" doc=""/>
 </process>
 ''')
-def Plot_prob_atlas(maps_img, display_mode, title, colorbar):
-	listInputs=dict(zip(('maps_img', 'display_mode', 'title', 'colorbar'),(maps_img, display_mode, title, colorbar)))
-	return cs.Plot_prob_atlas(**listInputs)
+def sub_float_dyn(in1, in2):
+	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
+	return cs.sub_float_dyn(**listInputs).subtract()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="atlas_name" type="string" doc=""/>
-	<return name="atlas_filename" type="string" doc=""/>
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<return name="multiplication" type="float" doc=""/>
 </process>
 ''')
-def fetch_atlas_smith_2009(atlas_name,):
-	listInputs=dict(zip(('atlas_name',),(atlas_name,)))
-	return cs.fetch_atlas_smith_2009(**listInputs).atlas_filename()
+def mult_float_dyn(in1, in2):
+	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
+	return cs.mult_float_dyn(**listInputs).multiplication()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<input name="in2_0" type="float" doc=""/>
+	<return name="addition" type="float" doc=""/>
+</process>
+''')
+def add_float_dyn(in1, in2, in2_0):
+	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
+	return cs.add_float_dyn(**listInputs).addition()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="comment" type="string" doc=""/>
+	<input name="inFloat" type="float" doc=""/>
+</process>
+''')
+def Print_Float(comment, inFloat):
+	listInputs=dict(zip(('comment', 'inFloat'),(comment, inFloat)))
+	return cs.Print_Float(**listInputs)
 
