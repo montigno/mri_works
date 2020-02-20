@@ -3,6 +3,7 @@
 [![](https://img.shields.io/badge/license-CeCILL_b-blue.svg)](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html)
 
 mri_works is a graphical programming software written in Python and oriented MRI.
+It can be interfaced with many software and APIs : Nipype, Numpy, Nilearn, Scipy, IMageJ ....
 
 # Documentation
 
