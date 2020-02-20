@@ -8,6 +8,17 @@ mri_works is a graphical programming software written in Python and oriented MRI
 
 Documentation will be available soon
 
+# Installation
+
+- Download mri_works.zip and unzip it (where you want)
+- Install the packaging module : sudo pip3 install packaging
+- Install the pyyaml module : sudo -H install --ignore-installed PyYAML
+- In the mri_works folder, type : sudo python3 setup.py (and follow the instructions)
+
+# to launch the software
+
+In the mri_works folder, type : python3 main.py
+
 # License
 
 mri_works is open source and is released under the [CeCILL-b software license](https://cecill.info/licences/Licence_CeCILL_V2.1-en.html).
