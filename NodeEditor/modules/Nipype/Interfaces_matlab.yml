@@ -1,0 +1,13 @@
+MatlabCommand:
+  args: ''
+  environ: {}
+  logfile: 'path'
+  mfile: True
+  nodesktop: True
+  nosplash: True
+  paths: ['path']
+  postscript: ['']
+  prescript: ['ver,', 'try,']
+  script_file: 'path'
+  single_comp_thread: False
+  uses_mcr: False

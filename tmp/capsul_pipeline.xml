@@ -2,36 +2,14 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U6" x="832.2029143389888" y="240.85174081084256"/>
-    <position name="U4" x="588.6901958897182" y="114.46884952238639"/>
-    <position name="U2" x="361.03737277853713" y="-137.8633251724703"/>
-    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
-    <position name="U3" x="1177.5496893864135" y="179.27851941848346"/>
-    <position name="U0" x="-410.03199037802034" y="-131.3122843750147"/>
-    <position name="U5" x="173.27243184198983" y="237.79466222453618"/>
+    <position name="U0" x="-322.0" y="-103.0"/>
+    <position name="U1" x="-7.0" y="-150.0"/>
   </gui>
-  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
-  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
-  <process module="capsul_moduls.add_float_dyn" name="U2"/>
-  <process module="capsul_moduls.sub_float_dyn" name="U1"/>
-  <process module="capsul_moduls.Print_Float" name="U3"/>
-  <process module="capsul_moduls.add_float_dyn" name="U0"/>
-  <process module="capsul_moduls.add_float_dyn" name="U5"/>
-  <link dest="U3.inFloat" source="U6.subtract"/>
-  <link dest="U6.in2" source="U5.addition"/>
-  <link dest="U6.in1" source="U4.multiplication"/>
-  <link dest="U5.in2" source="U0.addition"/>
-  <link dest="U5.in1" source="U1.subtract"/>
-  <link dest="U4.in2" source="U1.subtract"/>
-  <link dest="U4.in1" source="U2.addition"/>
-  <link dest="U2.in1" source="U1.subtract"/>
-  <link dest="U1.in1" source="U0.addition"/>
-  <link dest="U5.in2_0" source="U"/>
-  <link dest="U2.in2_0" source="W"/>
-  <link dest="U3.comment" source="comment"/>
-  <link dest="U1.in2" source="U"/>
-  <link dest="U2.in2" source="V"/>
-  <link dest="U0.in1" source="X"/>
-  <link dest="U0.in2" source="Y"/>
-  <link dest="U0.in2_0" source="Z"/>
+  <process module="capsul_moduls.Choose_file" name="U0"/>
+  <link dest="U0.fileDefault" source="U0_fileDefault"/>
+  <link dest="U0.extension" source="U0_extension"/>
+  <link dest="U0.title" source="U0_title"/>
+  <process module="capsul_moduls.Print_Path" name="U1"/>
+  <link dest="U1.comment" source="U1_comment"/>
+  <link dest="U1.inPath" source="U0.filePath"/>
 </pipeline>

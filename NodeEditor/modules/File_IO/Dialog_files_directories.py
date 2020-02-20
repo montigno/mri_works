@@ -4,12 +4,7 @@ class Choose_file:
         from PyQt5.QtWidgets import QFileDialog
         self.fileChosen=fileDefault
         if fileDefault is 'path' or not os.path.exists(fileDefault):
-            fileCh = QFileDialog.getOpenFileName(None,
-                                                 title,
-                                                 '',
-                                                 extension,
-                                                 None,
-                                                 QFileDialog.DontUseNativeDialog)
+            fileCh = QFileDialog.getOpenFileName(None, title, '', extension, None, QFileDialog.DontUseNativeDialog)
             if fileCh[0]:
                 self.fileChosen = fileCh[0]
        

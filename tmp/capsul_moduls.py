@@ -3,45 +3,23 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="subtract" type="float" doc=""/>
+	<input name="fileDefault" type="string" doc=""/>
+	<input name="extension" type="string" doc=""/>
+	<input name="title" type="string" doc=""/>
+	<return name="filePath" type="file" doc=""/>
 </process>
 ''')
-def sub_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.sub_float_dyn(**listInputs).subtract()
-
-@xml_process('''
-<process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="multiplication" type="float" doc=""/>
-</process>
-''')
-def mult_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.mult_float_dyn(**listInputs).multiplication()
-
-@xml_process('''
-<process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<input name="in2_0" type="float" doc=""/>
-	<return name="addition" type="float" doc=""/>
-</process>
-''')
-def add_float_dyn(in1, in2, in2_0):
-	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
-	return cs.add_float_dyn(**listInputs).addition()
+def Choose_file(fileDefault, extension, title):
+	listInputs=dict(zip(('fileDefault', 'extension', 'title'),(fileDefault, extension, title)))
+	return cs.Choose_file(**listInputs).filePath()
 
 @xml_process('''
 <process capsul_xml="2.0">
 	<input name="comment" type="string" doc=""/>
-	<input name="inFloat" type="float" doc=""/>
+	<input name="inPath" type="file" doc=""/>
 </process>
 ''')
-def Print_Float(comment, inFloat):
-	listInputs=dict(zip(('comment', 'inFloat'),(comment, inFloat)))
-	return cs.Print_Float(**listInputs)
+def Print_Path(comment, inPath):
+	listInputs=dict(zip(('comment', 'inPath'),(comment, inPath)))
+	return cs.Print_Path(**listInputs)
 

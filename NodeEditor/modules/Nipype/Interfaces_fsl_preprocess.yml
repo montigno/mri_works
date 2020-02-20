@@ -1,5 +1,5 @@
 fsl_FAST:
-  out_basename: ''
+  out_basename: 'path'
   number_classes: 1
   output_biasfield: False
   output_biascorrected: False

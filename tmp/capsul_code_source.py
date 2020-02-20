@@ -1,35 +1,19 @@
-class sub_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1-in2
-        for di in dynamicsInputs:
-            self.res-=dynamicsInputs[di]
-  
-    def subtract(self:'float'):
-        return self.res
+class Choose_file:
+    def __init__(self,fileDefault='path',extension='*',title='Select a file'):
+        import os.path
+        from PyQt5.QtWidgets import QFileDialog
+        self.fileChosen=fileDefault
+        if fileDefault is 'path' or not os.path.exists(fileDefault):
+            fileCh = QFileDialog.getOpenFileName(None, title, '', extension, None, QFileDialog.DontUseNativeDialog)
+            if fileCh[0]:
+                self.fileChosen = fileCh[0]
+       
+    def filePath(self:'path'):
+        return self.fileChosen
 
 
-class add_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1+in2
-        for di in dynamicsInputs:
-            self.res+=dynamicsInputs[di]
-        
-    def addition(self:'float'):
-        return self.res    
-
-
-class Print_Float:
-    def __init__(self,comment='',inFloat=0.0):
-        print('\033[92m' + comment, inFloat)
-
-
-class mult_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = float(in1)*float(in2)
-        for di in dynamicsInputs:
-            self.res*=dynamicsInputs[di]
-        
-    def multiplication(self:'float'):
-        return self.res      
+class Print_Path:
+    def __init__(self,comment='',inPath='path'):
+        print('\033[92m' + comment, inPath)
 
 
