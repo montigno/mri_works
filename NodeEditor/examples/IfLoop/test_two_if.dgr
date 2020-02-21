@@ -36,7 +36,7 @@ loopIf=[I0] inputs=[[]] outputs=[[[['out0', 'in', 'int'], ['out0', 'out', 'int']
 block=[U1] category=[Tools.Comparison_operations] class=[x_Equal_y] valInputs=[(['x', 'y'], ['Node(N3)', 'Node(N5)'], ['out'], ['bool'])] RectF=[(-473.7125778059092, -91.94533940887568, 150.0, 80.0)]
 [execution]
 []
-['U4', 'U1', 'U0', 'ThreadOn', 'I1', 'I0', 'I2', 'ThreadOff', 'U2', 'U3', 'U5']
+['U1', 'U4', 'U0', 'ThreadOn', 'I2', 'I0', 'I1', 'ThreadOff', 'U2', 'U3', 'U5']
 {'U2': ('Tools.Print', 'Print_Int', "(['comment', 'inInt'], ['loop I0 : ', 'I0:out0'], [], [])"), 'U3': ('Tools.Print', 'Print_Int', "(['comment', 'inInt'], ['loop I1 : ', 'I1:out0'], [], [])"), 'U5': ('Tools.Print', 'Print_Int', "(['comment', 'inInt'], ['loop I2 : ', 'I2:out0'], [], [])"), 'U1': ('Tools.Comparison_operations', 'x_Equal_y', "(['x', 'y'], [3.0, 2.0], ['out'], ['bool'])"), 'U0': ('Tools.Comparison_operations', 'x_Greater_y', "(['x', 'y'], [3.0, 2.0], ['out'], ['bool'])"), 'U4': ('Tools.Comparison_operations', 'x_Less_y', "(['x', 'y'], [3.0, 2.0], ['out'], ['bool'])")}
 ['U1:out', 'A0:', 'A1:', 'I0:out0', 'I1:out0', 'A0:', 'A1:', 'U0:out', 'A2:', 'A3:', 'A4:', 'A5:', 'A0:', 'A1:', 'U4:out', 'A6:', 'I2:out0', 'A7:']
 {}
