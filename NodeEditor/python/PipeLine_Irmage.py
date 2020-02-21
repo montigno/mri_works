@@ -3681,9 +3681,11 @@ class Constants(QGraphicsRectItem):
                 del listConstants[editor.currentTab][self.unit]
                 listConstants[editor.currentTab][self.unit] = (self.elemProxy.txt, self.elemProxy.value, self.label)
         elif type(self.elemProxy) == Constants_text and self.form == 'path':
+            currentpathTmp = self.elemProxy.toPlainText()
+#             currentpathTmp=currentpathwork
             fileCh = QFileDialog.getOpenFileName(None,
                                                       "Choose file",
-                                                      currentpathwork,
+                                                      currentpathTmp,
                                                       'All Files (*)',
                                                       None,
                                                       QFileDialog.DontUseNativeDialog)
