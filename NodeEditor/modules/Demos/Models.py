@@ -1,3 +1,25 @@
+class NameClassBlock():
+    def __init__(self, input1=0,input2=0.0,input3=[''],input4=['path'],input5=[[0.0]],input6=[True]):
+        pass
+    
+    def out1(self:'float'):
+        return 
+    
+    def out2(self:'list_int'):
+        return 
+    
+    def out3(self:'array_bool'):
+        return
+    
+    def _method1(self):
+        return 
+    
+    def _method2(self):
+        pass
+    
+
+###############################################################################
+
 class AllTypes():
     def __init__(self,
                  inInt=0,inFloat=0.0,inString='',inBool=True,inPath='path',

@@ -1,4 +1,3 @@
-from PIL import Image, ImageEnhance  # image processing
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPalette, QPixmap
 from PyQt5.QtWidgets import QSlider, QLabel, QApplication, QSizePolicy, \
@@ -9,14 +8,10 @@ import numpy as np
 
 class DispNifti():
     def __init__(self,img,title='',parent=None):
-#         super(DispNifti, self).__init__(parent)
         
         self.dia=QDialog()
         self.scaleFactor = 1.0
-        
-#         self.dia.setWindowModality(Qt.NonModal)
-#         self.dia.setModal(False)
-               
+              
         self.img=img
         self.dim=len(img.shape)
 #        
@@ -37,8 +32,8 @@ class DispNifti():
         self.verticalLayout.addWidget(self.layoutSlide)
          
         self.dia.setWindowTitle(title)
+        x,y=self.pixm.width(),self.pixm.height()
         self.dia.resize(400,600)
-         
         self.dia.setLayout(self.verticalLayout)
 
     def getDialog(self):
@@ -58,7 +53,7 @@ class DispNifti():
     def navigImage(self):
         self.indexImage()
         self.displayPosValue()
-        w,h = self.x.shape
+        h,w = self.x.shape
 #         image = QImage(self.x.data,w,h,QImage.Format_Indexed8)
         totalBytes = self.x.data.nbytes
         bytesPerLine = int(totalBytes/h)
