@@ -31,7 +31,6 @@ class FloatToInt_array():
 
 class IntToFloat_simple():
     def __init__(self,inInt=0):
-       
         self.outfloat = float(inInt)
                 
     def outFloat(self:'float'):
@@ -41,7 +40,6 @@ class IntToFloat_simple():
 
 class IntToFloat_list():
     def __init__(self,listInt=[0]):
-        
         self.outlistfloat = [float(i) for i in listInt]
     
     def outListFloat(self:'list_float'):
@@ -94,7 +92,6 @@ class StringToEval():
         self.listVar= []
         for i in range(0,len(listType)):
             self.listVar.append(None)
-        
         typ, val = DefineTypeVariable(inString).returntype()
         ind = listType.index(typ)
         self.listVar[ind]=val
@@ -148,9 +145,7 @@ class StringToEval():
 
 class StringToFloat():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='float':
             self.outval=val
@@ -164,11 +159,9 @@ class StringToFloat():
 
 class StringToListFloat():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
-        if typ=='list_float':
+        if typ=='listfloat':
             self.outval=val
         else:
             self.outval=None
@@ -180,9 +173,7 @@ class StringToListFloat():
 
 class StringToArrayFloat():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='arrayfloat':
             self.outval=val
@@ -196,9 +187,7 @@ class StringToArrayFloat():
 
 class StringToInt():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='int':
             self.outval=val
@@ -212,9 +201,7 @@ class StringToInt():
 
 class StringToListInt():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='listint':
             self.outval=val
@@ -228,9 +215,7 @@ class StringToListInt():
 
 class StringToArrayInt():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='arrayint':
             self.outval=val
@@ -244,9 +229,7 @@ class StringToArrayInt():
 
 class StringToBoolean():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='bool':
             self.outval=val
@@ -260,9 +243,7 @@ class StringToBoolean():
 
 class StringToListBoolean():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='listbool':
             self.outval=val
@@ -276,9 +257,7 @@ class StringToListBoolean():
 
 class StringToArrayBoolean():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='arraybool':
             self.outval=val
@@ -293,7 +272,6 @@ class StringToArrayBoolean():
 class StringToPath():
     def __init__(self,inString=''):
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='path':
             self.outval=val
@@ -308,7 +286,6 @@ class StringToPath():
 class StringToListPath():
     def __init__(self,inString=''):
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='listpath':
             self.outval=val
@@ -323,7 +300,6 @@ class StringToListPath():
 class StringToArrayPath():
     def __init__(self,inString=''):
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='arraypath':
             self.outval=val
@@ -337,9 +313,7 @@ class StringToArrayPath():
 
 class StringToDict():
     def __init__(self,inString=''):
-        
         from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
-        
         typ, val = DefineTypeVariable(inString).returntype()
         if typ=='dict':
             self.outval=val
