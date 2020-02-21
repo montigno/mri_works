@@ -164,7 +164,7 @@ class analyze:
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index(']')]
+                vout = line[0:line.index('] format')]
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] RectF')]
                 if not fort:

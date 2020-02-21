@@ -582,7 +582,7 @@ class LoadDiagram:
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index(']')]
+                vout = line[0:line.index('] format')]
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] label')]
                 if not fort:
@@ -906,7 +906,7 @@ class UpdateList:
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index(']')]
+                vout = line[0:line.index('] format')]
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] label')]
                 if not fort:
@@ -2821,7 +2821,7 @@ class BlockCreate(QGraphicsRectItem):
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index(']')]
+                vout = line[0:line.index('] format')]
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] label')]
                 if not fort:
@@ -3475,8 +3475,8 @@ class Constants(QGraphicsRectItem):
         w = self.elemProxy.size().width()
         h = self.elemProxy.size().height()
 #         self.elemProxy.resize(w, h)
-        self.setRect(0.0, 0.0, w + 15, h + 6)
-        self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
+        self.setRect(0.0, 0.0, w + 20, h + 6)
+        self.outputs[0].setPos(w + 20 + 2, (h + 6) / 2)
     
     def foncedBlock(self, fcd):
         if fcd:
@@ -3812,14 +3812,15 @@ class Constants_Combo(QComboBox):
             txt = "enumerate(('True','False'))"
         self.addItems([x[1] for x in list(eval(txt))])
         self.setCurrentText(val)
+        self.setSizeAdjustPolicy(QComboBox.AdjustToContents)
         self.currentTextChanged.connect(self.newValue)
         self.unit = unit
         self.lab = lab
     
     def newValue(self):
-        UpdateUndoRedo()
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = (self.txt, self.currentText(), self.lab)
+        UpdateUndoRedo()
        
 #         return QComboBox.mouseDoubleClickEvent(self, event)
 ###############################################################################
