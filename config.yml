@@ -19,14 +19,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_plot_profil.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/MRIFileManager/BrukerToNifti.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_open_multifiles.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Bruker_Paravision/Search_param_Paravision.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/FSL/FSL_N4Bias_fast.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_6.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/if_beta.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_4.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/read_display_nifti.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_ok.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/FSL/UnaryMaths.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
