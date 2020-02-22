@@ -19,16 +19,14 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_ok.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/random_5D_4D_3D.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/IfLoop/test_if_4.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/IfLoop/test_two_if.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/string_list_array_eval.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_ortho_view.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_plot_profil.dgr
-  - /home/ommaster/Documents/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_macro.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_plot_profil.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/MRIFileManager/BrukerToNifti.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_open_multifiles.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Bruker_Paravision/Search_param_Paravision.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
