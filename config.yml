@@ -21,14 +21,13 @@ paths:
   histories:
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/FSL/FSL_N4Bias_fast.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_6.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/if_beta.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_4.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/read_display_nifti.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_ok.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/FSL/UnaryMaths.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random_multiprocessing.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nifti/generate_5D_random.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_two_if.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/if_beta.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_6.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/SubMod/canny_3_modules.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

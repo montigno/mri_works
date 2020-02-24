@@ -35,7 +35,7 @@ class seeCode(QDialog):
 
         self.setWindowTitle('Source code of '+nameClass)
         layout = QVBoxLayout()
-        font = QFont("Times", 12,QFont.Bold)
+        font = QFont("Times", 11,QFont.Bold)
         label = QLabel(src)
         label.setFont(font)
         

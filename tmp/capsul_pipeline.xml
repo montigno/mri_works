@@ -2,77 +2,36 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U6" x="-129.69589041550188" y="-212.800906130363"/>
-    <position name="U7" x="-134.42443293540052" y="-59.595407537261686"/>
-    <position name="U8" x="-126.19634854716654" y="87.4816792292605"/>
-    <position name="U9" x="-136.7051745428899" y="242.45692382742357"/>
-    <position name="U16" x="737.495105976355" y="-202.89573405675108"/>
-    <position name="U17" x="741.2962459314117" y="-51.64907022242885"/>
-    <position name="U18" x="740.8361017127348" y="113.9150959054372"/>
-    <position name="U19" x="736.0613526961927" y="290.0516038393917"/>
-    <position name="U0" x="-408.61930843181335" y="-202.04979966199355"/>
-    <position name="U1" x="-419.3292359436857" y="-47.48102621596507"/>
-    <position name="U2" x="-424.4937944121262" y="102.29116936881124"/>
-    <position name="U3" x="-422.52267786191965" y="255.5064039325481"/>
-    <position name="U4" x="455.2026647122499" y="-190.36714384282067"/>
-    <position name="U5" x="448.316586754329" y="-38.87342876856414"/>
-    <position name="U10" x="452.3573737894699" y="122.71027858169816"/>
-    <position name="U11" x="451.7596257332895" y="300.2659106590329"/>
+    <position name="U5" x="173.27243184198983" y="237.79466222453618"/>
+    <position name="U0" x="-410.03199037802034" y="-131.3122843750147"/>
+    <position name="U3" x="1177.5496893864135" y="179.27851941848346"/>
+    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
+    <position name="U2" x="361.03737277853713" y="-137.8633251724703"/>
+    <position name="U4" x="588.6901958897182" y="114.46884952238639"/>
+    <position name="U6" x="832.2029143389888" y="240.85174081084256"/>
   </gui>
-  <process module="capsul_moduls.Print_Float" name="U6"/>
-  <link dest="U6.comment" source="U6_comment"/>
-  <process module="capsul_moduls.Print_Float" name="U7"/>
-  <link dest="U7.comment" source="U7_comment"/>
-  <process module="capsul_moduls.Print_Float" name="U8"/>
-  <link dest="U8.comment" source="U8_comment"/>
-  <process module="capsul_moduls.Print_Float" name="U9"/>
-  <link dest="U9.comment" source="U9_comment"/>
-  <process module="capsul_moduls.Print_Int" name="U16"/>
-  <link dest="U16.comment" source="U16_comment"/>
-  <process module="capsul_moduls.Print_Int" name="U17"/>
-  <link dest="U17.comment" source="U17_comment"/>
-  <process module="capsul_moduls.Print_Int" name="U18"/>
-  <link dest="U18.comment" source="U18_comment"/>
-  <process module="capsul_moduls.Print_Int" name="U19"/>
-  <link dest="U19.comment" source="U19_comment"/>
+  <process module="capsul_moduls.add_float_dyn" name="U5"/>
   <process module="capsul_moduls.add_float_dyn" name="U0"/>
+  <process module="capsul_moduls.Print_Float" name="U3"/>
   <process module="capsul_moduls.sub_float_dyn" name="U1"/>
-  <process module="capsul_moduls.mult_float_dyn" name="U2"/>
-  <process module="capsul_moduls.div_float_dyn" name="U3"/>
-  <process module="capsul_moduls.add_int_dyn" name="U4"/>
-  <process module="capsul_moduls.sub_int_dyn" name="U5"/>
-  <process module="capsul_moduls.mult_int_dyn" name="U10"/>
-  <process module="capsul_moduls.div_int_dyn" name="U11"/>
-  <link dest="U19.inInt" source="U11.division"/>
-  <link dest="U18.inInt" source="U10.multiplication"/>
-  <link dest="U17.inInt" source="U5.subtract"/>
-  <link dest="U16.inInt" source="U4.addition"/>
-  <link dest="U6.inFloat" source="U0.addition"/>
-  <link dest="U7.inFloat" source="U1.subtract"/>
-  <link dest="U9.inFloat" source="U3.division"/>
-  <link dest="U8.inFloat" source="U2.multiplication"/>
-  <link dest="U0.in1" source="X_float"/>
-  <link dest="U1.in1" source="X_float"/>
-  <link dest="U2.in1" source="X_float"/>
-  <link dest="U3.in1" source="X_float"/>
-  <link dest="U0.in2" source="Y_float"/>
-  <link dest="U1.in2" source="Y_float"/>
-  <link dest="U2.in2" source="Y_float"/>
-  <link dest="U3.in2" source="Y_float"/>
-  <link dest="U0.in2_0" source="Z_float"/>
-  <link dest="U1.in2_0" source="Z_float"/>
-  <link dest="U2.in2_0" source="Z_float"/>
-  <link dest="U3.in2_0" source="Z_float"/>
-  <link dest="U4.int1" source="X_int"/>
-  <link dest="U5.int1" source="X_int"/>
-  <link dest="U10.int1" source="X_int"/>
-  <link dest="U11.int1" source="X_int"/>
-  <link dest="U4.int2" source="Y_int"/>
-  <link dest="U5.int2" source="Y_int"/>
-  <link dest="U10.int2" source="Y_int"/>
-  <link dest="U11.int2" source="Y_int"/>
-  <link dest="U4.int2_0" source="Z_int"/>
-  <link dest="U5.int2_0" source="Z_int"/>
-  <link dest="U10.int2_0" source="Z_int"/>
-  <link dest="U11.int2_0" source="Z_int"/>
+  <process module="capsul_moduls.add_float_dyn" name="U2"/>
+  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
+  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
+  <link dest="U1.in1" source="U0.addition"/>
+  <link dest="U2.in1" source="U1.subtract"/>
+  <link dest="U4.in1" source="U2.addition"/>
+  <link dest="U4.in2" source="U1.subtract"/>
+  <link dest="U5.in1" source="U1.subtract"/>
+  <link dest="U5.in2" source="U0.addition"/>
+  <link dest="U6.in1" source="U4.multiplication"/>
+  <link dest="U6.in2" source="U5.addition"/>
+  <link dest="U3.inFloat" source="U6.subtract"/>
+  <link dest="U0.in2_0" source="Z"/>
+  <link dest="U0.in2" source="Y"/>
+  <link dest="U0.in1" source="X"/>
+  <link dest="U2.in2" source="V"/>
+  <link dest="U1.in2" source="U"/>
+  <link dest="U3.comment" source="comment"/>
+  <link dest="U2.in2_0" source="W"/>
+  <link dest="U5.in2_0" source="U"/>
 </pipeline>

@@ -3051,7 +3051,8 @@ class ConnectorItem(QGraphicsPolygonItem):
                 pa.setEnabled(False)
         pa.triggered.connect(self.changelabel)
         menu.exec_(event.screenPos())
-            
+          
+
     def changelabel(self):
         oldVal = listConnects[editor.currentTab][self.connct][1]
         c = changeLabel('Conn', self.connct, oldVal)
@@ -3062,18 +3063,30 @@ class ConnectorItem(QGraphicsPolygonItem):
             if self.inout in 'in':
                 listConnects[editor.currentTab][self.connct] = (listVal[0], c.getNewLabel(), listVal[2], listVal[3])
                 self.output.label.setPlainText(c.getNewLabel())
+                for ln in listNodes[editor.currentTab]:
+                    tmp = listNodes[editor.currentTab][ln]
+                    tmp2=tmp[0:tmp.index(':')]
+                    print('tmp = ',tmp, c.getNewLabel(), tmp2, self.connct)
+                    if self.connct == tmp2:
+                        print('changing ...')
+                        tmp = (self.connct + ':' + c.getNewLabel())+tmp[tmp.index("#Node#"):]
+                        del listNodes[editor.currentTab][ln]
+                        listNodes[editor.currentTab][ln] = tmp
+#                         break
             else:
                 listConnects[editor.currentTab][self.connct] = (listVal[0], c.getNewLabel(), listVal[2])
                 self.input.label.setPlainText(c.getNewLabel())
-                
-            for ln in listNodes[editor.currentTab]:
+                for ln in listNodes[editor.currentTab]:
                     tmp = listNodes[editor.currentTab][ln]
-                    if (self.connct + ':' + oldVal) in tmp:
-                        tmp = tmp.replace((self.connct + ':' + oldVal), (self.connct + ':' + c.getNewLabel()))
+                    tmp2=tmp[tmp.index('#Node#')+6:]
+                    tmp2=tmp2[0:tmp2.index(':')]
+                    print('tmp = ',tmp)
+                    if self.connct ==  tmp2:
+                        tmp = tmp[0:tmp.index('#Node#')+6]+ (self.connct + ':' + c.getNewLabel())
                         del listNodes[editor.currentTab][ln]
                         listNodes[editor.currentTab][ln] = tmp
-                        break
-        except:
+        except OSError as err:
+            print('error change label : ',str(err))
             listConnects[editor.currentTab][self.connct] = listVal
     
     def deleteConnct(self):

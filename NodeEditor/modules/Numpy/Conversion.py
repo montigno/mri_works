@@ -21,9 +21,18 @@ class strTofloat_Array():
 class listFloat_to_ndArray():
     def __init__(self,list_float=[0.0]):
         import numpy as np
-        x = np.array(list_float)
+        self.output = np.array(list_float)
         
     def outArray(self:'list_float'):
         return self.output       
 
 ###############################################################################
+
+class listFloat_to_Array():
+    def __init__(self,list_float=[0.0], x=0,y=0):
+        import numpy as np
+        self.output=np.reshape(list_float,(x,y))
+        
+    def outArray(self:'array_float'):
+        return self.output
+        

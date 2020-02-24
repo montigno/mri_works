@@ -7,7 +7,6 @@ class BrukerToNifti:
                        bvals_bvecs=False):
         import os, sys
         from subprocess import Popen, PIPE
-        from NodeEditor.python.configStandalone import ConfigModuls
         listBruker = ''
         for ls in Bruker_files:
             listBruker += ls + ";"            
@@ -15,7 +14,7 @@ class BrukerToNifti:
         options_export = "00000"
         if bvals_bvecs:
             options_export = "00013"
-        command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
+        command='java -classpath $MRIFilePATH'+\
                   ' BrukerToNifti \"' + listBruker + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
         print('Bruker : ',command)
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
@@ -39,7 +38,7 @@ class PhilipsToNifti:
                        bvals_bvecs=False):
         import os, sys
         from subprocess import Popen, PIPE
-        from NodeEditor.python.configStandalone import ConfigModuls
+#         from NodeEditor.python.configStandalone import ConfigModuls
         listPhilips = ''
         for ls in Philips_files:
             listPhilips += ls + ";"
@@ -47,7 +46,7 @@ class PhilipsToNifti:
         options_export = "00000"
         if bvals_bvecs:
             options_export = "00013"
-        command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
+        command='java -classpath $MRIFilePATH'+\
                   ' PhilipsToNifti \"' + listPhilips + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
@@ -78,8 +77,8 @@ class BidsToNifti:
         options_export = "00000"
         if bvals_bvecs:
             options_export = "00013"
-#         command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
-        command = 'MRIFileManager' + \
+#         command='java -classpath $MRIFilePATH'+\
+        command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
                   ' BidsToNifti \"' + listBids + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
