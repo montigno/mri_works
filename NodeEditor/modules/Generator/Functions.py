@@ -1,15 +1,11 @@
-import numpy as np
-
-###############################################################################
-
 class exponential:
     def __init__(self,amplitude=50.0, decay=1.0, shift=1.0,
                  function="enumerate(('a*exp(-bx)','a*exp(-bx)+c','a*(1-exp(-bx))','a*(1-exp(-bx))+c','a*(1-2*exp(-bx))','a*(1-2*c*exp(-bx))'))",
                  x=[0.0]):
-
+        import numpy as np
         self.y=[]
         x=np.asarray(x)
-   
+  
         if function == 'a*exp(-bx)':
             self.y=amplitude * np.exp(-x/decay)
         elif function == 'a*exp(-bx)+c':
@@ -32,6 +28,7 @@ class trigonometric:
     def __init__(self,angle=0.0,
                  function="enumerate(('sin(x)','cos(x)','tan(x)','arcsin(x)','arccos(x)','arctan(x)'))",
                  x_degree=[0.0]):
+        import numpy as np
         self.y=[]
         x=np.asarray(x_degree*np.pi/180.0)
         angle *=  np.pi/180.0

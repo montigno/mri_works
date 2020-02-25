@@ -4,9 +4,7 @@ class Json_File:
     def __init__(self,jsonFile="path",tag=''):
         import os.path
         import json
-       
         self.tag=tag
-        
         self.hasjson = os.path.exists(jsonFile)
         self.jsonFile=''
         self.data='No Json found'

@@ -16,13 +16,20 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.Z=256.0
-	xmlpipe.Y=128.0
-	xmlpipe.X=100.0
-	xmlpipe.V=-52.21
-	xmlpipe.U=12.58
-	xmlpipe.comment="Result of operation : "
-	xmlpipe.W=128.56
+	xmlpipe.Z_int=300
+	xmlpipe.Y_int=200
+	xmlpipe.X_int=100
+	xmlpipe.Z_float=30.0
+	xmlpipe.Y_float=20.0
+	xmlpipe.X_float=10.0
+	xmlpipe.U19_comment="division int : "
+	xmlpipe.U18_comment="multiplication int : "
+	xmlpipe.U17_comment="subtract int : "
+	xmlpipe.U16_comment="addition int : "
+	xmlpipe.U9_comment="division float : "
+	xmlpipe.U8_comment="multiplication float : "
+	xmlpipe.U7_comment="subtract float : "
+	xmlpipe.U6_comment="addition float : "
 	if sys.argv[1] == "runPipeline":
 		if parameter_dict:
 			xmlpipe(**parameter_dict)

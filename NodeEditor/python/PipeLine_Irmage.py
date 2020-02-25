@@ -4584,7 +4584,7 @@ class TypeColor(Enum):
         unkn = QColor(255, 255, 255, 255)
         
 class DimLink(Enum):
-        simple  = 3
+        simple  = 2
         list = 5
         array = 8
         bis = 3

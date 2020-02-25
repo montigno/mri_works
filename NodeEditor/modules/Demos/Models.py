@@ -1,5 +1,7 @@
 class NameClassBlock():
-    def __init__(self, input1=0,input2=0.0,input3=[''],input4=['path'],input5=[[0.0]],input6=[True]):
+
+    def __init__(self, input1=0, input2=0.0, input3=[''], 
+                                     input4=['path'], input5=[[0.0]], input6=[True]):
         pass
     
     def out1(self:'float'):
@@ -16,37 +18,38 @@ class NameClassBlock():
     
     def _method2(self):
         pass
-    
 
 ###############################################################################
 
-class AllTypes():
-    def __init__(self,
-                 inInt=0,inFloat=0.0,inString='',inBool=True,inPath='path',
-                 listInt=[0],listFloat=[0.0],listString=[''],listBool=[False],listPath=['path'],
-                 arrayInt=[[0]],arrayFloat=[[0.0]],arrayString=[['']],arrayBool=[[False]],arrayPath=[['path']],
-                 inDict={},inTuple=('',)):
 
-        self.inInt=inInt
-        self.inFloat=inFloat
-        self.inString=inString
-        self.inBool=inBool
-        self.inPath=inPath
+class AllTypes():
+
+    def __init__(self,
+                 inInt=0, inFloat=0.0, inString='', inBool=True, inPath='path',
+                 listInt=[0], listFloat=[0.0], listString=[''], listBool=[False], listPath=['path'],
+                 arrayInt=[[0]], arrayFloat=[[0.0]], arrayString=[['']], arrayBool=[[False]], arrayPath=[['path']],
+                 inDict={}, inTuple=('',)):
+
+        self.inInt = inInt
+        self.inFloat = inFloat
+        self.inString = inString
+        self.inBool = inBool
+        self.inPath = inPath
         
-        self.listInt=listInt
-        self.listFloat=listFloat
-        self.listString=listString
-        self.listBool=listBool
-        self.listPath=listPath
+        self.listInt = listInt
+        self.listFloat = listFloat
+        self.listString = listString
+        self.listBool = listBool
+        self.listPath = listPath
         
-        self.arrayInt=arrayInt
-        self.arrayFloat=arrayFloat
-        self.arrayString=arrayString
-        self.arrayBool=arrayBool
-        self.arrayPath=arrayPath
+        self.arrayInt = arrayInt
+        self.arrayFloat = arrayFloat
+        self.arrayString = arrayString
+        self.arrayBool = arrayBool
+        self.arrayPath = arrayPath
         
-        self.dict=inDict
-        self.tup=inTuple
+        self.dict = inDict
+        self.tup = inTuple
        
     def outInt(self:'int'):
         return self.inInt
@@ -101,7 +104,9 @@ class AllTypes():
     
 ###############################################################################
 
+
 class Fibonacci:
+
     def __init__(self, n=0):
         a = 0
         b = 1
@@ -115,7 +120,7 @@ class Fibonacci:
             self.res = b
             self.res1 = b
         else: 
-            for i in range(2,n): 
+            for i in range(2, n): 
                 c = a + b 
                 a = b 
                 b = c 
