@@ -1,0 +1,16 @@
+[diagram]
+constant=[A0] value=[5.0] format=[float] label=[A0] RectF=[(-281.76907661004566, 30.59351670711024, 118.0, 31.0)]
+link=[N3] node=[A0:#Node#U1:title]
+link=[N2] node=[U0:atlas_filename#Node#U2:in_String]
+link=[N1] node=[A0:#Node#U1:threshold]
+link=[N0] node=[U0:atlas_filename#Node#U1:stat_img]
+block=[U1] category=[Nilearn.Plotting] class=[Plot_glass_brain] valInputs=[(['stat_img', 'colorbar', 'title', 'threshold'], ['Node(N0)', True, 'Node(N3)', 'Node(N1)'], [], [])] RectF=[(5.0, -19.0, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_String] valInputs=[(['comment', 'in_String'], ['', 'Node(N2)'], [], [])] RectF=[(9.653959303166715, -151.56716105971728, 150.0, 80.0)]
+block=[U0] category=[Nilearn.Datasets] class=[fetch_neurovault_motor_task] valInputs=[(['indice'], [0], ['atlas_filename'], ['str'])] RectF=[(-337.1538153220091, -137.29655794661446, 166.671875, 80.0)]
+[execution]
+[]
+['U0', 'U1', 'U2']
+{'U0': ('Nilearn.Datasets', 'fetch_neurovault_motor_task', "(['indice'], [0], ['atlas_filename'], ['str'])"), 'U2': ('Tools.Print', 'Print_String', "(['comment', 'in_String'], ['', 'U0:atlas_filename'], [], [])"), 'U1': ('Nilearn.Plotting', 'Plot_glass_brain', "(['stat_img', 'colorbar', 'title', 'threshold'], ['U0:atlas_filename', True, 5.0, 5.0], [], [])")}
+['U0:atlas_filename', 'A0:', 'U0:atlas_filename', 'A0:']
+{}
+[]

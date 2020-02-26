@@ -29,3 +29,14 @@ class fetch_atlas_msdl():
         return self.dataset
         
 ###############################################################################
+
+class fetch_neurovault_motor_task():
+    def __init__(self, indice=0):
+        from nilearn import datasets
+        motor_images = datasets.fetch_neurovault_motor_task()
+        self.dataset = motor_images.images[indice]
+        
+    def atlas_filename(self:'str'):
+        return self.dataset
+
+###############################################################################

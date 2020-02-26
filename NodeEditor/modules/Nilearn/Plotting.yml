@@ -13,6 +13,22 @@ Plot_anat:
   cmap: ''
   vmin: 0.0
   vmax: 0.0
+Plot_glass_brain:
+  output_file: ''
+  display_mode: enumerate(('ortho',  'x', 'y', 'z', 'yx', 'xz', 'yz', 'l', 'r', 'lr', 'lzr', 'lyr', 'lzry', 'lyrz'))
+  colorbar: True
+  figure: 0
+  axes: (0.0, 0.0, 0.0, 0.0)
+  title: ''
+  threshold: 'auto'
+  annotate: True
+  black_bg: True
+  cmap: ''
+  alpha: 0
+  vmax: 0.0
+  plot_abs: True
+  symmetric_cbar: 'auto'
+  resampling_interpolation: ''
 Plot_epi:
   cut_coords: (0.0, 0.0, 0.0)
   output_file: ''
@@ -46,7 +62,7 @@ Plot_img:
   kwargs: ''
 Plot_prob_atlas:
   bg_img: ''
-  view_type: enumerate((‘auto’, ‘contours’, ‘filled_contours’, ‘continuous’))
+  view_type: enumerate(('auto', 'contours', 'filled_contours', 'continuous'))
   threshold: ''
   linewidths: 0.0
   cut_coords: (0.0, 0.0, 0.0)

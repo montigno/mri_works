@@ -19,16 +19,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_two_if.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_6.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/MRIFileManager/BrukerToNifti.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/string_list_array_eval.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/test_operation_dyn_image.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Fibonacci.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/simple_operation.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_without_display2.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny_2_modules.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/with_LoopFor.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_open_multifiles.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_3.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Fibonacci.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/FSL/FSL_N4Bias_fast.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/NodeEditor/examples/Nipype/fsl_split.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

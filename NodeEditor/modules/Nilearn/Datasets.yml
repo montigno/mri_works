@@ -5,3 +5,6 @@ fetch_atlas_smith_2009:
   data_dir: 'path'
   mirror: ''
   url: 'path'
+fetch_neurovault_motor_task:
+  data_dir: 'path'
+  verbose: 0

@@ -37,3 +37,11 @@ class Plot_prob_atlas:
         plotting.show()
         
 ###############################################################################
+
+class Plot_glass_brain:
+    def __init__(self,stat_img='path',**options):
+        from nilearn import plotting
+        plotting.plot_glass_brain(stat_img,**options)
+        plotting.show()
+        
+###############################################################################
