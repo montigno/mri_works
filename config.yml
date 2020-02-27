@@ -19,16 +19,13 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/SubMod/generate_spiral.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/SubMod/canny_3_modules.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/SubMod/canny_2_modules.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_ortho_view.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_plot_profil.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/FSL/FSL_N4Bias_fast.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Nilearn/plot_img.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/spm/spm_coregistration.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/spm/SPM_newSegment.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny_2_modules.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Nilearn/smith_2009.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
