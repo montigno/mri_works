@@ -1,5 +1,7 @@
 [diagram]
-constant=[A0] value=[cort-prob-2mm] format=[enumerate(('cort-prob-2mm', 'sub-prob-2mm'))] label=[Atlas_name] RectF=[(-686.3019416795031, 32.830663406364515, 130.0, 31.0)]
+constant=[A0] value=[cort-prob-2mm] format=[enumerate(('cort-prob-2mm', 'sub-prob-2mm'))] label=[Atlas_name] RectF=[(-686.3019416795031, 32.830663406364515, 147.0, 31.0)]
+link=[N3] node=[U0:atlas_filename#Node#U2:file]
+block=[U2] category=[ImageJ.ImageJ_open] class=[openImageJ] valInputs=[(['file'], ['Node(N3)'], ['currentImage'], ['str'])] RectF=[(-78.44711747293069, -136.34856132199857, 150.0, 80.0)]
 link=[N2] node=[A0:#Node#U1:title]
 link=[N0] node=[U0:atlas_filename#Node#U1:maps_img]
 link=[N1] node=[A0:#Node#U0:atlas_name]
@@ -7,8 +9,8 @@ block=[U1] category=[Nilearn.Plotting] class=[Plot_prob_atlas] valInputs=[(['map
 block=[U0] category=[Nilearn.Datasets] class=[fetch_atlas_harvard_oxford] valInputs=[(['atlas_name'], ['Node(N1)'], ['atlas_filename'], ['path'])] RectF=[(-460.33926178128314, -74.15688175257866, 200.828125, 80.0)]
 [execution]
 []
-['U0', 'U1']
-{'U0': ('Nilearn.Datasets', 'fetch_atlas_harvard_oxford', "(['atlas_name'], ['cort-prob-2mm'], ['atlas_filename'], ['path'])"), 'U1': ('Nilearn.Plotting', 'Plot_prob_atlas', "(['maps_img', 'display_mode', 'title', 'colorbar'], ['U0:atlas_filename', 'ortho', 'cort-prob-2mm', True], [], [])")}
-['A0:', 'U0:atlas_filename', 'A0:']
+['U0', 'U1', 'U2']
+{'U2': ('ImageJ.ImageJ_open', 'openImageJ', "(['file'], ['U0:atlas_filename'], ['currentImage'], ['str'])"), 'U0': ('Nilearn.Datasets', 'fetch_atlas_harvard_oxford', "(['atlas_name'], ['cort-prob-2mm'], ['atlas_filename'], ['path'])"), 'U1': ('Nilearn.Plotting', 'Plot_prob_atlas', "(['maps_img', 'display_mode', 'title', 'colorbar'], ['U0:atlas_filename', 'ortho', 'cort-prob-2mm', True], [], [])")}
+['A0:', 'U0:atlas_filename', 'A0:', 'U0:atlas_filename']
 {}
 []

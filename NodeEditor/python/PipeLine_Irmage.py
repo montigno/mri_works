@@ -8,7 +8,7 @@
 
 '''
 Created on 14 dec. 2017
-Modified on 11 feb. 2020
+Modified on 27 feb. 2020
 @author: omonti
 '''
 
@@ -35,20 +35,20 @@ from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, QGraphicsView,\
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, QPushButton,\
     QScrollBar
     
-from NodeEditor.python.PipeLine_Analyze import analyze
-from NodeEditor.python.PipeLine_Execution import execution
-from NodeEditor.python.editParam import editParam
-from NodeEditor.python.editParamForLoop import editParamLoopFor
-from NodeEditor.python.addOptions import chOptions
-from NodeEditor.python.defTunnels import defineTunnels
-from NodeEditor.python.changeLabelConn import changeLabel
-from NodeEditor.python.errorHandler import errorHandler
-from NodeEditor.python.loadModules import getlistModules
-from NodeEditor.python.loadSubModules import getlistSubModules
-from NodeEditor.python.sourceBlock import seeCode
-from NodeEditor.python.configStandalone import ConfigModuls, windowConfig
-from NodeEditor.python.constantCombobox import editCombobox
-from NodeEditor.python.Capsul.export_Capsul import exportCapsul
+from . import analyze
+from . import execution
+from . import editParam
+from . import editParamLoopFor
+from . import chOptions
+from . import defineTunnels
+from . import changeLabel
+from . import errorHandler
+from . import getlistModules
+from . import getlistSubModules
+from . import seeCode
+from . import ConfigModuls, windowConfig
+from . import editCombobox
+from . import exportCapsul
 from Config import Config
 
 currentpathwork = ''
