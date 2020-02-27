@@ -1,40 +1,22 @@
-class sub_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1-int2
-        for di in dynamicsInputs:
-            self.res-=dynamicsInputs[di]
+class numpy_cos():
+    def __init__(self, x=0.0, angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        if angle_type == 'degree':
+            x *= numpy.pi / 180.0
+        self.res = numpy.cos(x)
         
-    def subtract(self:'int'):
-        return self.res    
+    def cosinus(self:'float'):
+        return self.res
 
 
-class mult_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = float(in1)*float(in2)
-        for di in dynamicsInputs:
-            self.res*=dynamicsInputs[di]
+class numpy_sin():
+    def __init__(self, x=0.0, angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        if angle_type == 'degree':
+            x *= numpy.pi / 180.0
+        self.res = numpy.sin(x)
         
-    def multiplication(self:'float'):
-        return self.res      
-
-
-class add_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1+int2
-        for di in dynamicsInputs:
-            self.res+=dynamicsInputs[di]
-        
-    def addition(self:'int'):
-        return self.res    
-
-
-class sub_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1-in2
-        for di in dynamicsInputs:
-            self.res-=dynamicsInputs[di]
-  
-    def subtract(self:'float'):
+    def sinus(self:'float'):
         return self.res
 
 
@@ -43,48 +25,47 @@ class Print_Float:
         print('\033[92m' + comment, inFloat)
 
 
-class add_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1+in2
-        for di in dynamicsInputs:
-            self.res+=dynamicsInputs[di]
+class numpy_arccos():
+    def __init__(self, x=0.0, out_angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        self.res = numpy.arccos(x)
+        if out_angle_type == 'degree':
+            self.res *= 180.0 / numpy.pi
         
-    def addition(self:'float'):
-        return self.res    
-
-
-class div_float_dyn:
-    def __init__(self,in1=0.0,in2=1.0,**dynamicsInputs):
-        self.res = in1/in2
-        for di in dynamicsInputs:
-            self.res/=dynamicsInputs[di]
-        
-    def division(self:'float'):
+    def arccosinus(self:'float'):
         return self.res
 
 
-class Print_Int:
-    def __init__(self,comment='',inInt=0):
-        print('\033[92m' + comment, inInt)
-
-
-class div_int_dyn:
-    def __init__(self,int1=0,int2=1,**dynamicsInputs):
-        self.res = int(int1/int2)
-        for di in dynamicsInputs:
-            self.res= int(self.res/dynamicsInputs[di])
+class numpy_arctan():
+    def __init__(self, x=0.0, out_angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        self.res = numpy.arctan(x)
+        if out_angle_type == 'degree':
+            self.res *= 180.0 / numpy.pi
         
-    def division(self:'int'):
-        return self.res   
+    def arctan(self:'float'):
+        return self.res
 
 
-class mult_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1*int2
-        for di in dynamicsInputs:
-            self.res*=dynamicsInputs[di]
+class numpy_arcsin():
+    def __init__(self, x=0.0, out_angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        self.res = numpy.arcsin(x)
+        if out_angle_type == 'degree':
+            self.res *= 180.0 / numpy.pi
         
-    def multiplication(self:'int'):
-        return self.res      
+    def arcsinus(self:'float'):
+        return self.res
+
+
+class numpy_tan():
+    def __init__(self, x=0.0, angle_type="enumerate(('degree','radian'))" ):
+        import numpy
+        if angle_type == 'degree':
+            x *= numpy.pi / 180.0
+        self.res = numpy.tan(x)
+        
+    def tan(self:'float'):
+        return self.res
 
 
