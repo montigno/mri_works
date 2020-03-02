@@ -7,7 +7,7 @@ It can be interfaced with many software and APIs : Nipype, Numpy, Nilearn, Scipy
 
 # Documentation
 
-Documentation will be available soon
+A beta documentation is available here : [https://montigno.github.io/mri_works](https://montigno.github.io/mri_works)
 
 # Installation
 
