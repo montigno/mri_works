@@ -19,16 +19,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/random_5D_4D_3D.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Nipype/fsl_swapDimensions.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/MRIFileManager/BrukerToNifti.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/mri/FID.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/mri/sinuscardinal_rms.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/IfLoop/test_if_7.dgr
   - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Bruker_Paravision/RMS_pulse_Paravision.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Java_imagej/ImageJ_ortho_view.dgr
-  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Relaxometry/T2map.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/ForLoop/testForIncrement4.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny_2_modules.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Rescale_nipype.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/image_manipulation/Canny.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Nilearn/smith_2009.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
+  - /home/ommaster/Apps/Github/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

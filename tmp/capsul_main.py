@@ -16,18 +16,13 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.U5_comment="sin_arcsin = "
-	xmlpipe.U4_out_angle_type="degree"
-	xmlpipe.U3_x=1.570796326795
-	xmlpipe.U3_angle_type="radian"
-	xmlpipe.U2_comment="cos_arcos = "
-	xmlpipe.U1_out_angle_type="degree"
-	xmlpipe.U0_x=3.14159265359
-	xmlpipe.U0_angle_type="radian"
-	xmlpipe.U6_x=1.570796326795
-	xmlpipe.U6_angle_type="radian"
-	xmlpipe.U7_out_angle_type="degree"
-	xmlpipe.U8_comment="tan_arctan = "
+	xmlpipe.Z=256.0
+	xmlpipe.Y=128.0
+	xmlpipe.X=100.0
+	xmlpipe.V=-52.21
+	xmlpipe.U=12.58
+	xmlpipe.comment="Result of operation by Capsul  : "
+	xmlpipe.W=128.56
 	if sys.argv[1] == "runPipeline":
 		if parameter_dict:
 			xmlpipe(**parameter_dict)

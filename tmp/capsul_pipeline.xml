@@ -2,41 +2,36 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U5" x="103.7272598166939" y="69.18466420515892"/>
-    <position name="U4" x="-163.66906287510446" y="83.24649350440143"/>
-    <position name="U3" x="-388.26020509163806" y="70.21727113359411"/>
-    <position name="U2" x="112.98448482607247" y="-81.0890533831446"/>
-    <position name="U1" x="-151.0" y="-67.0"/>
-    <position name="U0" x="-382.1005791969901" y="-81.77689103439671"/>
-    <position name="U6" x="-385.6802895600637" y="230.37969296387797"/>
-    <position name="U7" x="-157.357558140506" y="244.77842377412043"/>
-    <position name="U8" x="117.24680802625937" y="231.40817373603818"/>
+    <position name="U5" x="183.8146922331755" y="174.54109987742208"/>
+    <position name="U0" x="-394.21859979124184" y="-155.0323702551825"/>
+    <position name="U3" x="1227.2328387064408" y="166.1627280777346"/>
+    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
+    <position name="U2" x="421.6553700278548" y="-137.86332517247027"/>
+    <position name="U4" x="651.9437582368322" y="43.30859188188304"/>
+    <position name="U6" x="932.3543880552529" y="232.9450455174533"/>
   </gui>
-  <process module="capsul_moduls.Print_Float" name="U5"/>
-  <link dest="U5.comment" source="U5_comment"/>
-  <process module="capsul_moduls.numpy_arcsin" name="U4"/>
-  <link dest="U4.out_angle_type" source="U4_out_angle_type"/>
-  <process module="capsul_moduls.numpy_sin" name="U3"/>
-  <link dest="U3.x" source="U3_x"/>
-  <link dest="U3.angle_type" source="U3_angle_type"/>
-  <process module="capsul_moduls.Print_Float" name="U2"/>
-  <link dest="U2.comment" source="U2_comment"/>
-  <process module="capsul_moduls.numpy_arccos" name="U1"/>
-  <link dest="U1.out_angle_type" source="U1_out_angle_type"/>
-  <process module="capsul_moduls.numpy_cos" name="U0"/>
-  <link dest="U0.x" source="U0_x"/>
-  <link dest="U0.angle_type" source="U0_angle_type"/>
-  <process module="capsul_moduls.numpy_tan" name="U6"/>
-  <link dest="U6.x" source="U6_x"/>
-  <link dest="U6.angle_type" source="U6_angle_type"/>
-  <process module="capsul_moduls.numpy_arctan" name="U7"/>
-  <link dest="U7.out_angle_type" source="U7_out_angle_type"/>
-  <process module="capsul_moduls.Print_Float" name="U8"/>
-  <link dest="U8.comment" source="U8_comment"/>
-  <link dest="U5.inFloat" source="U4.arcsinus"/>
-  <link dest="U4.x" source="U3.sinus"/>
-  <link dest="U2.inFloat" source="U1.arccosinus"/>
-  <link dest="U1.x" source="U0.cosinus"/>
-  <link dest="U7.x" source="U6.tan"/>
-  <link dest="U8.inFloat" source="U7.arctan"/>
+  <process module="capsul_moduls.add_float_dyn" name="U5"/>
+  <process module="capsul_moduls.add_float_dyn" name="U0"/>
+  <process module="capsul_moduls.Print_Float" name="U3"/>
+  <process module="capsul_moduls.sub_float_dyn" name="U1"/>
+  <process module="capsul_moduls.add_float_dyn" name="U2"/>
+  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
+  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
+  <link dest="U1.in1" source="U0.addition"/>
+  <link dest="U2.in1" source="U1.subtract"/>
+  <link dest="U4.in1" source="U2.addition"/>
+  <link dest="U4.in2" source="U1.subtract"/>
+  <link dest="U5.in1" source="U1.subtract"/>
+  <link dest="U5.in2" source="U0.addition"/>
+  <link dest="U6.in1" source="U4.multiplication"/>
+  <link dest="U6.in2" source="U5.addition"/>
+  <link dest="U3.inFloat" source="U6.subtract"/>
+  <link dest="U0.in2_0" source="Z"/>
+  <link dest="U0.in2" source="Y"/>
+  <link dest="U0.in1" source="X"/>
+  <link dest="U2.in2" source="V"/>
+  <link dest="U1.in2" source="U"/>
+  <link dest="U3.comment" source="comment"/>
+  <link dest="U2.in2_0" source="W"/>
+  <link dest="U5.in2_0" source="U"/>
 </pipeline>
