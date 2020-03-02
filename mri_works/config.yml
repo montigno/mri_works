@@ -18,7 +18,10 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/trigo_numpy.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

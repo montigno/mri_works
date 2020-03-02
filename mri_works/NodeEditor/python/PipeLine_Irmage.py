@@ -5157,6 +5157,9 @@ class NodeEdit(QWidget):
         
         listStand = set(listStand)
         ConfigModuls().loadConfig(listStand)
+        
+        ###############" add separator ##########################################
+        self.tabLib.addTab(TreeLibrary(), ' ')
 #         listImport = set(listImport)
 #         print('listImport : ',listImport)
         

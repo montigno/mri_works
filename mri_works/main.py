@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 ##########################################################################
 # mriWorks - Copyright (C) IRMAGE/INSERM, 2020
 # Distributed under the terms of the CeCILL-B license, as published by

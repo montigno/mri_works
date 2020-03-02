@@ -3,18 +3,6 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<input name="in2_0" type="float" doc=""/>
-	<return name="addition" type="float" doc=""/>
-</process>
-''')
-def add_float_dyn(in1, in2, in2_0):
-	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
-	return cs.add_float_dyn(**listInputs).addition()
-
-@xml_process('''
-<process capsul_xml="2.0">
 	<input name="comment" type="string" doc=""/>
 	<input name="inFloat" type="float" doc=""/>
 </process>
@@ -25,23 +13,67 @@ def Print_Float(comment, inFloat):
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="subtract" type="float" doc=""/>
+	<input name="x" type="float" doc=""/>
+	<input name="out_angle_type" type="string" doc=""/>
+	<return name="arcsinus" type="float" doc=""/>
 </process>
 ''')
-def sub_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.sub_float_dyn(**listInputs).subtract()
+def numpy_arcsin(x, out_angle_type):
+	listInputs=dict(zip(('x', 'out_angle_type'),(x, out_angle_type)))
+	return cs.numpy_arcsin(**listInputs).arcsinus()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="multiplication" type="float" doc=""/>
+	<input name="x" type="float" doc=""/>
+	<input name="angle_type" type="string" doc=""/>
+	<return name="sinus" type="float" doc=""/>
 </process>
 ''')
-def mult_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.mult_float_dyn(**listInputs).multiplication()
+def numpy_sin(x, angle_type):
+	listInputs=dict(zip(('x', 'angle_type'),(x, angle_type)))
+	return cs.numpy_sin(**listInputs).sinus()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="x" type="float" doc=""/>
+	<input name="out_angle_type" type="string" doc=""/>
+	<return name="arccosinus" type="float" doc=""/>
+</process>
+''')
+def numpy_arccos(x, out_angle_type):
+	listInputs=dict(zip(('x', 'out_angle_type'),(x, out_angle_type)))
+	return cs.numpy_arccos(**listInputs).arccosinus()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="x" type="float" doc=""/>
+	<input name="angle_type" type="string" doc=""/>
+	<return name="cosinus" type="float" doc=""/>
+</process>
+''')
+def numpy_cos(x, angle_type):
+	listInputs=dict(zip(('x', 'angle_type'),(x, angle_type)))
+	return cs.numpy_cos(**listInputs).cosinus()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="x" type="float" doc=""/>
+	<input name="angle_type" type="string" doc=""/>
+	<return name="tan" type="float" doc=""/>
+</process>
+''')
+def numpy_tan(x, angle_type):
+	listInputs=dict(zip(('x', 'angle_type'),(x, angle_type)))
+	return cs.numpy_tan(**listInputs).tan()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="x" type="float" doc=""/>
+	<input name="out_angle_type" type="string" doc=""/>
+	<return name="arctan" type="float" doc=""/>
+</process>
+''')
+def numpy_arctan(x, out_angle_type):
+	listInputs=dict(zip(('x', 'out_angle_type'),(x, out_angle_type)))
+	return cs.numpy_arctan(**listInputs).arctan()
 
