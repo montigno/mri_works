@@ -347,7 +347,7 @@ class Menu(QMenuBar):
             ShowLegend()
             
         if tmpActText == 'Nodes doc' :
-            tmp = str(os.path.join(QDir.currentPath(), '../DocHtml', 'index.html'))
+            tmp = str(os.path.join(QDir.currentPath(), '../docs', 'index.html'))
             webbrowser.open(tmp)
             
         if tmpActText == 'Setting Standalone Paths' :
