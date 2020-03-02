@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" media="screen" type="text/css" href="../../styles.css">
+	<script src="../../datemodif.js"></script>
+	<script src="../../buttontop.js"></script>
+</head>
+	
+<body>
+  	<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+	<div class="menu"><iframe scrolling="no" style="position: absolute; width: 20%; height: 200%; border: none; " src = "../../Home/sommaire.html"></iframe></div>
+	
+	<div class="box">
+	<h1 align="center">Tools.File_dialog<strong></strong></h1><br>
+	
+	<h2><font color="purple">Requirements : </font></h2>
+	Tkinter - apt-get install python3-tk<br><br>
+	<hr><hr>
+	
+	<h2 id="Choose_Directory">Choose_Directory :</h2>
+		<p> <font color="blue"><b>Displays a dialog box from which the user can select a repertory.</b></font></p>
+		<table>
+			<tbody>
+				<tr>
+					<td valign="top"><img src="images/Choose_Directory.png" align="left" alt="Choose_Directory" style="width:100%;border:0;"/></td>
+					<td valign="top"><b>RepDefault</b> : default directory - format path<br> 
+						<b>title</b> : dialog box title - format string<br><br> 
+						<b>filePath</b> : repertory path selected - format path
+					</td>
+					<td valign="top" style="padding-left:20px"><img src="images/Choose_Directory_param.png" align="left" alt="Choose_Directory" style="width:80%;border:0;"/></td>
+				</tr>
+			</tbody>
+		</table>
+
+	<hr>
+	<h2 id="Choose_File">Choose_File :</h2>
+		<p> <font color="blue"><b>Displays a dialog box from which the user can select a file.</b></font></p>
+		<table>
+			<tbody>
+				<tr>
+					<td valign="top"><img src="images/Choose_File.png" align="left" alt="Choose_File" style="width:100%;border:0;"/></td>
+					<td valign="top"><b>fileDefault</b> : default file - format path<br>
+						<b>extension</b> : filtering extension (may contain more than one) <br>
+						<b>title</b> : dialog box title - format string<br><br> 
+						<b>filePath</b> : file path selected - format path
+					</td>
+					<td valign="top" style="padding-left:20px"><img src="images/Choose_File_param.png" align="left" alt="Choose_File" style="width:80%;border:0;"/></td>
+				</tr>
+			</tbody>
+		</table>
+
+	<hr>
+	<h2 id="Choose_multi_Files">Choose_multi_Files :</h2>
+		<p> <font color="blue"><b>Displays a dialog box from which the user can select several files.</b></font></p>
+		<table>
+			<tbody>
+				<tr>
+					<td valign="top"><img src="images/Choose_multi_files.png" align="left" alt="Choose_multi_files" style="width:100%;border:0;"/></td>
+					<td valign="top"><b>filesDefault</b> : list of default files - format list of path<br>
+						<b>extension</b> : filtering extension (may contain more than one) <br>
+						<b>title</b> : dialog box title - format string<br><br> 
+						<b>filesPath</b> : files path selected - format path<br>
+						<b>numberOfFiles</b> : number of files selected - format integer
+					</td>
+					<td valign="top" style="padding-left:20px"><img src="images/Choose_multi_files_param.png" align="left" alt="Choose_multi_files" style="width:80%;border:0;"/></td>
+				</tr>
+			</tbody>
+		</table>
+	<br>
+	<hr>
+	<br>
+	<script>document.write("This page was last modified on "+ DateModif())</script>
+		</div>
+</body>
+</html>
