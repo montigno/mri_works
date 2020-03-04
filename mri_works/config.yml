@@ -19,14 +19,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/trigo_numpy.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/image_manipulation/filtering.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
+  - /home/ommaster/Bureau/test.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Nilearn/smith_2009.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Nifti/generate_5D_random_multiprocessing.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/IfLoop/test_if_6.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/IfLoop/test_if_4.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/IfLoop/test_if.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/IfLoop/if_beta.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
