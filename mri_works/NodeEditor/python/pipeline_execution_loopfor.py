@@ -81,9 +81,9 @@ class executionFor:
         listDynamicValueSub=listDynamicValue.copy()
        
         tmp=[]
-        lengthEnter = len(listDynamicValue[firstIndex])
+        lengthEnter = range(len(listDynamicValue[firstIndex]))
         
-        for ele in range(lengthEnter):
+        for ele in lengthEnter:
             for keyDyn, valDyn in listDynamicValue.items():
                 if 'F' in keyDyn[0:keyDyn.index(':')]:
                     listDynamicValueSub[keyDyn]=valDyn[ele]

@@ -21,7 +21,7 @@ class subtractImage_dyn:
         image2 = np.array(image2)
         self.image=np.subtract(image1,image2)
         for di in dynamicsInputs:
-            self.image = np.sub(self.image,np.array(dynamicsInputs[di]))
+            self.image = np.subtract(self.image,np.array(dynamicsInputs[di]))
         
     def image(self:'array_float'):
         return self.image
