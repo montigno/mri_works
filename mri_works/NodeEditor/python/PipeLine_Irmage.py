@@ -3066,9 +3066,7 @@ class ConnectorItem(QGraphicsPolygonItem):
                 for ln in listNodes[editor.currentTab]:
                     tmp = listNodes[editor.currentTab][ln]
                     tmp2=tmp[0:tmp.index(':')]
-                    print('tmp = ',tmp, c.getNewLabel(), tmp2, self.connct)
                     if self.connct == tmp2:
-                        print('changing ...')
                         tmp = (self.connct + ':' + c.getNewLabel())+tmp[tmp.index("#Node#"):]
                         del listNodes[editor.currentTab][ln]
                         listNodes[editor.currentTab][ln] = tmp
@@ -3080,7 +3078,6 @@ class ConnectorItem(QGraphicsPolygonItem):
                     tmp = listNodes[editor.currentTab][ln]
                     tmp2=tmp[tmp.index('#Node#')+6:]
                     tmp2=tmp2[0:tmp2.index(':')]
-                    print('tmp = ',tmp)
                     if self.connct ==  tmp2:
                         tmp = tmp[0:tmp.index('#Node#')+6]+ (self.connct + ':' + c.getNewLabel())
                         del listNodes[editor.currentTab][ln]

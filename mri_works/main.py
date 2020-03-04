@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 ##########################################################################
 # mriWorks - Copyright (C) IRMAGE/INSERM, 2020
 # Distributed under the terms of the CeCILL-B license, as published by
@@ -24,7 +22,7 @@ from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
     QMenuBar, QAction, qApp, QLineEdit, QMainWindow
 
 from Config import Config
-# from DataBrowser.DataBrowser import DataBrowser   
+# from DataBrowser.DataBrowser import DataBrowser
 from About import AboutSoft
 from NodeEditor.python.PipeLine_Irmage import NodeEdit
 from PyQt5 import QtCore
