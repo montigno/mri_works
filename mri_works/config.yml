@@ -22,6 +22,11 @@ paths:
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral_2.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/trigo_numpy.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/generate_spiral.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Nilearn/plot_prob_atlas.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/image_manipulation/filtering.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/ForLoop/For_fsl_multiprocess.dgr
   modules: modules
   projects: ../data
 version: 20.02.00
