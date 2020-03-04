@@ -5,6 +5,16 @@
 mri_works is a graphical programming software written in Python and oriented MRI.\
 It can be interfaced with many software and APIs : Nipype, Numpy, Nilearn, Scipy, ImageJ ....
 
+It has tools such as :
+	- For sequential loop.
+	- For multiprocessing loop.
+	- If structure.
+	- dynamic inputs.
+	
+Pipeline processing can be done by Capsul or by a classic way (integrating multithreading)
+
+Bricks are very easy to make.
+
 # Documentation
 
 A beta documentation is available here : [https://montigno.github.io/mri_works](https://montigno.github.io/mri_works)
