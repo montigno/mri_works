@@ -18,11 +18,7 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories:
-  - /home/ommaster/Bureau/ForLoop_submod.dgr
-  - /home/ommaster/Bureau/test.dgr
-  - /home/ommaster/Bureau/ForLoop_recursive.dgr
-  - /home/ommaster/Bureau/operations.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.02.00

@@ -33,7 +33,7 @@ class execution:
 #         self.progress.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.CustomizeWindowHint)
         self.progress.setWindowModality(Qt.WindowModal)
         self.progress.setModal(True)
-        self.progress.show()
+        self.progress.forceShow()
         self.execution(txt, textEditor)
         self.progress.close()
         
