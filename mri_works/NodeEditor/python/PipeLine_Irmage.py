@@ -117,6 +117,7 @@ class Menu(QMenuBar):
         self.examples = self.menu5.addMenu('Examples')
         expl = self.load_dir_examples()
         if expl:
+            expl=sorted(expl)
             for lstD in expl:
                 self.exs=self.examples.addMenu(lstD)
                 expl_files = self.load_file_examples(os.path.join(QDir.currentPath(),'NodeEditor','examples',lstD))
