@@ -113,7 +113,6 @@ class Menu(QMenuBar):
         self.menu5.addAction('Legend')
         self.menu5.addAction('Nodes doc')
         self.menu5.addSeparator()
-#         self.menu5.addAction('Examples')
         self.examples = self.menu5.addMenu('Examples')
         expl = self.load_dir_examples()
         if expl:
@@ -400,9 +399,9 @@ class Menu(QMenuBar):
                 
         if os.path.splitext(tmpActText)[1] == '.dgr':
             editor.addTab(os.path.basename(tmpActText))
-            editor.pathDiagram[editor.currentTab] = tmpActText
             if not os.path.exists(tmpActText):
                 tmpActText = os.path.join(self.Dictexamples[tmpActText],tmpActText)
+            editor.pathDiagram[editor.currentTab] = tmpActText
             f = open(tmpActText, 'r')
             txt = f.readlines()
             f.close()
