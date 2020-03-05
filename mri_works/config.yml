@@ -18,7 +18,11 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/ommaster/Bureau/projects_mriworks/ForLoop_recursive.dgr
+  - /home/ommaster/Bureau/projects_mriworks/ForLoop_submod.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_4.dgr
+  - /home/ommaster/Bureau/projects_mriworks/mutliple_spiral.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

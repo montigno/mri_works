@@ -1,6 +1,6 @@
 [diagram]
 constant=[A8] value=[1.0] format=[float] label=[delta_x] RectF=[(-1077.5484280858875, 11.782088999324849, 119.0, 31.0)]
-constant=[A7] value=[5660.0] format=[float] label=[xmax] RectF=[(-1210.5508270674868, -56.48671763631855, 119.0, 31.0)]
+constant=[A7] value=[5000.0] format=[float] label=[xmax] RectF=[(-1210.5508270674868, -56.48671763631855, 119.0, 31.0)]
 constant=[A6] value=[0.0] format=[float] label=[xmin] RectF=[(-1130.436581566511, -125.30221051280694, 119.0, 31.0)]
 constant=[A0] value=[100.0] format=[float] label=[amplitude] RectF=[(-729.0476226019898, -335.1151900079216, 119.0, 31.0)]
 constant=[A1] value=[500.0] format=[float] label=[decay] RectF=[(-730.1570309164998, -276.5895522257533, 119.0, 31.0)]
@@ -34,7 +34,7 @@ block=[U1] category=[Generator.Functions] class=[trigonometric] valInputs=[(['an
 [execution]
 []
 ['U2', 'ThreadOn', 'U0', 'U1', 'ThreadOff', 'U4', 'U5', 'U3']
-{'U4': ('Tools.ListOperation', 'MultiplyListValues', "(['list1', 'list2'], ['U0:outFonction', 'U1:outFonction'], ['listMult'], ['list_float'])"), 'U3': ('Matplotlib.MatplotCurve', 'MatPlotCurve', "(['data', 'x'], ['U5:array', 'U2:outAbscissa'], [], [])"), 'U5': ('Tools.ArrayManipulation', 'build_array_float_dyn', "(['in_list', 'in_list_0'], ['U0:outFonction', 'U4:listMult'], ['array'], ['array_float'])"), 'U1': ('Generator.Functions', 'trigonometric', "(['angle', 'function', 'x_degree'], [45.0, 'sin(x)', 'U2:outAbscissa'], ['outFonction'], ['list_float'])"), 'U0': ('Generator.Functions', 'exponential', "(['amplitude', 'decay', 'shift', 'function', 'x'], [100.0, 500.0, 1.0, 'a*exp(-bx)+c', 'U2:outAbscissa'], ['outFonction'], ['list_float'])"), 'U2': ('Generator.Abscissa', 'AbsX', "(['xmin', 'xmax', 'delta_x'], [0.0, 5660.0, 1.0], ['outAbscissa'], ['list_float'])")}
+{'U4': ('Tools.ListOperation', 'MultiplyListValues', "(['list1', 'list2'], ['U0:outFonction', 'U1:outFonction'], ['listMult'], ['list_float'])"), 'U3': ('Matplotlib.MatplotCurve', 'MatPlotCurve', "(['data', 'x'], ['U5:array', 'U2:outAbscissa'], [], [])"), 'U5': ('Tools.ArrayManipulation', 'build_array_float_dyn', "(['in_list', 'in_list_0'], ['U0:outFonction', 'U4:listMult'], ['array'], ['array_float'])"), 'U1': ('Generator.Functions', 'trigonometric', "(['angle', 'function', 'x_degree'], [45.0, 'sin(x)', 'U2:outAbscissa'], ['outFonction'], ['list_float'])"), 'U0': ('Generator.Functions', 'exponential', "(['amplitude', 'decay', 'shift', 'function', 'x'], [100.0, 500.0, 1.0, 'a*exp(-bx)+c', 'U2:outAbscissa'], ['outFonction'], ['list_float'])"), 'U2': ('Generator.Abscissa', 'AbsX', "(['xmin', 'xmax', 'delta_x'], [0.0, 5000.0, 1.0], ['outAbscissa'], ['list_float'])")}
 ['A5:', 'A4:', 'U1:outFonction', 'U2:outAbscissa', 'A3:', 'U0:outFonction', 'U2:outAbscissa', 'U0:outFonction', 'A2:', 'A1:', 'A0:', 'U4:listMult', 'U5:array', 'U2:outAbscissa', 'A6:', 'A7:', 'A8:']
 {}
 []
