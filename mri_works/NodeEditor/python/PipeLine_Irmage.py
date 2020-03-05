@@ -59,6 +59,7 @@ class Menu(QMenuBar):
         QMenuBar.__init__(self, parent)
         self.setFixedHeight(30)
         hist = Config().getPathHistories()
+        self.Dictexamples={}
 
         self.menu1 = self.addMenu('Diagram')
         newdgr = self.menu1.addAction('New Diagram')
@@ -72,14 +73,12 @@ class Menu(QMenuBar):
         closeDgr.setShortcut('Ctrl+W')
         self.menu1.addSeparator()
         self.openRecent = self.menu1.addMenu('Open Recent')
-        
         if hist:
             for h in hist:
                 self.openRecent.addAction(h.strip())
         self.menu1.triggered[QAction].connect(self.btnPressed)
          
         self.menu12 = self.addMenu('Edit')
- 
         undo = self.menu12.addAction('Undo')
         undo.setShortcut('Ctrl+Z')
         redo = self.menu12.addAction('Redo')
@@ -113,11 +112,36 @@ class Menu(QMenuBar):
         self.menu5 = self.addMenu('Help')
         self.menu5.addAction('Legend')
         self.menu5.addAction('Nodes doc')
+        self.menu5.addSeparator()
+#         self.menu5.addAction('Examples')
+        self.examples = self.menu5.addMenu('Examples')
+        expl = self.load_dir_examples()
+        if expl:
+            for lstD in expl:
+                self.exs=self.examples.addMenu(lstD)
+                expl_files = self.load_file_examples(os.path.join(QDir.currentPath(),'NodeEditor','examples',lstD))
+                for lstF in expl_files:
+                    self.Dictexamples[lstF]=os.path.join(QDir.currentPath(),'NodeEditor','examples',lstD)
+                    self.exs.addAction(lstF)
+
         self.menu5.triggered[QAction].connect(self.btnPressed)
+
+    def load_dir_examples(self):
+        pathExamples = os.path.join(QDir.currentPath(), 'NodeEditor','examples')
+        if os.path.isdir(pathExamples):
+            listDir = [dI for dI in os.listdir(pathExamples) if os.path.isdir(os.path.join(pathExamples,dI))]
+            return listDir
+        else:
+            return None
+    
+    def load_file_examples(self,pathExemp):
+        onlyfiles = [f for f in os.listdir(pathExemp) if os.path.isfile(os.path.join(pathExemp, f))]
+        return onlyfiles
+
 
     def loadHistories(self):
         pathYml = os.path.join(QDir.currentPath(), "config.yml")
-        if os.path.exists(pathYml):
+        if os.path.isdir(pathYml):
             with open(pathYml, 'r') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 return dicts['paths']['histories']
@@ -138,7 +162,7 @@ class Menu(QMenuBar):
         else:
             hist=[path]
             Config().setPathHistories(hist)
-            self.openRecent.addAction(path)
+            self.openRecent.addAction(path)        
             
     def btnPressed(self, act):
         global currentpathwork
@@ -376,6 +400,8 @@ class Menu(QMenuBar):
         if os.path.splitext(tmpActText)[1] == '.dgr':
             editor.addTab(os.path.basename(tmpActText))
             editor.pathDiagram[editor.currentTab] = tmpActText
+            if not os.path.exists(tmpActText):
+                tmpActText = os.path.join(self.Dictexamples[tmpActText],tmpActText)
             f = open(tmpActText, 'r')
             txt = f.readlines()
             f.close()

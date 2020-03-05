@@ -4,3 +4,15 @@ class getValueTab():
         
     def out_value(self:'str'):
         return self.outValue
+    
+###############################################################################
+
+class lists_to_zip():
+    def __init__(self, coord=[''],value=['']):
+        self.setzip = list(zip(coord,value))
+    
+        
+    def out_zipped(self:'dict'):
+        return self.setzip
+
+###############################################################################
