@@ -27,3 +27,25 @@
 #myBtn:hover {
   background-color: #555;
 }
+
+pre.console {
+    border-color: #0c3762;
+    border-style: dotted;
+    border-width: thin;
+    margin: 12px 12px 20px 20px;
+    padding: 0.8em;
+	color: #eeeeee; 
+    background-color: #666666;
+	width: 300px
+}
+
+pre.bashrc {
+	border-color: #0c3762;
+    border-style: dotted;
+    border-width: thin;
+    margin: 12px 12px 20px 20px;
+    padding: 0.8em;
+	color: #aa5500; 
+    background-color: #bbbbbb;
+	width: 500px
+}
