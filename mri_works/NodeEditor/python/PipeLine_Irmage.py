@@ -208,7 +208,8 @@ class Menu(QMenuBar):
                         editor.pathDiagram[editor.currentTab] = file
                         editor.tabsDiagram.setTabText(editor.currentTab, fileNameonly)
                         textInf.setText(file)
-                        self.saveHistories(file)
+                        if 'NodeEditor/examples' not in file:
+                            self.saveHistories(file)
                 except OSError as err:
                     print("OS error: {0}".format(err))
             else:
