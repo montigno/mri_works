@@ -3310,7 +3310,7 @@ class LabelGroup(QGraphicsTextItem):
         super(LabelGroup, self).__init__(parent)
        
         self.setDefaultTextColor(ItemColor.text_comment.value)
-        self.setFont(QFont("Times", 16, QFont.Bold))
+        self.setFont(QFont("Times", 20, QFont.Bold))
         self.setZValue(0)
     
     def mouseDoubleClickEvent(self, event):

@@ -9,10 +9,10 @@ class getValueTab():
 
 class lists_to_zip():
     def __init__(self, coord=[''],value=['']):
-        self.setzip = list(zip(coord,value))
+        self.setzip = zip(coord,value)
     
         
     def out_zipped(self:'dict'):
-        return self.setzip
+        return dict(self.setzip)
 
 ###############################################################################

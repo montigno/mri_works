@@ -35,8 +35,8 @@ pre.console {
     margin: 12px 12px 20px 20px;
     padding: 0.8em;
 	color: #eeeeee; 
-    background-color: #666666;
-	width: 300px
+    background-color: #111111;
+	width: 500px
 }
 
 pre.bashrc {
@@ -45,7 +45,9 @@ pre.bashrc {
     border-width: thin;
     margin: 12px 12px 20px 20px;
     padding: 0.8em;
-	color: #aa5500; 
-    background-color: #bbbbbb;
+	color: #cccc00; 
+    background-color: #666666;
 	width: 500px
 }
+
+
