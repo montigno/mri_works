@@ -3,45 +3,23 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="subtract" type="float" doc=""/>
+	<input name="in_path" type="string" doc=""/>
+	<input name="in_path_0" type="string" doc=""/>
+	<input name="in_path_1" type="string" doc=""/>
+	<return name="path_list" type="list_file" doc=""/>
 </process>
 ''')
-def sub_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.sub_float_dyn(**listInputs).subtract()
+def build_list_path_dyn(in_path, in_path_0, in_path_1):
+	listInputs=dict(zip(('in_path', 'in_path_0', 'in_path_1'),(in_path, in_path_0, in_path_1)))
+	return cs.build_list_path_dyn(**listInputs).path_list()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="multiplication" type="float" doc=""/>
+	<input name="in_files" type="list_file" doc=""/>
+	<return name="smoothed_files" type="list_file" doc=""/>
 </process>
 ''')
-def mult_float_dyn(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.mult_float_dyn(**listInputs).multiplication()
-
-@xml_process('''
-<process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<input name="in2_0" type="float" doc=""/>
-	<return name="addition" type="float" doc=""/>
-</process>
-''')
-def add_float_dyn(in1, in2, in2_0):
-	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
-	return cs.add_float_dyn(**listInputs).addition()
-
-@xml_process('''
-<process capsul_xml="2.0">
-	<input name="comment" type="string" doc=""/>
-	<input name="inFloat" type="float" doc=""/>
-</process>
-''')
-def Print_Float(comment, inFloat):
-	listInputs=dict(zip(('comment', 'inFloat'),(comment, inFloat)))
-	return cs.Print_Float(**listInputs)
+def spm_Smooth(in_files,):
+	listInputs=dict(zip(('in_files',),(in_files,)))
+	return cs.spm_Smooth(**listInputs).smoothed_files()
 

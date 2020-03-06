@@ -2,36 +2,14 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U6" x="932.3543880552529" y="232.9450455174533"/>
-    <position name="U4" x="651.9437582368322" y="43.30859188188304"/>
-    <position name="U2" x="421.6553700278548" y="-137.86332517247027"/>
-    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
-    <position name="U3" x="1227.2328387064408" y="166.1627280777346"/>
-    <position name="U0" x="-394.21859979124184" y="-155.0323702551825"/>
-    <position name="U5" x="183.8146922331755" y="174.54109987742208"/>
+    <position name="U1" x="-367.75688498835086" y="9.797601847333354"/>
+    <position name="U0" x="-117.0" y="30.0"/>
   </gui>
-  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
-  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
-  <process module="capsul_moduls.add_float_dyn" name="U2"/>
-  <process module="capsul_moduls.sub_float_dyn" name="U1"/>
-  <process module="capsul_moduls.Print_Float" name="U3"/>
-  <process module="capsul_moduls.add_float_dyn" name="U0"/>
-  <process module="capsul_moduls.add_float_dyn" name="U5"/>
-  <link dest="U3.inFloat" source="U6.subtract"/>
-  <link dest="U6.in2" source="U5.addition"/>
-  <link dest="U6.in1" source="U4.multiplication"/>
-  <link dest="U5.in2" source="U0.addition"/>
-  <link dest="U5.in1" source="U1.subtract"/>
-  <link dest="U4.in2" source="U1.subtract"/>
-  <link dest="U4.in1" source="U2.addition"/>
-  <link dest="U2.in1" source="U1.subtract"/>
-  <link dest="U1.in1" source="U0.addition"/>
-  <link dest="U5.in2_0" source="U"/>
-  <link dest="U2.in2_0" source="W"/>
-  <link dest="U3.comment" source="comment"/>
-  <link dest="U1.in2" source="U"/>
-  <link dest="U2.in2" source="V"/>
-  <link dest="U0.in1" source="X"/>
-  <link dest="U0.in2" source="Y"/>
-  <link dest="U0.in2_0" source="Z"/>
+  <process module="capsul_moduls.build_list_path_dyn" name="U1"/>
+  <process module="capsul_moduls.spm_Smooth" name="U0"/>
+  <link dest="U0.in_files" source="U1.path_list"/>
+  <link dest="U1.in_path_1" source="A2"/>
+  <link dest="U1.in_path_0" source="A1"/>
+  <link dest="U1.in_path" source="A0"/>
+  <link dest="U0_smoothed_files" source="U0.smoothed_files"/>
 </pipeline>
