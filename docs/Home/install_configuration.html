@@ -12,45 +12,85 @@
   </head>
   <body> 
 	<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
-	<div class="menu"><iframe scrolling="no" style="position: absolute; width: 20%; height: 200%; border: none;" src = "sommaire.html"></iframe></div>
-	
+	<div><iframe class="sommaire" src = "sommaire.html"></iframe></div>
 	<div class="box">
 	
 	<h1 align="center">Install and Configuration <strong></strong></h1>
-	<br><br><hr>
+	<br><hr>
 		
-		<h2 id="afni"><font color="blue">AFNI : </font></h2><hr>
+		<h2 id="afni"><font color="blue">AFNI : </font></h2>
+			<div> 
+			- open terminal and type :
+			<pre class="console" style="width:900px;">wget -O- http://neuro.debian.net/lists/bionic.us-ca.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list</pre>
+			<pre class="console" style="width:900px;">sudo apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9</pre>
+			<pre class="console" style="width:900px;">sudo apt-get update</pre>
+			<pre class="console" style="width:900px;">sudo apt-get install afni</pre>
+			<pre class="console" style="width:900px;">cd</pre>
+			<pre class="console" style="width:900px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:900px;">#AFNI<br>export PATH=/usr/lib/afni/bin:$PATH</pre>
+			</div><hr>
+
 		<h2 id="ants"><font color="blue">ANTS : </font></h2>
 			<div> 
 			- download the release of ANTS from <a href="https://github.com/ANTsX/ANTs/releases" target="_blank">the official github homepage</a> (to date, the last known version is ANTs Version 2.1.0)<br>
 			- decompress the downloaded file and store it somewhere on your system, e.g. /usr/local/antsbin<br>
 			- open terminal and type :
-			<pre class="console">sudo nano .bashrc</pre>
-			- add the following lines to your .bashrc file
-			<pre class="bashrc">#ANTs<br>export PATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64:$PATH<br>export ANTSPATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64/</pre>
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:500px;">#ANTs<br>export PATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64:$PATH<br>export ANTSPATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64/</pre>
 			</div><hr>
+
 		<h2 id="fsl"><font color="blue">FSL : </font></h2>
 			<div> 
+			- go to the official <a href="https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation" target="_blank">FSL installation page</a> and follow the instructions.<br>
+			- you can install it under /usr/local/fsl of your system<br>
+			- open terminal and type :			
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:500px;">#FSL<br>FSLDIR=/usr/local/fsl<br>. ${FSLDIR}/etc/fslconf/fsl.sh<br>PATH=${FSLDIR}/bin:${PATH}<br>export FSLDIR PATH</pre>			
 			</div><hr>
 		
-        <h2 id="spm"><font color="blue">SPM : </font></h2>
-			<div> 
+        <h2 id="spm"><font color="blue">SPM : (requires MATLAB)</font></h2>
+			<div>
+			- download SPM12 from <a href="https://www.fil.ion.ucl.ac.uk/spm/software/download/" target="_blank">the official page</a><br>
+			- uncompress the zip file and copy the repertory 'SPM12' and its content to the 'toolbox' folder of your Matlab, e.g. /usr/local/MATLAB/R2019a/toolbox/<br>
+			- open terminal and type :			
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>			
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:500px;">#SPM12<br>export SPM_PATH=/usr/local/MATLAB/R2019a/toolbox/spm12/</pre>				
 			</div><hr>
 		
         <h2 id="imagej"><font color="blue">ImageJ : </font></h2>
 			<div>
-			- go to the ImageJ download page, download for Linux and install it somewhere on your system, e.g. /(yourhome)/Apps/ImageJ<br>
+			- go to the <a href="https://imagej.nih.gov/ij/download.html" target="_blank">ImageJ download page</a>, download for Linux and install it somewhere on your system, e.g. /(your_home)/Apps/<br>
 			- open terminal and type :
-			<pre class="console">sudo nano .bashrc</pre>
-			- add the following lines to your .bashrc file
-			<pre class="bashrc">#ImageJ<br>export PATH=/home/ommaster/Apps/ImageJ:$PATH</pre>
-			
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:500px;">#ImageJ<br>export PATH=/home/ommaster/Apps/ImageJ:$PATH</pre>
 			</div><hr>
-        <h2 id="mrifilemanager"><font color="blue">MRIFileManager : </font></h2>
-			<div> 
+
+		<h2 id="mrifilemanager"><font color="blue">MRIFileManager : </font></h2>
+			<div>
+			- download MRIFileManager (mri_conv) from <a href="https://github.com/populse/mri_conv" target="_blank">the github homepage</a><br>
+			- unzip the downloaded file and store it somewhere on your system, e.g. /(your_home)/Apps/<br>
+			<pre class="console" style="width:700px;">cd</pre>
+			<pre class="console" style="width:700px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:700px;">#MRIFileManager<br>export MRIFilePATH=/home/ommaster/Apps/Github/mri_conv/MRIFileManager/MRIManager.jar</pre>				
 			</div><hr>
-        <h2 id="matlab"><font color="blue">MATLAB : </font></h2>
-			<div> 
+
+		<h2 id="matlab"><font color="blue">MATLAB : (if you have it)</font></h2>
+			<div>
+			- open terminal and type :
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:700px;">#MATLAB<br>export PATH=/usr/local/MATLAB/R2019a/bin:$PATH<br>export MATLABCMD=/usr/local/MATLAB/R2019a/bin/glnxa64/MATLAB</pre>				
 			</div><hr>
 
     </div>
