@@ -3,10 +3,7 @@
     float:left; 
 	margin:0 21%;
 }
-.menu {
-    width:20%;
-    float:left; 
-}
+
 
 #myBtn {
   display: none;
@@ -36,7 +33,7 @@ pre.console {
     padding: 0.8em;
 	color: #eeeeee; 
     background-color: #111111;
-	width: 500px
+
 }
 
 pre.bashrc {
@@ -47,7 +44,15 @@ pre.bashrc {
     padding: 0.8em;
 	color: #cccc00; 
     background-color: #666666;
-	width: 500px
+
+}
+
+iframe.sommaire {
+	position: absolute; 
+	width: 20%; 
+	height: 200%;
+	border: none;
+	float:left;
 }
 
 
