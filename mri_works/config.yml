@@ -10,7 +10,7 @@ packages:
   nose: sudo pip3 install nose ()
   numpy: sudo pip3 install numpy (1.18.1)
   pandas: sudo pip3 install pandas ()
-  pyqt5: sudo pip3 install pyqt5 ()
+  pyqt5: sudo pip3 install pyqt5 (5.14.1)
   scikit-image: sudo pip3 install scikit-image (0.16.2)
   scikit-learn: sudo pip3 install -U scikit-learn ()
   scipy: sudo pip3 install scipy ()
@@ -23,6 +23,8 @@ paths:
   - /home/ommaster/Bureau/projects_mriworks/ForLoop_submod.dgr
   - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_4.dgr
   - /home/ommaster/Bureau/projects_mriworks/mutliple_spiral.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Capsul_convert/simple_operation.dgr
+  - /home/ommaster/Bureau/projects_mriworks/compare_capsul_mriworks.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

@@ -226,7 +226,7 @@ class exportCapsul():
         
         ############# generate capsul_main.py ##############
         codeMain = CodeGenerator()
-        codeMain += 'import sys\n'
+        codeMain += 'import sys, time\n'
         codeMain += 'from capsul.api import get_process_instance\n'
         codeMain += 'from PyQt5.Qt import QApplication\n'
         codeMain += '\n'
@@ -250,6 +250,7 @@ class exportCapsul():
                 codeMain += 'xmlpipe.' + keyParam + "=" + str(valParam) + '\n'
         codeMain += 'if sys.argv[1] == "runPipeline":\n'
         codeMain.indent()
+        codeMain += 'start=time.time()\n'
         codeMain += 'if parameter_dict:\n'
         codeMain.indent()
         codeMain += 'xmlpipe(**parameter_dict)\n'
@@ -258,6 +259,7 @@ class exportCapsul():
         codeMain.indent()
         codeMain += 'xmlpipe()\n'
         codeMain.dedent()
+        codeMain += 'print("Capsul execution time = ",time.time()-start)\n'
         codeMain.dedent()
         codeMain.dedent()
         codeMain += 'except Exception as e:\n'

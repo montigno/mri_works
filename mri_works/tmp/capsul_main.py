@@ -1,4 +1,4 @@
-import sys
+import sys, time
 from capsul.api import get_process_instance
 from PyQt5.Qt import QApplication
 
@@ -16,18 +16,16 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.U=12.58
-	xmlpipe.W=128.56
-	xmlpipe.comment="Result of operation  : "
-	xmlpipe.V=-52.21
-	xmlpipe.X=100.0
-	xmlpipe.Y=128.0
-	xmlpipe.Z=256.0
+	xmlpipe.A2="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_10-01_DCE-FA35_SENSE_2014-11-29_09_21_24_T1FFE.nii"
+	xmlpipe.A1="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_09-01_DCE-FA15_SENSE_2014-11-29_09_21_24_T1FFE.nii"
+	xmlpipe.A0="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_08-01_DCE-FA5_SENSE_2014-11-29_09_21_24_T1FFE.nii"
 	if sys.argv[1] == "runPipeline":
+		start=time.time()
 		if parameter_dict:
 			xmlpipe(**parameter_dict)
 		else:
 			xmlpipe()
+		print("Capsul execution time = ",time.time()-start)
 except Exception as e:
 	print("error execution pipeline : ",e)
 

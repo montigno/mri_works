@@ -20,7 +20,7 @@ class askopenfilenames():
         self.filename = filedialog.askopenfilenames(title=title,filetypes=[('', extension)])
         
     def filePath(self:'list_path'):
-        return self.filename
+        return list(self.filename)
 
 ##############################################################################
 
