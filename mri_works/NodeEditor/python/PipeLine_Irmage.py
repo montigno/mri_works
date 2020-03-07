@@ -1079,8 +1079,11 @@ class DiagramScene(QGraphicsScene):
 #             for dd in editor.diagramScene[editor.currentTab].items():
 #                 if type(dd) == BlockCreate or type(dd) == LinkItem or type(dd) == Constants:
 #                     dd.foncedBlock(False)
+        item = self.itemAt(mouseEvent.scenePos().x(),
+                                   mouseEvent.scenePos().y(),
+                                   QTransform(0, 0, 0, 0, 0, 0))
         
-        if len(editor.diagramScene[editor.currentTab].selectedItems()) == 0:
+        if not item:
             if mouseEvent.button() == 2:  # Right mouse click
                 pos = mouseEvent.scenePos()
                 menu = QMenu()
@@ -1099,16 +1102,16 @@ class DiagramScene(QGraphicsScene):
 #                                         == (Qt.ControlModifier + Qt.AltModifier):
 #                 editor.sceneMousePressEvent(mouseEvent)
                 
-            if mouseEvent.button() == 1 and mouseEvent.modifiers() == Qt.ShiftModifier:
-                print("Shift")
-                item = self.itemAt(mouseEvent.scenePos().x(),
-                                   mouseEvent.scenePos().y(),
-                                   QTransform(0, 0, 0, 0, 0, 0))
-                if item:
-                    item.setSelected(1)
-                    self._selectedItemVec.append(item)
-                else:
-                    return QGraphicsScene.mousePressEvent(self, mouseEvent)
+#             if mouseEvent.button() == 1 and mouseEvent.modifiers() == Qt.ShiftModifier:
+#                 print("Shift")
+#                 item = self.itemAt(mouseEvent.scenePos().x(),
+#                                    mouseEvent.scenePos().y(),
+#                                    QTransform(0, 0, 0, 0, 0, 0))
+#                 if item:
+#                     item.setSelected(1)
+#                     self._selectedItemVec.append(item)
+#                 else:
+#                     return QGraphicsScene.mousePressEvent(self, mouseEvent)
 
         return QGraphicsScene.mousePressEvent(self, mouseEvent)
             
@@ -2310,6 +2313,7 @@ class BlockCreate(QGraphicsRectItem):
             self.setOpacity(1.0)
     
     def hoverEnterEvent(self, event):
+        event.accept()
         self.setSelected(1)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
     
@@ -2402,6 +2406,7 @@ class BlockCreate(QGraphicsRectItem):
     def mousePressEvent(self, event):
         
         if event.button() == 2 :
+            editor.diagramScene[editor.currentTab].clearSelection()
             self.setSelected(True)
 
         if event.button() == 1 and self.isMod :
@@ -3832,6 +3837,7 @@ class Constants_text(QTextEdit):
         
     def focusInEvent(self, event):
         self.setCursorWidth(1)
+#         event.accept()
         
     def focusOutEvent(self, event):
         UpdateUndoRedo()
@@ -4153,14 +4159,14 @@ class ForLoopItem(QGraphicsRectItem):
             pass
         if self.isMod:
             menu = QMenu()
-            de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteLoopFor)            
             pa = menu.addAction('Parameters')
             pa.triggered.connect(self.editParameters)
             intu = menu.addAction('Add tunnel input')
             intu.triggered.connect(self.addTunnelInput)
             outtu = menu.addAction('Add tunnel output')
             outtu.triggered.connect(self.addTunnelOutput)
+            de = menu.addAction('Delete')
+            de.triggered.connect(self.deleteLoopFor) 
             if 'm' in self.unit:
                 outtu.setEnabled(False)
             menu.exec_(event.screenPos())
