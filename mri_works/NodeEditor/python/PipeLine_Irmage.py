@@ -1079,11 +1079,12 @@ class DiagramScene(QGraphicsScene):
 #             for dd in editor.diagramScene[editor.currentTab].items():
 #                 if type(dd) == BlockCreate or type(dd) == LinkItem or type(dd) == Constants:
 #                     dd.foncedBlock(False)
+
         item = self.itemAt(mouseEvent.scenePos().x(),
                                    mouseEvent.scenePos().y(),
                                    QTransform(0, 0, 0, 0, 0, 0))
-        
-        if not item:
+     
+        if not item and len(editor.diagramScene[editor.currentTab].selectedItems()) == 0:
             if mouseEvent.button() == 2:  # Right mouse click
                 pos = mouseEvent.scenePos()
                 menu = QMenu()
@@ -1102,16 +1103,16 @@ class DiagramScene(QGraphicsScene):
 #                                         == (Qt.ControlModifier + Qt.AltModifier):
 #                 editor.sceneMousePressEvent(mouseEvent)
                 
-#             if mouseEvent.button() == 1 and mouseEvent.modifiers() == Qt.ShiftModifier:
-#                 print("Shift")
-#                 item = self.itemAt(mouseEvent.scenePos().x(),
-#                                    mouseEvent.scenePos().y(),
-#                                    QTransform(0, 0, 0, 0, 0, 0))
-#                 if item:
-#                     item.setSelected(1)
-#                     self._selectedItemVec.append(item)
-#                 else:
-#                     return QGraphicsScene.mousePressEvent(self, mouseEvent)
+            if mouseEvent.button() == 1 and mouseEvent.modifiers() == Qt.ShiftModifier:
+                print("Shift")
+                item = self.itemAt(mouseEvent.scenePos().x(),
+                                   mouseEvent.scenePos().y(),
+                                   QTransform(0, 0, 0, 0, 0, 0))
+                if item:
+                    item.setSelected(1)
+                    self._selectedItemVec.append(item)
+                else:
+                    return QGraphicsScene.mousePressEvent(self, mouseEvent)
 
         return QGraphicsScene.mousePressEvent(self, mouseEvent)
             
@@ -2313,12 +2314,11 @@ class BlockCreate(QGraphicsRectItem):
             self.setOpacity(1.0)
     
     def hoverEnterEvent(self, event):
-        event.accept()
-        self.setSelected(1)
+        self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
     
     def hoverLeaveEvent(self, event):
-        self.setSelected(0)
+        self.setSelected(False)
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
             
     def mouseMoveEvent(self, event):
