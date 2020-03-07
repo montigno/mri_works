@@ -2,14 +2,50 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U1" x="-367.75688498835086" y="9.797601847333354"/>
-    <position name="U0" x="-117.0" y="30.0"/>
+    <position name="U2" x="116.76808186481978" y="-185.38057625181048"/>
+    <position name="U3" x="295.30174929630397" y="-116.12595880250083"/>
+    <position name="U4" x="105.19076602585105" y="-30.426638668639505"/>
+    <position name="U5" x="304.9562795886553" y="23.426608665173767"/>
+    <position name="U6" x="109.81185636800623" y="75.67803656029142"/>
+    <position name="U7" x="300.517574553787" y="125.03747011735476"/>
+    <position name="U8" x="111.3093087596639" y="192.99855189264585"/>
+    <position name="U9" x="298.9106685434926" y="280.3943795689705"/>
+    <position name="U10" x="-638.8153056669817" y="25.93121363322095"/>
+    <position name="U0" x="-332.8313298441943" y="-172.1619374077948"/>
+    <position name="U1" x="-967.9808891475677" y="-64.95109862245585"/>
   </gui>
-  <process module="capsul_moduls.build_list_path_dyn" name="U1"/>
-  <process module="capsul_moduls.spm_Smooth" name="U0"/>
-  <link dest="U0.in_files" source="U1.path_list"/>
-  <link dest="U1.in_path_1" source="A2"/>
-  <link dest="U1.in_path_0" source="A1"/>
-  <link dest="U1.in_path" source="A0"/>
-  <link dest="U0_smoothed_files" source="U0.smoothed_files"/>
+  <process module="capsul_moduls.Print_Path" name="U2"/>
+  <link dest="U2.comment" source="U2_comment"/>
+  <process module="capsul_moduls.Print_list_Path" name="U3"/>
+  <link dest="U3.comment" source="U3_comment"/>
+  <process module="capsul_moduls.Print_list_Path" name="U4"/>
+  <link dest="U4.comment" source="U4_comment"/>
+  <process module="capsul_moduls.Print_Path" name="U5"/>
+  <link dest="U5.comment" source="U5_comment"/>
+  <process module="capsul_moduls.Print_Path" name="U6"/>
+  <link dest="U6.comment" source="U6_comment"/>
+  <process module="capsul_moduls.Print_list_Path" name="U7"/>
+  <link dest="U7.comment" source="U7_comment"/>
+  <process module="capsul_moduls.Print_list_Path" name="U8"/>
+  <link dest="U8.comment" source="U8_comment"/>
+  <process module="capsul_moduls.Print_list_Path" name="U9"/>
+  <link dest="U9.comment" source="U9_comment"/>
+  <process module="capsul_moduls.ants_N4BiasFieldCorrection" name="U10"/>
+  <process module="capsul_moduls.fsl_FAST" name="U0"/>
+  <link dest="U2.inPath" source="U0.tissue_class_map"/>
+  <link dest="U3.in_list_Path" source="U0.tissue_class_files"/>
+  <link dest="U4.in_list_Path" source="U0.restored_image"/>
+  <link dest="U5.inPath" source="U0.mixeltype"/>
+  <link dest="U6.inPath" source="U0.partial_volume_map"/>
+  <link dest="U7.in_list_Path" source="U0.partial_volume_files"/>
+  <link dest="U8.in_list_Path" source="U0.bias_field"/>
+  <link dest="U9.in_list_Path" source="U0.probability_maps"/>
+  <link dest="U0.in_files" source="U10.output_image"/>
+  <process module="capsul_moduls.askopenfilename" name="U1"/>
+  <link dest="U1.extension" source="U1_extension"/>
+  <link dest="U1.title" source="U1_title"/>
+  <link dest="U10.input_image" source="U1.filePath"/>
+  <link dest="U10.save_bias" source="save_bias"/>
+  <link dest="U10.copy_header" source="copy_header"/>
+  <link dest="U10_bias_image" source="U10.bias_image"/>
 </pipeline>

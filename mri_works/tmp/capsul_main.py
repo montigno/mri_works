@@ -16,9 +16,18 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.A2="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_10-01_DCE-FA35_SENSE_2014-11-29_09_21_24_T1FFE.nii"
-	xmlpipe.A1="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_09-01_DCE-FA15_SENSE_2014-11-29_09_21_24_T1FFE.nii"
-	xmlpipe.A0="/home/ommaster/Documents/IRM/Nifti/PATIENT_1/IRM_craneperfusion/PATIENT_1_08-01_DCE-FA5_SENSE_2014-11-29_09_21_24_T1FFE.nii"
+	xmlpipe.save_bias=False
+	xmlpipe.copy_header=False
+	xmlpipe.U2_comment="tissue_class_map : "
+	xmlpipe.U3_comment="tissue_class_files : "
+	xmlpipe.U4_comment="restored_image : "
+	xmlpipe.U5_comment="mixeltype : "
+	xmlpipe.U6_comment="partial_volume_map : "
+	xmlpipe.U7_comment="partial_volume_files : "
+	xmlpipe.U8_comment="bias_field : "
+	xmlpipe.U9_comment="probability_maps : "
+	xmlpipe.U1_extension="*.nii"
+	xmlpipe.U1_title="choose your Nifti file"
 	if sys.argv[1] == "runPipeline":
 		start=time.time()
 		if parameter_dict:
