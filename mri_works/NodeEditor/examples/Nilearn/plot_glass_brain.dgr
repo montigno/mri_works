@@ -14,13 +14,13 @@ link=[N1] node=[A0:#Node#U1:threshold]
 link=[N0] node=[U0:atlas_filename#Node#U1:stat_img]
 link=[N4] node=[A1:#Node#U1:black_bg]
 link=[N5] node=[A2:#Node#U1:display_mode]
-block=[U2] category=[Tools.Print] class=[Print_String] valInputs=[(['comment', 'in_String'], ['', 'Node(N2)'], [], [])] RectF=[(1.4252166011316376, -209.82295105618417, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_str] valInputs=[(['comment', 'in_String'], ['', 'Node(N2)'], [], [])] RectF=[(1.4252166011316376, -209.82295105618417, 150.0, 80.0)]
 block=[U0] category=[Nilearn.Datasets] class=[fetch_neurovault_motor_task] valInputs=[(['indice'], [0], ['atlas_filename'], ['str'])] RectF=[(-383.4397252573325, -239.36292344502016, 166.671875, 80.0)]
 block=[U1] category=[Nilearn.Plotting] class=[Plot_glass_brain] valInputs=[(['stat_img', 'display_mode', 'colorbar', 'title', 'threshold', 'black_bg'], ['Node(N0)', 'Node(N5)', 'Node(N8)', 'Node(N3)', 'Node(N1)', 'Node(N4)'], [], [])] RectF=[(3.0, -76.78045556308219, 159.99757274641496, 267.8786968999349)]
 [execution]
 []
 ['U0', 'U3', 'U1', 'U2']
-{'U0': ('Nilearn.Datasets', 'fetch_neurovault_motor_task', "(['indice'], [0], ['atlas_filename'], ['str'])"), 'U2': ('Tools.Print', 'Print_String', "(['comment', 'in_String'], ['', 'U0:atlas_filename'], [], [])"), 'U3': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['threshold=', 3.5], ['str_conc'], ['str'])"), 'U1': ('Nilearn.Plotting', 'Plot_glass_brain', "(['stat_img', 'display_mode', 'colorbar', 'title', 'threshold', 'black_bg'], ['U0:atlas_filename', 'ortho', True, 'U3:str_conc', 3.5, False], [], [])")}
+{'U0': ('Nilearn.Datasets', 'fetch_neurovault_motor_task', "(['indice'], [0], ['atlas_filename'], ['str'])"), 'U2': ('Tools.Print', 'Print_str', "(['comment', 'in_String'], ['', 'U0:atlas_filename'], [], [])"), 'U3': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['threshold=', 3.5], ['str_conc'], ['str'])"), 'U1': ('Nilearn.Plotting', 'Plot_glass_brain', "(['stat_img', 'display_mode', 'colorbar', 'title', 'threshold', 'black_bg'], ['U0:atlas_filename', 'ortho', True, 'U3:str_conc', 3.5, False], [], [])")}
 ['A2:', 'A1:', 'U0:atlas_filename', 'A0:', 'U0:atlas_filename', 'U3:str_conc', 'A0:', 'A3:', 'A4:']
 {}
 []
