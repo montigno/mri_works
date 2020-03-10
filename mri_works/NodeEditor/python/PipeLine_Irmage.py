@@ -1315,11 +1315,6 @@ class DiagramView(QGraphicsView):
             if self.currentLoop.loopIf:
                 if self.currentLoop.elemProxy.currentText() == 'False':
                     ind = 1
-#             elem = listItems[editor.currentTab][self.currentLoop.unit]
-#             elem.normalState()
-#             elem.IteminLoop(unitItem, self.caseFinal, ind)
-#             self.currentLoop = None
-#             self.caseFinal = False
             for elem in editor.diagramScene[editor.currentTab].items():
                 if type(elem) == ForLoopItem and elem.unit == self.currentLoop.unit:
                     elem.normalState()
@@ -4879,10 +4874,10 @@ class Port(QGraphicsRectItem):
                 ac = menu.addAction('Delete this tunnel')
                 ac.triggered.connect(self.deleteConnector)
                 menu.exec_(event.screenPos())
-#             elif self.typeio == 'out':
-#                 cp = menu.addAction('add print block')
-#                 cp.triggered.connect(self.addPrint)
-#                 menu.exec_(event.screenPos())
+            elif self.typeio == 'out':
+                cp = menu.addAction('add Print block for this port')
+                cp.triggered.connect(self.addPrint)
+                menu.exec_(event.screenPos())
 
 #             event.accept()
 #         return QGraphicsRectItem.contextMenuEvent(self, event)
@@ -4895,8 +4890,47 @@ class Port(QGraphicsRectItem):
 #                     elem.deleteTunnel(self.name)
 
     def addPrint(self):
-        print(self.format, self.pos())
-        DiagramView().loadBlock('newBlock', name, cat, pos)
+        if 'tuple' in self.format:
+            name = 'Print_tuple'
+        else:
+            name = 'Print_' + self.format
+        ind = 0
+        for i, j in enumerate(editor.getlib()):
+            if j[0] == name:
+                ind = i
+                break
+        b1 = ProcessItem('newBlock',
+                         name,
+                         editor.getlib()[ind][1],
+                         150, 80,
+                         editor.getlib()[ind][2]).getBlocks()
+        b1.setPos(self.pos())
+        inp = b1.inputs
+        for fd in inp:
+            if fd.name != 'comment':
+                toPort = fd
+        editor.diagramScene[editor.currentTab].addItem(b1)
+        listItems[editor.currentTab][b1.unit] = b1
+
+        startConnection = Connection('',
+                                     self,
+                                     toPort,
+                                     self.format)
+        startConnection.setEndPos(toPort.scenePos())
+        startConnection.setToPort(toPort)
+        listNodes[editor.currentTab][startConnection.link.name] = self.unit + ':'+self.name+'#Node#' + b1.unit+':'+toPort.name
+
+        listVal = listBlocks[editor.currentTab][b1.unit]
+        listEnter = editor.getlib()[ind][2][0]
+        newList = []
+        for i in range(len(listEnter)):
+            if listEnter[i] != 'comment':
+                newList.append('Node(' + startConnection.link.name + ')')
+            else:
+                newList.append(listVal[2][1][i])
+
+        del listBlocks[editor.currentTab][b1.unit]
+        listBlocks[editor.currentTab][b1.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
 
 
 class TreeLibrary(QTreeView):
