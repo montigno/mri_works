@@ -11,6 +11,7 @@ import ast
 
 from NodeEditor.python.analyze_loopFor import analyzeLoopFor
 
+
 class analyzeLoopIf:
 
     def __init__(self, keyF, valueF, listBlock,
@@ -18,42 +19,40 @@ class analyzeLoopIf:
 
         # valueF[0] : inputs
         # valueF[1] : outputs
-        # valueF[2] : list of blocks      
+        # valueF[2] : list of blocks
         # valueF[3] : list of arrows
         # valueF[4] : list of direct and intern arrows
-#         print("analyzeLoopIf : ")
-#         print("keyF : ",keyF)
-#         print("valueF : ",valueF)
-#         print("listBlock : ",listBlock)
-#         print("listModul : ",listModul)
-#         print("ModulExecution : ",ModulExecution)
-#         print("listArrowExtern : ",listArrowExtern)
-#         print("listConstants : ",listConstants)
-        
-        
+        # print("analyzeLoopIf : ")
+        # print("keyF : ",keyF)
+        # print("valueF : ",valueF)
+        # print("listBlock : ",listBlock)
+        # print("listModul : ",listModul)
+        # print("ModulExecution : ",ModulExecution)
+        # print("listArrowExtern : ",listArrowExtern)
+        # print("listConstants : ",listConstants)
+
         self.unit = keyF
-        self.listBlockExecution=[[],[]]
-        
-        listConstantsTrue={}
-        listConstantsFalse={}
-        
+        self.listBlockExecution = [[], []]
+
+        listConstantsTrue = {}
+        listConstantsFalse = {}
+
         if listConstants:
-            for keyC,valC in listConstants.items():
-                if keyF+':out' in keyC:
+            for keyC, valC in listConstants.items():
+                if keyF + ':out' in keyC:
                     try:
-                        listConstantsTrue[keyC]=valC[0][0]
+                        listConstantsTrue[keyC] = valC[0][0]
                     except:
                         pass
                     try:
-                        listConstantsFalse[keyC]=valC[1][0]
+                        listConstantsFalse[keyC] = valC[1][0]
                     except:
                         pass
                 elif ':out' not in keyC:
-                    listConstantsTrue[keyC]=valC
-                    listConstantsFalse[keyC]=valC
-#         print('listConstantsTrue : ',listConstantsTrue)
-#         print('listConstantsFalse : ',listConstantsFalse)
-
+                    listConstantsTrue[keyC] = valC
+                    listConstantsFalse[keyC] = valC
+        # print('listConstantsTrue : ',listConstantsTrue)
+        # print('listConstantsFalse : ',listConstantsFalse)
 
         tmpvalueF3 = valueF[3].copy()
         for lb in eval(valueF[2])[1]:
@@ -66,11 +65,11 @@ class analyzeLoopIf:
                             del tmpvalueF3[keyl]
                         except:
                             pass
-        tmpValueF=[valueF[0],valueF[1],str(eval(valueF[2])[0]),tmpvalueF3,valueF[4][0]]
+        tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[0]), tmpvalueF3, valueF[4][0]]
         tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsTrue)
         self.listBlockExecution[0] = tmp.getListBlockExecution()
         self.executionTrue = tmp.getListForExecution()
-        
+
         tmpvalueF3 = valueF[3].copy()
         for lb in eval(valueF[2])[0]:
             for keyl, vall in valueF[3].items():
@@ -82,16 +81,16 @@ class analyzeLoopIf:
                             del tmpvalueF3[keyl]
                         except:
                             pass
-        tmpValueF=[valueF[0],valueF[1],str(eval(valueF[2])[1]),tmpvalueF3,valueF[4][1]]
+        tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[1]), tmpvalueF3, valueF[4][1]]
         tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsFalse)
         self.listBlockExecution[1] = tmp.getListBlockExecution()
         self.executionFalse = tmp.getListForExecution()
 
     def getListIfExecution(self):
-        txtTrue,txtFalse='',''
-        txtTrue = '[loopif '+self.unit+' True]\n'+self.executionTrue
-        txtFalse = '[loopif '+self.unit+' False]\n'+self.executionFalse
+        txtTrue, txtFalse = '', ''
+        txtTrue = '[loopif ' + self.unit+' True]\n' + self.executionTrue
+        txtFalse = '[loopif ' + self.unit+' False]\n' + self.executionFalse
         return txtTrue + txtFalse
-        
+
     def getListBlockExecution(self):
         return self.listBlockExecution

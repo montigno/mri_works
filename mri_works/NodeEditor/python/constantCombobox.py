@@ -11,25 +11,27 @@ from PyQt5.QtWidgets import QDialog, QTextEdit, QVBoxLayout, QWidget,\
     QScrollArea, QHBoxLayout, QPushButton
 from PyQt5 import QtCore
 
+
 class editCombobox(QDialog):
-    def __init__(self,itemsList,parent=None):
+    def __init__(self, itemsList, parent=None):
         super(editCombobox, self).__init__(parent)
         self.listVal = itemsList
         self.setWindowTitle('Edit Combobox')
-        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+        self.setWindowFlags(self.windowFlags() &
+                            QtCore.Qt.WindowCloseButtonHint)
         self.adjustSize()
-        
+
         vbox = QVBoxLayout(self)
         self.txtEdit = QTextEdit()
         self.txtEdit.setPlainText("\n".join(itemsList))
         vbox.addWidget(self.txtEdit)
-        
+
         buttonOk = QPushButton('Ok', self)
         buttonCancel = QPushButton('Cancel', self)
-        hbox4=QHBoxLayout()
+        hbox4 = QHBoxLayout()
         hbox4.addWidget(buttonOk)
         hbox4.addWidget(buttonCancel)
-        
+
         vbox.addLayout(hbox4)
 
         buttonOk.clicked.connect(self.OK)
@@ -38,15 +40,14 @@ class editCombobox(QDialog):
     def CANCEL(self):
         self.answer = "cancel"
         self.close()
-        
+
     def OK(self):
-        self.listVal=self.txtEdit.toPlainText().split('\n')
+        self.listVal = self.txtEdit.toPlainText().split('\n')
         self.answer = "ok"
         self.close()
-        
-    def getNewList(self):    
+
+    def getNewList(self):
         return self.listVal
-    
+
     def getAnswer(self):
         return self.answer
-        

@@ -104,8 +104,7 @@ class analyzeLoopFor:
                keyF not in df and \
                (de in self.listBlock.keys() or
                 de in self.listModul.keys()) and \
-               (df in self.listBlock.keys() or
-                df in self.listModul.keys()):
+               (df in self.listBlock.keys() or df in self.listModul.keys()):
                 listBlockStart.append(de)
                 listBlockStop.append(df)
                 tmplistArrowIntern[keyAi] = valueAi
@@ -213,7 +212,7 @@ class analyzeLoopFor:
                         tmp.append(remainingBlock)
 #                         self.listBlockExecution.append(remainingBlock)
                         try:
-                            tmpListNodeValue.extend (listBlockRemainingNodeGen1[remainingBlock])
+                            tmpListNodeValue.extend(listBlockRemainingNodeGen1[remainingBlock])
                         except:
                             pass
                         listBlockRemaining.remove(remainingBlock)
@@ -228,7 +227,7 @@ class analyzeLoopFor:
 #                 tmp = ['ThreadOn'] + tmp + ['ThreadOff']
 #             self.listBlockExecution.extend(tmp)
 
-        elif len(listBlockRemaining) == 1 :
+        elif len(listBlockRemaining) == 1:
             self.listBlockExecution.append(listBlockRemaining[0])
 
 #         self.listBlockExecution.append('ThreadOn')
@@ -241,7 +240,7 @@ class analyzeLoopFor:
             tmp = ['ThreadOn'] + tmp + ['ThreadOff']
         self.listBlockExecution.extend(tmp)
 
-    ########### replace Node() by listOut corresponding #######################   
+# replace Node() by listOut corresponding #######################
         for listB in self.listBlock.keys():
             tmp = eval(self.listBlock[listB][2])
             if tmp[1] is not None:
@@ -257,14 +256,14 @@ class analyzeLoopFor:
                                                          str(tmp))
                             except:
                                 pass
-    ############### relist listModExecution ##################################
+# relist listModExecution ##################################
         tmp2 = self.listModExecution.copy()
         tmp = tmp2.keys()
         for el in tmp:
             if el not in self.listBlockExecution:
                 del self.listModExecution[el]
 
-    ##### detect input and ouput of submodul and erase output not used ####
+# detect input and ouput of submodul and erase output not used ####
         for listM in self.listModul.keys():
             tmp = eval(self.listModul[listM][1])
             for index, item in enumerate(tmp[1]):
@@ -289,7 +288,7 @@ class analyzeLoopFor:
                     listConnctIn.append(tss)
                 if i == 5:
                     listConnctOut.append(ast.literal_eval(ln))
-             
+
             for li in listConnctIn[0]:
                 for i, hh in enumerate(tmp[0]):
                     if hh in li:
@@ -305,7 +304,7 @@ class analyzeLoopFor:
 
             self.listModExecution[listM] = txtExc
 
-    ########################### end of analyze for loop #######################
+# end of analyze for loop #######################
 
     def getListForExecution(self):
         txtlist = str(self.listConnectIn) + '\n' + \
@@ -321,8 +320,8 @@ class analyzeLoopFor:
 
     def getListBlockExecution(self):
         return self.listBlockExecution
-    
-          
+
+
 class ReorderList:
 
     def __init__(self, list):

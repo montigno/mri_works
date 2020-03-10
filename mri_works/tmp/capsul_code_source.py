@@ -1,59 +1,90 @@
-class Print_bool:  
-    def __init__(self,comment='',inBool=True):
-        print('\033[92m' + comment, inBool)
-
-
-class x_Greater_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x > y
+class mult_int_dyn:
+    def __init__(self,int1=0,int2=0,**dynamicsInputs):
+        self.res = int1*int2
+        for di in dynamicsInputs:
+            self.res*=dynamicsInputs[di]
         
-    def out(self:'bool'):
+    def multiplication(self:'int'):
+        return self.res      
+
+
+class sub_int_dyn:
+    def __init__(self,int1=0,int2=0,**dynamicsInputs):
+        self.res = int1-int2
+        for di in dynamicsInputs:
+            self.res-=dynamicsInputs[di]
+        
+    def subtract(self:'int'):
+        return self.res    
+
+
+class add_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = in1+in2
+        for di in dynamicsInputs:
+            self.res+=dynamicsInputs[di]
+        
+    def addition(self:'float'):
+        return self.res    
+
+
+class Print_int:
+    def __init__(self,comment='',inInt=0):
+        print('\033[92m' + comment, inInt)
+
+
+class add_int_dyn:
+    def __init__(self,int1=0,int2=0,**dynamicsInputs):
+        self.res = int1+int2
+        for di in dynamicsInputs:
+            self.res+=dynamicsInputs[di]
+        
+    def addition(self:'int'):
+        return self.res    
+
+
+class div_int_dyn:
+    def __init__(self,int1=0,int2=1,**dynamicsInputs):
+        self.res = int(int1/int2)
+        for di in dynamicsInputs:
+            self.res= int(self.res/dynamicsInputs[di])
+        
+    def division(self:'int'):
+        return self.res   
+
+
+class mult_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = float(in1)*float(in2)
+        for di in dynamicsInputs:
+            self.res*=dynamicsInputs[di]
+        
+    def multiplication(self:'float'):
+        return self.res      
+
+
+class div_float_dyn:
+    def __init__(self,in1=0.0,in2=1.0,**dynamicsInputs):
+        self.res = in1/in2
+        for di in dynamicsInputs:
+            self.res/=dynamicsInputs[di]
+        
+    def division(self:'float'):
         return self.res
 
 
-class x_GreaterOrEqual_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x >= y
-        
-    def out(self:'bool'):
-        return self.res
+class Print_float:
+    def __init__(self,comment='',inFloat=0.0):
+        print('\033[92m' + comment, inFloat)
 
 
-class x_Not_Equal_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x != y
-        
-    def out(self:'bool'):
-        return self.res
-
-
-class x_LessOrEqual_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x <= y
-        
-    def out(self:'bool'):
-        return self.res
-
-
-class x_Less_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x < y
-        
-    def out(self:'bool'):
-        return self.res
-
-
-class x_Equal_y:
-
-    def __init__(self, x=0.0, y=0.0):
-        self.res = x == y
-        
-    def out(self:'bool'):
+class sub_float_dyn:
+    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
+        self.res = in1-in2
+        for di in dynamicsInputs:
+            self.res-=dynamicsInputs[di]
+  
+    def subtract(self:'float'):
         return self.res
 
 

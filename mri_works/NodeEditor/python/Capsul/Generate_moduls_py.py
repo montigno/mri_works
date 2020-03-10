@@ -8,6 +8,7 @@
 
 
 class CodeGenerator:
+
     def __init__(self, indentation='\t'):
         self.indentation = indentation
         self.level = 0

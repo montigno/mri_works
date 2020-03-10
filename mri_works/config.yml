@@ -24,6 +24,7 @@ paths:
   - /home/ommaster/Bureau/projects_mriworks/benchmark_om.dgr
   - /home/ommaster/Bureau/projects_mriworks/operations.dgr
   - /home/ommaster/Bureau/projects_mriworks/test.dgr
+  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Image_manipulation/Canny_2_modules.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

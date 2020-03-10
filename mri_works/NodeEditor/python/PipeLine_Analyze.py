@@ -18,8 +18,8 @@ from NodeEditor.python.analyze_loopIf import analyzeLoopIf
 class analyze:
 
     def __init__(self, txt, textEditor, mode):
-        
-        ###################### initialize variables ##########################
+
+        # initialize variables ##########################
         listArrow = {}
         self.listBlock = {}
         self.listModul = {}
@@ -39,13 +39,13 @@ class analyze:
         listBlockStart = []
         listBlockRemaining = []
         listBlockStop = []
-        
+
         tmp = txt.splitlines()
         tmp.reverse()
-        
+
         connectItem = False
-        
-        #################### create list ######################################
+
+# create list ######################################
         for line in tmp:
             if line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -59,18 +59,18 @@ class analyze:
                 c = line[0:line.index(':')]
                 d = line[line.index(':') + 1:]
                 if 'A' not in a:
-                    if 'I' not in a and 'F' not in a:  
+                    if 'I' not in a and 'F' not in a:
                         listBlockStart.append(a)
                     elif 'in' not in b:
                         listBlockStart.append(a)
-                    if 'C' not in c :
-                        if 'I' not in c and 'F' not in c:  
+                    if 'C' not in c:
+                        if 'I' not in c and 'F' not in c:
                             listBlockStop.append(c)
                         elif 'out' not in d:
                             listBlockStop.append(c)
-#                 else:
-#                     listBlockStart.append(c)
-                    
+                # else:
+                #     listBlockStart.append(c)
+
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('category') + 10:len(line)]
@@ -80,7 +80,7 @@ class analyze:
                 line = line[line.index('valInputs') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF')]
                 self.listBlock[unit] = (cat, classs, Vinput)
-                
+
             elif line[0:6] == 'submod':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('nameMod') + 9:len(line)]
@@ -88,17 +88,20 @@ class analyze:
                 line = line[line.index('valInputs') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF')]
                 self.listModul[unit] = (nameMod, Vinput)
-                file = os.path.join(QDir.currentPath(), 'NodeEditor', 'submodules', nameMod + '.mod')
+                file = os.path.join(QDir.currentPath(),
+                                    'NodeEditor',
+                                    'submodules',
+                                    nameMod + '.mod')
                 f = open(file, 'r')
                 txt = f.read()
                 f.close()
                 txt = txt[txt.index('[execution]') + 12:len(txt)]
                 tmp1 = ''
                 for i, ln in enumerate(txt.splitlines()):
-                    if i == 0 or i == 1 or i == 2 or i == 3 or i == 4 or i == 5:
+                    if i < 6:
                         tmp1 += ln + '\n'
                 self.listModExecution[unit] = tmp1
-            
+
             elif line[0:7] == 'loopFor':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('inputs') + 8:len(line)]
@@ -113,7 +116,7 @@ class analyze:
                         listTmp.append(el)
                 listItems = str(listTmp)
                 self.listLoopFor[unit] = [vinput, voutputs, listItems, {}]
-                
+
             elif line[0:6] == 'loopIf':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('inputs') + 8:len(line)]
@@ -126,23 +129,27 @@ class analyze:
                 listLinkDirectIntern = [[], []]
                 tmplistConstantInLoopIf = [[], []]
                 for el in eval(listItems)[0]:
-                    if 'A' not in el and 'N' not in el :
+                    if 'A' not in el and 'N' not in el:
                         listTmp[0].append(el)
                     elif 'N' in el:
                         listLinkDirectIntern[0].append(el)
                     elif 'A' in el:
                         tmplistConstantInLoopIf[0].append(el)
                 for el in eval(listItems)[1]:
-                    if 'A' not in el and 'N' not in el :
+                    if 'A' not in el and 'N' not in el:
                         listTmp[1].append(el)
                     elif 'N' in el:
                         listLinkDirectIntern[1].append(el)
                     elif 'A' in el:
                         tmplistConstantInLoopIf[1].append(el)
                 listItems = str(listTmp)
-                self.listLoopIf[unit] = [vinput, voutputs, listItems, {}, listLinkDirectIntern]
+                self.listLoopIf[unit] = [vinput,
+                                         voutputs,
+                                         listItems,
+                                         {},
+                                         listLinkDirectIntern]
                 listConstantInLoopIf[unit] = tmplistConstantInLoopIf
-                                
+
             elif line[0:5] == 'connt':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('name') + 6:len(line)]
@@ -153,14 +160,14 @@ class analyze:
                 line = line[line.index(',') + 2:len(line)]
                 posY = line[0:line.index(',')]
                 connectItem = True
-               
+
                 if 'in' in typInOut:
                     tmpIn[unit] = nameConn
                     listConnectInPos[unit] = posY
                 else:
                     tmpOut[unit] = nameConn
                     listConnectOutPos[unit] = posY
-                    
+
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
@@ -169,24 +176,26 @@ class analyze:
                 fort = line[0:line.index('] RectF')]
                 if not fort:
                     fort = ''
-                try :
+                try:
                     listConstant[unit] = (eval(vout), fort)
-                except:
+                except Exception as e:
                     listConstant[unit] = (vout, fort)
-         
-        #################### sort of connectors list ##########################
-                  
-        if tmpIn:         
-            sorted_by_pos_In = sorted(listConnectInPos.items(), key=lambda kv: eval(kv[1]))
+
+        # sort of connectors list ##########################
+
+        if tmpIn:
+            sorted_by_pos_In = sorted(listConnectInPos.items(),
+                                      key=lambda kv: eval(kv[1]))
             for elem in sorted_by_pos_In:
                 self.listConnectIn.append(elem[0] + ":" + tmpIn[elem[0]] + "=")
-       
+
         if tmpOut:
-            sorted_by_pos_Out = sorted(listConnectOutPos.items(), key=lambda kv: eval(kv[1]))
+            sorted_by_pos_Out = sorted(listConnectOutPos.items(),
+                                       key=lambda kv: eval(kv[1]))
             for elem in sorted_by_pos_Out:
                 self.listConnectOut.append(elem[0] + ":" + tmpOut[elem[0]])
-                
-        ############ attribute constants to elements #############################
+
+        # attribute constants to elements #############################
 
         tmplistArrow = listArrow.copy()
         for keyArr, valueArr in tmplistArrow.items():
@@ -211,8 +220,13 @@ class analyze:
                             break
                     valEnter[ind] = listConstant[tmpUnitstart][0]
                     del self.listBlock[tmpUnitend]
-                    self.listBlock[tmpUnitend] = (listInBl[0], listInBl[1], str((nameEnter, valEnter, nameOut, valOut)))
-                elif 'M' in tmpUnitend :
+                    self.listBlock[tmpUnitend] = (listInBl[0],
+                                                  listInBl[1],
+                                                  str((nameEnter,
+                                                       valEnter,
+                                                       nameOut,
+                                                       valOut)))
+                elif 'M' in tmpUnitend:
                     listInBl = self.listModul[tmpUnitend]
                     listVal = listInBl[1]
                     nameEnter = eval(listVal)[0]
@@ -226,10 +240,14 @@ class analyze:
                             break
                     valEnter[ind] = listConstant[tmpUnitstart][0]
                     del self.listModul[tmpUnitend]
-                    self.listModul[tmpUnitend] = (listInBl[0], str((nameEnter, valEnter, nameOut, valOut)))
-                elif 'I' in tmpUnitend :
+                    self.listModul[tmpUnitend] = (listInBl[0],
+                                                  str((nameEnter,
+                                                       valEnter,
+                                                       nameOut,
+                                                       valOut)))
+                elif 'I' in tmpUnitend:
                     tmpKey = tmpUnitend + ":" + tmpEntend
-                    if 'out' in tmpEntend: 
+                    if 'out' in tmpEntend:
                         if tmpKey in self.listConstantLoop:  # already exist ?
                             tmpVal = self.listConstantLoop[tmpKey]
                         else:
@@ -242,13 +260,14 @@ class analyze:
                     else:
                         self.listConstantLoop[tmpKey] = listConstant[tmpUnitstart][0]
 
-                del listArrow[keyArr]  # links from constants deleted from the listArrow
-        
-        ############## search arrows within loop For ##########################
-        
+                # links from constants deleted from the listArrow
+                del listArrow[keyArr]
+
+        # search arrows within loop For ##########################
+
         listBlockStart = list(set(listBlockStart))
         listBlockStop = list(set(listBlockStop))
-        
+
 #         print('listBlockStart 0 : ', listBlockStart)
 #         print('listBlockStop 0 : ', listBlockStop)
 #         print('listConstantLoop 0 : ', self.listConstantLoop)
@@ -258,7 +277,7 @@ class analyze:
                 tmplistItem = eval(valueF[2])
                 listBlockStart = (list(set(listBlockStart) - set(tmplistItem)))
                 listBlockStop = (list(set(listBlockStop) - set(tmplistItem)))
-               
+
             listArrowFor = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
@@ -270,25 +289,27 @@ class analyze:
                 tmpUnitAval = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
                 tmpPortAval = tmp
-#                 print('info 1 : ', keyA, valueA)
+                # print('info 1 : ', keyA, valueA)
                 for keyF, valueF in self.listLoopFor.items():
-#                     print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
-#                     print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
-#                     print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
-#                     print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
-                    if  keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont or \
-                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
-                        (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and keyF == tmpUnitAmont)  or \
-                        tmpUnitAval in eval(self.listLoopFor[keyF][2]) :
+                    # print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
+                    # print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
+                    # print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
+                    # print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
+                    if keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont or \
+                       keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
+                       (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and
+                            keyF == tmpUnitAmont) or \
+                       tmpUnitAval in eval(self.listLoopFor[keyF][2]):
                         if keyA in listArrow.keys():
-                            del listArrow[keyA]  # links from LoopFor deleted from the listArrow
+                            # links from LoopFor deleted from the listArrow
+                            del listArrow[keyA]
                             listArrowFor = self.listLoopFor[keyF][3]
                             listArrowFor[keyA] = valueA
                             self.listLoopFor[keyF][3] = listArrowFor
 
-        ############## search arrows within loop If ###############
-        
-#         print('listLoopFor ', self.listLoopFor)
+        # search arrows within loop If ###############
+
+        # print('listLoopFor ', self.listLoopFor)
 
         if self.listLoopIf:
             for keyF, valueF in self.listLoopIf.items():
@@ -299,8 +320,8 @@ class analyze:
                 tmplistItem = eval(valueF[2])[1]
                 listBlockStart = (list(set(listBlockStart) - set(tmplistItem)))
                 listBlockStop = (list(set(listBlockStop) - set(tmplistItem)))
-             
-            listArrowIf = {}    
+
+            listArrowIf = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
                 tmp = valueA
@@ -311,19 +332,23 @@ class analyze:
                 tmpUnitAval = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
                 tmpPortAval = tmp
-                 
+
                 for keyF, valueF in self.listLoopIf.items():
-                    if (keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont) or (keyF + ':out' in tmpUnitAval + ':' + tmpPortAval) or (
-                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[0]) or (tmpUnitAval in eval(self.listLoopIf[keyF][2])[0]) or (
-                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[1]) or (tmpUnitAval in eval(self.listLoopIf[keyF][2])[1])    :
+                    if (keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont) or (
+                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval) or (
+                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[0]) or (
+                        tmpUnitAval in eval(self.listLoopIf[keyF][2])[0]) or (
+                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[1]) or (
+                            tmpUnitAval in eval(self.listLoopIf[keyF][2])[1]):
                         if keyA in listArrow.keys():
-                            del listArrow[keyA]  # links from LoopIf deleted from the listArrow
+                            # links from LoopIf deleted from the listArrow
+                            del listArrow[keyA]
                             listArrowIf = self.listLoopIf[keyF][3]
                             listArrowIf[keyA] = valueA
                             self.listLoopIf[keyF][3] = listArrowIf
-                   
+
         #######################################################################
-        
+
 #         print('listBlockStart 1 : ', listBlockStart)
 #         print('listBlockStop 1 : ', listBlockStop)
 
@@ -332,9 +357,9 @@ class analyze:
                 if lin in lan:
                     tmp = lin + "=" + lan[0:lan.index('#Node#')]
                     self.listConnectOut[i] = tmp
-        
-        #################### search start and finish blocks ###################
-        
+
+        # search start and finish blocks ###################
+
         if len(listArrow) != 0:
             tmp = listBlockStart
             listBlockStart = (list(set(listBlockStart) - set(listBlockStop)))
@@ -343,16 +368,15 @@ class analyze:
         else:
             if len(self.listBlock) != 0:
                 listBlockStart.extend(self.listBlock.keys())
-#             listBlockStart = list(set(self.listBlock.keys()))
             if len(self.listModul) != 0:
                 listBlockStart.extend(self.listModul.keys())
             listBlockStart = list(set(listBlockStart))
-                   
+
         listBlockStart = ReorderList(listBlockStart).getNewList()
         listBlockStop = ReorderList(listBlockStop).getNewList()
-        
-#         print('listBlockStart 2 : ', listBlockStart)
-#         print('listBlockStop 2 : ', listBlockStop)
+
+        # print('listBlockStart 2 : ', listBlockStart)
+        # print('listBlockStop 2 : ', listBlockStop)
 
         self.textExecutionInLoopFor = {}
         self.listBlockExecutionInLoopFor = []
@@ -362,11 +386,17 @@ class analyze:
                 listBlockStart = (list(set(listBlockStart) - set(tmplistItem)))
                 listBlockStop = (list(set(listBlockStop) - set(tmplistItem)))
                 listBlockRemaining = (list(set(listBlockRemaining) - set(tmplistItem)))
-                tmp = analyzeLoopFor(keyF, valueF, self.listBlock, self.listModul, self.listModExecution, listArrow, self.listConstantLoop)
+                tmp = analyzeLoopFor(keyF,
+                                     valueF,
+                                     self.listBlock,
+                                     self.listModul,
+                                     self.listModExecution,
+                                     listArrow,
+                                     self.listConstantLoop)
                 self.listBlockExecutionInLoopFor.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopFor[keyF] = tmp.getListForExecution()
 #                 print('getListForExecution : ',tmp.getListForExecution())
-                
+
         self.textExecutionInLoopIf = {}
         self.listBlockExecutionInLoopIf = []
         if self.listLoopIf:
@@ -379,32 +409,35 @@ class analyze:
                 listBlockStart = (list(set(listBlockStart) - set(tmplistItem)))
                 listBlockStop = (list(set(listBlockStop) - set(tmplistItem)))
                 listBlockRemaining = (list(set(listBlockRemaining) - set(tmplistItem)))
-                tmp = analyzeLoopIf(keyF, valueF, self.listBlock, self.listModul, self.listModExecution, listArrow, self.listConstantLoop)
+                tmp = analyzeLoopIf(keyF,
+                                    valueF,
+                                    self.listBlock,
+                                    self.listModul,
+                                    self.listModExecution,
+                                    listArrow,
+                                    self.listConstantLoop)
                 self.listBlockExecutionInLoopIf.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopIf[keyF] = tmp.getListIfExecution()
-                
-        #######################################################################
-        
-#         print('listLoopFor : ', self.listLoopFor)
-#         print('listLoopIf : ', self.listLoopIf)
-#         print('listArrow : ', listArrow)
-#         print('listBlockStart : ', listBlockStart)
-#         print('listBlockStop : ', listBlockStop)
-#         print('listBlockRemaining 1 : ', listBlockRemaining)
-#         print('textExecutionInLoopFor : ',self.textExecutionInLoopFor)
-#         print('loopFor_values : ' , self.listLoopFor.values())
 
-        ################## create list of remaining Block to execute in order ###########
-        
+        #######################################################################
+
+        # print('listLoopFor : ', self.listLoopFor)
+        # print('listLoopIf : ', self.listLoopIf)
+        # print('listArrow : ', listArrow)
+        # print('listBlockStart : ', listBlockStart)
+        # print('listBlockStop : ', listBlockStop)
+        # print('listBlockRemaining 1 : ', listBlockRemaining)
+        # print('textExecutionInLoopFor : ',self.textExecutionInLoopFor)
+        # print('loopFor_values : ' , self.listLoopFor.values())
+
+        # create list of remaining Block to execute in order ###########
+
         self.listBlockExecution = []
         listNodeValue = []
         tmpListBlock = []
-        
-#         if connectItem:
-#             self.listBlockExecution.append('ThreadOn')
+
         for startBlock in listBlockStart:
-            if not 'C' in startBlock:
-#                 self.listBlockExecution.append(startBlock)
+            if 'C' not in startBlock:
                 tmpListBlock.append(startBlock)
             listValue = {}
             for ln in listArrow.keys():
@@ -419,11 +452,11 @@ class analyze:
             self.listBlockExecution.append('ThreadOff')
         else:
             self.listBlockExecution.extend(tmpListBlock)
-        
+
         listNodeValue = list(set(listNodeValue))
-        
-#         print('listBlockRemaining',listBlockRemaining)
-#         print('listNodeValue',listNodeValue)
+
+        # print('listBlockRemaining',listBlockRemaining)
+        # print('listNodeValue',listNodeValue)
 
         listBlockRemainingNodeNeed1 = {}
         listBlockRemainingNodeGen1 = {}
@@ -434,24 +467,24 @@ class analyze:
             endArrow = ln[ln.index("#Node#") + 6:len(ln)]
             startUnit = startArrow[0:startArrow.index(":")]
             endUnit = endArrow[0:endArrow.index(":")]
-#             print("start & end : ",startArrow,",",endArrow,",",startUnit,",",endUnit)
+            # print("start & end : ",startArrow,",",endArrow,",",startUnit,",",endUnit)
             if endUnit in listBlockRemaining:
                 try:
                     tmpNeed = listBlockRemainingNodeNeed1[endUnit]
-                except:
+                except Exception as e:
                     pass
                 tmpNeed.append(startArrow)
                 listBlockRemainingNodeNeed1[endUnit] = tmpNeed
-            
+
             if startUnit in listBlockRemaining:
                 try:
                     tmpGen = listBlockRemainingNodeGen1[startUnit]
-                except:
+                except Exception as e:
                     pass
                 tmpGen.append(startArrow)
                 listBlockRemainingNodeGen1[startUnit] = tmpGen
-               
-        ## search block/subMod extern that loopfor is depending ############
+
+        # search block/subMod extern that loopfor is depending ############
         if self.listLoopFor:
             tmpList = []
             for key, val in self.listLoopFor.items():
@@ -474,10 +507,10 @@ class analyze:
                         else:
                             try:
                                 listBlockRemainingNodeGen1[unit] = tmpVal
-                            except:
+                            except Exception as e:
                                 listBlockRemainingNodeGen1[unit] = ele
-        
-        ## search block/subMod extern that loopif is depending ############
+
+        # search block/subMod extern that loopif is depending ############
         if self.listLoopIf:
             tmpList = []
             for key, val in self.listLoopIf.items():
@@ -499,40 +532,40 @@ class analyze:
                         else:
                             try:
                                 listBlockRemainingNodeGen1[unit] = tmpVal
-                            except:
+                            except Exception as e:
                                 listBlockRemainingNodeGen1[unit] = ele
 
-#         print('listBlockRemainingNodeNeed1 2', len(listBlockRemainingNodeNeed1), listBlockRemainingNodeNeed1)
-#         print('listBlockRemainingNodeGen1 2', len(listBlockRemainingNodeGen1), listBlockRemainingNodeGen1)
-#         print('listBlockRemaining 2 : ', listBlockRemaining)
+        # print('listBlockRemainingNodeNeed1 2', len(listBlockRemainingNodeNeed1), listBlockRemainingNodeNeed1)
+        # print('listBlockRemainingNodeGen1 2', len(listBlockRemainingNodeGen1), listBlockRemainingNodeGen1)
+        # print('listBlockRemaining 2 : ', listBlockRemaining)
 
         while len(listBlockRemaining) != 0:
             tmpListlistBlockRemaining = listBlockRemaining.copy()
             tmpListNodeValue = []
             tmpListBlock = []
-#             print('listBlockRemainingNodeNeed1 = ',listBlockRemainingNodeNeed1)
+            # print('listBlockRemainingNodeNeed1 = ',listBlockRemainingNodeNeed1)
             for remainingBlock in tmpListlistBlockRemaining:
-#                 print('remainingBlock',remainingBlock)
-                if all(x in listNodeValue for x in listBlockRemainingNodeNeed1[remainingBlock]) :
-#                     print('remainingBlock selected',remainingBlock)
-#                     self.listBlockExecution.append(remainingBlock)
+                # print('remainingBlock',remainingBlock)
+                if all(x in listNodeValue for x in listBlockRemainingNodeNeed1[remainingBlock]):
+                    # print('remainingBlock selected',remainingBlock)
+                    # self.listBlockExecution.append(remainingBlock)
                     tmpListBlock.append(remainingBlock)
                     try:
-                       tmpListNodeValue.extend (listBlockRemainingNodeGen1[remainingBlock])
-                    except:
+                        tmpListNodeValue.extend(listBlockRemainingNodeGen1[remainingBlock])
+                    except Exception as e:
                         pass
                     listBlockRemaining.remove(remainingBlock)
-#             print('tmpListBlock : ',tmpListBlock)
-            
+            # print('tmpListBlock : ',tmpListBlock)
+
             if len(tmpListBlock) > 1 and mode:
                 # to avoid to put block/subMod and loopfor in same thread if forloop depending of this block/subMod #
                 listF = [e for e in tmpListBlock if 'F' in e]
                 listI = [e for e in tmpListBlock if 'I' in e]
                 listB = [e for e in tmpListBlock if 'U' in e]
                 listB.extend([e for e in tmpListBlock if 'M' in e])
-#                 print('listF & listB : ',listF,' , ',listB)
-            
-                if listF and listB :
+                # print('listF & listB : ',listF,' , ',listB)
+
+                if listF and listB:
                     tmpListBlock1 = []
                     tmpListBlock2 = []
                     for i in range(len(listF)):
@@ -562,32 +595,32 @@ class analyze:
                     self.listBlockExecution.append('ThreadOn')
                     self.listBlockExecution.extend(tmpListBlock)
                     self.listBlockExecution.append('ThreadOff')
-                 
-#                 self.listBlockExecution.append('ThreadOn')
-#                 self.listBlockExecution.extend(tmpListBlock)
-#                 self.listBlockExecution.append('ThreadOff')
-                    
+
+                # self.listBlockExecution.append('ThreadOn')
+                # self.listBlockExecution.extend(tmpListBlock)
+                # self.listBlockExecution.append('ThreadOff')
+
             else:  # if len(tmpListBlock) == 1
                 self.listBlockExecution.extend(tmpListBlock)
             if tmpListNodeValue:
                 listNodeValue.extend(tmpListNodeValue)
-        
+
         listBlockStop.sort()
         tmpListBlock = []
         for endBlocks in listBlockStop:
             tmpListBlock.append(endBlocks)
-#             self.listBlockExecution.append(endBlocks)
+            # self.listBlockExecution.append(endBlocks)
         if connectItem and len(tmpListBlock) > 1 and mode:
             self.listBlockExecution.append('ThreadOn')
             self.listBlockExecution.extend(tmpListBlock)
             self.listBlockExecution.append('ThreadOff')
         else:
             self.listBlockExecution.extend(tmpListBlock)
-    
-        ########### replace Node() by listOut corresponding ###################################################
+
+        # replace Node() by listOut corresponding ###################################################
         for listB in self.listBlock.keys():
             tmp = eval(self.listBlock[listB][2])
-            if tmp[1] != None:
+            if tmp[1] is not None:
                 for index, item in enumerate(tmp[1]):
                     if type(item).__name__ == 'str':
                         if 'Node' in item:
@@ -596,10 +629,10 @@ class analyze:
                                 st = st[0:st.index('#Node#')]
                                 tmp[1][index] = st
                                 self.listBlock[listB] = (self.listBlock[listB][0], self.listBlock[listB][1], str(tmp))
-                            except:
+                            except Exception as e:
                                 pass
-        
-        ############### delete in listBlock of diagram elements which are in loopfor yet #################################
+
+        # delete in listBlock of diagram elements which are in loopfor yet ##
         tmp1 = self.listBlock.copy()
         tmp = tmp1.keys()
         for el in tmp:
@@ -608,19 +641,19 @@ class analyze:
                 for fg in self.listOut:
                     if el + ':' in fg:
                         self.listOut.remove(fg)
-        
-        ## delete in listBlock of diagram elements which are in loopfor yet ###
+
+        # delete in listBlock of diagram elements which are in loopfor yet ###
         tmp2 = self.listModul.copy()
         tmp = tmp2.keys()
-        for el in tmp: 
+        for el in tmp:
             if el not in self.listBlockExecution:
                 del self.listModul[el]
                 del self.listModExecution[el]
                 for fg in self.listOut:
                     if el + ':' in fg:
                         self.listOut.remove(fg)
-                                    
-        #### detect input and ouput of submodul and erase output not used #####
+
+        # detect input and ouput of submodul and erase output not used #####
         for listM in self.listModul.keys():
             tmp = eval(self.listModul[listM][1])
             for index, item in enumerate(tmp[1]):
@@ -631,7 +664,7 @@ class analyze:
                             st = st[0:st.index('#Node#')]
                             tmp[1][index] = st
                             self.listModul[listM] = (self.listModul[listM][0], str(tmp))
-                        except:
+                        except Exception as e:
                             pass
             tmp = eval(self.listModul[listM][1])
 
@@ -640,12 +673,12 @@ class analyze:
             listConnctIn = []
             listConnctOut = []
             for i, ln in enumerate(txtExc.splitlines()):
-                if i == 0 :
+                if i == 0:
                     tss = ast.literal_eval(ln)
                     listConnctIn.append(tss)
                 if i == 5:
                     listConnctOut.append(ast.literal_eval(ln))
-            
+
             for li in listConnctIn[0]:
                 for i, hh in enumerate(tmp[0]):
                     if hh in li:
@@ -653,49 +686,61 @@ class analyze:
                 txtExc = txtExc.replace(str(li), tmpa)
                 liq = li[0:len(li) - 1]
                 tmps = listM + ':' + liq[liq.index(':') + 1:len(liq)]
-#                 txtExc=txtExc.replace(str(liq),tmps)
-#                 txtExc=txtExc.replace('\\','\\\\')
+                # txtExc=txtExc.replace(str(liq),tmps)
+                # txtExc=txtExc.replace('\\','\\\\')
 
             for li in listConnctOut[0]:
                 txtExc = txtExc.replace(li, listM + ':' + li[li.index(':') + 1:len(li)])
-              
+
             self.listModExecution[listM] = txtExc
 
-        #######################################################################    
+        #######################################################################
 
         textEditor.clear()
-        textEditor.append("<span style=\" font-size:10pt; font-weight:600; color:#000000;\" >Sequence of tasks :</span>")
-        textEditor.append("<span style=\" font-size:8pt; font-weight:600; color:#000000;\" >" + str(self.listBlockExecution) + "</span>")
-        textEditor.append("<span style=\" font-size:8pt; font-weight:600; color:#000000;\" >" + str(self.listBlockExecutionInLoopFor) + "</span>")
-        textEditor.append("<span style=\" font-size:8pt; font-weight:600; color:#000000;\" >" + str(self.listBlockExecutionInLoopIf) + "</span>")
+        textEditor.append("<span style=\" \
+                           font-size:10pt; \
+                           font-weight:600; \
+                           color:#000000;\" >Sequence of tasks :</span>")
+        textEditor.append("<span style=\" \
+                           font-size:8pt; \
+                           font-weight:600; \
+                           color:#000000;\" >" + str(self.listBlockExecution) + "</span>")
+        textEditor.append("<span style=\" \
+                           font-size:8pt; \
+                           font-weight:600; \
+                           color:#000000;\" >" + str(self.listBlockExecutionInLoopFor) + "</span>")
+        textEditor.append("<span style=\" \
+                           font-size:8pt; \
+                           font-weight:600; \
+                           color:#000000;\" >" + str(self.listBlockExecutionInLoopIf) + "</span>")
 
     def getListForExecution(self):
-            txtlist = str(self.listConnectIn) + '\n' + \
-                        str(self.listBlockExecution) + '\n' + \
-                        str(self.listBlock) + '\n' + \
-                        str(self.listOut) + '\n' + \
-                        str(self.listModul) + '\n' + \
-                        str(self.listConnectOut) + '\n'
-            txt2, txt3, txt4 = '', '', ''
-            for df in self.listModExecution:
-                txt2 += '[submod ' + df + ']\n' + self.listModExecution[df]
-            for db in self.textExecutionInLoopFor:
-                txt3 += '[loopfor ' + db + ']\n' + self.textExecutionInLoopFor[db]
-            for de in self.textExecutionInLoopIf:
-                txt4 += self.textExecutionInLoopIf[de]
-            return txtlist + txt2 + txt3 + txt4
+        txtlist = str(self.listConnectIn) + '\n' + \
+                    str(self.listBlockExecution) + '\n' + \
+                    str(self.listBlock) + '\n' + \
+                    str(self.listOut) + '\n' + \
+                    str(self.listModul) + '\n' + \
+                    str(self.listConnectOut) + '\n'
+        txt2, txt3, txt4 = '', '', ''
+        for df in self.listModExecution:
+            txt2 += '[submod ' + df + ']\n' + self.listModExecution[df]
+        for db in self.textExecutionInLoopFor:
+            txt3 += '[loopfor ' + db + ']\n' + self.textExecutionInLoopFor[db]
+        for de in self.textExecutionInLoopIf:
+            txt4 += self.textExecutionInLoopIf[de]
+        return txtlist + txt2 + txt3 + txt4
 
-   
+
 class ReorderList:
 
     def __init__(self, list):
         listOrder = self.sorted_nicely(list)
         self.list = listOrder
-    
+
     def sorted_nicely(self, l):
         convert = lambda text: int(text) if text.isdigit() else text
         alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
         return sorted(l, key=alphanum_key)
-    
+
     def getNewList(self):
         return self.list

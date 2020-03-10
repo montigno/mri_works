@@ -18,15 +18,17 @@ from PyQt5.QtCore import QDir
 
 
 class ConfigModuls():
-    
+
     global config
     config = {}
-     
+
     def loadConfig(self, listStand):
-    
+
         pathConfig = os.path.dirname(__file__)
         pathConfig, last = os.path.split(pathConfig)
-        pathConfig = os.path.join(pathConfig, 'python', 'config_standalone.yml')
+        pathConfig = os.path.join(pathConfig,
+                                  'python',
+                                  'config_standalone.yml')
         if os.path.exists(pathConfig):
             with open(pathConfig, 'r') as stream:
                 try:
@@ -41,26 +43,32 @@ class ConfigModuls():
         else:
             print('no standalone yaml found')
             return
-        
+
         self.saveConfig()
-    
-    def checkPathStandalone(self,pathStand):
+
+    def checkPathStandalone(self, pathStand):
         if os.path.exists(pathStand):
             return pathStand
         else:
             return ''
-    
+
     def getPathConfig(self, cat):
         return config[cat]
-                
+
     def saveConfig(self):
-        fileConfig = os.path.join(QDir.currentPath(), 'NodeEditor', 'python', 'config_standalone.yml')
+        fileConfig = os.path.join(QDir.currentPath(),
+                                  'NodeEditor',
+                                  'python',
+                                  'config_standalone.yml')
         with open(fileConfig, 'w', encoding='utf8') as configfile:
-            yaml.dump(config, configfile, default_flow_style=False, allow_unicode=True)
+            yaml.dump(config,
+                      configfile,
+                      default_flow_style=False,
+                      allow_unicode=True)
 
 
 class windowConfig(QDialog):
-    
+
     def __init__(self, parent=None):
         super(windowConfig, self).__init__(parent)
         self.resize(500, 200)
@@ -70,7 +78,12 @@ class windowConfig(QDialog):
         self.setWindowTitle('Setting standalone paths')
         self.tab = QTabWidget()
         self.tab.setStyleSheet('''
-                            QTabBar::tab {font-size: 8pt; font-family:Times;font:italic;width: 100px;height: 30px;background-color: lightGray;}
+                            QTabBar::tab {font-size: 8pt;
+                                          font-family:Times;
+                                          font:italic;
+                                          width: 100px;
+                                          height: 30px;
+                                          background-color: lightGray;}
                             QTabBar::tab:selected {background-color: gray;}
                                                         ''')
         self.tab.currentChanged.connect(self.tabSelected)
@@ -80,29 +93,29 @@ class windowConfig(QDialog):
             inc += 1
         vbox = QVBoxLayout(self)
         vbox.addWidget(self.tab)
-        
+
         buttonOk = QPushButton('Ok', self)
         buttonCancel = QPushButton('Cancel', self)
-        
+
         hbox = QHBoxLayout()
         hbox.addWidget(buttonOk)
         hbox.addWidget(buttonCancel)
-        
+
         vbox.addLayout(hbox)
-        
+
         buttonOk.clicked.connect(self.OK)
         buttonCancel.clicked.connect(self.CANCEL)
-        
+
         self.setLayout(vbox)
         self.show()
-        
+
     def field(self, elem, i):
         wd = QWidget()
         palette = QPalette()
         font = QFont("Times", 9)
 #         font.setBold(True)
         layoutV = QVBoxLayout()
-        
+
         layoutH = QHBoxLayout()
         label = QLabel("Path ")
         lbpath = QLineEdit()
@@ -114,21 +127,26 @@ class windowConfig(QDialog):
         layoutH.addWidget(label)
         layoutH.addWidget(self.labpath[i])
         layoutH.addWidget(btn)
-        
+
         layoutV.addLayout(layoutH)
 
         wd.setLayout(layoutV)
         return wd
-    
+
     def handle(self):
         currentTab = self.tab.currentIndex()
         tit = self.tab.tabText(currentTab)
-        file = QFileDialog.getOpenFileName(self, "Choose " + tit, config.get(tit), '', None, QFileDialog.DontUseNativeDialog)
+        file = QFileDialog.getOpenFileName(self,
+                                           "Choose " + tit,
+                                           config.get(tit),
+                                           '',
+                                           None,
+                                           QFileDialog.DontUseNativeDialog)
         self.labpath[self.currentTab].setText(file[0])
-        
+
     def tabSelected(self, arg=None):
         self.currentTab = arg
-        
+
     def CANCEL(self):
         self.close()
 

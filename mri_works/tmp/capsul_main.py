@@ -3,7 +3,7 @@ from capsul.api import get_process_instance
 from PyQt5.Qt import QApplication
 
 
-parameter_dict={}        
+parameter_dict={}
 if len(sys.argv) > 2:
     for user_input in sys.argv[2:]:
         varname = user_input.split("=")[0]
@@ -16,14 +16,20 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.X=256.0
-	xmlpipe.Y=128.0
-	xmlpipe.U6_comment="X > Y ? "
-	xmlpipe.U7_comment="X < Y ? "
-	xmlpipe.U8_comment="X >= Y ? "
-	xmlpipe.U9_comment="X <= Y ? "
-	xmlpipe.U10_comment="X == Y ? "
-	xmlpipe.U11_comment="X != Y ? "
+	xmlpipe.Z_int=300
+	xmlpipe.Y_int=200
+	xmlpipe.X_int=100
+	xmlpipe.Z_float=30.0
+	xmlpipe.Y_float=20.0
+	xmlpipe.X_float=10.0
+	xmlpipe.U19_comment="division int : "
+	xmlpipe.U18_comment="multiplication int : "
+	xmlpipe.U17_comment="subtract int : "
+	xmlpipe.U16_comment="addition int : "
+	xmlpipe.U9_comment="division float : "
+	xmlpipe.U8_comment="multiplication float : "
+	xmlpipe.U7_comment="subtract float : "
+	xmlpipe.U6_comment="addition float : "
 	if sys.argv[1] == "runPipeline":
 		start=time.time()
 		if parameter_dict:
@@ -52,7 +58,7 @@ except:
 try:
     if sys.argv[1] in ['-help','-h'] :
         print("""
-        usage:  python3 capsul_main.py runPipeline [attributs=value] (1) 
+        usage:  python3 capsul_main.py runPipeline [attributs=value] (1)
                 python3 capsul_main.py showPipeline                  (2)
                 python3 capsul_main.py showInputs                    (3)
                 python3 capsul_main.py showOutputs                   (4)
@@ -62,11 +68,11 @@ try:
                                     (ex : python3 capsul_main.py executionPipeline X=10.0 Y=[5.6])
         (2) - show pipeline developper view
         (3) - show pipeline inputs with default values
-        (4) - show pipeline outputs 
+        (4) - show pipeline outputs
         """)
 except:
     pass
-        
+
 try:
     if sys.argv[1] == "showPipeline":
         if globals().get('use_gui', True):
@@ -77,13 +83,13 @@ try:
                 run_qt_loop=True
             else:
                 app = QApplication.instance()
-             
+
             view4 = PipelineDevelopperView(xmlpipe, allow_open_controller=True, show_sub_pipelines=True)
             view4.show()
-             
+
             if run_qt_loop:
                 print('close window to gon on ...')
                 app.exec_()
 except Exception as e:
     print("error show pipeline : ",e)
-                    
+              

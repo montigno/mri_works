@@ -6,7 +6,6 @@
 # for details.
 ##########################################################################
 
-
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QProgressBar, QPushButton
 from PyQt5.QtCore import QThread
 from PyQt5 import QtCore
@@ -21,26 +20,28 @@ class progressBar(QWidget):
 
         # Create a progress bar and a button and add them to the main layout
         self.progressBar = QProgressBar(self)
-        self.progressBar.setGeometry(200,80,250,25)
+        self.progressBar.setGeometry(200, 80, 250, 25)
 
-        self.progressBar.setRange(0,1)
+        self.progressBar.setRange(0, 1)
         layout.addWidget(self.progressBar)
-        
+
         self.myLongTask = TaskThread()
         self.myLongTask.taskFinished.connect(self.onFinished)
-        
+
         self.onStart()
 
-    def onStart(self): 
-        self.progressBar.setRange(0,0)
+    def onStart(self):
+        self.progressBar.setRange(0, 0)
         self.myLongTask.start()
 
     def onFinished(self):
         # Stop the pulsation
-        self.progressBar.setRange(0,1)
+        self.progressBar.setRange(0, 1)
+
 
 class TaskThread(QThread):
     taskFinished = QtCore.pyqtSignal()
+
     def run(self):
         time.sleep(3)
         self.taskFinished.emit()

@@ -9,61 +9,67 @@
 
 import ast
 
+
 class ForLoopInfo:
-    def __init__(self,txt,txtfull):
-        
-#         print('txt in ForLoopInfo',txt)
-#         print('txtfull in ForLoopInfo',txtfull)
-        
-        self.listConnctIn=[]
-        self.listBlockExecution=[]
-        self.listBlock={}
-        self.listOut=[]
-        self.listModul={}
-        self.listConnctOut=[]
-        
-        for i,ln in enumerate(txt.splitlines()):
+    def __init__(self, txt, txtfull):
+
+        # print('txt in ForLoopInfo',txt)
+        # print('txtfull in ForLoopInfo',txtfull)
+
+        self.listConnctIn = []
+        self.listBlockExecution = []
+        self.listBlock = {}
+        self.listOut = []
+        self.listModul = {}
+        self.listConnctOut = []
+
+        for i, ln in enumerate(txt.splitlines()):
             if i == 0:
-                ln=ln.replace('\\','\\\\')
+                ln = ln.replace('\\', '\\\\')
                 try:
                     self.listConnctIn.append(ast.literal_eval(ln))
                 except:
                     self.listConnctIn.append(ln)
-                self.listConnctIn=self.listConnctIn[0]
+                self.listConnctIn = self.listConnctIn[0]
             if i == 1:
                 self.listBlockExecution.append(ast.literal_eval(ln))
-                self.listBlockExecution=self.listBlockExecution[0]
+                self.listBlockExecution = self.listBlockExecution[0]
             if i == 2:
-                self.listBlock=ast.literal_eval(ln)
+                self.listBlock = ast.literal_eval(ln)
             if i == 3:
                 self.listOut.append(ast.literal_eval(ln))
-                self.listOut=self.listOut[0]
+                self.listOut = self.listOut[0]
             if i == 4:
-                self.listModul=ast.literal_eval(ln)
+                self.listModul = ast.literal_eval(ln)
             if i == 5:
                 self.listConnctOut.append(ast.literal_eval(ln))
-                self.listConnctOut=self.listConnctOut[0]
+                self.listConnctOut = self.listConnctOut[0]
             if i == 6:
                 break
-            
-        listNodeValue=list(set(self.listOut))
 
-        self.txt=''
-        self.listModulExecution={}
-        
+        listNodeValue = list(set(self.listOut))
+
+        self.txt = ''
+        self.listModulExecution = {}
+
         for ls in self.listModul.keys():
-            tmp=txtfull[txtfull.index('[submod '+ls):len(txtfull)]
-            tmp1=''
-            for i,ln in enumerate(tmp.splitlines()):
-                if i == 0 or i == 1 or i == 2 or i==3 or i==4 or i==5 or i==6:
-                    tmp1+=ln+'\n'
-                elif i>6:
+            tmp = txtfull[txtfull.index('[submod '+ls):len(txtfull)]
+            tmp1 = ''
+            for i, ln in enumerate(tmp.splitlines()):
+                if i < 7:
+                    tmp1 += ln+'\n'
+                elif i > 6:
                     break
-#             self.listModulExecution[ls]=tmp1
-            self.txt+='\n'+tmp1
+            # self.listModulExecution[ls]=tmp1
+            self.txt += '\n'+tmp1
 
-#         print('self.txt in ForLoopInfo',self.txt)
-           
+        # print('self.txt in ForLoopInfo',self.txt)
+
     def getListInfo(self):
-        return (self.listConnctIn, self.listBlockExecution, self.listBlock, self.listOut, self.listModul, self.listConnctOut, self.txt)
-    
+        return (self.listConnctIn,
+                self.listBlockExecution,
+                self.listBlock,
+                self.listOut,
+                self.listModul,
+                self.listConnctOut,
+                self.txt)

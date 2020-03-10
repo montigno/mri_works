@@ -22,17 +22,22 @@ from NodeEditor.python.Capsul.Generate_moduls_py import CodeGenerator
 class exportCapsul():
 
     def __init__(self, diagram, repertory, doExecution, textEditor):
-        
-        listUnit, listClass, listConstant, listArrow, listInputs, listValParam = {},{},{},{},{},{}
-        listCategory, listDoublon_InOut = [],[]
-        
+
+        listUnit = {}
+        listClass = {}
+        listConstant = {}
+        listArrow = {}
+        listInputs = {}
+        listValParam = {}
+        listCategory, listDoublon_InOut = [], []
+
         tmp = diagram.splitlines()
         tmp.reverse()
-        
+
         pipeline = ET.Element("pipeline")
         gui = ET.SubElement(pipeline, "gui")
         ET.SubElement(gui, "position", name="inputs", x="0", y="0")
-        
+
         for line in tmp:
             if line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -48,22 +53,22 @@ class exportCapsul():
                 try:
                     tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
                     if tmpDoub:
-                        newTmpVal0 = [w.replace(tmpDoub, tmpDoub+'_xx') for w in tmpVal[0]]
-                        tmpVal=(newTmpVal0,tmpVal[1],tmpVal[2],tmpVal[3])
-                        listDoublon_InOut.append(unit+'.'+tmpDoub)
-                except:
+                        newTmpVal0 = [w.replace(tmpDoub, tmpDoub + '_xx') for w in tmpVal[0]]
+                        tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
+                        listDoublon_InOut.append(unit + '.' + tmpDoub)
+                except Exception as e:
                     pass
                 listUnit[unit] = tmpVal
                 listClass[classs] = (cat, tmpVal)
                 listCategory.append(cat + '.' + classs)
                 ET.SubElement(pipeline, "process", module="capsul_moduls." + classs, name=unit)
                 ET.SubElement(gui, "position", name=unit, x=str(posi[0]), y=str(posi[1]))
-                
+
                 for i in range(0, len(tmpVal[1])):
                     if 'Node' not in str(tmpVal[1][i]):
                         ET.SubElement(pipeline, "link", source=unit + "_" + tmpVal[0][i], dest=unit + "." + tmpVal[0][i])
                         listValParam[unit + "_" + tmpVal[0][i]] = tmpVal[1][i]
-                
+
             elif line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 nameNode = 'Node(' + nameNode + ')'
@@ -73,16 +78,15 @@ class exportCapsul():
                 line = line[line.index('#Node#') + 6:len(line)]
                 c = line[0:line.index(':')]
                 d = line[line.index(':') + 1:]
-                
-                if c+'.'+d in listDoublon_InOut:
-                    d+='_xx'
-                
+
+                if c + '.' + d in listDoublon_InOut:
+                    d += '_xx'
+
                 if 'A' not in a:
                     ET.SubElement(pipeline, "link", source=a + "." + b, dest=c + "." + d)
-#                 else:
-#                     ET.SubElement(pipeline, "link", source=a, dest=c + "." + d)
+
                 listArrow[nameNode] = (a, b, c, d)
-           
+
             elif line[0:8] == 'constant':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('value=') + 7:len(line)]
@@ -91,17 +95,17 @@ class exportCapsul():
                 fort = line[0:line.index('] label')]
                 line = line[line.index('label=') + 7:len(line)]
                 lab = line[0:line.index('] RectF')]
-                try :
+                try:
                     listConstant[unit] = (lab, eval(vout))
-                except:
+                except Exception as e:
                     listConstant[unit] = (lab, vout)
-        
+
         for keyLink, valLink in listArrow.items():
             if 'A' in valLink[0]:
                 listInputs[listConstant[valLink[0]][0]] = listConstant[valLink[0]][1]
                 ET.SubElement(pipeline, "link", source=listConstant[valLink[0]][0], dest=valLink[2] + "." + valLink[3])
 #                 listInputs[valLink[0]] = listConstant[valLink[0]]
-                
+
         for keyUnit, valUnit in listUnit.items():
             for listOut in valUnit[2]:
                 isYet = False
@@ -111,24 +115,24 @@ class exportCapsul():
                         break
                 if not isYet:
                     ET.SubElement(pipeline, "link", source=keyUnit + '.' + listOut, dest=keyUnit + '_' + listOut)
-        
-        ############# generate xml pipeline ##############""
-        
+
+        # generate xml pipeline ##############""
+
         f = open(os.path.join(repertory, "capsul_pipeline.xml"), 'w')
         f.write(self.prettify(pipeline))
         f.close()
-        
-        ############# generate capsul_moduls.py ##############
+
+        # generate capsul_moduls.py ##############
         codeModuls = CodeGenerator()
         codeModuls += 'from capsul.process.xml import xml_process\n'
         codeModuls += 'import capsul_code_source as cs\n'
         codeModuls += '\n'
-            
+
         for keyClass, valClass in listClass.items():
             codeModuls += "@xml_process('''\n"
             codeModuls += '<process capsul_xml="2.0">\n'
             codeModuls.indent()
-                
+
             for i in range(0, len(valClass[1][0])):
                 typeVal = ''
                 if 'Node' in str(valClass[1][1][i]):
@@ -152,17 +156,17 @@ class exportCapsul():
                             typeVal = 'list_' + type(tmp[0]).__name__
                     else:
                         typeVal = type(tmp).__name__
-                    
+
                 typeVal = typeVal.replace('str', 'string')
                 typeVal = typeVal.replace('path', 'file')
-                typeVal=typeVal.replace('array','list')
+                typeVal = typeVal.replace('array', 'list')
                 codeModuls += '<input name="' + valClass[1][0][i] + '" type="' + str(typeVal) + '" doc=""/>\n'
 
             if len(valClass[1][2]) == 1:
                 typeOut = valClass[1][3][0]
                 typeOut = typeOut.replace('str', 'string')
                 typeOut = typeOut.replace('path', 'file')
-                typeOut = typeOut.replace('array','list')
+                typeOut = typeOut.replace('array', 'list')
                 codeModuls += '<return name="' + valClass[1][2][0] + '" type="' + typeOut + '" doc=""/>\n'
             elif len(valClass[1][2]) > 1:
                 codeModuls += '<return>\n'
@@ -171,12 +175,12 @@ class exportCapsul():
                     typeOut = valClass[1][3][i]
                     typeOut = typeOut.replace('str', 'string')
                     typeOut = typeOut.replace('path', 'file')
-                    typeOut = typeOut.replace('array','list')
+                    typeOut = typeOut.replace('array', 'list')
                     codeModuls += '<output name="' + valClass[1][2][i] + '" type="' + typeOut + '" doc=""/>\n'
                 codeModuls.dedent()
                 codeModuls += '</return>\n'
                 codeModuls.dedent()
-            
+
             codeModuls.dedent()
             codeModuls += '</process>\n'
             codeModuls += "''')\n"
@@ -185,14 +189,14 @@ class exportCapsul():
             codeModuls += 'def ' + keyClass + tmpw + ':\n'
             codeModuls.indent()
             codeModuls += 'listInputs=dict(zip(' + tmp + ',' + str(tmpw) + '))\n'
-            
+
             if len(valClass[1][2]) < 2:
                 tmp2 = 'return cs.' + keyClass + '(**listInputs)'
                 try:
                     codeModuls += tmp2 + '.' + str(valClass[1][2][0]) + '()\n'
-                except:
+                except Exception as e:
                     codeModuls += tmp2 + '\n'
-                    
+
             elif len(valClass[1][2]) > 1:
                 codeModuls += 'z=cs.' + keyClass + '(**listInputs)\n'
                 codeModuls += 'return {\n'
@@ -208,7 +212,7 @@ class exportCapsul():
         f.write(str(codeModuls))
         f.close()
 
-        ############# generate capsul_code_source.py ##############
+        # generate capsul_code_source.py ##############
         listCategory = set(list(listCategory))
         src = ''
         for listcode in listCategory:
@@ -219,12 +223,12 @@ class exportCapsul():
             for nameClass, obj in inspect.getmembers(imp):
                 if nameClass == classPy:
                     src += inspect.getsource(obj) + '\n\n'
-        
+
         f = open(os.path.join(repertory, "capsul_code_source.py"), 'w')
         f.write(src)
         f.close()
-        
-        ############# generate capsul_main.py ##############
+
+        # generate capsul_main.py ##############
         codeMain = CodeGenerator()
         codeMain += 'import sys, time\n'
         codeMain += 'from capsul.api import get_process_instance\n'
@@ -234,13 +238,13 @@ class exportCapsul():
         codeMain += 'try:\n'
         codeMain.indent()
         codeMain += 'xmlpipe = get_process_instance("capsul_pipeline")\n'
-                
+
         for keyInput, valInput in listInputs.items():
             if type(valInput).__name__ == 'str':
                 codeMain += 'xmlpipe.' + keyInput + '=\"' + str(valInput) + '\"\n'
             else:
                 codeMain += 'xmlpipe.' + keyInput + '=' + str(valInput) + '\n'
-                
+
         for keyParam, valParam in listValParam.items():
             if type(valParam).__name__ == 'str':
                 if valParam == '':
@@ -266,18 +270,23 @@ class exportCapsul():
         codeMain.indent()
         codeMain += 'print("error execution pipeline : ",e)\n'
         codeMain.dedent()
-                
+
         codeMain += self.PipelineShowingCode()
-        
+
         pathMain = os.path.join(repertory, "capsul_main.py")
         f = open(pathMain, 'w')
         os.chmod(pathMain, 0o777)
         f.write(str(codeMain))
         f.close()
-        
-        ############# execute capsul_main.py ##############
+
+        # execute capsul_main.py ##############
         if doExecution:
-            textEditor.append("<span style=\" font-size:10pt; font-weight:600; color:#006600;\" > Pipeline running by Capsul </span>")
+            textEditor.append("<span style=\" \
+                              font-size:10pt; \
+                              font-weight:600; \
+                              color:#006600;\" \
+                              > Pipeline running \
+                              by Capsul </span>")
             subprocess.Popen(['python3', pathMain, 'runPipeline'], shell=False)
 
     def prettify(self, elem):
@@ -286,10 +295,10 @@ class exportCapsul():
         rough_string = ElementTree.tostring(elem, 'utf-8')
         reparsed = minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
-    
+
     def PipelineGetArguments(self):
         txt = """
-parameter_dict={}        
+parameter_dict={}
 if len(sys.argv) > 2:
     for user_input in sys.argv[2:]:
         varname = user_input.split("=")[0]
@@ -301,7 +310,7 @@ if len(sys.argv) > 2:
         parameter_dict[varname] = varvalue
         """
         return txt
-    
+
     def PipelineShowingCode(self):
         txt = """
 try:
@@ -322,7 +331,7 @@ except:
 try:
     if sys.argv[1] in ['-help','-h'] :
         print(\"""
-        usage:  python3 capsul_main.py runPipeline [attributs=value] (1) 
+        usage:  python3 capsul_main.py runPipeline [attributs=value] (1)
                 python3 capsul_main.py showPipeline                  (2)
                 python3 capsul_main.py showInputs                    (3)
                 python3 capsul_main.py showOutputs                   (4)
@@ -332,11 +341,11 @@ try:
                                     (ex : python3 capsul_main.py executionPipeline X=10.0 Y=[5.6])
         (2) - show pipeline developper view
         (3) - show pipeline inputs with default values
-        (4) - show pipeline outputs 
+        (4) - show pipeline outputs
         \""")
 except:
     pass
-        
+
 try:
     if sys.argv[1] == "showPipeline":
         if globals().get('use_gui', True):
@@ -347,14 +356,14 @@ try:
                 run_qt_loop=True
             else:
                 app = QApplication.instance()
-             
+
             view4 = PipelineDevelopperView(xmlpipe, allow_open_controller=True, show_sub_pipelines=True)
             view4.show()
-             
+
             if run_qt_loop:
                 print('close window to gon on ...')
                 app.exec_()
 except Exception as e:
     print("error show pipeline : ",e)
-                    """
+              """
         return txt
