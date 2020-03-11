@@ -3532,6 +3532,7 @@ class Constants(QGraphicsRectItem):
 #         self.outputs[0].setPos(w + 2, h  / 2)
 
     def changeText(self):
+
         self.elemProxy.setCursorWidth(1)
         textEdit = self.elemProxy
         font = textEdit.document().defaultFont()
@@ -3546,6 +3547,7 @@ class Constants(QGraphicsRectItem):
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
 #         self.nameUnit.setPos(-30,(h - 15) / 2)
+            
 
     def changeCombo(self):
         w = self.elemProxy.size().width()

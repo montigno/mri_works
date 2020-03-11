@@ -41,11 +41,11 @@
   <link dest="U8.comment" source="U8_comment"/>
   <process module="capsul_moduls.Print_float" name="U7"/>
   <link dest="U7.comment" source="U7_comment"/>
+  <link dest="U7.inFloat" source="U7_inFloat"/>
   <process module="capsul_moduls.Print_float" name="U6"/>
   <link dest="U6.comment" source="U6_comment"/>
   <link dest="U8.inFloat" source="U2.multiplication"/>
   <link dest="U9.inFloat" source="U3.division"/>
-  <link dest="U7.inFloat" source="U1.subtract"/>
   <link dest="U6.inFloat" source="U0.addition"/>
   <link dest="U16.inInt" source="U4.addition"/>
   <link dest="U17.inInt" source="U5.subtract"/>
@@ -75,4 +75,5 @@
   <link dest="U2.in1" source="X_float"/>
   <link dest="U1.in1" source="X_float"/>
   <link dest="U0.in1" source="X_float"/>
+  <link dest="U1_subtract" source="U1.subtract"/>
 </pipeline>

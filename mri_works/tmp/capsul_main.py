@@ -29,6 +29,7 @@ try:
 	xmlpipe.U9_comment="division float : "
 	xmlpipe.U8_comment="multiplication float : "
 	xmlpipe.U7_comment="subtract float : "
+	xmlpipe.U7_inFloat=0.0
 	xmlpipe.U6_comment="addition float : "
 	if sys.argv[1] == "runPipeline":
 		start=time.time()
