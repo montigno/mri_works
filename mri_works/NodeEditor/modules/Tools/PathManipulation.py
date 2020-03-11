@@ -86,4 +86,11 @@ class build_list_path_dyn:
         return self.pathList
     
 ###############################################################################
+
+class rstrip_path:
+    def __init__(self, in_path='path', chr=''):
+        self.outPath = in_path.rstrip(chr)
+        
+    def newPath(self:'path'):
+        return self.outPath
      

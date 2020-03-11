@@ -1,90 +1,38 @@
-class mult_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = float(in1)*float(in2)
-        for di in dynamicsInputs:
-            self.res*=dynamicsInputs[di]
+class fsl_UnaryMaths():
+    def __init__(self,in_file='path',
+                 operation="enumerate(('exp','log','sin','cos','tan','asin','acos','atan',"+
+                            "'sqr','sqrt','recip','abs','bin','binv','fillh',"+
+                            "'fillh26','index','edge','nan','nanm','rand',"+
+                            "'randn','range'))",**options):
+        from nipype.interfaces.fsl import UnaryMaths
+        mf = UnaryMaths()
+        mf.inputs.in_file=in_file
+        mf.inputs.operation=operation
+        for ef in options:
+            setattr(mf.inputs,ef,options[ef])
+        self.res=mf.run()  
+    
+    def out_file(self:'path'):
+        return self.res.outputs.out_file
+
+
+class MatPlotLib:
+    def __init__(self,sourceFile='path', title='original',display_mode="enumerate(('ortho', 'x', 'y', 'z', 'yx', 'xz', 'yz'))", 
+                                                dim=1,draw_cross=False,annotate=False):
+        from nilearn import plotting
+        plotting.plot_anat(sourceFile,title=title,display_mode=display_mode,dim=dim,draw_cross=draw_cross,annotate=annotate)
+        plotting.show()
+
+
+class askopenfilename():
+    def __init__(self,extension='*.*',title='choose your file'):
+        import tkinter as tk
+        from tkinter import filedialog
+        root=tk.Tk()
+        root.withdraw()
+        self.filename = filedialog.askopenfilename(title=title,filetypes=[('', extension)])
         
-    def multiplication(self:'float'):
-        return self.res      
-
-
-class Print_float:
-    def __init__(self,comment='',inFloat=0.0):
-        print('\033[92m' + comment, inFloat)
-
-
-class sub_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1-in2
-        for di in dynamicsInputs:
-            self.res-=dynamicsInputs[di]
-  
-    def subtract(self:'float'):
-        return self.res
-
-
-class div_int_dyn:
-    def __init__(self,int1=0,int2=1,**dynamicsInputs):
-        self.res = int(int1/int2)
-        for di in dynamicsInputs:
-            self.res= int(self.res/dynamicsInputs[di])
-        
-    def division(self:'int'):
-        return self.res   
-
-
-class div_float_dyn:
-    def __init__(self,in1=0.0,in2=1.0,**dynamicsInputs):
-        self.res = in1/in2
-        for di in dynamicsInputs:
-            self.res/=dynamicsInputs[di]
-        
-    def division(self:'float'):
-        return self.res
-
-
-class add_float_dyn:
-    def __init__(self,in1=0.0,in2=0.0,**dynamicsInputs):
-        self.res = in1+in2
-        for di in dynamicsInputs:
-            self.res+=dynamicsInputs[di]
-        
-    def addition(self:'float'):
-        return self.res    
-
-
-class Print_int:
-    def __init__(self,comment='',inInt=0):
-        print('\033[92m' + comment, inInt)
-
-
-class add_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1+int2
-        for di in dynamicsInputs:
-            self.res+=dynamicsInputs[di]
-        
-    def addition(self:'int'):
-        return self.res    
-
-
-class mult_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1*int2
-        for di in dynamicsInputs:
-            self.res*=dynamicsInputs[di]
-        
-    def multiplication(self:'int'):
-        return self.res      
-
-
-class sub_int_dyn:
-    def __init__(self,int1=0,int2=0,**dynamicsInputs):
-        self.res = int1-int2
-        for di in dynamicsInputs:
-            self.res-=dynamicsInputs[di]
-        
-    def subtract(self:'int'):
-        return self.res    
+    def filePath(self:'path'):
+        return self.filename
 
 
