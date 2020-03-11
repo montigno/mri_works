@@ -69,7 +69,7 @@ class BidsToNifti:
                        bvals_bvecs=False):
         import os, sys
         from subprocess import Popen, PIPE
-        from NodeEditor.python.configStandalone import ConfigModuls
+#         from NodeEditor.python.configStandalone import ConfigModuls
         listBids = ''
         for ls in Bids_dir:
             listBids += ls + ";"
@@ -77,8 +77,8 @@ class BidsToNifti:
         options_export = "00000"
         if bvals_bvecs:
             options_export = "00013"
-#         command='java -classpath $MRIFilePATH'+\
-        command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
+#         command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
+        command='java -classpath $MRIFilePATH'+\
                   ' BidsToNifti \"' + listBids + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()

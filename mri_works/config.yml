@@ -18,15 +18,7 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories:
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Image_manipulation/filtering.dgr
-  - /home/ommaster/Bureau/projects_mriworks/test2.dgr
-  - /home/ommaster/Bureau/projects_mriworks/benchmark_om.dgr
-  - /home/ommaster/Bureau/projects_mriworks/operations.dgr
-  - /home/ommaster/Bureau/projects_mriworks/test.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/Image_manipulation/Canny_2_modules.dgr
-  - /home/ommaster/Bureau/projects_mriworks/FID_for_Capsul.dgr
-  - /home/ommaster/Bureau/projects_mriworks/compare_capsul_mriworks.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.02.00
