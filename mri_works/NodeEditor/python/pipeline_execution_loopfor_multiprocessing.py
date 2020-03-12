@@ -76,7 +76,6 @@ class executionFor_proc:
 
         process = []
 
-#         listDynamicValueSub={}
         listDynamicValueSub = listDynamicValue.copy()
         lengthEnter = range(len(listDynamicValue[firstIndex]))
 
@@ -84,15 +83,12 @@ class executionFor_proc:
             for keyDyn, valDyn in listDynamicValue.items():
                 if 'F' in keyDyn[0:keyDyn.index(':')]:
                     listDynamicValueSub[keyDyn] = valDyn[ele]
-#             try:
             process.append(Process(target=executionSubmod,
                                    args=(txt,
                                          listDynamicValueSub,
                                          None,
                                          None)))
             process[-1].start()
-#             except Exception as e:
-#                 return
 
-        for p in process:
-            p.join()
+        # for p in process:
+        #    p.join()
