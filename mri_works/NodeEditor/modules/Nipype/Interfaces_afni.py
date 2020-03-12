@@ -8,6 +8,6 @@ class Fourier():
         for ef in options:
             setattr(fourier.inputs, ef, options[ef])
         self.res = fourier.run()
-        
-    def out_file(self:'path'):
+
+    def out_file(self: 'path'):
         return self.res.outputs.out_file

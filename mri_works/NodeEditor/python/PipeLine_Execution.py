@@ -40,6 +40,7 @@ class execution:
         self.progress.setWindowModality(Qt.WindowModal)
         self.progress.setModal(True)
         self.progress.forceShow()
+#         self.progress.show()
         self.execution(txt, textEditor)
         self.progress.close()
 
