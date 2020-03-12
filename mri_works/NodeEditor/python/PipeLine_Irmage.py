@@ -2358,12 +2358,12 @@ class BlockCreate(QGraphicsRectItem):
         else:
             self.setOpacity(1.0)
 
-    def hoverEnterEvent(self, event):
-        self.setSelected(True)
+#     def hoverEnterEvent(self, event):
+#         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
-    def hoverLeaveEvent(self, event):
-        self.setSelected(False)
+#     def hoverLeaveEvent(self, event):
+#         self.setSelected(False)
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, event):
@@ -2455,8 +2455,9 @@ class BlockCreate(QGraphicsRectItem):
             self.setSelected(True)
 
         if event.button() == 1 and self.isMod:
-            editor.diagramScene[editor.currentTab].clearSelection()
-            self.setSelected(True)
+            if not self.isSelected():
+                editor.diagramScene[editor.currentTab].clearSelection()
+                self.setSelected(True)
 
             try:
                 if self.polUp.answer:
@@ -5848,6 +5849,7 @@ class NodeEdit(QWidget):
                                         listConstants[editor.currentTab][gh.unit] = (gh.elemProxy.txt, gh.elemProxy.value, gh.label)
 
                     #################################################################################
+
                     if changeColorLink:
                         linkcurrent.setPen(QtGui.QPen(color, DimLink.simple.value))
                         if 'list' in str(tmpformat):

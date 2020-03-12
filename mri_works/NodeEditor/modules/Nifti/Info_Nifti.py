@@ -104,5 +104,5 @@ class Nifti_rawInfo():
         
         self.str = hdr.structarr[structarr].tolist()
         
-    def out_structarr(self:'str'):
+    def out_structarr(self:'list_str'):
         return self.str

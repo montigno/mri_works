@@ -18,6 +18,15 @@ class index_list_int:
     
 #####################################################################
 
+class index_list_str:
+    def __init__(self,list_in_str=[''],index=0):
+        self.outVal = list_in_str[index]
+        
+    def out_list_indexed(self:'str'):
+        return self.outVal
+    
+#####################################################################
+
 class build_list_int:
     def __init__(self,int1=0,int2=0):
         self.outList = [int1,int2]

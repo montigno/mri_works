@@ -16,6 +16,7 @@ from importlib import reload
 import importlib
 import inspect
 import subprocess
+from shutil import copyfile
 from NodeEditor.python.Capsul.Generate_moduls_py import CodeGenerator
 
 
@@ -214,6 +215,7 @@ class exportCapsul():
 
         # generate capsul_code_source.py ##############
         listCategory = set(list(listCategory))
+        listSources = []
         src = ''
         for listcode in listCategory:
             filePy = 'NodeEditor.modules.' + listcode[0:listcode.rfind('.')]
@@ -222,8 +224,20 @@ class exportCapsul():
             importlib.reload(imp)
             for nameClass, obj in inspect.getmembers(imp):
                 if nameClass == classPy:
-                    src += inspect.getsource(obj) + '\n\n'
-
+                    srcTmp = inspect.getsource(obj)
+                    for line in self.lines_that_contain("NodeEditor", srcTmp.splitlines()):
+                        listSources.append(line)
+                    src += srcTmp + '\n\n'
+        
+        if listSources:
+            src = src.replace('NodeEditor.modules.','')
+            if not os.path.isdir(os.path.join(repertory, "sources")):
+                os.mkdir(os.path.join(repertory, "sources"))
+            for lst in listSources:
+                filepy = lst.strip()[32:lst.strip().index('import')-1]
+                copyfile(os.path.join("NodeEditor","modules","sources",filepy+'.py'),
+                         os.path.join(repertory, "sources",filepy+'.py'))
+        
         f = open(os.path.join(repertory, "capsul_code_source.py"), 'w')
         f.write(src)
         f.close()
@@ -295,6 +309,9 @@ class exportCapsul():
         rough_string = ElementTree.tostring(elem, 'utf-8')
         reparsed = minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
+    
+    def lines_that_contain(self, string, fp):
+        return [line for line in fp if string in line]
 
     def PipelineGetArguments(self):
         txt = """

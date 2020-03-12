@@ -16,19 +16,13 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.A0="log"
-	xmlpipe.A1="ortho"
-	xmlpipe.A3="*.nii"
-	xmlpipe.A2="Nifti"
-	xmlpipe.U0_output_type="NIFTI_GZ"
-	xmlpipe.U2_dim=1
-	xmlpipe.U2_draw_cross=False
-	xmlpipe.U2_annotate=False
-	xmlpipe.U3_title="original"
-	xmlpipe.U3_display_mode="ortho"
-	xmlpipe.U3_dim=1
-	xmlpipe.U3_draw_cross=False
-	xmlpipe.U3_annotate=False
+	xmlpipe.A5="choose your Nifti file"
+	xmlpipe.A4="*.nii *.nii.gz"
+	xmlpipe.index_Y=2
+	xmlpipe.index_X=1
+	xmlpipe.A0="dim"
+	xmlpipe.A3=0
+	xmlpipe.U9_int2=2
 	if sys.argv[1] == "runPipeline":
 		start=time.time()
 		if parameter_dict:
