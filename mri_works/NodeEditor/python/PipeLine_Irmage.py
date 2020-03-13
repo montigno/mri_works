@@ -93,9 +93,11 @@ class Menu(QMenuBar):
         runpipethreadless = self.menu2.addAction('Run Pipeline with Thread')
         runpipethreadless.setShortcut('Ctrl+T')
         listItems = self.menu2.addAction('See List Items')
-        listItems.setShortcut('Ctrl+L')
+        listItems.setShortcut('Ctrl+I')
         listLib = self.menu2.addAction('See List Libraries')
-        listLib.setShortcut('Ctrl+B')
+        listLib.setShortcut('Ctrl+L')
+        rawFile = self.menu2.addAction('See Raw file')
+        rawFile.setShortcut(('Ctrl+B'))
         self.menu2.addSeparator()
         self.menu2.addAction('Pipeline execution by Capsul')
         self.menu2.addAction('Export pipeline for Capsul')
@@ -374,8 +376,8 @@ class Menu(QMenuBar):
 
         if tmpActText == 'See List Items':
             textEdit.clear()
-            txt = SaveDiagram()
-            textEdit.append(txt.toPlainText())
+#             txt = SaveDiagram()
+#             textEdit.append(txt.toPlainText())
             textEdit.append('listItems :')
             textEdit.append(str(listItems[editor.currentTab]))
             textEdit.append('listNodes :')
@@ -399,6 +401,12 @@ class Menu(QMenuBar):
             textEdit.append(str(editor.getlib()))
             textEdit.append('libSubMod :')
             textEdit.append(str(libSubMod))
+            
+        if tmpActText == 'See Raw file':
+            if editor.pathDiagram[editor.currentTab]:
+                f = open(editor.pathDiagram[editor.currentTab], 'r')
+                textEdit.append(f.read())
+                f.close()
 
         if tmpActText == 'Legend':
             ShowLegend()
