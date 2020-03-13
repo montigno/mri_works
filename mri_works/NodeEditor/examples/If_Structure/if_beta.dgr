@@ -14,13 +14,13 @@ link=[N3] node=[A1:#Node#I0:out0]
 link=[N1] node=[A0:#Node#U0:inInt]
 link=[N0] node=[U0:outIn#Node#I0:out0]
 link=[N4] node=[A2:#Node#I0:val]
-block=[U2] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['', 'Node(N7)'], [], [])] RectF=[(145.72498950548578, 6.657486830199858, 150.0, 80.0)]
-block=[U1] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['', 'Node(N2)'], [], [])] RectF=[(155.34135937133004, -188.62879352232937, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['out1 : ', 'Node(N7)'], [], [])] RectF=[(144.8636848465882, 6.657486830199858, 150.0, 80.0)]
+block=[U1] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['out0 : ', 'Node(N2)'], [], [])] RectF=[(155.34135937133004, -188.62879352232937, 150.0, 80.0)]
 loopIf=[I0] inputs=[[[['in0', 'in', 'int'], ['in0', 'out', 'int']]]] outputs=[[[['out0', 'in', 'int'], ['out0', 'out', 'int']], [['out1', 'in', 'int'], ['out1', 'out', 'int']]]] listItems=[[['N5', 'A0', 'U0'], ['A4', 'A1']]] RectF=[(-340.7262156448203, -208.92177589852005, 406.1199788583509, 330.5110993657505)]
 [execution]
 []
 ['I0', 'U1', 'U2']
-{'U1': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['', 'I0:out0'], [], [])"), 'U2': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['', 'I0:out1'], [], [])")}
+{'U1': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['out0 : ', 'I0:out0'], [], [])"), 'U2': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['out1 : ', 'I0:out1'], [], [])")}
 ['A2:', 'A0:', 'A1:', 'A3:', 'I0:in0', 'I0:out0', 'I0:out1', 'A4:']
 {}
 []

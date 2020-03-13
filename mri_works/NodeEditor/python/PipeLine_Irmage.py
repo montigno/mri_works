@@ -334,7 +334,7 @@ class Menu(QMenuBar):
                     editor.tabsDiagram.setTabText(editor.currentTab,
                                                   fileNameonly)
                     editor.refreshSubModLib()
-                except:
+                except Exception as e:
                     pass
             else:
                 if not connectPresent:
@@ -365,7 +365,7 @@ class Menu(QMenuBar):
                     editor.tabsDiagram.setTabText(editor.currentTab,
                                                   fileNameonly)
                     editor.refreshSubModLib()
-                except:
+                except Exception as e:
                     pass
             else:
                 if not connectPresent:
@@ -401,7 +401,7 @@ class Menu(QMenuBar):
             textEdit.append(str(editor.getlib()))
             textEdit.append('libSubMod :')
             textEdit.append(str(libSubMod))
-            
+
         if tmpActText == 'See Raw file':
             if editor.pathDiagram[editor.currentTab]:
                 f = open(editor.pathDiagram[editor.currentTab], 'r')
@@ -554,7 +554,7 @@ class LibMod(QStandardItemModel):
                     txt = self.data(item, Qt.DisplayRole)
                     if txt not in listCategorySubMod:
                         mimedata.setData(self.name, QByteArray(txt.encode()))
-                except:
+                except Exception as e:
                     pass
         return mimedata
 
@@ -594,12 +594,12 @@ class LoadDiagram:
                 try:
                     line = line[line.index('valOut=') + 8:len(line)]
                     Vinput = line[0:line.index('] RectF=')]
-                except:
+                except Exception as e:
                     pass
                 line = line[line.index('RectF=') + 7:len(line)]
                 try:
                     pos = edit.mapToScene(eval(line[0:line.index(']')]))
-                except:
+                except Exception as e:
                     pos = eval(line[0:line.index(']')])
                 edit.loadConn(unit, name, pos, str(typ), form, Vinput)
                 listCn[unit] = edit.returnBlockSystem()
@@ -680,7 +680,7 @@ class LoadDiagram:
                 pos = eval(line[0:line.index(']')])
                 try:
                     edit.loadConstant(unit, pos, eval(vout), fort, lab)
-                except:
+                except Exception as e:
                     edit.loadConstant(unit, pos, vout, fort, lab)
                 listCt[unit] = edit.returnBlockSystem()
 
@@ -788,7 +788,7 @@ class ValueZ:
         for its in editor.diagramView[editor.currentTab].items():
             try:
                 its.setZValue(listZ[its.unit])
-            except:
+            except Exception as e:
                 pass
 
 
@@ -834,7 +834,7 @@ class ValueZ2:
         for its in editor.diagramView[editor.currentTab].items():
             try:
                 its.setZValue(listZ[its.unit])
-            except:
+            except Exception as e:
                 pass
 
         for its in editor.diagramView[editor.currentTab].items():
@@ -853,7 +853,7 @@ class SaveDiagram(QTextEdit):
         for item in editor.diagramView[editor.currentTab].items():
             try:
                 coord = item.pos()
-            except:
+            except Exception as e:
                 coord = item.sceneBoundingRect()
 
             if type(item) == BlockCreate:
@@ -909,7 +909,7 @@ class SaveDiagram(QTextEdit):
                                     '] listItems=[' + str(listTools[editor.currentTab][item.unit]) +
                                     '] RectF=[' + str((coord.x(), coord.y(), rect.width(), rect.height())) +
                                     ']')
-                    except:
+                    except Exception as e:
                         pass
                 else:
                     try:
@@ -919,7 +919,7 @@ class SaveDiagram(QTextEdit):
                                     '] listItems=[' + str(listTools[editor.currentTab][item.unit]) +
                                     '] RectF=[' + str((coord.x(), coord.y(), rect.width(), rect.height())) +
                                     ']')
-                    except:
+                    except Exception as e:
                         pass
 
             elif type(item) == Constants:
@@ -989,7 +989,7 @@ class UpdateList:
                 try:
                     line = line[line.index('valOut=') + 8:len(line)]
                     Vinput = line[0:line.index('] RectF=')]
-                except:
+                except Exception as e:
                     pass
 
                 if 'in' in typ:
@@ -1059,10 +1059,10 @@ class DiagramScene(QGraphicsScene):
         self._selectedItemVec = deque()
 
         pen = QtGui.QPen(ItemColor.cross_scene.value, 2)
-        l = QLineF(-10, 0, 10, 0)
-        self.addLine(l, pen)
-        l = QLineF(0, -10, 0, 10)
-        self.addLine(l, pen)
+        crss = QLineF(-10, 0, 10, 0)
+        self.addLine(crss, pen)
+        crss = QLineF(0, -10, 0, 10)
+        self.addLine(crss, pen)
 
 #         self.lines = []
 #         self.draw_grid()
@@ -1540,7 +1540,7 @@ class Connection:
         self.link.setPositionTxt((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2)
         try:
             theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
-        except:
+        except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
             QPointF((self.start_x + self.end_x) / 2, (1 + self.start_y + self.end_y) / 2),
@@ -1568,7 +1568,7 @@ class Connection:
 
         try:
             theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
-        except:
+        except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
             QPointF((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2),
@@ -1762,12 +1762,12 @@ class LinkItem(QGraphicsPathItem):
                                         else:
                                             try:
                                                 listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                            except:
+                                            except Exception as e:
                                                 listValDefault = (*listValDefault, self.dicts[mod][el])
                                     else:
                                         try:
                                             listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                        except:
+                                        except Exception as e:
                                             listValDefault = (*listValDefault, self.dicts[mod][el])
             ################################################################
             newList = []
@@ -1921,12 +1921,12 @@ class ProcessItem():
                                     else:
                                         try:
                                             listValDefault = (*listValDefault, eval(self.dicts[name][el]))
-                                        except:
+                                        except Exception as e:
                                             listValDefault = (*listValDefault, self.dicts[name][el])
                                 else:
                                     try:
                                         listValDefault = (*listValDefault, eval(self.dicts[name][el]))
-                                    except:
+                                    except Exception as e:
                                         listValDefault = (*listValDefault, self.dicts[name][el])
 
         ###############################################################################
@@ -2071,7 +2071,7 @@ class BlockCreate(QGraphicsRectItem):
             for i, j in enumerate(self.listValIn):
                 try:
                     typ = DefinitType(eval(j)).returntype()
-                except:
+                except Exception as e:
                     typ = DefinitType(j).returntype()
 
                 portIn = Port(self.inout[0][0][i], 'in', typ, self.unit, True, self.isMod, 4, -16, self)
@@ -2156,7 +2156,7 @@ class BlockCreate(QGraphicsRectItem):
         try:
             self.polUp.setPos(0, h)
             self.polDown.setPos(0, h)
-        except:
+        except Exception as e:
             pass
 
         return w, h
@@ -2307,12 +2307,12 @@ class BlockCreate(QGraphicsRectItem):
                                 else:
                                     try:
                                         listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
-                                    except:
+                                    except Exception as e:
                                         listValDefault = (*listValDefault, self.dicts[self.name][el])
                             else:
                                 try:
                                     listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
-                                except:
+                                except Exception as e:
                                     listValDefault = (*listValDefault, self.dicts[self.name][el])
 
         c = editParam(self.name, self.unit, listBlocks[editor.currentTab][self.unit][2], listValDefault)
@@ -2321,7 +2321,7 @@ class BlockCreate(QGraphicsRectItem):
         try:
             del listBlocks[editor.currentTab][self.unit]
             listBlocks[editor.currentTab][self.unit] = (listVal[0], listVal[1], (listVal[2][0], c.getNewValues(), listVal[2][2], listVal[2][3]))
-        except:
+        except Exception as e:
             listBlocks[editor.currentTab][self.unit] = listVal
 
     def editParametersSubProcess(self):
@@ -2335,7 +2335,7 @@ class BlockCreate(QGraphicsRectItem):
         try:
             del listSubMod[editor.currentTab][self.unit]
             listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], c.getNewValues(), listVal[1][2], listVal[1][3]))
-        except:
+        except Exception as e:
             listSubMod[editor.currentTab][self.unit] = listVal
 
     def errorHandl(self):
@@ -2397,7 +2397,7 @@ class BlockCreate(QGraphicsRectItem):
                         self.currentLoop.IteminLoop(self.unit, False, ind)
                         self.currentLoop = None
                         self.caseFinal = False
-                    except:
+                    except Exception as e:
                         pass
                     for lsElem in listTypeItems:
                         if not postmp:
@@ -2418,7 +2418,7 @@ class BlockCreate(QGraphicsRectItem):
                         self.currentLoop.IteminLoop(self.unit, False, ind)
                         self.currentLoop = None
                         self.caseFinal = False
-                    except:
+                    except Exception as e:
                         pass
 
                 self.currentLoop = elemtmp
@@ -2474,7 +2474,7 @@ class BlockCreate(QGraphicsRectItem):
                     self.subinput()
                     self.polUp.answer = False
                     self.polDown.answer = False
-            except:
+            except Exception as e:
                 pass
 
             if 'U' in self.unit:
@@ -2569,7 +2569,7 @@ class BlockCreate(QGraphicsRectItem):
             sg = [int(s) for s in tmplastEnter.split('_') if s.isdigit()]
             newb = str(int(sg[-1]) + 1)
             tmplastEnter = tmplastEnter.replace(str(sg[-1]), newb)
-        except:
+        except Exception as e:
             tmplastEnter += '_0'
         tmpnameEnters.append(tmplastEnter)
         tmpvalEnters.append(tmplastVal)
@@ -2608,14 +2608,14 @@ class BlockCreate(QGraphicsRectItem):
     def updateBlock(self, newListVal):
         try:
             diagram = undoredoTyping[editor.currentTab][len(undoredoTyping[editor.currentTab]) - 1]
-        except:
+        except Exception as e:
             diagram = undoredoTyping[editor.currentTab][0]
 
         unddiagram = diagram[diagram.index("block=[" + self.unit + "]"):]
 
         try:
             unddiagram = unddiagram[0:unddiagram.index("\n") + 1]
-        except:
+        except Exception as e:
             pass
 
         diagram = diagram.replace(unddiagram, "")
@@ -2752,12 +2752,12 @@ class BlockCreate(QGraphicsRectItem):
                                             else:
                                                 try:
                                                     listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                                except:
+                                                except Exception as e:
                                                     listValDefault = (*listValDefault, self.dicts[mod][el])
                                         else:
                                             try:
                                                 listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                            except:
+                                            except Exception as e:
                                                 listValDefault = (*listValDefault, self.dicts[mod][el])
                 ###############################################################################
                 newList = []
@@ -2840,7 +2840,7 @@ class BlockCreate(QGraphicsRectItem):
                 try:
                     line = line[line.index('valOut=') + 8:len(line)]
                     Vinput = line[0:line.index('] RectF=')]
-                except:
+                except Exception as e:
                     pass
                 line = line[line.index('RectF=') + 7:len(line)]
                 pos = eval(line[0:line.index(']')])
@@ -2917,7 +2917,7 @@ class BlockCreate(QGraphicsRectItem):
                 pos = eval(line[0:line.index(']')])
                 try:
                     edit.loadConstant(unit, pos, eval(vout), fort, lab)
-                except:
+                except Exception as e:
                     edit.loadConstant(unit, pos, vout, fort, lab)
                 listCt[unit] = edit.returnBlockSystem()
 
@@ -3234,12 +3234,12 @@ class ConnectorItem(QGraphicsPolygonItem):
                                             else:
                                                 try:
                                                     listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                                except:
+                                                except Exception as e:
                                                     listValDefault = (*listValDefault, self.dicts[mod][el])
                                         else:
                                             try:
                                                 listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                            except:
+                                            except Exception as e:
                                                 listValDefault = (*listValDefault, self.dicts[mod][el])
                 ###############################################################################
                 newList = []
@@ -3556,7 +3556,6 @@ class Constants(QGraphicsRectItem):
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
 #         self.nameUnit.setPos(-30,(h - 15) / 2)
-            
 
     def changeCombo(self):
         w = self.elemProxy.size().width()
@@ -3679,7 +3678,7 @@ class Constants(QGraphicsRectItem):
                         self.currentLoop.IteminLoop(self.unit, False, ind)
                         self.currentLoop = None
                         self.caseFinal = False
-                    except:
+                    except Exception as e:
                         pass
                     for lsElem in listTypeItems:
                         if not postmp:
@@ -3700,7 +3699,7 @@ class Constants(QGraphicsRectItem):
                         self.currentLoop.IteminLoop(self.unit, False, ind)
                         self.currentLoop = None
                         self.caseFinal = False
-                    except:
+                    except Exception as e:
                         pass
 
                 self.currentLoop = elemtmp
@@ -3817,14 +3816,14 @@ class Constants(QGraphicsRectItem):
 class Constants_int(QSpinBox):
 
     def __init__(self, unit, val, lab, parent=None):
-            super(Constants_int, self).__init__(parent)
-            self.setButtonSymbols(QSpinBox.NoButtons)
-            self.setMaximum(100000)
-            self.setMinimum(-100000)
-            self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
-            self.setValue(val)
-            self.unit = unit
-            self.lab = lab
+        super(Constants_int, self).__init__(parent)
+        self.setButtonSymbols(QSpinBox.NoButtons)
+        self.setMaximum(100000)
+        self.setMinimum(-100000)
+        self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+        self.setValue(val)
+        self.unit = unit
+        self.lab = lab
 
     def focusOutEvent(self, event):
         UpdateUndoRedo()
@@ -3842,14 +3841,14 @@ class Constants_int(QSpinBox):
 class Constants_float(QDoubleSpinBox):
 
     def __init__(self, unit, val, lab, parent=None):
-            super(Constants_float, self).__init__(parent)
-            self.setButtonSymbols(QSpinBox.NoButtons)
-            self.setRange(-100000, 100000)
-            self.setDecimals(4)
-            self.setValue(val)
-            self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-            self.unit = unit
-            self.lab = lab
+        super(Constants_float, self).__init__(parent)
+        self.setButtonSymbols(QSpinBox.NoButtons)
+        self.setRange(-100000, 100000)
+        self.setDecimals(4)
+        self.setValue(val)
+        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        self.unit = unit
+        self.lab = lab
 
     def focusOutEvent(self, event):
         UpdateUndoRedo()
@@ -4048,7 +4047,7 @@ class ForLoopItem(QGraphicsRectItem):
                     elemtmp = None
                     try:
                         self.currentLoop.normalState()
-                    except:
+                    except Exception as e:
                         pass
                     for lsElem in listTypeItems:
                         if not postmp:
@@ -4072,7 +4071,7 @@ class ForLoopItem(QGraphicsRectItem):
                         self.currentLoop.IteminLoop(self.unit, False, ind)
                         self.currentLoop = None
                         self.caseFinal = False
-                    except:
+                    except Exception as e:
                         pass
 
                 self.currentLoop = elemtmp
@@ -4370,12 +4369,12 @@ class ForLoopItem(QGraphicsRectItem):
         listOut = []
         try:
             listEnter = libTools[editor.currentTab][self.unit][0]
-        except:
+        except Exception as e:
             pass
 
         try:
             listOut = libTools[editor.currentTab][self.unit][1]
-        except:
+        except Exception as e:
             pass
 
         format = inp[0][2]
@@ -4399,12 +4398,12 @@ class ForLoopItem(QGraphicsRectItem):
         listOut = []
         try:
             listEnter = libTools[editor.currentTab][self.unit][0]
-        except:
+        except Exception as e:
             pass
 
         try:
             listOut = libTools[editor.currentTab][self.unit][1]
-        except:
+        except Exception as e:
             pass
 
         format = outp[0][2]
@@ -4453,7 +4452,7 @@ class ForLoopItem(QGraphicsRectItem):
                     del listEnter[c]
                     break
                 c += 1
-        except:
+        except Exception as e:
             pass
 
         try:
@@ -4464,7 +4463,7 @@ class ForLoopItem(QGraphicsRectItem):
                     del listOut[c]
                     break
                 c += 1
-        except:
+        except Exception as e:
             pass
 
         del libTools[editor.currentTab][self.unit]
@@ -4486,7 +4485,7 @@ class ForLoopItem(QGraphicsRectItem):
             else:
                 try:
                     listItem[ind].remove(unitItem)
-                except:
+                except Exception as e:
                     pass
             listItem[ind] = list(set(listItem[ind]))
 
@@ -4496,7 +4495,7 @@ class ForLoopItem(QGraphicsRectItem):
             else:
                 try:
                     listItem.remove(unitItem)
-                except:
+                except Exception as e:
                     pass
             listItem = list(set(listItem))
         listTools[editor.currentTab][self.unit] = listItem
@@ -4544,7 +4543,7 @@ class Control_IF(QComboBox):
                         self.opacity_1_InLoop(item.unit, 1)
                         try:
                             item.elemProxy.newValue()
-                        except:
+                        except Exception as e:
                             pass
                 if item.unit in listTools[editor.currentTab][self.unit][1]:
                     item.setOpacity(0)
@@ -4574,7 +4573,7 @@ class Control_IF(QComboBox):
                         self.opacity_1_InLoop(item.unit, 1)
                         try:
                             item.elemProxy.newValue()
-                        except:
+                        except Exception as e:
                             pass
         for lsi in listTools[editor.currentTab][self.unit][0]:
             if 'N' in lsi:
@@ -4616,7 +4615,7 @@ class Control_IF(QComboBox):
                 if state == 1:
                     try:
                         item.elemProxy.newValue()
-                    except:
+                    except Exception as e:
                         pass
 
                 if type(elemts) == ForLoopItem and elemts.unit != unit:
@@ -4650,40 +4649,40 @@ class Control_IF(QComboBox):
 
 ###############################################################################
 class TypeColor(Enum):
-        str = QColor(200, 0, 250, 255)
-        float = QColor(200, 150, 0, 255)
-        int = QColor(0, 100, 255, 255)
-        path = QColor(255, 100, 100, 255)
-        bool = QColor(50, 250, 50, 255)
-        dict = QColor(200, 250, 0, 255)
-        tuple = QColor(180, 180, 180, 255)
-        unkn = QColor(255, 255, 255, 255)
+    str = QColor(200, 0, 250, 255)
+    float = QColor(200, 150, 0, 255)
+    int = QColor(0, 100, 255, 255)
+    path = QColor(255, 100, 100, 255)
+    bool = QColor(50, 250, 50, 255)
+    dict = QColor(200, 250, 0, 255)
+    tuple = QColor(180, 180, 180, 255)
+    unkn = QColor(255, 255, 255, 255)
 
 
 class DimLink(Enum):
-        simple = 2
-        list = 5
-        array = 8
-        bis = 3
+    simple = 2
+    list = 5
+    array = 8
+    bis = 3
 
 
 class ItemColor(Enum):
-        backGround = QColor(50, 50, 50, 255)
-        process = QColor(100, 100, 100, 255)
-        frame_process = QColor(200, 200, 200, 255)
-        subprocess = QColor(200, 50, 0, 255)
-        frame_subprocess = QColor(250, 100, 0, 255)
-        text_block_label = QColor(255, 255, 255, 255)
-        text_port_label_input = QColor(200, 200, 200, 255)
-        text_port_label_output = QColor(200, 200, 200, 255)
-        bis_link = QColor(50, 50, 50, 255)
-        frame_comment = QColor(90, 150, 250, 255)
-        background_comment = QColor(100, 100, 200, 255)
-        text_comment = QColor(120, 150, 250, 255)
-        cross_scene = QColor(250, 100, 0, 255)
-        frame_connect = QColor(0, 250, 100, 255)
-        frame_constants = QColor(200, 200, 200, 255)
-        text_tab = QColor(20, 20, 20, 255)
+    backGround = QColor(50, 50, 50, 255)
+    process = QColor(100, 100, 100, 255)
+    frame_process = QColor(200, 200, 200, 255)
+    subprocess = QColor(200, 50, 0, 255)
+    frame_subprocess = QColor(250, 100, 0, 255)
+    text_block_label = QColor(255, 255, 255, 255)
+    text_port_label_input = QColor(200, 200, 200, 255)
+    text_port_label_output = QColor(200, 200, 200, 255)
+    bis_link = QColor(50, 50, 50, 255)
+    frame_comment = QColor(90, 150, 250, 255)
+    background_comment = QColor(100, 100, 200, 255)
+    text_comment = QColor(120, 150, 250, 255)
+    cross_scene = QColor(250, 100, 0, 255)
+    frame_connect = QColor(0, 250, 100, 255)
+    frame_constants = QColor(200, 200, 200, 255)
+    text_tab = QColor(20, 20, 20, 255)
 
 ###############################################################################
 
@@ -5034,7 +5033,7 @@ class TreeLibrary(QTreeView):
                     else:
                         for elem in previewScene.items():
                             previewScene.removeItem(elem)
-        except:
+        except Exception as e:
             print('error showModel')
         return QTreeView.mousePressEvent(self, event)
 
@@ -5078,41 +5077,41 @@ class TreeLibrary(QTreeView):
         previewDiagram.scale(0.6, 0.6)
 
     def drawLink(self, inp, posX, posY):
-            format = inp.format
-            link = QGraphicsPathItem()
-            bislink = QGraphicsPathItem()
+        format = inp.format
+        link = QGraphicsPathItem()
+        bislink = QGraphicsPathItem()
 
-            for types in TypeColor:
-                if types.name in format:
-                    color = types.value
+        for types in TypeColor:
+            if types.name in format:
+                color = types.value
 
-            if 'list' in str(format):
-                link.setPen(QtGui.QPen(color, 5))
-                bislink.setPen(QtGui.QPen(Qt.NoPen))
+        if 'list' in str(format):
+            link.setPen(QtGui.QPen(color, 5))
+            bislink.setPen(QtGui.QPen(Qt.NoPen))
 
-            elif 'array' in str(format):
-                link.setPen(QtGui.QPen(color, 8))
-                bislink.setPen(QtGui.QPen(ItemColor.bis_link.value, 3, Qt.SolidLine))
+        elif 'array' in str(format):
+            link.setPen(QtGui.QPen(color, 8))
+            bislink.setPen(QtGui.QPen(ItemColor.bis_link.value, 3, Qt.SolidLine))
 
-            else:
-                link.setPen(QtGui.QPen(color, 2))
-                bislink.setPen(QtGui.QPen(Qt.NoPen))
+        else:
+            link.setPen(QtGui.QPen(color, 2))
+            bislink.setPen(QtGui.QPen(Qt.NoPen))
 
-            path = QPainterPath()
-            pos2X, pos2Y = inp.scenePos().x(), inp.scenePos().y() - 1
-            pos1X, pos1Y = pos2X + posX, pos2Y - posY
-            self.start_x, self.start_y = pos1X, pos1Y
-            self.end_x, self.end_y = pos2X, pos2Y
-            self.ctrl1_x, self.ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
-            self.ctrl2_x, self.ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
-            path.moveTo(self.start_x, self.start_y)
-            path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
+        path = QPainterPath()
+        pos2X, pos2Y = inp.scenePos().x(), inp.scenePos().y() - 1
+        pos1X, pos1Y = pos2X + posX, pos2Y - posY
+        self.start_x, self.start_y = pos1X, pos1Y
+        self.end_x, self.end_y = pos2X, pos2Y
+        self.ctrl1_x, self.ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
+        self.ctrl2_x, self.ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
+        path.moveTo(self.start_x, self.start_y)
+        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
 
-            link.setPath(path)
-            bislink.setPath(path)
+        link.setPath(path)
+        bislink.setPath(path)
 
-            previewDiagram.scene().addItem(link)
-            previewDiagram.scene().addItem(bislink)
+        previewDiagram.scene().addItem(link)
+        previewDiagram.scene().addItem(bislink)
 
 
 class ReorderList:
@@ -5485,7 +5484,7 @@ class NodeEdit(QWidget):
 
             try:
                 textInf.setText(editor.pathDiagram[editor.currentTab])
-            except:
+            except Exception as e:
                 pass
 
             if self.tabsDiagram.count() == 0:
@@ -5623,7 +5622,7 @@ class NodeEdit(QWidget):
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection impossible : constant to connector ')
                 greenText = greenText + ("</span>")
-                textEdit.append(greenText) 
+                textEdit.append(greenText)
             elif not self.touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
@@ -5692,12 +5691,12 @@ class NodeEdit(QWidget):
                                                     else:
                                                         try:
                                                             listValDefault = (*listValDefault, eval(self.dicts[name][el]))
-                                                        except:
+                                                        except Exception as e:
                                                             listValDefault = (*listValDefault, self.dicts[name][el])
                                                 else:
                                                     try:
                                                         listValDefault = (*listValDefault, eval(self.dicts[name][el]))
-                                                    except:
+                                                    except Exception as e:
                                                         listValDefault = (*listValDefault, self.dicts[name][el])
 
                         ###################################################
@@ -5804,7 +5803,8 @@ class NodeEdit(QWidget):
                         portcurrent.format = tmpformat
                         portcurrent.name = b
                         portcurrent.label.setPlainText(b)
-                        portcurrent.label.setPos(portcurrent.pos().x() - 160 - portcurrent.label.boundingRect().size().width(), portcurrent.label.pos().y())
+                        portcurrent.label.setPos(portcurrent.pos().x() - 160 - portcurrent.label.boundingRect().size().width(),
+                                                 portcurrent.label.pos().y())
                         tmp = listConnects[editor.currentTab][a]
                         del listConnects[editor.currentTab][a]
                         listConnects[editor.currentTab][a] = (tmp[0], b, tmpformat, oldVal)
