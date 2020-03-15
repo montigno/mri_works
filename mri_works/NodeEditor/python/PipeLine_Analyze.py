@@ -172,9 +172,11 @@ class analyze:
                 line = line[line.index('value=') + 7:len(line)]
                 vout = line[0:line.index('] format')]
                 line = line[line.index('format=') + 8:len(line)]
-                fort = line[0:line.index('] RectF')]
+                fort = line[0:line.index('] label')]
                 if not fort:
                     fort = ''
+                elif fort == 'path':
+                    vout = vout.replace('\\n', '')
                 try:
                     listConstant[unit] = (eval(vout), fort)
                 except Exception as e:

@@ -20,6 +20,7 @@ paths:
   data: /tmp/
   histories:
   - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Loop_For/generate_spiral.dgr
+  - /home/domicile-xubuntu/Bureau/test_constant_path.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

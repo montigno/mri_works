@@ -926,7 +926,6 @@ class SaveDiagram(QTextEdit):
                     value = item.elemProxy.currentText()
                 elif type(item.elemProxy) == Constants_text:
                     value = repr(item.elemProxy.toPlainText())
-                    value = value.replace('\\n','')
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
                 self.append('constant=[' + str(item.unit) +
@@ -3885,7 +3884,6 @@ class Constants_text(QTextEdit):
         self.setCursorWidth(0)
         tmpTxt = repr(self.toPlainText())
         tmpTxt = tmpTxt.replace('\\n', '')
-        print('tmpTxt = ', tmpTxt)
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
 
@@ -4025,9 +4023,9 @@ class ForLoopItem(QGraphicsRectItem):
     def mousePressEvent(self, event):
 
         if self.isMod:
-            if event.button()==1:
-                 editor.diagramScene[editor.currentTab].clearSelection()
-                 self.setSelected(True)
+            if event.button() == 1:
+                editor.diagramScene[editor.currentTab].clearSelection()
+                self.setSelected(True)
 
             if event.button() == 2:
                 self.setSelected(True)
