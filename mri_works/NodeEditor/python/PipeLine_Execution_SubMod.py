@@ -14,7 +14,6 @@ import sys
 import os
 import threading
 import numpy as np
-from PyQt5.QtCore import QDir
 from NodeEditor.python.ForLoop_Info import ForLoopInfo
 
 
@@ -63,7 +62,7 @@ class executionSubmod:
 
         if modul:
             for ls in listModul.keys():
-                file = os.path.join(QDir.currentPath(),
+                file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',
                                     'submodules',
                                     modul[0] + '.mod')
@@ -91,7 +90,7 @@ class executionSubmod:
         listIfExecution = {}
         for ls in listBlockExecution:
             if 'F' in ls:
-                file = os.path.join(QDir.currentPath(),
+                file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',
                                     'submodules',
                                     modul[0] + '.mod')
@@ -107,7 +106,7 @@ class executionSubmod:
                         break
                 listForExecution[ls] = tmp1
             elif 'I' in ls:
-                file = os.path.join(QDir.currentPath(),
+                file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',
                                     'submodules',
                                     modul[0] + '.mod')

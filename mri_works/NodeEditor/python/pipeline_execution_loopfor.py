@@ -10,7 +10,6 @@
 import os
 import ast
 import numpy as np
-from PyQt5.QtCore import QDir
 from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 
 

@@ -2,10 +2,10 @@
 
 class ChooseRepertories:
     def __init__(self):
-        from PyQt5.QtCore import QDir        
         from subprocess import Popen, PIPE
-        import os, sys
-        programm = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', 'Java', 'sources')
+        import os
+        import sys
+        programm = os.path.join(os.path.abspath(os.getcwd()), 'NodeEditor', 'modules', 'Java', 'sources')
         command = 'java -cp ' + programm + " FileChooser"
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()

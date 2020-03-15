@@ -10,7 +10,6 @@ import re
 import ast
 import sys
 import os
-from PyQt5.QtCore import QDir
 from NodeEditor.python.analyze_loopFor import analyzeLoopFor
 from NodeEditor.python.analyze_loopIf import analyzeLoopIf
 
@@ -88,7 +87,7 @@ class analyze:
                 line = line[line.index('valInputs') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF')]
                 self.listModul[unit] = (nameMod, Vinput)
-                file = os.path.join(QDir.currentPath(),
+                file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',
                                     'submodules',
                                     nameMod + '.mod')

@@ -19,8 +19,7 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Bureau/projects_mriworks/ForLoop_recursive.dgr
-  - /home/ommaster/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_7.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Loop_For/generate_spiral.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

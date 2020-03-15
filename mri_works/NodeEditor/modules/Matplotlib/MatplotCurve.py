@@ -1,5 +1,3 @@
-###############################################################################
-
 class MatPlotCurve:
     def __init__(self,data=[[0.0]],x=[0.0]):
         try:
@@ -63,4 +61,4 @@ class pyPlot2:
             plt.show()
         except ImportError:
             pass
-        
+    

@@ -12,7 +12,6 @@ import ast
 import sys
 import numpy as np
 from multiprocessing import Process
-from PyQt5.QtWidgets import QApplication
 from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 
 

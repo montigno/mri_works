@@ -14,7 +14,7 @@ import time
 import threading
 import gc
 
-from PyQt5.QtCore import QDir
+# from PyQt5.QtCore import QDir
 from PyQt5.QtWidgets import QProgressDialog
 from PyQt5.Qt import Qt
 

@@ -1,5 +1,3 @@
-############################################################################################################################
-
 class BrukerToNifti:
     def __init__(self, Bruker_files=['path'],
                        naming='PatientName/StudyName/CreationDate-SeqNumber-Protocol-SequenceName-AcquisitionTime',
@@ -25,8 +23,8 @@ class BrukerToNifti:
         self.output = []
         for val in txt.split("exported to "):
             self.output.append(val[0:val.index("\n")])
-    
-    def list_files_exported(self:'list_path'):    
+
+    def list_files_exported(self: 'list_path'):    
         return self.output
 
 ############################################################################################################################
@@ -57,9 +55,9 @@ class PhilipsToNifti:
         for val in txt.split("exported to "):
             self.output.append(val[0:val.index("\n")])
     
-    def list_files_exported(self:'list_path'):    
+    def list_files_exported(self: 'list_path'):    
         return self.output
-    
+
 ############################################################################################################################
 
 class BidsToNifti:
@@ -88,7 +86,6 @@ class BidsToNifti:
         self.output = []
         for val in txt.split("exported to "):
             self.output.append(val[0:val.index("\n")])
-    
-    def list_files_exported(self:'list_path'):    
+
+    def list_files_exported(self: 'list_path'):    
         return self.output
-    

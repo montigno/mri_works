@@ -466,9 +466,7 @@ class ShowLegend:
         editor.addTab('Legend')
 
         pos1X, pos1Y, pos2X, pos2Y = 0, 0, 100, 0
-        labColum = 'simple                      \
-                    list                       \
-                    array'
+        labColum = 'simple                     list                        array'
         textColumn = QGraphicsTextItem(labColum, parent=None)
         textColumn.setDefaultTextColor(QtGui.QColor(250, 250, 250))
         textColumn.setFont(QFont("Times", 12, QFont.Bold))
@@ -928,6 +926,7 @@ class SaveDiagram(QTextEdit):
                     value = item.elemProxy.currentText()
                 elif type(item.elemProxy) == Constants_text:
                     value = repr(item.elemProxy.toPlainText())
+                    value = value.replace('\\n','')
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
                 self.append('constant=[' + str(item.unit) +
@@ -3884,8 +3883,11 @@ class Constants_text(QTextEdit):
     def focusOutEvent(self, event):
         UpdateUndoRedo()
         self.setCursorWidth(0)
+        tmpTxt = repr(self.toPlainText())
+        tmpTxt = tmpTxt.replace('\\n', '')
+        print('tmpTxt = ', tmpTxt)
         del listConstants[editor.currentTab][self.unit]
-        listConstants[editor.currentTab][self.unit] = ('str', repr(self.toPlainText()), self.lab)
+        listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
 
 #         print('new value string : ', self.toPlainText())
 ###############################################################################
@@ -4023,8 +4025,12 @@ class ForLoopItem(QGraphicsRectItem):
     def mousePressEvent(self, event):
 
         if self.isMod:
+            if event.button()==1:
+                 editor.diagramScene[editor.currentTab].clearSelection()
+                 self.setSelected(True)
+
             if event.button() == 2:
-                self.setSelected(1)
+                self.setSelected(True)
 
             self.selectItemsInside(self.unit, True)
             UpdateUndoRedo()

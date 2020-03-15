@@ -1,25 +1,23 @@
-##########################################################################################
-
 class ImageJ_load_Image():
     def __init__(self, file='path'):
         import os
         img_current = os.path.basename(file)
         script = "fileCurrent = " + "\"" + file + "\"" + ";imageCurrent = " + "\"" + img_current + "\";open(fileCurrent);run('Enhance Contrast', 'saturated=0.35');"
         self.cmd = script
-   
-    def cmd_post(self:'str'):
+
+    def cmd_post(self: 'str'):
         return self.cmd
-    
-##########################################################################################
+
+##############################################################################
 
 class ImageJ_load_multiImages():
     def __init__(self, file=['path']):
         self.currentImg = file
-   
-    def currentImage(self:'list_str'):
+
+    def currentImage(self: 'list_str'):
         return self.currentImg
 
-##########################################################################################
+##############################################################################
 
 class openImageJ():
 
@@ -36,10 +34,10 @@ class openImageJ():
         tmp = os.path.basename(file)
         self.currentImg = ('.').join(tmp.split('.')[:-1])
                 
-    def currentImage(self:'str'):
+    def currentImage(self: 'str'):
         return self.currentImg
     
-##########################################################################################
+##############################################################################
 
 class openImagej_multiFiles():
 
@@ -69,7 +67,7 @@ class ImageJ_macro():
         option = '-macro'
         subprocess.Popen(['ImageJ', option, file_macro])
         
-##########################################################################################
+##############################################################################
 
 class ImageJ_macrofile():
 
@@ -81,4 +79,4 @@ class ImageJ_macrofile():
 #         subprocess.call(['java','-jar',pathImageJ,pathImage,option,filemacro], shell=False)
         subprocess.Popen(['ImageJ', pathImage, option, filemacro])
         
-##########################################################################################
+##############################################################################
