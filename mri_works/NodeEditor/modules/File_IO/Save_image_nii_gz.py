@@ -24,8 +24,10 @@ class Save_NiiGz_header:
     def __init__(self, image=[[0.0]], filepath='path', new_header='', **options):
         import nibabel as nib
         import numpy as np
+        import tkinter as tk
         from tkinter import filedialog
-
+        root = tk.Tk()
+        root.withdraw()
         if filepath is 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:
