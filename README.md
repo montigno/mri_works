@@ -10,7 +10,7 @@ Features :
 - multiprocessing loop 'For_multiprocessing'.
 - structure 'If'.
 - dynamic inputs.
-- pipeline processing by Capsul or mri_works (integrating multithreading)
+- pipeline processing by [Capsul](http://brainvisa.info/capsul/index.html) or mri_works (integrating multithreading)
 - bricks are very easy to make.
 
 # Documentation
