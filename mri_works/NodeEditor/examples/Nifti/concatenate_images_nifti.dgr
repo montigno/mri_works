@@ -1,0 +1,14 @@
+[diagram]
+link=[N0] node=[U1:filesPath#Node#U0:filenames]
+link=[N1] node=[U0:concat_img#Node#U2:image]
+link=[N2] node=[U0:header_img#Node#U2:new_header]
+block=[U2] category=[File_IO.Save_image_nii_gz] class=[Save_NiiGz_header] valInputs=[(['image', 'filepath', 'new_header', 'title'], ['Node(N1)', 'path', 'Node(N2)', 'Save as ...'], ['pathFile'], ['path'])] RectF=[(-55.53981028986395, -2.577749685400022, 201.21065107567108, 150.0299793888619)]
+block=[U0] category=[Nifti.funcs] class=[concat_images] valInputs=[(['filenames'], ['Node(N0)'], ['concat_img', 'header_img'], ['array_float', 'str'])] RectF=[(-341.18904971133367, 36.63372649993788, 172.515625, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-612.1668437454636, 48.800077459159354, 206.59375, 80.0)]
+[execution]
+[]
+['U1', 'U0', 'U2']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U0': ('Nifti.funcs', 'concat_images', "(['filenames'], ['U1:filesPath'], ['concat_img', 'header_img'], ['array_float', 'str'])"), 'U2': ('File_IO.Save_image_nii_gz', 'Save_NiiGz_header', "(['image', 'filepath', 'new_header', 'title'], ['U0:concat_img', 'path', 'U0:header_img', 'Save as ...'], ['pathFile'], ['path'])")}
+['U0:header_img', 'U0:concat_img', 'U1:filesPath']
+{}
+[]

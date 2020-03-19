@@ -1,7 +1,7 @@
 [diagram]
 constant=[A0] value=[15000.0] format=[float] label=[xmax] RectF=[(-780.6632432487793, -15.352324383556226, 118.0, 31.0)]
 constant=[A3] value=[45.0] format=[float] label=[xmin] RectF=[(-780.2759735259747, -93.5436749979566, 118.0, 31.0)]
-constant=[A2] value=[90.0] format=[enumerate(('1.0', '45.0', '90.0', '75.0'))] label=[A2] RectF=[(-906.2202380672087, 100.61880132125054, 74.0, 31.0)]
+constant=[A2] value=[90.0] format=[enumerate(('1.0', '45.0', '90.0', '75.0'))] label=[A2] RectF=[(-906.2202380672087, 100.61880132125054, 69.0, 31.0)]
 constant=[A1] value=[radian] format=[enumerate(('degree', 'radian'))] label=[A1] RectF=[(-332.9804314853965, 131.0482717617625, 85.0, 31.0)]
 block=[U3] category=[Numpy.Functions_trigo] class=[numpy_sin] valInputs=[(['x', 'angle_type'], ['Node(N3)', 'Node(N13)'], ['sinus'], ['float'])] RectF=[(-165.7016459583047, 93.21958412956346, 150.0, 80.0)]
 block=[U2] category=[Numpy.Functions_trigo] class=[numpy_cos] valInputs=[(['x', 'angle_type'], ['Node(N2)', 'Node(N15)'], ['cosinus'], ['float'])] RectF=[(-170.79128992243608, -169.39097966797527, 151.734375, 80.0)]
