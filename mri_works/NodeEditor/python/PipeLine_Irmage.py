@@ -222,7 +222,7 @@ class Menu(QMenuBar):
                         f.write('\n[execution]\n')
                         f.write(analyze(txt.toPlainText(), textEdit, True)
                                 .getListForExecution())
-                        f.write(LoadCodeScript().getListScript())
+                        f.write(LoadCodeScript().writeListScript())
                         f.close()
                         editor.pathDiagram[editor.currentTab] = file
                         editor.tabsDiagram.setTabText(editor.currentTab,
@@ -571,6 +571,7 @@ class LibIcon(QPixmap):
         icon.drawRect(0, 0, 100, 30)
         icon.end()
 
+
 class LoadCodeScript:
     def __init__(self):
         self.listCodeScript = ''
@@ -581,10 +582,13 @@ class LoadCodeScript:
                     txt += valS.elemProxy.toPlainText()+'\n'
                     txt += '[/source '+valS.unit+']\n'
                     self.listCodeScript += txt
+
+    def writeListScript(self):
+        return self.listCodeScript
     
     def getListScript(self):
-        return self.listCodeScript
-                
+        pass
+
 
 class LoadDiagram:
 
@@ -595,7 +599,11 @@ class LoadDiagram:
 
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc = {}, {}, {}
-        
+        listCode = {}
+        insource = False
+        tmpKeyScript = ''
+        tmpValScript = ''
+ 
         for line in txt:
             if line[0:5] == 'connt':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -712,6 +720,19 @@ class LoadDiagram:
                 edit.loadScriptItem(unit, pos, eval(inp), eval(outp))
                 listSc[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = code
+                
+            elif line[0:8] == '[source ':
+                insource = True
+                tmpKeyScript = line[line.index('[source ')+8:]
+                tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
+            elif line[0:9] == '[/source ':
+                listCode[tmpKeyScript] = tmpValScript[0:-1]
+                insource = False
+                tmpValScript=''
+            elif insource:
+                if '\n' not in line:
+                    line +='\n'
+                tmpValScript += line
 
         listNd = {}
         for line in txt:
@@ -797,8 +818,13 @@ class LoadDiagram:
                                              fromPort.format)
                 startConnection.setEndPos(toPort.scenePos())
                 startConnection.setToPort(toPort)
+                
+        if listSc:
+            for elem in editor.diagramView[editor.currentTab].items():
+                if type(elem) == ScriptItem:
+                    elem.elemProxy.setPlainText(listCode[elem.unit])
+                
         ValueZ2()
-
 
 class ValueZ:
 
@@ -887,6 +913,8 @@ class SaveDiagram(QTextEdit):
 
     def __init__(self, parent=None):
         super(SaveDiagram, self).__init__(parent)
+        listCodeScript = {}
+        
         self.append('[diagram]')
         for item in editor.diagramView[editor.currentTab].items():
             try:
@@ -976,6 +1004,7 @@ class SaveDiagram(QTextEdit):
                             ']')
             
             elif type(item) == ScriptItem:
+                listCodeScript[item.unit] = item.elemProxy.toPlainText()
                 rect = item.rect()
                 self.append('script=[' + str(item.unit) +
                                         '] inputs=' + str(libTools[editor.currentTab][item.unit][0]) +
@@ -983,7 +1012,12 @@ class SaveDiagram(QTextEdit):
                                         ' code=[' + "your code" +
                                         '] RectF=[' + str((coord.x(), coord.y(), rect.width(), rect.height())) +
                                         ']')
+        
+        if listCodeScript:
+            for line in LoadCodeScript().writeListScript().split('\n'):
+                self.append(line)
 
+            
 class UpdateList:
 
     def __init__(self, txt):
@@ -2708,7 +2742,6 @@ class BlockCreate(QGraphicsRectItem):
         LoadDiagram(diagram.splitlines())
         UpdateList(diagram)
         undoredoTyping[editor.currentTab][len(undoredoTyping[editor.currentTab])] = diagram
-#         UpdateUndoRedo()
 
     def deleteBlocks(self):
         for elem in editor.diagramView[editor.currentTab].items():
@@ -2894,6 +2927,10 @@ class BlockCreate(QGraphicsRectItem):
 
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc = {}, {}, {}
+        listCode = {}
+        insource = False
+        tmpKeyScript = ''
+        tmpValScript = ''
 
         for line in txt:
             if line[0:5] == 'connt':
@@ -3001,6 +3038,19 @@ class BlockCreate(QGraphicsRectItem):
                 except Exception as e:
                     edit.loadConstant(unit, pos, vout, fort, lab)
                 listCt[unit] = edit.returnBlockSystem()
+                
+            elif line[0:8] == '[source ':
+                insource = True
+                tmpKeyScript = line[line.index('[source ')+8:]
+                tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
+            elif line[0:9] == '[/source ':
+                listCode[tmpKeyScript] = tmpValScript[0:-1]
+                insource = False
+                tmpValScript=''
+            elif insource:
+                if '\n' not in line:
+                    line +='\n'
+                tmpValScript += line
 
         listNd = {}
         for line in txt:
@@ -3081,6 +3131,12 @@ class BlockCreate(QGraphicsRectItem):
                 startConnection = Connection(nameNode, fromPort, toPort, fromPort.format)
                 startConnection.setEndPos(toPort.scenePos())
                 startConnection.setToPort(toPort)
+        
+        if listSc:
+            for elem in editor.diagramView[editor.currentTab].items():
+                if type(elem) == ScriptItem:
+                    elem.elemProxy.setPlainText(listCode[elem.unit])       
+                
         ValueZ2()
         editor.diagramView[editor.currentTab].fitInView(editor.diagramScene[editor.currentTab].sceneRect(), QtCore.Qt.KeepAspectRatio)
         UpdateUndoRedo()
@@ -4272,15 +4328,9 @@ class ForLoopItem(QGraphicsRectItem):
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
                     BlockCreate.deletelink(self, elem, self.unit)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-#                     del listNodes[editor.currentTab][elem.name]
         del listTools[editor.currentTab][self.unit]
         del libTools[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
-#         UpdateUndoRedo()
 
     def addTunnelInput(self):
         self.nbin += 1
@@ -4628,7 +4678,7 @@ class ScriptItem(QGraphicsRectItem):
 
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
-            self.deleteLoopFor()
+            self.deleteScript()
             UpdateUndoRedo()
         if keyEvent.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
