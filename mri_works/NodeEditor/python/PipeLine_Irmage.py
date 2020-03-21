@@ -579,6 +579,7 @@ class LoadCodeScript:
             if 'S' in keyS:
                 if type(valS) == ScriptItem:
                     txt = '[source '+valS.unit+']\n'
+                    txt +=str(self.getInputsScript(keyS))+'\n'
                     txt += valS.elemProxy.toPlainText()+'\n'
                     txt += '[/source '+valS.unit+']\n'
                     self.listCodeScript += txt
@@ -586,8 +587,16 @@ class LoadCodeScript:
     def writeListScript(self):
         return self.listCodeScript
     
-    def getListScript(self):
-        pass
+    def getInputsScript(self,  unitScript):
+        listInputVal=[]
+        for key, val in listNodes[editor.currentTab].items():
+            tmpout= val[val.index("#Node") + 6:]
+            if unitScript+':' in tmpout:
+                tmpIn = tmpout[tmpout.index(':')+1:]
+                tmpVal = val[0:val.index('#Node#')]
+                listInputVal.append(tmpIn+'='+tmpVal)
+        return listInputVal
+                    
 
 
 class LoadDiagram:
@@ -726,6 +735,7 @@ class LoadDiagram:
                 tmpKeyScript = line[line.index('[source ')+8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
+                tmpValScript=tmpValScript[tmpValScript.index('\n')+1:]
                 listCode[tmpKeyScript] = tmpValScript[0:-1]
                 insource = False
                 tmpValScript=''
@@ -3044,6 +3054,7 @@ class BlockCreate(QGraphicsRectItem):
                 tmpKeyScript = line[line.index('[source ')+8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
+                tmpValScript=tmpValScript[tmpValScript.index('\n')+1:]
                 listCode[tmpKeyScript] = tmpValScript[0:-1]
                 insource = False
                 tmpValScript=''
@@ -3918,7 +3929,7 @@ class Constants_int(QSpinBox):
 
     def __init__(self, unit, val, lab, parent=None):
         super(Constants_int, self).__init__(parent)
-        self.setButtonSymbols(QSpinBox.NoButtons)
+#         self.setButtonSymbols(QSpinBox.NoButtons)
         self.setMaximum(100000)
         self.setMinimum(-100000)
         self.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
@@ -3928,7 +3939,7 @@ class Constants_int(QSpinBox):
 
     def focusOutEvent(self, event):
         UpdateUndoRedo()
-#         print('new Value int : ',self.value())
+        self.lineEdit().deselect()
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('int', self.value(), self.lab)
         self.setReadOnly(True)
@@ -3943,7 +3954,7 @@ class Constants_float(QDoubleSpinBox):
 
     def __init__(self, unit, val, lab, parent=None):
         super(Constants_float, self).__init__(parent)
-        self.setButtonSymbols(QSpinBox.NoButtons)
+#         self.setButtonSymbols(QSpinBox.NoButtons)
         self.setRange(-100000, 100000)
         self.setDecimals(4)
         self.setValue(val)
@@ -3953,7 +3964,7 @@ class Constants_float(QDoubleSpinBox):
 
     def focusOutEvent(self, event):
         UpdateUndoRedo()
-#         print('new Value float : ', self.value())
+        self.lineEdit().deselect()
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('float', self.value(), self.lab)
         self.setReadOnly(True)

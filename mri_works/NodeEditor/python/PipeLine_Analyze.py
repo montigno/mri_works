@@ -182,6 +182,7 @@ class analyze:
                 except Exception as e:
                     listConstant[unit] = (vout, fort)
 
+
         # sort of connectors list ##########################
 
         if tmpIn:
