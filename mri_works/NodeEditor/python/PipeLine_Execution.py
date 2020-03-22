@@ -379,7 +379,10 @@ class execution:
                     self.listDynamicValue[uj] = a.getOutValues()[uj]
                     
             elif 'S' in execution:
-                executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor )
+                a = executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor )
+                for uj in a.getOutValues().keys():
+                    self.listDynamicValue[uj] = a.getOutValues()[uj]
+                
         # try:
         #     print("lenght value listDynamicValue",
         #            len(self.listDynamicValue))
