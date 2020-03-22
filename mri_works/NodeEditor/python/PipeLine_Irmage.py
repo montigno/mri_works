@@ -222,7 +222,6 @@ class Menu(QMenuBar):
                         f.write('\n[execution]\n')
                         f.write(analyze(txt.toPlainText(), textEdit, True)
                                 .getListForExecution())
-                        f.write(LoadCodeScript().writeListScript())
                         f.close()
                         editor.pathDiagram[editor.currentTab] = file
                         editor.tabsDiagram.setTabText(editor.currentTab,
@@ -280,13 +279,20 @@ class Menu(QMenuBar):
         if (tmpActText == 'Run Pipeline' or
                 tmpActText == 'Run Pipeline with Thread'):
             textEdit.clear()
-            txt = SaveDiagram()
+            txt_raw = SaveDiagram().toPlainText()
+            txt_code=''
+            for keyS, valS in listTools[editor.currentTab].items():
+                if 'S' in keyS:
+                    tmpS = 'source '+keyS+']'
+                    txt_code += txt_raw[txt_raw.index('['+tmpS):txt_raw.index('[/'+tmpS)+len(tmpS)+2]+'\n'
             if 'with Thread' in tmpActText:
-                txt = analyze(txt.toPlainText(), textEdit, True).\
+                txt = analyze(txt_raw, textEdit, True).\
                                 getListForExecution()
             else:
-                txt = analyze(txt.toPlainText(), textEdit, False).\
+                txt = analyze(txt_raw, textEdit, False).\
                                 getListForExecution()
+            if txt_code:
+                txt += txt_code
             textEdit.append("<span style=\" font-size:10pt;"
                             "font-weight:600; color:#0000CC;"
                             "\" >Pipeline started ! </span>")
@@ -390,7 +396,7 @@ class Menu(QMenuBar):
             textEdit.append(str(listConnects[editor.currentTab]))
             textEdit.append('listSubMod :')
             textEdit.append(str(listSubMod[editor.currentTab]))
-            textEdit.append('listConstant :')
+            textEdit.append('listConstants :')
             textEdit.append(str(listConstants[editor.currentTab]))
             textEdit.append('listTools :')
             textEdit.append(str(listTools[editor.currentTab]))
@@ -581,6 +587,7 @@ class LoadCodeScript:
                     txt = '[source '+valS.unit+']\n'
                     txt +=str(self.getInputsScript(keyS))+'\n'
                     txt += valS.elemProxy.toPlainText()+'\n'
+                    txt += str([keyS+':'+item.name for item in valS.outputs])+'\n'
                     txt += '[/source '+valS.unit+']\n'
                     self.listCodeScript += txt
 
@@ -594,10 +601,12 @@ class LoadCodeScript:
             if unitScript+':' in tmpout:
                 tmpIn = tmpout[tmpout.index(':')+1:]
                 tmpVal = val[0:val.index('#Node#')]
-                listInputVal.append(tmpIn+'='+tmpVal)
+                if 'A' in tmpVal[0:1]:
+                    tmpConstName = tmpVal[0:-1]
+                    tmpVal =str( listConstants[editor.currentTab][tmpConstName][1])
+                listInputVal.append(tmpIn+'='+tmpVal) 
         return listInputVal
                     
-
 
 class LoadDiagram:
 
@@ -735,8 +744,8 @@ class LoadDiagram:
                 tmpKeyScript = line[line.index('[source ')+8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
-                tmpValScript=tmpValScript[tmpValScript.index('\n')+1:]
-                listCode[tmpKeyScript] = tmpValScript[0:-1]
+                tmpValScript = '\n'.join(tmpValScript.splitlines()[1:-1])
+                listCode[tmpKeyScript] = tmpValScript
                 insource = False
                 tmpValScript=''
             elif insource:
@@ -3054,8 +3063,8 @@ class BlockCreate(QGraphicsRectItem):
                 tmpKeyScript = line[line.index('[source ')+8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
-                tmpValScript=tmpValScript[tmpValScript.index('\n')+1:]
-                listCode[tmpKeyScript] = tmpValScript[0:-1]
+                tmpValScript = '\n'.join(tmpValScript.splitlines()[1:-1])
+                listCode[tmpKeyScript] = tmpValScript
                 insource = False
                 tmpValScript=''
             elif insource:
@@ -4677,7 +4686,7 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
-        self.elemProxy.setStyleSheet("background-color: rgb(250, 250, 250);\
+        self.elemProxy.setStyleSheet("background-color: rgb(200, 200, 200);\
                                                                        selection-background-color: yellow;\
                                                                        color: blue")
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
