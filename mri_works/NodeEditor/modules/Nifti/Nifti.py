@@ -9,7 +9,7 @@ class Open_Nifti:
         self.img=[[0.0]]
         if (os.path.splitext(fileSource)[1] =='.nii') or ('.nii.gz' in fileSource):
             img =  nib.load(fileSource)
-            self.img = img.get_data()
+            self.img = img.get_fdata()
             self.dim = len(img.shape)
         else:
             print('no Nifti file')
@@ -37,6 +37,15 @@ class array_to_NumpyArray():
     def __init__(self, array_in=[[0.0]]):
         import numpy as np
         self.out_array=np.array(array_in)
+        
+    def out_array(self:'array_float'):
+        return self.out_array
+    
+###############################################################################
+
+class NumpyArray_to_array():
+    def __init__(self, array_in=[[0.0]]):
+        self.out_array=array_in.tolist()
         
     def out_array(self:'array_float'):
         return self.out_array

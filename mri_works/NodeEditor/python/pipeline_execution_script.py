@@ -26,6 +26,7 @@ class executionScript:
         for lst in outputsList:
             az = lst.split(':')
             code += 'self.listDynamicValueToReturn["'+lst+'"]='+az[1]+'\n'
+#         print(code)
         exec(code)
 
     def getOutValues(self):
