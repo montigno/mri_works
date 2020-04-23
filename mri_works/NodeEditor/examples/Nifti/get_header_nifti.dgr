@@ -1,0 +1,13 @@
+[diagram]
+link=[N4] node=[U4:nii_hdr#Node#U5:in_String]
+link=[N3] node=[U1:filePath#Node#U4:nii_image]
+block=[U5] category=[Tools.Print] class=[Print_str] valInputs=[(['comment', 'in_String'], ['hearder : ', 'Node(N4)'], [], [])] RectF=[(-13.776571351151361, 38.17306084740089, 150.0, 80.0)]
+block=[U4] category=[Nifti.Info_Nifti] class=[Nifti_header] valInputs=[(['nii_image'], ['Node(N3)'], ['nii_hdr'], ['str'])] RectF=[(-260.466431679917, 47.29695108219348, 150.0, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['/home_ldap/omontigo/Documents/IRM/Nifti/DraftNifti/Rat-K49-Tube8/Guerbet-C6-2014-Rat-K49-Tube8-2014-02-10_14-15-20-01-G1_Guerbet_Anat.nii', '*.nii', ''], ['filePath'], ['path'])] RectF=[(-557.1839067075337, 59.32916187907881, 154.3125, 80.0)]
+[execution]
+[]
+['U1', 'U4', 'U5']
+{'U1': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['/home_ldap/omontigo/Documents/IRM/Nifti/DraftNifti/Rat-K49-Tube8/Guerbet-C6-2014-Rat-K49-Tube8-2014-02-10_14-15-20-01-G1_Guerbet_Anat.nii', '*.nii', ''], ['filePath'], ['path'])"), 'U4': ('Nifti.Info_Nifti', 'Nifti_header', "(['nii_image'], ['U1:filePath'], ['nii_hdr'], ['str'])"), 'U5': ('Tools.Print', 'Print_str', "(['comment', 'in_String'], ['hearder : ', 'U4:nii_hdr'], [], [])")}
+['U1:filePath', 'U4:nii_hdr']
+{}
+[]
