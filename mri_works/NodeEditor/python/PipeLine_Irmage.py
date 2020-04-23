@@ -7,8 +7,8 @@
 ##########################################################################
 
 '''
-Created on 14 dec. 2017
-Modified on 18 mars. 2020
+Created on 14 december 2017
+Modified on 13 april 2020
 @author: omonti
 '''
 
@@ -5332,7 +5332,7 @@ class Port(QGraphicsRectItem):
                          editor.getlib()[ind][1],
                          150, 80,
                          editor.getlib()[ind][2]).getBlocks()
-        b1.setPos(self.pos())
+        b1.setPos(self.mapToScene(self.boundingRect().x()+100,self.boundingRect().y()))
         inp = b1.inputs
         for fd in inp:
             if fd.name != 'comment':

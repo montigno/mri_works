@@ -3,6 +3,7 @@ constant=[A0] value=[45.0] format=[float] label=[A0] RectF=[(-254.0058139534884,
 constant=[A1] value=[15000.0] format=[float] label=[A1] RectF=[(-253.0, -57.0, 118.0, 31.0)]
 constant=[A2] value=[90.0] format=[float] label=[A2] RectF=[(-253.0, 6.0, 118.0, 31.0)]
 constant=[A3] value=[radian] format=[enumerate(('degree', 'radian'))] label=[A3] RectF=[(-218.06395348837208, 71.99806201550388, 85.0, 31.0)]
+link=[N6] node=[A3:#Node#U0:title]
 link=[N0] node=[A2:#Node#M0:delta_x]
 link=[N1] node=[A0:#Node#M0:xmin]
 link=[N2] node=[A1:#Node#M0:xmax]
@@ -10,12 +11,12 @@ link=[N3] node=[A3:#Node#M0:angle_type]
 link=[N4] node=[M0:out0#Node#U0:data]
 link=[N5] node=[M0:out1#Node#U0:x]
 submod=[M0] nameMod=[spiral_2] valInputs=[(['xmin', 'xmax', 'delta_x', 'angle_type'], ['Node(N1)', 'Node(N2)', 'Node(N0)', 'Node(N3)'], ['out0', 'out1'], ['list_float', 'list_float'])] RectF=[(-52.97480620155038, -52.97674418604652, 150.0, 80.0)]
-block=[U0] category=[Matplotlib.MatplotCurve] class=[pyPlot] valInputs=[(['data', 'x', 'title'], ['Node(N4)', 'Node(N5)', ''], [], [])] RectF=[(189.98837209302326, -52.97480620155039, 150.0, 105.0)]
+block=[U0] category=[Matplotlib.MatplotCurve] class=[pyPlot] valInputs=[(['data', 'x', 'title'], ['Node(N4)', 'Node(N5)', 'Node(N6)'], [], [])] RectF=[(201.9269251305173, -35.06697664530928, 150.0, 105.0)]
 [execution]
 []
 ['M0', 'U0']
-{'U0': ('Matplotlib.MatplotCurve', 'pyPlot', "(['data', 'x', 'title'], ['M0:out0', 'M0:out1', ''], [], [])")}
-['M0:out1', 'M0:out0', 'A3:', 'A1:', 'A0:', 'A2:']
+{'U0': ('Matplotlib.MatplotCurve', 'pyPlot', "(['data', 'x', 'title'], ['M0:out0', 'M0:out1', 'radian'], [], [])")}
+['M0:out1', 'M0:out0', 'A3:', 'A1:', 'A0:', 'A2:', 'A3:']
 {'M0': ('spiral_2', "(['xmin', 'xmax', 'delta_x', 'angle_type'], [45.0, 15000.0, 90.0, 'radian'], ['out0', 'out1'], ['list_float', 'list_float'])")}
 []
 [submod M0]
