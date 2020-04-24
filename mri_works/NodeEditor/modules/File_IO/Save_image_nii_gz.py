@@ -1,6 +1,7 @@
 class Save_NiiGz:
     def __init__(self, image=[[0.0]], filepath='path', **options):
         import nibabel as nib
+        import numpy as np
         from tkinter import filedialog
 
         if filepath is 'path':

@@ -26,9 +26,9 @@ paths:
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_images.dgr
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_filtering_files.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_7.dgr
-  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Script/files_filtering.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/compare_affine.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/loopFor_recursif.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

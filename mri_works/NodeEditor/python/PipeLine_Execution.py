@@ -13,8 +13,8 @@ import os
 import time
 import threading
 import gc
+from builtins import getattr
 
-# from PyQt5.QtCore import QDir
 from PyQt5.QtWidgets import QProgressDialog
 from PyQt5.Qt import Qt
 
@@ -22,9 +22,7 @@ from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 from NodeEditor.python.pipeline_execution_loopfor import executionFor
 from NodeEditor.python.pipeline_execution_loopfor_multiprocessing import executionFor_proc
 from NodeEditor.python.pipeline_execution_script import executionScript
-
 from NodeEditor.python.progressBar import progressBar
-from builtins import getattr
 
 
 class execution:

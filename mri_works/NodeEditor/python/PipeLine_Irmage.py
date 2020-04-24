@@ -1738,7 +1738,7 @@ class LinkItem(QGraphicsPathItem):
             self.bislink.setPen(QtGui.QPen(Qt.NoPen))
 
         self.setPen(QtGui.QPen(self.color, self.weight))
-        self.setZValue(0)
+        self.setZValue(1)
 
         self.setFlag(QGraphicsItem.ItemIsSelectable, False)
         self.setFlag(QGraphicsItem.ItemIsFocusable, True)
