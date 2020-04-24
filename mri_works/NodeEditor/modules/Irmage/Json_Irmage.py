@@ -27,12 +27,10 @@ class Json_File:
 ##############################################################################
 
 class Json_List_Tags:
-    def __init__ (self,jsonFile='path'):
+    def __init__ (self, jsonFile='path'):
         import os.path
         import json
-        
         self.data=[]
-        
         with open(jsonFile) as f:
             self.data = list(json.load(f).keys())
         
@@ -40,6 +38,3 @@ class Json_List_Tags:
         return self.data
     
 ##############################################################################
-
-# class file_selection:
-#     def __init__(self, files):

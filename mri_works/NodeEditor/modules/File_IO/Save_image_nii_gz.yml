@@ -5,3 +5,10 @@ Save_NiiGz:
   initialfile: 'path'
   initialdir: 'path'
   filetypes: (("text files","*.txt"),("all files","*.*"))
+Save_NiiGz_header:
+  mode: enumerate(('r', 'w'))
+  defaultextension: '*.*'
+  title: ''
+  initialfile: 'path'
+  initialdir: 'path'
+  filetypes: (("text files","*.txt"),("all files","*.*"))

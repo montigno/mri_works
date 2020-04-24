@@ -76,6 +76,17 @@ class string_substring:
     
 ###############################################################################
 
+class string_substring_2:
+    def __init__(self,in_string='', begin='', end=''):
+        tmp = str(in_string)
+        tmp = tmp[tmp.index(begin):]
+        self.substr = tmp[0:tmp.index(end)]
+        
+    def substring(self:'str'):
+        return self.substr
+    
+###############################################################################
+
 class string_compare:
     def __init__(self,in_string='',compareTo='',type_compare="enumerate(('equal','contains'))"):
         if type_compare == 'equal':

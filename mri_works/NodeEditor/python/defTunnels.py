@@ -46,7 +46,6 @@ class defineTunnels(QDialog):
         hbox2 = QHBoxLayout()
         self.comboFormat = QComboBox(self)
         self.comboFormat.addItems(listformat)
-
         hbox2.addWidget(self.comboFormat)
 
         hbox3 = QHBoxLayout()

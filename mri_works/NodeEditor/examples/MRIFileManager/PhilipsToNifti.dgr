@@ -1,15 +1,17 @@
 [diagram]
 link=[N0] node=[U0:filesPath#Node#U2:Philips_files]
-block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-815.4234610315536, -126.9432127979525, 206.59375, 80.0)]
 link=[N1] node=[U1:outFile#Node#U2:path_export]
 link=[N2] node=[U2:list_files_exported#Node#U3:file]
+link=[N3] node=[U4:str_conc#Node#U2:naming]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open Philips files (Par/Rec)'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-818.5979904492501, -198.8992129324035, 206.59375, 80.0)]
 block=[U3] category=[ImageJ.ImageJ_open] class=[openImagej_multiFiles] valInputs=[(['file'], ['Node(N2)'], [], [])] RectF=[(-190.44840236565346, -45.62760786801026, 150.0, 80.0)]
-block=[U1] category=[Tools.PathManipulation] class=[joinPath] valInputs=[(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])] RectF=[(-761.6129889194659, 39.19036523119493, 170.32266342302228, 113.25018730153664)]
-block=[U2] category=[Java.MRIFileManager] class=[PhilipsToNifti] valInputs=[(['Philips_files', 'naming', 'path_export', 'bvals_bvecs'], ['Node(N0)', 'PatientName/StudyName/CreationDate-SeqNumber-Protocol-SequenceName-AcquisitionTime', 'Node(N1)', True], ['list_files_exported'], ['list_path'])] RectF=[(-492.83657701146853, -104.4685458214755, 240.89047845279003, 198.4199698862699)]
+block=[U1] category=[Tools.PathManipulation] class=[joinPath] valInputs=[(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])] RectF=[(-782.7765183707749, 120.66995361873504, 170.32266342302228, 113.25018730153664)]
+block=[U2] category=[Java.MRIFileManager] class=[PhilipsToNifti] valInputs=[(['Philips_files', 'naming', 'path_export', 'bvals_bvecs'], ['Node(N0)', 'Node(N3)', 'Node(N1)', False], ['list_files_exported'], ['list_path'])] RectF=[(-492.83657701146853, -104.4685458214755, 240.89047845279003, 198.4199698862699)]
+block=[U4] category=[Tools.StringManipulation] class=[string_concatenat_dyn] valInputs=[(['stringIn', 'stringIn_1', 'stringIn_2', 'stringIn_3', 'stringIn_4', 'stringIn_5', 'stringIn_6'], ['PatientName/', 'StudyName/', 'CreationDate-', 'SeqNumber-', 'Protocol-', 'SequenceName-', 'AcquisitionTime'], ['str_conc'], ['str'])] RectF=[(-797.8650603143539, -74.07235307958193, 156.71875, 140.0)]
 [execution]
 []
-['U0', 'U1', 'U2', 'U3']
-{'U2': ('Java.MRIFileManager', 'PhilipsToNifti', "(['Philips_files', 'naming', 'path_export', 'bvals_bvecs'], ['U0:filesPath', 'PatientName/StudyName/CreationDate-SeqNumber-Protocol-SequenceName-AcquisitionTime', 'U1:outFile', True], ['list_files_exported'], ['list_path'])"), 'U1': ('Tools.PathManipulation', 'joinPath', "(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])"), 'U3': ('ImageJ.ImageJ_open', 'openImagej_multiFiles', "(['file'], ['U2:list_files_exported'], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])")}
-['U2:list_files_exported', 'U1:outFile', 'U0:filesPath']
+['U0', 'U1', 'U4', 'U2', 'U3']
+{'U4': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_1', 'stringIn_2', 'stringIn_3', 'stringIn_4', 'stringIn_5', 'stringIn_6'], ['PatientName/', 'StudyName/', 'CreationDate-', 'SeqNumber-', 'Protocol-', 'SequenceName-', 'AcquisitionTime'], ['str_conc'], ['str'])"), 'U2': ('Java.MRIFileManager', 'PhilipsToNifti', "(['Philips_files', 'naming', 'path_export', 'bvals_bvecs'], ['U0:filesPath', 'U4:str_conc', 'U1:outFile', False], ['list_files_exported'], ['list_path'])"), 'U1': ('Tools.PathManipulation', 'joinPath', "(['inPath', 'fileName'], ['/tmp/', 'Nifti/'], ['outFile'], ['path'])"), 'U3': ('ImageJ.ImageJ_open', 'openImagej_multiFiles', "(['file'], ['U2:list_files_exported'], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open Philips files (Par/Rec)'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])")}
+['U4:str_conc', 'U2:list_files_exported', 'U1:outFile', 'U0:filesPath']
 {}
 []

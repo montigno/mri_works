@@ -13,22 +13,24 @@ import os
 import time
 import threading
 import gc
+from builtins import getattr
 
-# from PyQt5.QtCore import QDir
 from PyQt5.QtWidgets import QProgressDialog
 from PyQt5.Qt import Qt
 
 from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 from NodeEditor.python.pipeline_execution_loopfor import executionFor
 from NodeEditor.python.pipeline_execution_loopfor_multiprocessing import executionFor_proc
-
+from NodeEditor.python.pipeline_execution_script import executionScript
 from NodeEditor.python.progressBar import progressBar
-from builtins import getattr
 
 
 class execution:
 
     def __init__(self, txt, textEditor):
+
+#         print('txt')
+#         print(txt)
 
         self.progress = QProgressDialog("Please wait while \
                                         the pipeline is being run...",
@@ -86,6 +88,7 @@ class execution:
 
         listForExecution = {}
         listIfExecution = {}
+        listScriptExecution = {}
         for ls in listBlockExecution:
             if 'F' in ls:
                 tmp = txt[txt.index('[loopfor ' + ls):len(txt)]
@@ -114,7 +117,12 @@ class execution:
                     elif i > 6:
                         break
                 listIfExecution[ls+'-false'] = tmp1
-
+            
+            if 'S' in ls:
+                tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
+                tmp = tmp[tmp.index('\n')+1:]
+                listScriptExecution[ls] = tmp
+        
         listNodeValue = list(set(listOut))
         self.listDynamicValue = {}
         start = time.time()
@@ -153,6 +161,7 @@ class execution:
             if ('M' not in execution and
                 'F' not in execution and
                 'I' not in execution and
+                'S' not in execution and
                     'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
@@ -366,6 +375,12 @@ class execution:
                                     None)
                 for uj in a.getOutValues().keys():
                     self.listDynamicValue[uj] = a.getOutValues()[uj]
+                    
+            elif 'S' in execution:
+                a = executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor )
+                for uj in a.getOutValues().keys():
+                    self.listDynamicValue[uj] = a.getOutValues()[uj]
+                
         # try:
         #     print("lenght value listDynamicValue",
         #            len(self.listDynamicValue))

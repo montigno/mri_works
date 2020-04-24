@@ -19,9 +19,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Loop_For/generate_spiral.dgr
-  - /home/domicile-xubuntu/Bureau/test_constant_path.dgr
-  - /home/domicile-xubuntu/Bureau/test_fnmatch.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/Nifti_DWI.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_script_2.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/loopFor_test.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_script_constants.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_images.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_filtering_files.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_7.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/compare_affine.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/loopFor_recursif.dgr
   modules: modules
   projects: ../data
 version: 20.02.00

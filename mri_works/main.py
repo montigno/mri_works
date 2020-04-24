@@ -7,7 +7,7 @@
 ##########################################################################
 
 '''
-Created on 11 janv. 2018
+Created on 11 jan. 2018
 @author: omonti
 
 '''
@@ -22,7 +22,6 @@ from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
     QMenuBar, QAction, qApp, QLineEdit, QMainWindow
 
 from Config import Config
-# from DataBrowser.DataBrowser import DataBrowser
 from About import AboutSoft
 from NodeEditor.python.PipeLine_Irmage import NodeEdit
 from PyQt5 import QtCore
@@ -80,9 +79,7 @@ class createTabs(QWidget):
         #self.textInfo.setEnabled(False)
         self.textInfo.setText('Welcome to Irmage')
                         
-#         self.tabs.addTab(DataBrowser(self.textInfo),"Data Browser")
         self.tabs.addTab(NodeEdit(self.textInfo),"PipeLine Manager")
-
         self.tabs.setCurrentIndex(1)
                
         self.verticalLayout = QVBoxLayout(self)
