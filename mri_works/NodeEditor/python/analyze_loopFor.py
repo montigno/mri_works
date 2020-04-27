@@ -21,13 +21,13 @@ class analyzeLoopFor:
         # valueF[3] : list of arrows
         # valueF[4] : list of arrows
 
-        # print('keyF', keyF)
-        # print('valueF', valueF)
-        # print('listBlock', listBlock)
-        # print('listModul', listModul)
-        # print('ModulExecution', ModulExecution)
-        # print('listArrowExtern', listArrowExtern)
-        # print('listConstants', listConstants)
+#         print('keyF', keyF)
+#         print('valueF', valueF)
+#         print('listBlock', listBlock)
+#         print('listModul', listModul)
+#         print('ModulExecution', ModulExecution)
+#         print('listArrowExtern', listArrowExtern)
+#         print('listConstants', listConstants)
 
         listBlockStart = []
         listBlockRemaining = []

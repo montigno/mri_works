@@ -273,6 +273,8 @@ class analyze:
 #         print('listBlockStart 0 : ', listBlockStart)
 #         print('listBlockStop 0 : ', listBlockStop)
 #         print('listConstantLoop 0 : ', self.listConstantLoop)
+        print('listArrow :  ', listArrow)
+
 
         if self.listLoopFor:
             for keyF, valueF in self.listLoopFor.items():
@@ -291,17 +293,17 @@ class analyze:
                 tmpUnitAval = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
                 tmpPortAval = tmp
-                # print('info 1 : ', keyA, valueA)
+#                 print('info 1 : ', keyA, valueA)
                 for keyF, valueF in self.listLoopFor.items():
-                    # print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
-                    # print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
-                    # print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
-                    # print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
+#                     print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
+#                     print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
+#                     print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
+#                     print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
                     if keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont or \
-                       keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
-                       (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and
+                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
+                        (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and
                             keyF == tmpUnitAmont) or \
-                       tmpUnitAval in eval(self.listLoopFor[keyF][2]):
+                        tmpUnitAval in eval(self.listLoopFor[keyF][2]):
                         if keyA in listArrow.keys():
                             # links from LoopFor deleted from the listArrow
                             del listArrow[keyA]
@@ -311,7 +313,8 @@ class analyze:
 
         # search arrows within loop If ###############
 
-        # print('listLoopFor ', self.listLoopFor)
+#         print('listLoopFor ', self.listLoopFor)
+#         print('listArow (2) : ',listArrow)
 
         if self.listLoopIf:
             for keyF, valueF in self.listLoopIf.items():

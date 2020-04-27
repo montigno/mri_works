@@ -48,6 +48,7 @@ class execution:
 
     def execution(self, txt, textEditor):
 
+#  compiles a list of items  
         listConnctIn = []
         listBlockExecution = []
         listBlock = {}
@@ -85,6 +86,9 @@ class execution:
                 elif i > 6:
                     break
             listModExecution[ls] = tmp1
+
+#         print('PipeLine_Execution')
+#         print(listModul)
 
         listForExecution = {}
         listIfExecution = {}
