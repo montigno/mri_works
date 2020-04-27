@@ -273,7 +273,7 @@ class analyze:
 #         print('listBlockStart 0 : ', listBlockStart)
 #         print('listBlockStop 0 : ', listBlockStop)
 #         print('listConstantLoop 0 : ', self.listConstantLoop)
-        print('listArrow :  ', listArrow)
+#         print('listArrow :  ', listArrow)
 
 
         if self.listLoopFor:

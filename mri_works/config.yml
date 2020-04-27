@@ -19,8 +19,6 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_script_constants.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_images.dgr
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_filtering_files.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/If_Structure/test_if_7.dgr
   - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
@@ -29,6 +27,8 @@ paths:
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/If_structure.dgr
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_submod.dgr
   - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_submod_if.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_T2map.dgr
+  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_T1map.dgr
   modules: modules
   projects: ../data
 version: 20.04.24a
