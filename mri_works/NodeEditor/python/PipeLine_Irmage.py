@@ -1719,7 +1719,7 @@ class LinkItem(QGraphicsPathItem):
         super(LinkItem, self).__init__(None)
 
         self.bislink = QGraphicsPathItem()
-        self.bislink.setZValue(1)
+        self.bislink.setZValue(2)
 
         for types in TypeColor:
             if types.name in typeColor:

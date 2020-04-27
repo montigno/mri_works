@@ -15,15 +15,16 @@ import os
 import threading
 import numpy as np
 from NodeEditor.python.ForLoop_Info import ForLoopInfo
+from NodeEditor.python.pipeline_execution_script import executionScript
 
 
 class executionSubmod:
 
     def __init__(self, txt, listDynamicValue, textEditor, modul):
 
-        # print('txt execution SubMod ')
-        # print(txt)
-        # print(listDynamicValue)
+#         print('txt execution SubMod ')
+#         print(txt)
+#         print(modul)
 
         listConnctIn = []
         listBlockExecution = []
@@ -57,9 +58,7 @@ class executionSubmod:
                 break
 
         listNodeValue = list(set(listOut))
-
         listModExecution = {}
-
         if modul:
             for ls in listModul.keys():
                 file = os.path.join(os.path.abspath(os.getcwd()),
@@ -88,7 +87,19 @@ class executionSubmod:
 
         listForExecution = {}
         listIfExecution = {}
+        listScriptExecution = {}
         for ls in listBlockExecution:
+            if 'S' in ls:
+                file = os.path.join(os.path.abspath(os.getcwd()),
+                                    'NodeEditor',
+                                    'submodules',
+                                    modul[0] + '.mod')
+                f = open(file, 'r')
+                txt = f.read()
+                f.close()
+                tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
+                tmp = tmp[tmp.index('\n')+1:]
+                listScriptExecution[ls] = tmp
             if 'F' in ls:
                 file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',
@@ -146,7 +157,7 @@ class executionSubmod:
                 threadcurrent = False
             if ('M' not in execution and
                     'Thread' not in execution and
-                    'F' not in execution and 'I' not in execution):
+                    'F' not in execution and 'I' not in execution and 'S' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' + category)
@@ -219,6 +230,12 @@ class executionSubmod:
                         listDynamicValue[uj] = a.getOutValues()[uj]
                 except Exception as e:
                     return
+                
+            elif 'S' in execution:
+                self.listDynamicValueScript = {}
+                a = executionScript(listScriptExecution[execution], listDynamicValue, textEditor)
+                for uj in a.getOutValues().keys():
+                    listDynamicValue[uj] = a.getOutValues()[uj]
 
             elif 'I' in execution:
                 self.listDynamicValueIf = {}
@@ -327,7 +344,7 @@ class executionSubmod:
                                                   font-weight:600; \
                                                   color:#cc0000;\" \
                                                   > Pipeline Execution \
-                                                  For Loop  stopped : " +
+                                                  For Loop  stopped : " + 
                                                   str(e) + "</span>")
                                 return
                         for uj in listDynamicValueSubToReturn.keys():
@@ -337,9 +354,9 @@ class executionSubmod:
                                       font-size:10pt; \
                                       font-weight:600; \
                                       color:#cc0000;\" \
-                                      > Pipeline Execution " +
-                                      execution +
-                                      " stopped <br>" +
+                                      > Pipeline Execution " + 
+                                      execution + 
+                                      " stopped <br>" + 
                                       execution + ' : ' + str(e) + "</span>")
                     return
 
