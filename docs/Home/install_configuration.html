@@ -92,6 +92,17 @@
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:700px;">#MATLAB<br>export PATH=/usr/local/MATLAB/R2019a/bin:$PATH<br>export MATLABCMD=/usr/local/MATLAB/R2019a/bin/glnxa64/MATLAB</pre>				
 			</div><hr>
+		
+		<h2 id="dicomifier"><font color="blue">Dicomifier :</font></h2>
+			<div>
+			- open terminal and type :
+			<pre class="console" style="width:700px;">sudo apt-get install gnupg software-properties-common wget</pre>
+			<pre class="console" style="width:700px;">sudo wget -O - http://dl.bintray.com/lamyj/generic/gpg.key | sudo apt-key add -</pre>
+			<pre class="console" style="width:700px;">sudo add-apt-repository "deb http://dl.bintray.com/lamyj/generic/apt $(lsb_release -cs) main"</pre>
+			<pre class="console" style="width:700px;">apt-get update</pre>
+			<pre class="console" style="width:700px;">sudo apt-get install dicomifier-cli</pre>
+			</div><hr>
+		
 
     </div>
   </body>
