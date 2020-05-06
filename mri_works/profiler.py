@@ -10,5 +10,4 @@ import cProfile
 import re
 from main import Project_Irmage
 
-
 cProfile.run(Project_Irmage())
