@@ -89,5 +89,5 @@ class executionFor_proc:
                                          None)))
             process[-1].start()
 
-        # for p in process:
-        #    p.join()
+        for p in process:
+           p.join()

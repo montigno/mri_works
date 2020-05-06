@@ -11,13 +11,10 @@ Created on 11 jan. 2018
 @author: omonti
 
 '''
-# import cProfile
-# import re
 
 import subprocess
 import sys
 
-# from PyQt5.Qt import QIcon
 from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
     QMenuBar, QAction, qApp, QLineEdit, QMainWindow
 
@@ -90,6 +87,5 @@ if __name__ == '__main__':
  
     app = QApplication(sys.argv)
     imageViewer = Project_Irmage()
-#     cProfile.run('Project_Irmage()')
     imageViewer.show()
     sys.exit(app.exec_())
