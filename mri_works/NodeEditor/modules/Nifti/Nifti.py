@@ -14,7 +14,7 @@ class Open_Nifti:
         else:
             print('no Nifti file')
     
-    def image(self:'array_float'):   
+    def image(self:'array_float'):
         return self.img
     
     def dim(self:'int'): 
