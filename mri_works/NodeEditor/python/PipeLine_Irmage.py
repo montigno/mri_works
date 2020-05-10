@@ -585,7 +585,7 @@ class LoadCodeScript:
             if 'S' in keyS:
                 if type(valS) == ScriptItem:
                     txt = '[source '+valS.unit+']\n'
-                    txt +=str(self.getInputsScript(keyS))+'\n'
+                    txt +=repr(self.getInputsScript(keyS))+'\n'
                     txt += valS.elemProxy.toPlainText()+'\n'
                     txt += str([keyS+':'+item.name for item in valS.outputs])+'\n'
                     txt += '[/source '+valS.unit+']\n'
@@ -603,7 +603,7 @@ class LoadCodeScript:
                 tmpVal = val[0:val.index('#Node#')]
                 if 'A' in tmpVal[0:1]:
                     tmpConstName = tmpVal[0:-1]
-                    tmpVal =str( listConstants[editor.currentTab][tmpConstName][1])
+                    tmpVal =repr( listConstants[editor.currentTab][tmpConstName][1])
                 listInputVal.append(tmpIn+'='+tmpVal) 
         return listInputVal
                     
@@ -1010,7 +1010,7 @@ class SaveDiagram(QTextEdit):
             elif type(item) == Constants:
                 rect = item.rect()
                 if type(item.elemProxy) == Constants_Combo:
-                    value = item.elemProxy.currentText()
+                    value = repr(item.elemProxy.currentText())
                 elif type(item.elemProxy) == Constants_text:
                     value = repr(item.elemProxy.toPlainText())
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
@@ -1107,7 +1107,10 @@ class UpdateList:
                 line = line[line.index('label=') + 7:len(line)]
                 lab = line[0:line.index(']')]
                 line = line[line.index('RectF=') + 7:len(line)]
-                listConstants[editor.currentTab][unit] = (fort, vout, lab)
+                try:
+                    listConstants[editor.currentTab][unit] = (fort, eval(vout), lab)
+                except Exception as e:
+                    listConstants[editor.currentTab][unit] = (fort, vout, lab)
 
             elif line[0:7] == 'loopFor':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
