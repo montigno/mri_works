@@ -1,4 +1,5 @@
 packages:
+  attrs: sudo pip3 install attrs (19.1.0)
   capsul: sudo pip3 install capsul ()
   cython: sudo pip3 install Cython (0.29.14)
   list_imports: sudo pip3 install list-imports (2019.6.12)
@@ -14,21 +15,12 @@ packages:
   scikit-image: sudo pip3 install scikit-image (0.16.2)
   scikit-learn: sudo pip3 install -U scikit-learn ()
   scipy: sudo pip3 install scipy ()
+  sip: sudo pip3 install sip (5.0.1)
   sympy: sudo pip3 install sympy (1.1.1)
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories:
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_submod_if.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_T2map.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_T1map.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_TImap.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_filtering_files.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_script_2.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_polynome_2nd.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/test_script_string.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/add_two_image_script.dgr
-  - /home/domicile-xubuntu/Bureau/Projets_mri_works/script_convolution.dgr
+  histories: []
   modules: modules
   projects: ../data
-version: 20.04.24a
+version: 20.05.12a

@@ -16,7 +16,7 @@ from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 
 
 class executionFor_proc:
-    def __init__(self, txt, listDynamicValue, txtfull):
+    def __init__(self, txt, listDynamicValue, txtfull, modejoin):
 
         # print('txt pipeline for',txt)
         # print('txtfull pipeline for',txtfull)
@@ -89,5 +89,6 @@ class executionFor_proc:
                                          None)))
             process[-1].start()
 
-        for p in process:
-           p.join()
+        if modejoin:
+            for p in process:
+                p.join()

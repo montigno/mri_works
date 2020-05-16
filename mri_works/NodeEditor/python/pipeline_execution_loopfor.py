@@ -16,12 +16,12 @@ from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 class executionFor:
     def __init__(self, txt, listDynamicValue, textEditor, txtfull):
 
-        # print('txt pipeline for : ')
-        # print(txt)
-        # print('txtfull pipeline for : ')
-        # print(txtfull)
-        # print('listDynamicValue : ')
-        # print(listDynamicValue)
+#         print('txt pipeline for : ')
+#         print(txt)
+#         print('txtfull pipeline for : ')
+#         print(txtfull)
+#         print('listDynamicValue : ')
+#         print(listDynamicValue)
 
         listConnctIn = []
         listBlockExecution = []

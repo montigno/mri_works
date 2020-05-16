@@ -669,7 +669,7 @@ class LoadDiagram:
                 edit.loadComments(pos, cmt)
 
             elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
                 line = line[line.index('inputs=') + 8:len(line)]
                 inp = line[0:line.index('] outputs')]
                 line = line[line.index('outputs=') + 9:len(line)]
@@ -1113,7 +1113,7 @@ class UpdateList:
                     listConstants[editor.currentTab][unit] = (fort, vout, lab)
 
             elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
                 line = line[line.index('inputs=') + 8:len(line)]
                 inp = line[0:line.index('] outputs')]
                 line = line[line.index('outputs=') + 9:len(line)]
@@ -1433,9 +1433,7 @@ class DiagramView(QGraphicsView):
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
             listItems[editor.currentTab][self.a1.unit] = self.a1
-
         UpdateUndoRedo()
-
         return QGraphicsView.dropEvent(self, event)
 
     def addItemLoop(self, unitItem):
@@ -2995,7 +2993,7 @@ class BlockCreate(QGraphicsRectItem):
                 edit.loadBlock(unit, classs, cat, pos, eval(Vinput))
                 listBl[unit] = edit.returnBlockSystem()
             elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
                 line = line[line.index('inputs=') + 8:len(line)]
                 inp = line[0:line.index('] outputs')]
                 line = line[line.index('outputs=') + 9:len(line)]
@@ -3711,7 +3709,6 @@ class Constants(QGraphicsRectItem):
 #         self.outputs[0].setPos(w + 2, h  / 2)
 
     def changeText(self):
-
         self.elemProxy.setCursorWidth(1)
         textEdit = self.elemProxy
         font = textEdit.document().defaultFont()
@@ -3725,6 +3722,7 @@ class Constants(QGraphicsRectItem):
 
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
+        
 #         self.nameUnit.setPos(-30,(h - 15) / 2)
 
     def changeCombo(self):
@@ -3770,6 +3768,8 @@ class Constants(QGraphicsRectItem):
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def hoverEnterEvent(self, event):
+        global itemStored
+        itemStored = None
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
@@ -4012,6 +4012,7 @@ class Constants_text(QTextEdit):
         tmpTxt = tmpTxt.replace('\\n', '')
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
+        
 
 #         print('new value string : ', self.toPlainText())
 ###############################################################################
@@ -4258,8 +4259,8 @@ class ForLoopItem(QGraphicsRectItem):
             listToMove.extend(listTools[editor.currentTab][unit])
 
         for elemts in self.scene().items():
-            if (type(elemts) == BlockCreate or type(elemts) == ForLoopItem or type(elemts) == Constants)\
-                                        and elemts.unit in listToMove:
+            if (type(elemts) == BlockCreate or type(elemts) == ForLoopItem or type(elemts) == Constants 
+                                                or type(elemts) == ScriptItem) and elemts.unit in listToMove:
                 elemts.setSelected(state)
                 if type(elemts) == ForLoopItem and elemts.unit != self.unit:
                     self.selectItemsInside(elemts.unit, state)
@@ -4332,8 +4333,6 @@ class ForLoopItem(QGraphicsRectItem):
             pass
         if self.isMod:
             menu = QMenu()
-            pa = menu.addAction('Parameters')
-            pa.triggered.connect(self.editParameters)
             intu = menu.addAction('Add tunnel input')
             intu.triggered.connect(self.addTunnelInput)
             outtu = menu.addAction('Add tunnel output')
@@ -4341,6 +4340,8 @@ class ForLoopItem(QGraphicsRectItem):
             de = menu.addAction('Delete')
             de.triggered.connect(self.deleteLoopFor)
             if 'm' in self.unit:
+                pa = menu.addAction('Parameters')
+                pa.triggered.connect(self.editParameters)
                 outtu.setEnabled(False)
             menu.exec_(event.screenPos())
             return QGraphicsRectItem.contextMenuEvent(self, event)
@@ -4626,10 +4627,29 @@ class ForLoopItem(QGraphicsRectItem):
         c = editParamLoopFor('For Loop', self.nameUnit.toPlainText())
         c.exec_()
         if c.getNewValues():
-            self.nameUnit.setPlainText(self.nameUnit.toPlainText() + '*')
+            if not '*' in self.unit:
+                tmp = self.unit+'*'
+            self.updateListNodeTools(self.unit,tmp)
+            self.nameUnit.setPlainText(tmp)
+            self.unit = tmp
+            UpdateUndoRedo()
         else:
-            self.nameUnit.setPlainText(self.nameUnit.toPlainText().replace('*', ''))
+            tmp = self.unit.replace('*','')
+            self.updateListNodeTools(self.unit,tmp)
+            self.nameUnit.setPlainText(tmp)
+            self.unit = tmp
+            UpdateUndoRedo()
 
+    def updateListNodeTools(self,oldUnit, newUnit):
+        libTools[editor.currentTab][newUnit] = libTools[editor.currentTab][oldUnit] 
+        del libTools[editor.currentTab][oldUnit]
+        listTools[editor.currentTab][newUnit] = listTools[editor.currentTab][oldUnit] 
+        del listTools[editor.currentTab][oldUnit] 
+        for keyN,valN in listNodes[editor.currentTab].items():
+            if oldUnit in valN:
+                listNodes[editor.currentTab][keyN] = valN.replace(oldUnit,newUnit)
+
+            
 ##############################################################################
 
 class ScriptItem(QGraphicsRectItem):
@@ -4638,6 +4658,7 @@ class ScriptItem(QGraphicsRectItem):
         super(ScriptItem, self).__init__(None)
         self.setBrush((QtGui.QBrush(QColor(80, 80, 80, 200))))
         self.setPen(QtGui.QPen(QColor(160, 160, 160, 255), 8))
+        self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
         self.setZValue(-1)
         self.unit = unit
         self.w = w
@@ -4714,7 +4735,6 @@ class ScriptItem(QGraphicsRectItem):
         return QGraphicsRectItem.keyPressEvent(self, keyEvent)
 
     def mousePressEvent(self, event):
-
         if self.isMod:
             if event.button() == 1:
                 editor.diagramScene[editor.currentTab].clearSelection()
@@ -4726,7 +4746,93 @@ class ScriptItem(QGraphicsRectItem):
             UpdateUndoRedo()
 #         return QGraphicsRectItem.mousePressEvent(self, event)
 
+    def mouseMoveEvent(self, event):
+        self.moved = True
+        event.accept()
+        pos = event.scenePos()
+        if not self.preview:
+            listTypeItems = []
+            itms = editor.diagramScene[editor.currentTab].items(pos)
+
+            for elem in itms:
+                if type(elem) == ForLoopItem:
+                    listTypeItems.append(elem)
+
+            if listTypeItems:
+                if len(listTypeItems) > 1:
+                    postmp = None
+                    elemtmp = None
+                    try:
+                        ind = 0
+                        if self.currentLoop.loopIf:
+                            if self.currentLoop.elemProxy.currentText() == 'False':
+                                ind = 1
+                        self.currentLoop.normalState()
+                        self.currentLoop.IteminLoop(self.unit, False, ind)
+                        self.currentLoop = None
+                        self.caseFinal = False
+                    except Exception as e:
+                        pass
+                    for lsElem in listTypeItems:
+                        if not postmp:
+                            postmp = lsElem.pos()
+                            elemtmp = lsElem
+
+                        elif postmp.x() < lsElem.pos().x():
+                            postmp = lsElem.pos()
+                            elemtmp = lsElem
+                else:
+                    elemtmp = listTypeItems[0]
+                    try:
+                        ind = 0
+                        if self.currentLoop.loopIf:
+                            if self.currentLoop.elemProxy.currentText() == 'False':
+                                ind = 1
+                        self.currentLoop.normalState()
+                        self.currentLoop.IteminLoop(self.unit, False, ind)
+                        self.currentLoop = None
+                        self.caseFinal = False
+                    except Exception as e:
+                        pass
+
+                self.currentLoop = elemtmp
+                self.currentLoop.activeState()
+                self.caseFinal = True
+            else:
+                if self.currentLoop:
+                    ind = 0
+                    if self.currentLoop.loopIf:
+                        if self.currentLoop.elemProxy.currentText() == 'False':
+                            ind = 1
+                    self.currentLoop.normalState()
+                    self.currentLoop.IteminLoop(self.unit, False, ind)
+                    self.currentLoop = None
+                    self.caseFinal = False
+
+            event.accept()
+            self.moved = True
+        return QGraphicsRectItem.mouseMoveEvent(self, event)
+
+    def mouseReleaseEvent(self, event):
+        pos = event.scenePos()
+        if self.currentLoop:
+            ind = 0
+            if self.currentLoop.loopIf:
+                if self.currentLoop.elemProxy.currentText() == 'False':
+                    ind = 1
+            self.currentLoop.IteminLoop(self.unit, True, ind)
+            self.currentLoop.normalState()
+            self.currentLoop = None
+            self.caseFinal = False
+        if self.moved:
+            UpdateUndoRedo()
+            self.moved = False
+
+        return QGraphicsRectItem.mouseReleaseEvent(self, event)
+
     def hoverEnterEvent(self, event):
+        global itemStored
+        itemStored = None
         self.setSelected(True)
         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
@@ -5242,6 +5348,7 @@ class Wrist(QGraphicsPolygonItem):
 class Port(QGraphicsRectItem):
 
     def __init__(self, name, nameItem, format, unit, showlabel, isMod, dx, dy, parent=None):
+
         if 'tunnel' not in nameItem:
             self.rectgl = QRectF(-6, -6, 10.0, 10.0)
         else:
@@ -5288,28 +5395,31 @@ class Port(QGraphicsRectItem):
     def mousePressEvent(self, event):
         if self.isMod and event.button() == 1:
             editor.startLink(self, self.format, event.pos())
-
+            
     def contextMenuEvent(self, event):
         if self.isMod:
             menu = QMenu()
+            ac, cp = None, None
             if ('F' in self.unit or 'I' in self.unit):
                 ac = menu.addAction('Delete this tunnel')
                 ac.triggered.connect(self.deleteConnector)
-                if self.typeio == 'out':
-                    cp = menu.addAction('add Print block for this port')
-                    cp.triggered.connect(self.addPrint)
-                menu.exec_(event.screenPos())
             elif ('S' in self.unit):
                 ac = menu.addAction('Delete this port')
                 ac.triggered.connect(self.deletePort)
-                if self.typeio == 'out':
-                    cp = menu.addAction('add Print block for this port')
-                    cp.triggered.connect(self.addPrint)
-                menu.exec_(event.screenPos())
-            elif self.typeio == 'out':
-                    cp = menu.addAction('add Print block for this port')
-                    cp.triggered.connect(self.addPrint)
-                    menu.exec_(event.screenPos())
+            if self.typeio == 'out':
+                cp = menu.addAction('add Print block for this port')
+                cp.triggered.connect(self.addPrint)
+            elif 'list' not in self.format and 'array' not in self.format:
+                yet = False
+                for key, val in listNodes[editor.currentTab].items():
+                    if self.unit+':'+self.name in val:
+                        yet = True
+                if not yet:
+                    cp = menu.addAction('add constant for this port')
+                    cp.triggered.connect(self.addConstant)
+
+        if ac or cp:     
+            menu.exec_(event.screenPos())
 
 #             event.accept()
 #         return QGraphicsRectItem.contextMenuEvent(self, event)
@@ -5319,7 +5429,45 @@ class Port(QGraphicsRectItem):
 
     def deletePort(self):
         listItems[editor.currentTab][self.unit].deletePort(self.name, self.typeio)
-
+        
+    def addConstant(self):
+#         print('format = ', self.format)
+        if 'int' in self.format:
+            val = 0
+        elif 'float' in self.format:
+            val=0.0
+        elif 'enumerate' in self.format:
+            nameClass = listItems[editor.currentTab][self.unit].name
+            ind=0
+            for i, j in enumerate(editor.getlib()):
+                if j[0] == nameClass:
+                    ind = i
+                    break
+            listEnter = editor.getlib()[ind][2][0]
+            for lst in range(len(listEnter)):
+                if listEnter[lst] == self.name:
+                    self.format = editor.getlib()[ind][2][1][lst]
+            val = self.format[11:self.format.index(',')]
+        elif 'str' in self.format:
+            val='your text'
+        elif 'path' in self.format:
+            val='path'
+        elif 'bool' in self.format:
+            val=True
+        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1.setPos(self.mapToScene(self.boundingRect().x() - 100,self.boundingRect().y()))
+        editor.diagramScene[editor.currentTab].addItem(a1)
+        listItems[editor.currentTab][a1.unit] = a1
+        if 'enumerate' in self.format :
+            self.format = 'enumerate_str'
+        startConnection = Connection('',
+                                     a1.outputs[0],
+                                     self,
+                                     self.format)
+        startConnection.setEndPos(self.scenePos())
+        startConnection.setToPort(self)
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
+                
     def addPrint(self):
         if 'tuple' in self.format:
             name = 'Print_tuple'

@@ -1,15 +1,15 @@
 [diagram]
 constant=[A0] value=['cort-maxprob-thr25-2mm'] format=[str] label=[A0] RectF=[(-765.5836867288375, -34.66494067571975, 170.0, 33.0)]
-link=[N0] node=[U0:atlas_filename#Node#U1:atlas_filename]
-link=[N1] node=[A0:#Node#U0:atlas_name]
 link=[N4] node=[U0:atlas_filename#Node#U3:inPath]
-block=[U1] category=[Nilearn.Plotting] class=[Plot_roi] valInputs=[(['atlas_filename'], ['Node(N0)'], [], [])] RectF=[(-162.1193089400503, -155.2918639063594, 150.0, 80.0)]
-block=[U0] category=[Nilearn.Datasets] class=[fetch_atlas_harvard_oxford] valInputs=[(['atlas_name'], ['Node(N1)'], ['atlas_filename'], ['path'])] RectF=[(-494.5377391066941, -57.27079325619075, 200.828125, 80.0)]
+link=[N1] node=[A0:#Node#U0:atlas_name]
+link=[N0] node=[U0:atlas_filename#Node#U1:atlas_filename]
 block=[U3] category=[Tools.Print] class=[Print_path] valInputs=[(['comment', 'inPath'], ['', 'Node(N4)'], [], [])] RectF=[(-164.53765629069116, 10.789354510864996, 150.0, 80.0)]
+block=[U0] category=[Nilearn.Datasets] class=[fetch_atlas_harvard_oxford] valInputs=[(['atlas_name'], ['Node(N1)'], ['atlas_filename'], ['path'])] RectF=[(-494.5377391066941, -57.27079325619075, 200.828125, 80.0)]
+block=[U1] category=[Nilearn.Plotting] class=[Plot_roi] valInputs=[(['atlas_filename'], ['Node(N0)'], [], [])] RectF=[(-162.1193089400503, -155.2918639063594, 150.0, 80.0)]
 [execution]
 []
 ['U0', 'U1', 'U3']
-{'U3': ('Tools.Print', 'Print_path', "(['comment', 'inPath'], ['', 'U0:atlas_filename'], [], [])"), 'U1': ('Nilearn.Plotting', 'Plot_roi', "(['atlas_filename'], ['U0:atlas_filename'], [], [])"), 'U0': ('Nilearn.Datasets', 'fetch_atlas_harvard_oxford', "(['atlas_name'], ['cort-maxprob-thr25-2mm'], ['atlas_filename'], ['path'])")}
+{'U1': ('Nilearn.Plotting', 'Plot_roi', "(['atlas_filename'], ['U0:atlas_filename'], [], [])"), 'U3': ('Tools.Print', 'Print_path', "(['comment', 'inPath'], ['', 'U0:atlas_filename'], [], [])"), 'U0': ('Nilearn.Datasets', 'fetch_atlas_harvard_oxford', "(['atlas_name'], ['cort-maxprob-thr25-2mm'], ['atlas_filename'], ['path'])")}
 ['U0:atlas_filename', 'A0:', 'U0:atlas_filename']
 {}
 []

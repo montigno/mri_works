@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<pipeline>
+  <gui>
+    <position name="inputs" x="0" y="0"/>
+    <position name="U5" x="178.31514161772256" y="126.14304580335539"/>
+    <position name="U4" x="366.69212982322057" y="-27.558888091433616"/>
+    <position name="U2" x="79.94377834391776" y="-76.22488662432883"/>
+    <position name="U1" x="-181.49136463324135" y="9.899310663144377"/>
+    <position name="U0" x="-187.02748414376322" y="-116.32980972515855"/>
+    <position name="U3" x="180.08998161053984" y="-250.10706556803962"/>
+  </gui>
+  <process module="capsul_moduls.MatPlotLib" name="U5"/>
+  <link dest="U5.title" source="U5_title"/>
+  <link dest="U5.display_mode" source="U5_display_mode"/>
+  <link dest="U5.dim" source="U5_dim"/>
+  <link dest="U5.draw_cross" source="U5_draw_cross"/>
+  <link dest="U5.annotate" source="U5_annotate"/>
+  <process module="capsul_moduls.MatPlotLib" name="U4"/>
+  <link dest="U4.title" source="U4_title"/>
+  <link dest="U4.display_mode" source="U4_display_mode"/>
+  <link dest="U4.dim" source="U4_dim"/>
+  <link dest="U4.draw_cross" source="U4_draw_cross"/>
+  <link dest="U4.annotate" source="U4_annotate"/>
+  <process module="capsul_moduls.image_Rescale" name="U2"/>
+  <link dest="U2.invert" source="U2_invert"/>
+  <process module="capsul_moduls.Choose_file" name="U1"/>
+  <link dest="U1.fileDefault" source="U1_fileDefault"/>
+  <link dest="U1.extension" source="U1_extension"/>
+  <link dest="U1.title" source="U1_title"/>
+  <process module="capsul_moduls.Choose_file" name="U0"/>
+  <link dest="U0.fileDefault" source="U0_fileDefault"/>
+  <link dest="U0.extension" source="U0_extension"/>
+  <link dest="U0.title" source="U0_title"/>
+  <process module="capsul_moduls.MatPlotLib" name="U3"/>
+  <link dest="U3.title" source="U3_title"/>
+  <link dest="U3.display_mode" source="U3_display_mode"/>
+  <link dest="U3.dim" source="U3_dim"/>
+  <link dest="U3.draw_cross" source="U3_draw_cross"/>
+  <link dest="U3.annotate" source="U3_annotate"/>
+  <link dest="U5.sourceFile" source="U1.filePath"/>
+  <link dest="U4.sourceFile" source="U2.out_file"/>
+  <link dest="U3.sourceFile" source="U0.filePath"/>
+  <link dest="U2.ref_file" source="U1.filePath"/>
+  <link dest="U2.in_file" source="U0.filePath"/>
+</pipeline>
