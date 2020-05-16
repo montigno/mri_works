@@ -40,7 +40,7 @@ class editParamLoopFor(QDialog):
         label.setAlignment(QtCore.Qt.AlignTop)
         hbox2.addWidget(label)
         hbox3 = QHBoxLayout()
-        self.multiproc = QCheckBox("Multiprocessing", self)
+        self.multiproc = QCheckBox("Join", self)
         self.multiproc.setChecked(checkedTo)
         hbox3.addWidget(self.multiproc)
         self.vbox.addLayout(hbox)

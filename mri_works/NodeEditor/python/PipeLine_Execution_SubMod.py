@@ -1,4 +1,3 @@
-#!/usr/bin/python
 ##########################################################################
 # mriWorks - Copyright (C) IRMAGE/INSERM, 2020
 # Distributed under the terms of the CeCILL-B license, as published by
@@ -22,7 +21,7 @@ class executionSubmod:
 
     def __init__(self, txt, listDynamicValue, textEditor, modul):
 
-#         print('txt execution SubMod ')
+#         print('txt execution SubMod')
 #         print(txt)
 #         print(modul)
 
@@ -301,7 +300,7 @@ class executionSubmod:
                     if 'm' in execution:
                         executionFor_proc(listForExecution[execution],
                                           listDynamicValueFor,
-                                          txt)
+                                          txt,'*' in execution)
                     else:
                         a, b, c, d, e, f, g = ForLoopInfo(listForExecution[execution],
                                                           txt).getListInfo()

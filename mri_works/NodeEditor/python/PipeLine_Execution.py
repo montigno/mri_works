@@ -305,7 +305,7 @@ class execution:
                     if 'm' in execution:  # multiprocessing LoopFor
                         executionFor_proc(listForExecution[execution],
                                           self.listDynamicValueFor,
-                                          txt)
+                                          txt,'*' in execution)
                     else:
                         a = executionFor(listForExecution[execution],
                                          self.listDynamicValueFor,

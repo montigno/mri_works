@@ -26,6 +26,7 @@ class analyze:
         self.listLoopIf = {}
         self.listModExecution = {}
         self.listConstantLoop = {}
+        self.listScript = []
         listConnectInPos = {}
         listConnectOutPos = {}
         listConstant = {}
@@ -102,7 +103,7 @@ class analyze:
                 self.listModExecution[unit] = tmp1
 
             elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
                 line = line[line.index('inputs') + 8:len(line)]
                 vinput = line[0:line.index('] outputs')]
                 line = line[line.index('outputs') + 9:len(line)]
@@ -177,11 +178,16 @@ class analyze:
                     fort = ''
                 elif fort == 'path':
                     vout = vout.replace('\\n', '')
+                elif fort == 'bool':
+                    vout = eval(vout)
                 try:
                     listConstant[unit] = (eval(vout), fort)
                 except Exception as e:
                     listConstant[unit] = (vout, fort)
 
+            elif line[0:6] == 'script':
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                self.listScript.append(unit)
 
         # sort of connectors list ##########################
 
@@ -375,6 +381,8 @@ class analyze:
                 listBlockStart.extend(self.listBlock.keys())
             if len(self.listModul) != 0:
                 listBlockStart.extend(self.listModul.keys())
+            if len(self.listScript) !=0:
+                listBlockStart.extend(self.listScript)
             listBlockStart = list(set(listBlockStart))
 
         listBlockStart = ReorderList(listBlockStart).getNewList()
@@ -699,7 +707,7 @@ class analyze:
 
             self.listModExecution[listM] = txtExc
 
-        #######################################################################
+######################################################################
 
         textEditor.clear()
         textEditor.append("<span style=\" \
