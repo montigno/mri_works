@@ -21,7 +21,7 @@ A beta documentation is available here : [https://montigno.github.io/mri_works](
 
 - Download [mri_works.zip](https://github.com/montigno/mri_works/archive/master.zip) and unzip it (where you want)
 - Install the packaging module : sudo pip3 install packaging
-- Install the pyyaml module : sudo -H install --ignore-installed PyYAML
+- Install the pyyaml module : sudo -H pip3 install --ignore-installed PyYAML
 - In the mri_works folder, type : sudo python3 setup.py (and follow the instructions)
 
 # to launch the software
