@@ -1,5 +1,4 @@
 [diagram]
-<<<<<<< HEAD
 constant=[A1] value=[1.0] format=[float] label=[y] RectF=[(-268.87099873018803, 120.89969910528413, 118.0, 31.0)]
 constant=[A0] value=[5] format=[int] label=[x] RectF=[(-242.71073405177802, 56.70838751075655, 87.0, 31.0)]
 link=[N3] node=[S0:z#Node#U1:inFloat]
@@ -10,25 +9,19 @@ block=[U1] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'i
 block=[U0] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['w = ', 'Node(N2)'], [], [])] RectF=[(278.0, -32.33333333333333, 150.0, 80.0)]
 script=[S0] inputs=[['x', 'in', 'int'], ['y', 'in', 'float']] outputs=[['w', 'out', 'int'], ['z', 'out', 'float']] code=[your code] RectF=[(-56.0, 4.0, 200.0, 200.0)]
 comments=[] RectF=[(-82.88229767056129, 352.108723200629, 308.7471742970264, 10.0)] text=['this script allows to ....\nIRmage 2020\nby Myname']
-[source S0]
-['x=5', 'y=1.0']
-=======
 constant=[A0] value=[5] format=[int] label=[x] RectF=[(-242.71073405177802, 56.70838751075655, 87.0, 31.0)]
 constant=[A1] value=[1.0] format=[float] label=[y] RectF=[(-268.87099873018803, 120.89969910528413, 118.0, 31.0)]
 link=[N0] node=[A0:#Node#S0:x]
 link=[N1] node=[A1:#Node#S0:y]
 link=[N2] node=[S0:w#Node#U0:inInt]
 link=[N3] node=[S0:z#Node#U1:inFloat]
-script=[S0] inputs=[['x', 'in', 'int'], ['y', 'in', 'float']] outputs=[['w', 'out', 'int'], ['z', 'out', 'float']] code=[your code] RectF=[(-52.15088716907641, 2.7169623896921564, 200.0, 200.0)]
 block=[U0] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['w = ', 'Node(N2)'], [], [])] RectF=[(278.0, -32.33333333333333, 150.0, 80.0)]
 block=[U1] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['z = ', 'Node(N3)'], [], [])] RectF=[(288.0, 115.33333333333337, 150.0, 80.0)]
 comments=[] RectF=[(-82.88229767056129, 352.108723200629, 308.7471742970264, 10.0)] text=['this script allows to ....\nIRmage 2020\nby Myname']
 [source S0]
 ['y=1.0', 'x=5']
->>>>>>> devpt
 w = x * x + y
 z = 0.0
-
 for i in range(0, x):
     z += y
 ['S0:w', 'S0:z']
@@ -37,12 +30,9 @@ for i in range(0, x):
 [execution]
 []
 ['S0', 'U0', 'U1']
-<<<<<<< HEAD
 {'U0': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['w = ', 'S0:w'], [], [])"), 'U1': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['z = ', 'S0:z'], [], [])")}
 ['A0:', 'A1:', 'S0:w', 'S0:z']
-=======
 {'U1': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['z = ', 'S0:z'], [], [])"), 'U0': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['w = ', 'S0:w'], [], [])")}
 ['S0:z', 'S0:w', 'A1:', 'A0:']
->>>>>>> devpt
 {}
 []

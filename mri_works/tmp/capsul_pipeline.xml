@@ -2,44 +2,36 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U5" x="178.31514161772256" y="126.14304580335539"/>
-    <position name="U4" x="366.69212982322057" y="-27.558888091433616"/>
-    <position name="U2" x="79.94377834391776" y="-76.22488662432883"/>
-    <position name="U1" x="-181.49136463324135" y="9.899310663144377"/>
-    <position name="U0" x="-187.02748414376322" y="-116.32980972515855"/>
-    <position name="U3" x="180.08998161053984" y="-250.10706556803962"/>
+    <position name="U7" x="1194.7718074294971" y="165.45954176962448"/>
+    <position name="U5" x="183.8146922331755" y="174.54109987742208"/>
+    <position name="U0" x="-394.21859979124184" y="-155.0323702551825"/>
+    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
+    <position name="U2" x="421.6553700278548" y="-137.86332517247027"/>
+    <position name="U4" x="651.9437582368322" y="43.30859188188304"/>
+    <position name="U6" x="932.3543880552529" y="232.9450455174533"/>
   </gui>
-  <process module="capsul_moduls.MatPlotLib" name="U5"/>
-  <link dest="U5.title" source="U5_title"/>
-  <link dest="U5.display_mode" source="U5_display_mode"/>
-  <link dest="U5.dim" source="U5_dim"/>
-  <link dest="U5.draw_cross" source="U5_draw_cross"/>
-  <link dest="U5.annotate" source="U5_annotate"/>
-  <process module="capsul_moduls.MatPlotLib" name="U4"/>
-  <link dest="U4.title" source="U4_title"/>
-  <link dest="U4.display_mode" source="U4_display_mode"/>
-  <link dest="U4.dim" source="U4_dim"/>
-  <link dest="U4.draw_cross" source="U4_draw_cross"/>
-  <link dest="U4.annotate" source="U4_annotate"/>
-  <process module="capsul_moduls.image_Rescale" name="U2"/>
-  <link dest="U2.invert" source="U2_invert"/>
-  <process module="capsul_moduls.Choose_file" name="U1"/>
-  <link dest="U1.fileDefault" source="U1_fileDefault"/>
-  <link dest="U1.extension" source="U1_extension"/>
-  <link dest="U1.title" source="U1_title"/>
-  <process module="capsul_moduls.Choose_file" name="U0"/>
-  <link dest="U0.fileDefault" source="U0_fileDefault"/>
-  <link dest="U0.extension" source="U0_extension"/>
-  <link dest="U0.title" source="U0_title"/>
-  <process module="capsul_moduls.MatPlotLib" name="U3"/>
-  <link dest="U3.title" source="U3_title"/>
-  <link dest="U3.display_mode" source="U3_display_mode"/>
-  <link dest="U3.dim" source="U3_dim"/>
-  <link dest="U3.draw_cross" source="U3_draw_cross"/>
-  <link dest="U3.annotate" source="U3_annotate"/>
-  <link dest="U5.sourceFile" source="U1.filePath"/>
-  <link dest="U4.sourceFile" source="U2.out_file"/>
-  <link dest="U3.sourceFile" source="U0.filePath"/>
-  <link dest="U2.ref_file" source="U1.filePath"/>
-  <link dest="U2.in_file" source="U0.filePath"/>
+  <process module="capsul_moduls.Print_float" name="U7"/>
+  <process module="capsul_moduls.add_float_dyn" name="U5"/>
+  <process module="capsul_moduls.add_float_dyn" name="U0"/>
+  <process module="capsul_moduls.sub_float_dyn" name="U1"/>
+  <process module="capsul_moduls.add_float_dyn" name="U2"/>
+  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
+  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
+  <link dest="U7.inFloat" source="U6.subtract"/>
+  <link dest="U1.in1" source="U0.addition"/>
+  <link dest="U2.in1" source="U1.subtract"/>
+  <link dest="U4.in1" source="U2.addition"/>
+  <link dest="U4.in2" source="U1.subtract"/>
+  <link dest="U5.in1" source="U1.subtract"/>
+  <link dest="U5.in2" source="U0.addition"/>
+  <link dest="U6.in1" source="U4.multiplication"/>
+  <link dest="U6.in2" source="U5.addition"/>
+  <link dest="U7.comment" source="comment"/>
+  <link dest="U0.in2_0" source="Z"/>
+  <link dest="U0.in2" source="Y"/>
+  <link dest="U0.in1" source="X"/>
+  <link dest="U2.in2" source="V"/>
+  <link dest="U1.in2" source="U"/>
+  <link dest="U2.in2_0" source="W"/>
+  <link dest="U5.in2_0" source="U"/>
 </pipeline>

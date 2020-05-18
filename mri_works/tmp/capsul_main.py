@@ -16,28 +16,13 @@ if len(sys.argv) > 2:
         
 try:
 	xmlpipe = get_process_instance("capsul_pipeline")
-	xmlpipe.U5_title="reference"
-	xmlpipe.U5_display_mode="ortho"
-	xmlpipe.U5_dim=1
-	xmlpipe.U5_draw_cross=False
-	xmlpipe.U5_annotate=False
-	xmlpipe.U4_title="rescale"
-	xmlpipe.U4_display_mode="ortho"
-	xmlpipe.U4_dim=1
-	xmlpipe.U4_draw_cross=False
-	xmlpipe.U4_annotate=False
-	xmlpipe.U2_invert=False
-	xmlpipe.U1_fileDefault="path"
-	xmlpipe.U1_extension="*.*"
-	xmlpipe.U1_title="ref_file"
-	xmlpipe.U0_fileDefault="path"
-	xmlpipe.U0_extension="*.*"
-	xmlpipe.U0_title="in_file"
-	xmlpipe.U3_title="original"
-	xmlpipe.U3_display_mode="ortho"
-	xmlpipe.U3_dim=1
-	xmlpipe.U3_draw_cross=False
-	xmlpipe.U3_annotate=False
+	xmlpipe.comment="Result of operation  : "
+	xmlpipe.Z=256.0
+	xmlpipe.Y=128.0
+	xmlpipe.X=100.0
+	xmlpipe.V=-52.21
+	xmlpipe.U=12.58
+	xmlpipe.W=128.56
 	if sys.argv[1] == "runPipeline":
 		start=time.time()
 		if parameter_dict:

@@ -3,39 +3,45 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="sourceFile" type="file" doc=""/>
-	<input name="title" type="string" doc=""/>
-	<input name="display_mode" type="string" doc=""/>
-	<input name="dim" type="int" doc=""/>
-	<input name="draw_cross" type="bool" doc=""/>
-	<input name="annotate" type="bool" doc=""/>
+	<input name="comment" type="string" doc=""/>
+	<input name="inFloat" type="float" doc=""/>
 </process>
 ''')
-def MatPlotLib(sourceFile, title, display_mode, dim, draw_cross, annotate):
-	listInputs=dict(zip(('sourceFile', 'title', 'display_mode', 'dim', 'draw_cross', 'annotate'),(sourceFile, title, display_mode, dim, draw_cross, annotate)))
-	return cs.MatPlotLib(**listInputs)
+def Print_float(comment, inFloat):
+	listInputs=dict(zip(('comment', 'inFloat'),(comment, inFloat)))
+	return cs.Print_float(**listInputs)
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in_file" type="file" doc=""/>
-	<input name="ref_file" type="file" doc=""/>
-	<input name="invert" type="bool" doc=""/>
-	<return name="out_file" type="file" doc=""/>
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<input name="in2_0" type="float" doc=""/>
+	<return name="addition" type="float" doc=""/>
 </process>
 ''')
-def image_Rescale(in_file, ref_file, invert):
-	listInputs=dict(zip(('in_file', 'ref_file', 'invert'),(in_file, ref_file, invert)))
-	return cs.image_Rescale(**listInputs).out_file()
+def add_float_dyn(in1, in2, in2_0):
+	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
+	return cs.add_float_dyn(**listInputs).addition()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="fileDefault" type="string" doc=""/>
-	<input name="extension" type="string" doc=""/>
-	<input name="title" type="string" doc=""/>
-	<return name="filePath" type="file" doc=""/>
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<return name="subtract" type="float" doc=""/>
 </process>
 ''')
-def Choose_file(fileDefault, extension, title):
-	listInputs=dict(zip(('fileDefault', 'extension', 'title'),(fileDefault, extension, title)))
-	return cs.Choose_file(**listInputs).filePath()
+def sub_float_dyn(in1, in2):
+	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
+	return cs.sub_float_dyn(**listInputs).subtract()
+
+@xml_process('''
+<process capsul_xml="2.0">
+	<input name="in1" type="float" doc=""/>
+	<input name="in2" type="float" doc=""/>
+	<return name="multiplication" type="float" doc=""/>
+</process>
+''')
+def mult_float_dyn(in1, in2):
+	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
+	return cs.mult_float_dyn(**listInputs).multiplication()
 
