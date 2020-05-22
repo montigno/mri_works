@@ -17,7 +17,7 @@ class Scipy_statLoogiddtic:
 
 class Fit_T1:
     def __init__(self, x=[0.0], y=[0.0], Mo=100.0, T1=1.0, C=1.0, n=20):
-        from NodeEditor.modules.Demos.sources.nonlinear_least_squares import T1_nonlinear_least_squares
+        from NodeEditor.modules.sources.nonlinear_least_squares import T1_nonlinear_least_squares
         T1_nonlinear_least_squares(x, y, Mo, T1, C, n)
 
 ###############################################################################
@@ -25,7 +25,7 @@ class Fit_T1:
 
 class Fit_T2:
     def __init__(self, x=[0.0], y=[0.0], Mo=100.0, T2=1.0, C=1.0, n=20):
-        from NodeEditor.modules.Demos.sources.nonlinear_least_squares import T2_nonlinear_least_squares
+        from NodeEditor.modules.sources.nonlinear_least_squares import T2_nonlinear_least_squares
         T2_nonlinear_least_squares(x, y, Mo, T2, C, n)
 
 ###############################################################################

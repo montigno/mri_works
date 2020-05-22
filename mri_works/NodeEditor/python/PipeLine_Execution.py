@@ -93,6 +93,7 @@ class execution:
         listForExecution = {}
         listIfExecution = {}
         listScriptExecution = {}
+        
         for ls in listBlockExecution:
             if 'F' in ls:
                 tmp = txt[txt.index('[loopfor ' + ls):len(txt)]

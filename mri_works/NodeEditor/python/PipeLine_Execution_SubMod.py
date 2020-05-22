@@ -21,8 +21,9 @@ class executionSubmod:
 
     def __init__(self, txt, listDynamicValue, textEditor, modul):
 
-#         print('txt execution SubMod')
+#         print('txt SubMod')
 #         print(txt)
+#         print('modul SubMod')
 #         print(modul)
 
         listConnctIn = []

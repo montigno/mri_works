@@ -1388,6 +1388,7 @@ class DiagramView(QGraphicsView):
             self.addItemLoop(self.bm.unit)
 
         elif event.mimeData().hasFormat('structures_tools'):
+            print("currentLoop : ",self.currentLoop)
             name = str(event.mimeData().data('structures_tools'))
             name = name[2:len(name) - 1]
             if "For" in name:

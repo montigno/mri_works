@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
+<head>
 	<meta charset="utf-8"/>
 	<meta name = "author" content = "Olivier MONTIGON">
 	<meta name = "description"	content = "mri_works">
+	<title>mri_works documentation (IRMaGe)</title>
 	<link rel="stylesheet" media="screen" type="text/css" href="../styles.css">
-	<title>Nodes Documentation (IRMaGe)</title>
 	<script src="../datemodif.js"></script>
 	<script src="../buttontop.js"></script>
-  </head>
+</head>
   <body> 
 	<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 	<div><iframe class="sommaire" src = "sommaire.html"></iframe></div>
 	<div class="box">
 	
-	<h1 align="center">Install and Configuration <strong></strong></h1>
+	<h1 align="center">Install and Configuration</h1>
 	<br><hr>
 		
 		<h2 id="afni"><font color="blue">AFNI : </font></h2>
@@ -28,14 +28,14 @@
 			<pre class="console" style="width:900px;">cd</pre>
 			<pre class="console" style="width:900px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
-			<pre class="bashrc" style="width:900px;">#AFNI<br>export PATH=/usr/lib/afni/bin:$PATH</pre>
+				<pre class="bashrc" style="width:900px;">#AFNI<br>export PATH=/usr/lib/afni/bin:$PATH</pre>
 			- to save<br><br>
 			</div><hr>
 
 		<h2 id="ants"><font color="blue">ANTS : </font></h2>
 			<div> 
 			- download the release of ANTS from <a href="https://github.com/ANTsX/ANTs/releases" target="_blank">the official github homepage</a> (to date, the last known version is ANTs Version 2.1.0)<br>
-			- decompress the downloaded file and store it somewhere on your system, e.g. /usr/local/antsbin<br>
+			- decompress the downloaded file and store it somewhere on your system, e.g. /usr/local/antsbin<br></br>
 			- open terminal and type :
 			<pre class="console" style="width:500px;">cd</pre>
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>

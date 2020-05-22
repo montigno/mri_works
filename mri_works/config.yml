@@ -23,6 +23,7 @@ paths:
   histories:
   - /home/domicile-xubuntu/Desktop/projects_mri_works/T2map_filter.dgr
   - /home/domicile-xubuntu/Documents/projects_mriworks/loopfor_recursif.dgr
+  - /home/domicile-xubuntu/Desktop/projects_mri_works/script_loopfor.dgr
   modules: modules
   projects: ../data
 version: 20.05.12a
