@@ -1388,7 +1388,6 @@ class DiagramView(QGraphicsView):
             self.addItemLoop(self.bm.unit)
 
         elif event.mimeData().hasFormat('structures_tools'):
-            print("currentLoop : ",self.currentLoop)
             name = str(event.mimeData().data('structures_tools'))
             name = name[2:len(name) - 1]
             if "For" in name:
@@ -5052,7 +5051,8 @@ class Control_IF(QComboBox):
 
     def trueCase(self):
         for item in editor.diagramView[editor.currentTab].items():
-            if type(item) == BlockCreate or type(item) == ForLoopItem or type(item) == Constants:
+            if type(item) == BlockCreate or type(item) == ForLoopItem \
+                or type(item) == ScriptItem or type(item) == Constants:
                 if item.unit in listTools[editor.currentTab][self.unit][0]:
                     item.setOpacity(1)
                     self.opacityLink(item.unit, 1)
@@ -5077,7 +5077,8 @@ class Control_IF(QComboBox):
 
     def falseCase(self):
         for item in editor.diagramView[editor.currentTab].items():
-            if type(item) == BlockCreate or type(item) == ForLoopItem or type(item) == Constants:
+            if type(item) == BlockCreate or type(item) == ForLoopItem \
+                or type(item) == ScriptItem or type(item) == Constants:
                 if item.unit in listTools[editor.currentTab][self.unit][0]:
                     item.setOpacity(0)
                     self.opacityLink(item.unit, 0)
@@ -5410,14 +5411,14 @@ class Port(QGraphicsRectItem):
             if self.typeio == 'out':
                 cp = menu.addAction('add Print block for this port')
                 cp.triggered.connect(self.addPrint)
-            elif 'list' not in self.format and 'array' not in self.format:
-                yet = False
-                for key, val in listNodes[editor.currentTab].items():
-                    if self.unit+':'+self.name in val:
-                        yet = True
-                if not yet:
-                    cp = menu.addAction('add constant for this port')
-                    cp.triggered.connect(self.addConstant)
+#             elif 'list' not in self.format and 'array' not in self.format:
+#                 yet = False
+#                 for key, val in listNodes[editor.currentTab].items():
+#                     if self.unit+':'+self.name in val:
+#                         yet = True
+#                 if not yet:
+#                     cp = menu.addAction('add constant for this port')
+#                     cp.triggered.connect(self.addConstant)
 
         if ac or cp:     
             menu.exec_(event.screenPos())
@@ -5433,18 +5434,20 @@ class Port(QGraphicsRectItem):
         
     def addConstant(self):
 #         print('format = ', self.format)
+
+        nameClass = listItems[editor.currentTab][self.unit].name
+        ind=0
+        for i, j in enumerate(editor.getlib()):
+            if j[0] == nameClass:
+                ind = i
+                break
+        listEnter = editor.getlib()[ind][2][0]
+        
         if 'int' in self.format:
             val = 0
         elif 'float' in self.format:
             val=0.0
         elif 'enumerate' in self.format:
-            nameClass = listItems[editor.currentTab][self.unit].name
-            ind=0
-            for i, j in enumerate(editor.getlib()):
-                if j[0] == nameClass:
-                    ind = i
-                    break
-            listEnter = editor.getlib()[ind][2][0]
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
                     self.format = editor.getlib()[ind][2][1][lst]
@@ -5468,7 +5471,19 @@ class Port(QGraphicsRectItem):
         startConnection.setEndPos(self.scenePos())
         startConnection.setToPort(self)
         listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
-                
+
+        listVal = listBlocks[editor.currentTab][self.unit]
+        newList = []
+        for i in range(len(listEnter)):
+            if listEnter[i] == self.name:
+                newList.append('Node(' + startConnection.link.name + ')')
+            else:
+                newList.append(listVal[2][1][i])
+
+        del listBlocks[editor.currentTab][self.unit]
+        listBlocks[editor.currentTab][self.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
+        UpdateUndoRedo()
+
     def addPrint(self):
         if 'tuple' in self.format:
             name = 'Print_tuple'
@@ -5511,8 +5526,8 @@ class Port(QGraphicsRectItem):
 
         del listBlocks[editor.currentTab][b1.unit]
         listBlocks[editor.currentTab][b1.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
-
-
+        UpdateUndoRedo()
+        
 class TreeLibrary(QTreeView):
 
     def __init__(self, parent=None):

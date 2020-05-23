@@ -90,16 +90,19 @@ class executionSubmod:
         listScriptExecution = {}
         for ls in listBlockExecution:
             if 'S' in ls:
-                file = os.path.join(os.path.abspath(os.getcwd()),
-                                    'NodeEditor',
-                                    'submodules',
-                                    modul[0] + '.mod')
-                f = open(file, 'r')
-                txt = f.read()
-                f.close()
+                if modul:
+                    file = os.path.join(os.path.abspath(os.getcwd()),
+                                        'NodeEditor',
+                                        'submodules',
+                                        modul[0] + '.mod')
+                    f = open(file, 'r')
+                    txt = f.read()
+                    f.close()
                 tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
                 tmp = tmp[tmp.index('\n')+1:]
+                               
                 listScriptExecution[ls] = tmp
+                    
             if 'F' in ls:
                 file = os.path.join(os.path.abspath(os.getcwd()),
                                     'NodeEditor',

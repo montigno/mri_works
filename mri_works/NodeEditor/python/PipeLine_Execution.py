@@ -373,7 +373,12 @@ class execution:
                         elif i > 6:
                             break
                     txtIf += '\n' + tmp1
-
+    
+                for ls in eval(txtIf.splitlines()[1]):
+                    if 'S' in ls:
+                        tmp2 = txt[txt.index('[source '+ls):txt.index('[/source '+ls)+10+len(ls)]
+                        txtIf += '\n' + tmp2
+                        
                 a = executionSubmod(txtIf,
                                     self.listDynamicValueIf.copy(),
                                     textEditor,

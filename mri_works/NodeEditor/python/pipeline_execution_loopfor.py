@@ -67,6 +67,13 @@ class executionFor:
                     break
 #             listModulExecution[ls]=tmp1
             txt += '\n' + tmp1
+            
+        # listScriptExecution
+        for ls in listBlockExecution:
+            if 'S' in ls:
+                tmp2 = txtfull[txtfull.index('[source '+ls):txtfull.index('[/source '+ls)+10+len(ls)]
+                txt += '\n' + tmp2
+                
 
         ######################################################################
         self.listDynamicValueSubToReturn = {}
