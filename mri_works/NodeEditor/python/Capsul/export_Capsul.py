@@ -51,6 +51,8 @@ class exportCapsul():
                 line = line[line.index('RectF') + 7:len(line)]
                 posi = eval(line[0:line.index(']')])
                 tmpVal = eval(Vinput)
+                if '_dyn' in classs:
+                    classs += str(len(tmpVal[0]))
                 try:
                     tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
                     if tmpDoub:
@@ -190,16 +192,20 @@ class exportCapsul():
             codeModuls += 'def ' + keyClass + tmpw + ':\n'
             codeModuls.indent()
             codeModuls += 'listInputs=dict(zip(' + tmp + ',' + str(tmpw) + '))\n'
+            
+            tmpkeyClass = keyClass
+            if '_dyn' in tmpkeyClass:
+                tmpkeyClass = tmpkeyClass[0:tmpkeyClass.index('_dyn')+4]
 
             if len(valClass[1][2]) < 2:
-                tmp2 = 'return cs.' + keyClass + '(**listInputs)'
+                tmp2 = 'return cs.' + tmpkeyClass + '(**listInputs)'
                 try:
                     codeModuls += tmp2 + '.' + str(valClass[1][2][0]) + '()\n'
                 except Exception as e:
                     codeModuls += tmp2 + '\n'
 
             elif len(valClass[1][2]) > 1:
-                codeModuls += 'z=cs.' + keyClass + '(**listInputs)\n'
+                codeModuls += 'z=cs.' + tmpkeyClass + '(**listInputs)\n'
                 codeModuls += 'return {\n'
                 codeModuls.indent()
                 for i in range(0, len(valClass[1][2])):
@@ -220,6 +226,8 @@ class exportCapsul():
         for listcode in listCategory:
             filePy = 'NodeEditor.modules.' + listcode[0:listcode.rfind('.')]
             classPy = listcode[listcode.rfind('.') + 1:]
+            if 'dyn' in classPy:
+                classPy = classPy[0:classPy.index('_dyn')+4]
             imp = importlib.import_module(filePy)
             importlib.reload(imp)
             for nameClass, obj in inspect.getmembers(imp):

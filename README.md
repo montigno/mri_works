@@ -34,6 +34,13 @@ mri_works is open source and is released under the [CeCILL-b software license](h
 
 # Release history
 
+	24/05/2020 : Version 20.05.24a
+	- ScriptItem in LoopFor and If structure
+	- block with dynamic enters now compatible with Capsul
+	- add function 'join' for multiprocessing
+	- blocks and examples added
+	- some bugs fixed
+
     13/02/2020 : Version 20.02.00
 	Features: 1st repository
 

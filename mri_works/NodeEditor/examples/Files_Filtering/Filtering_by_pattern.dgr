@@ -1,13 +1,17 @@
 [diagram]
-link=[N1] node=[U1:output_filtered_files#Node#U2:in_list_Path]
-block=[U2] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['', 'Node(N1)'], [], [])] RectF=[(555.953125, -17.0, 150.0, 80.0)]
+constant=[A1] value=['FA5'] format=[str] label=[A1] RectF=[(89.59028488953541, 99.05658331104561, 46.0, 33.0)]
+constant=[A0] value=['contains'] format=[enumerate(('==', '!=', 'contains', 'not contains', 'in', 'not in'))] label=[A0] RectF=[(-53.826424732601396, 44.2400995140046, 117.0, 31.0)]
+link=[N3] node=[A1:#Node#U1:pattern]
+link=[N2] node=[A0:#Node#U1:operator]
 link=[N0] node=[U0:filesPath#Node#U1:input_files]
-block=[U1] category=[File_IO.File_filter] class=[filter_input_files_pattern] valInputs=[(['input_files', 'operator', 'pattern'], ['Node(N0)', 'not contains', 'FA5'], ['output_filtered_files'], ['list_path'])] RectF=[(221.0, -3.0, 232.953125, 80.0)]
-block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-85.0, -29.0, 206.59375, 80.0)]
+link=[N1] node=[U1:output_filtered_files#Node#U2:in_list_Path]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-158.29878390970921, -90.87921832365686, 206.59375, 80.0)]
+block=[U1] category=[File_IO.File_filter] class=[filter_input_files_pattern] valInputs=[(['input_files', 'operator', 'pattern'], ['Node(N0)', 'Node(N2)', 'Node(N3)'], ['output_filtered_files'], ['list_path'])] RectF=[(225.00829882028108, -18.031120576054214, 234.9572744101406, 138.12033289407628)]
+block=[U2] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['', 'Node(N1)'], [], [])] RectF=[(564.2541433786148, -2.5377209000511627, 150.0, 80.0)]
 [execution]
 []
 ['U0', 'U1', 'U2']
-{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U1': ('File_IO.File_filter', 'filter_input_files_pattern', "(['input_files', 'operator', 'pattern'], ['U0:filesPath', 'not contains', 'FA5'], ['output_filtered_files'], ['list_path'])"), 'U2': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['', 'U1:output_filtered_files'], [], [])")}
-['U0:filesPath', 'U1:output_filtered_files']
+{'U2': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['', 'U1:output_filtered_files'], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U1': ('File_IO.File_filter', 'filter_input_files_pattern', "(['input_files', 'operator', 'pattern'], ['U0:filesPath', 'contains', 'FA5'], ['output_filtered_files'], ['list_path'])")}
+['U1:output_filtered_files', 'U0:filesPath', 'A0:', 'A1:']
 {}
 []

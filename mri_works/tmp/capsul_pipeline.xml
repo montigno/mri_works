@@ -2,36 +2,37 @@
 <pipeline>
   <gui>
     <position name="inputs" x="0" y="0"/>
-    <position name="U7" x="1194.7718074294971" y="165.45954176962448"/>
-    <position name="U5" x="183.8146922331755" y="174.54109987742208"/>
-    <position name="U0" x="-394.21859979124184" y="-155.0323702551825"/>
-    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
-    <position name="U2" x="421.6553700278548" y="-137.86332517247027"/>
-    <position name="U4" x="651.9437582368322" y="43.30859188188304"/>
     <position name="U6" x="932.3543880552529" y="232.9450455174533"/>
+    <position name="U4" x="651.9437582368322" y="43.30859188188304"/>
+    <position name="U2" x="421.6553700278548" y="-137.86332517247027"/>
+    <position name="U1" x="-58.91263966072857" y="-138.48285995862472"/>
+    <position name="U0" x="-394.21859979124184" y="-155.0323702551825"/>
+    <position name="U7" x="1194.7718074294971" y="165.45954176962448"/>
+    <position name="U5" x="182.8146922331755" y="173.54109987742208"/>
   </gui>
+  <process module="capsul_moduls.sub_float_dyn2" name="U6"/>
+  <process module="capsul_moduls.mult_float_dyn2" name="U4"/>
+  <process module="capsul_moduls.add_float_dyn3" name="U2"/>
+  <process module="capsul_moduls.sub_float_dyn2" name="U1"/>
+  <process module="capsul_moduls.add_float_dyn3" name="U0"/>
   <process module="capsul_moduls.Print_float" name="U7"/>
-  <process module="capsul_moduls.add_float_dyn" name="U5"/>
-  <process module="capsul_moduls.add_float_dyn" name="U0"/>
-  <process module="capsul_moduls.sub_float_dyn" name="U1"/>
-  <process module="capsul_moduls.add_float_dyn" name="U2"/>
-  <process module="capsul_moduls.mult_float_dyn" name="U4"/>
-  <process module="capsul_moduls.sub_float_dyn" name="U6"/>
-  <link dest="U7.inFloat" source="U6.subtract"/>
-  <link dest="U1.in1" source="U0.addition"/>
-  <link dest="U2.in1" source="U1.subtract"/>
-  <link dest="U4.in1" source="U2.addition"/>
-  <link dest="U4.in2" source="U1.subtract"/>
-  <link dest="U5.in1" source="U1.subtract"/>
-  <link dest="U5.in2" source="U0.addition"/>
-  <link dest="U6.in1" source="U4.multiplication"/>
+  <process module="capsul_moduls.add_float_dyn4" name="U5"/>
   <link dest="U6.in2" source="U5.addition"/>
-  <link dest="U7.comment" source="comment"/>
-  <link dest="U0.in2_0" source="Z"/>
-  <link dest="U0.in2" source="Y"/>
-  <link dest="U0.in1" source="X"/>
-  <link dest="U2.in2" source="V"/>
-  <link dest="U1.in2" source="U"/>
-  <link dest="U2.in2_0" source="W"/>
+  <link dest="U6.in1" source="U4.multiplication"/>
+  <link dest="U5.in2" source="U0.addition"/>
+  <link dest="U5.in1" source="U1.subtract"/>
+  <link dest="U4.in2" source="U1.subtract"/>
+  <link dest="U4.in1" source="U2.addition"/>
+  <link dest="U2.in1" source="U1.subtract"/>
+  <link dest="U1.in1" source="U0.addition"/>
+  <link dest="U7.inFloat" source="U6.subtract"/>
   <link dest="U5.in2_0" source="U"/>
+  <link dest="U2.in2_0" source="W"/>
+  <link dest="U1.in2" source="U"/>
+  <link dest="U2.in2" source="V"/>
+  <link dest="U0.in1" source="X"/>
+  <link dest="U0.in2" source="Y"/>
+  <link dest="U0.in2_0" source="Z"/>
+  <link dest="U7.comment" source="comment"/>
+  <link dest="U5.in2_1" source="W"/>
 </pipeline>
