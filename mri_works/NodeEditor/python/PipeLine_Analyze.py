@@ -292,30 +292,33 @@ class analyze:
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
                 tmp = valueA
-                tmpUnitAmont = tmp[0:tmp.index(':')]
+                a = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                tmpPortAmont = tmp[0:tmp.index('#Node#')]
+                b = tmp[0:tmp.index('#Node#')]
                 tmp = tmp[tmp.index('#Node#') + 6:len(tmp)]
-                tmpUnitAval = tmp[0:tmp.index(':')]
+                c = tmp[0:tmp.index(':')]
                 tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                tmpPortAval = tmp
+                d = tmp
 #                 print('info 1 : ', keyA, valueA)
                 for keyF, valueF in self.listLoopFor.items():
-#                     print('case 1 :', keyF + ':in', tmpUnitAmont + ':' + tmpPortAmont)
-#                     print('case 2 :', keyF + ':out', tmpUnitAval + ':' + tmpPortAval)
-#                     print('case 3 :', tmpUnitAmont, eval(self.listLoopFor[keyF][2]))
-#                     print('case 4 :', tmpUnitAval, eval(self.listLoopFor[keyF][2]))
-                    if keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont or \
-                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval or \
-                        (tmpUnitAmont in eval(self.listLoopFor[keyF][2]) and
-                            keyF == tmpUnitAmont) or \
-                        tmpUnitAval in eval(self.listLoopFor[keyF][2]):
+#                     print(keyA,': case 1 :', keyF + ':in', a + ':' + b)
+#                     print(keyA,': case 2 :', keyF + ':out', c + ':' + d)
+#                     print(keyA,': case 3 :', a, eval(self.listLoopFor[keyF][2]))
+#                     print(keyA,': case 4 :', c, eval(self.listLoopFor[keyF][2]))
+#                     print(keyA,': listArrow.keys() :',listArrow.keys())
+                    if keyF + ':in' in a + ':' + b or \
+                        keyF + ':out' in c + ':' + d or \
+                        (a in eval(self.listLoopFor[keyF][2]) and
+                            keyF == a) or \
+                        c in eval(self.listLoopFor[keyF][2]):
                         if keyA in listArrow.keys():
                             # links from LoopFor deleted from the listArrow
                             del listArrow[keyA]
                             listArrowFor = self.listLoopFor[keyF][3]
                             listArrowFor[keyA] = valueA
                             self.listLoopFor[keyF][3] = listArrowFor
+
+#             print('self.listLoopFor : ',self.listLoopFor)
 
         # search arrows within loop If ###############
 
