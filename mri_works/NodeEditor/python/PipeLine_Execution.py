@@ -105,7 +105,7 @@ class execution:
                         break
                 listForExecution[ls] = tmp1
 
-            if 'I' in ls:
+            elif 'I' in ls:
                 tmp = txt[txt.index('[loopif ' + ls + ' True'):len(txt)]
                 tmp1 = ''
                 for i, ln in enumerate(tmp.splitlines()):
@@ -123,7 +123,7 @@ class execution:
                         break
                 listIfExecution[ls+'-false'] = tmp1
             
-            if 'S' in ls:
+            elif 'S' in ls:
                 tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
                 tmp = tmp[tmp.index('\n')+1:]
                 listScriptExecution[ls] = tmp
@@ -199,7 +199,7 @@ class execution:
                             except Exception as e:
                                 pass
 
-                    gc.collect()
+#                     gc.collect()
                     try:
                         list3 = dict(zip(Enters, tmp[1]))
                         if threadcurrent:
@@ -420,6 +420,8 @@ class execution:
                           --- Total time : %s seconds ---"
                           % (time.time() - start) +
                           " : " + str(start_sum) + "</span>")
+        
+        gc.collect()
 
 
 class ThreadClass(threading.Thread):

@@ -3,58 +3,41 @@ import capsul_code_source as cs
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<input name="in2_0" type="float" doc=""/>
-	<input name="in2_1" type="float" doc=""/>
-	<return name="addition" type="float" doc=""/>
+	<input name="command" type="string" doc=""/>
 </process>
 ''')
-def add_float_dyn4(in1, in2, in2_0, in2_1):
-	listInputs=dict(zip(('in1', 'in2', 'in2_0', 'in2_1'),(in1, in2, in2_0, in2_1)))
-	return cs.add_float_dyn(**listInputs).addition()
+def ImageJ_execution(command,):
+	listInputs=dict(zip(('command',),(command,)))
+	return cs.ImageJ_execution(**listInputs)
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="comment" type="string" doc=""/>
-	<input name="inFloat" type="float" doc=""/>
+	<input name="cmd_ant" type="string" doc=""/>
+	<return name="cmd_post" type="string" doc=""/>
 </process>
 ''')
-def Print_float(comment, inFloat):
-	listInputs=dict(zip(('comment', 'inFloat'),(comment, inFloat)))
-	return cs.Print_float(**listInputs)
+def ortho_view(cmd_ant,):
+	listInputs=dict(zip(('cmd_ant',),(cmd_ant,)))
+	return cs.ortho_view(**listInputs).cmd_post()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<input name="in2_0" type="float" doc=""/>
-	<return name="addition" type="float" doc=""/>
+	<input name="file" type="file" doc=""/>
+	<return name="cmd_post" type="string" doc=""/>
 </process>
 ''')
-def add_float_dyn3(in1, in2, in2_0):
-	listInputs=dict(zip(('in1', 'in2', 'in2_0'),(in1, in2, in2_0)))
-	return cs.add_float_dyn(**listInputs).addition()
+def ImageJ_load_Image(file,):
+	listInputs=dict(zip(('file',),(file,)))
+	return cs.ImageJ_load_Image(**listInputs).cmd_post()
 
 @xml_process('''
 <process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="subtract" type="float" doc=""/>
+	<input name="extension" type="string" doc=""/>
+	<input name="title" type="string" doc=""/>
+	<return name="filePath" type="file" doc=""/>
 </process>
 ''')
-def sub_float_dyn2(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.sub_float_dyn(**listInputs).subtract()
-
-@xml_process('''
-<process capsul_xml="2.0">
-	<input name="in1" type="float" doc=""/>
-	<input name="in2" type="float" doc=""/>
-	<return name="multiplication" type="float" doc=""/>
-</process>
-''')
-def mult_float_dyn2(in1, in2):
-	listInputs=dict(zip(('in1', 'in2'),(in1, in2)))
-	return cs.mult_float_dyn(**listInputs).multiplication()
+def askopenfilename(extension, title):
+	listInputs=dict(zip(('extension', 'title'),(extension, title)))
+	return cs.askopenfilename(**listInputs).filePath()
 
