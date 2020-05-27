@@ -45,7 +45,7 @@ class analyze:
 
         connectItem = False
 
-# create list ######################################
+        # create list ######################################
         for line in tmp:
             if line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -281,7 +281,6 @@ class analyze:
 #         print('listConstantLoop 0 : ', self.listConstantLoop)
 #         print('listArrow :  ', listArrow)
 
-
         if self.listLoopFor:
             for keyF, valueF in self.listLoopFor.items():
                 tmplistItem = eval(valueF[2])
@@ -318,12 +317,8 @@ class analyze:
                             listArrowFor[keyA] = valueA
                             self.listLoopFor[keyF][3] = listArrowFor
 
-#             print('self.listLoopFor : ',self.listLoopFor)
 
         # search arrows within loop If ###############
-
-#         print('listLoopFor ', self.listLoopFor)
-#         print('listArow (2) : ',listArrow)
 
         if self.listLoopIf:
             for keyF, valueF in self.listLoopIf.items():

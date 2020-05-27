@@ -1,5 +1,5 @@
 [diagram]
-constant=[A0] value=[4] format=[int] label=[A0] RectF=[(-545.9964571409907, 109.13469292147823, 87.0, 31.0)]
+constant=[A0] value=[5] format=[int] label=[Matrix dimension ] RectF=[(-557.9250534189808, 108.34352019495338, 87.0, 31.0)]
 link=[N3] node=[A0:#Node#S0:dimension]
 link=[N2] node=[S0:eye_out#Node#U2:in_array_Float]
 link=[N1] node=[S0:ones_out#Node#U1:in_array_Float]
@@ -9,7 +9,7 @@ block=[U1] category=[Tools.Print] class=[Print_array_float] valInputs=[(['commen
 block=[U0] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N0)'], [], [])] RectF=[(74.89251499887368, -70.65227117688605, 153.79363221956044, 85.6904483293407)]
 script=[S0] inputs=[['dimension', 'in', 'int']] outputs=[['zeros_out', 'out', 'array_float'], ['ones_out', 'out', 'array_float'], ['eye_out', 'out', 'array_float']] code=[your code] RectF=[(-344.7404238920568, 25.892700892592018, 200.0, 200.0)]
 [source S0]
-['dimension=4']
+['dimension=5']
 import numpy as np
 
 n = dimension
