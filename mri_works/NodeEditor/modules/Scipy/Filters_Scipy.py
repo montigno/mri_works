@@ -1,7 +1,7 @@
 class Sobel():
-    def __init__(self,image=[[0.0]]):
+    def __init__(self,image=[[0.0]], **options):
         from scipy import ndimage
-        self.ax = ndimage.sobel(image)
+        self.ax = ndimage.sobel(image, **options)
     
     def Sobel(self:'array_float'):
         return self.ax
@@ -9,9 +9,9 @@ class Sobel():
 ################################################
 
 class Prewitt():
-    def __init__(self,image=[[0.0]]):
+    def __init__(self,image=[[0.0]], **options):
         from scipy import ndimage
-        self.ax = ndimage.prewitt(image)
+        self.ax = ndimage.prewitt(image, **options)
     
     def Prewitt(self:'array_float'):
         return self.ax
@@ -19,9 +19,9 @@ class Prewitt():
 ################################################
 
 class Median():
-    def __init__(self,image=[[0.0]],size=1):
+    def __init__(self,image=[[0.0]],size=1, **options):
         from scipy import ndimage
-        self.ax = ndimage.median_filter(image, size)
+        self.ax = ndimage.median_filter(image, size, **options)
     
     def Median(self:'array_float'):
         return self.ax
@@ -29,9 +29,9 @@ class Median():
 ################################################
 
 class Laplace():
-    def __init__(self,image=[[0.0]]):
+    def __init__(self,image=[[0.0]], **options):
         from scipy import ndimage
-        self.ax = ndimage.laplace(image)
+        self.ax = ndimage.laplace(image, **options)
     
     def Laplace(self:'array_float'):
         return self.ax
@@ -39,9 +39,9 @@ class Laplace():
 ################################################
 
 class Gaussian_filter():
-    def __init__(self,image=[[0.0]], sigma=1):
+    def __init__(self,image=[[0.0]], sigma=1, **options):
         from scipy import ndimage
-        self.ax = ndimage.gaussian_filter(image,sigma=sigma)
+        self.ax = ndimage.gaussian_filter(image,sigma=sigma, **options)
         
     def Gaussian(self:'array_float'):
         return self.ax
@@ -49,9 +49,9 @@ class Gaussian_filter():
 ################################################
 
 class Gaussian_laplace():
-    def __init__(self,image=[[0.0]], sigma=1):
+    def __init__(self,image=[[0.0]], sigma=1, **options):
         from scipy import ndimage
-        self.ax = ndimage.gaussian_laplace(image,sigma=sigma)
+        self.ax = ndimage.gaussian_laplace(image,sigma=sigma, **options)
         
     def Gaussian(self:'array_float'):
         return self.ax

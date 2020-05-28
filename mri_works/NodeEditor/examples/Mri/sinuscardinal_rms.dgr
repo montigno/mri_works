@@ -1,8 +1,8 @@
 [diagram]
-constant=[A2] value=[0.05] format=[float] label=[A2] RectF=[(-1165.2479614044653, 25.176682282638183, 118.0, 31.0)]
-constant=[A1] value=[5.0] format=[float] label=[A1] RectF=[(-1165.667681953906, -47.350897474830106, 118.0, 31.0)]
-constant=[A0] value=[-5.0] format=[float] label=[A0] RectF=[(-1169.845702319332, -116.98457023193318, 118.0, 31.0)]
-constant=[A3] value=[False] format=[bool] label=[Absolute ?] RectF=[(-447.8461212482178, -393.48437972734297, 73.0, 31.0)]
+constant=[A2] value=[0.05] format=[float] label=[A2] RectF=[(-1165.2479614044653, 25.176682282638183, 135.0, 31.0)]
+constant=[A1] value=[5.0] format=[float] label=[A1] RectF=[(-1165.667681953906, -47.350897474830106, 135.0, 31.0)]
+constant=[A0] value=[-5.0] format=[float] label=[A0] RectF=[(-1169.845702319332, -116.98457023193318, 135.0, 31.0)]
+constant=[A3] value=['False'] format=[bool] label=[Absolute ?] RectF=[(-447.8461212482178, -393.48437972734297, 79.0, 31.0)]
 link=[N19] node=[U10:abs#Node#U6:array_like]
 link=[N9] node=[U2:fft_1d#Node#U10:y]
 link=[N6] node=[U3:rms#Node#U1:stringIn_0]
@@ -37,7 +37,7 @@ block=[U8] category=[Matplotlib.MatplotCurve] class=[pyPlot2] valInputs=[(['data
 block=[U9] category=[Tools.StringManipulation] class=[string_list_dyn] valInputs=[(['stringIn'], ['Node(N17)'], ['str_list'], ['list_str'])] RectF=[(549.5756632766565, -12.135740198538151, 150.0, 80.0)]
 [execution]
 []
-['U0', 'U5', 'I0', 'ThreadOn', 'U2', 'U3', 'ThreadOff', 'ThreadOn', 'U10', 'U1', 'ThreadOff', 'ThreadOn', 'U6', 'U9', 'ThreadOff', 'U7', 'U8']
+['U0', 'U5', 'I0', 'ThreadOn', 'U3', 'U2', 'ThreadOff', 'ThreadOn', 'U1', 'U10', 'ThreadOff', 'ThreadOn', 'U6', 'U9', 'ThreadOff', 'U7', 'U8']
 {'U9': ('Tools.StringManipulation', 'string_list_dyn', "(['stringIn'], ['U1:str_conc'], ['str_list'], ['list_str'])"), 'U8': ('Matplotlib.MatplotCurve', 'pyPlot2', "(['data', 'x', 'title'], ['U7:array', 'U0:outAbscissa', 'U9:str_list'], [], [])"), 'U7': ('Tools.ArrayManipulation', 'build_array_float_dyn', "(['in_list', 'in_list_0'], ['I0:out0', 'U6:fft_shift'], ['array'], ['array_float'])"), 'U6': ('Numpy.DFT', 'numpy_fft_shift', "(['array_like'], ['U10:abs'], ['fft_shift'], ['array_float'])"), 'U2': ('Numpy.DFT', 'numpy_fft_1d', "(['data'], ['I0:out0'], ['fft_1d'], ['list_float'])"), 'U3': ('Numpy.Maths', 'numpy_RMS', "(['y'], ['I0:out0'], ['rms'], ['float'])"), 'U5': ('Numpy.Functions_trigo', 'numpy_sinc', "(['x'], ['U0:outAbscissa'], ['sinc'], ['list_float'])"), 'U1': ('Tools.StringManipulation', 'string_concatenat_dyn', "(['stringIn', 'stringIn_0'], ['RMS = ', 'U3:rms'], ['str_conc'], ['str'])"), 'U10': ('Numpy.Maths', 'numpy_abs', "(['y'], ['U2:fft_1d'], ['abs'], ['list_float'])"), 'U0': ('Generator.Abscissa', 'AbsX', "(['xmin', 'xmax', 'delta_x'], [-5.0, 5.0, 0.05], ['outAbscissa'], ['list_float'])")}
 ['U9:str_list', 'U1:str_conc', 'I0:out0', 'U0:outAbscissa', 'U7:array', 'U6:fft_shift', 'I0:out0', 'I0:out0', 'I0:in0', 'I0:in0', 'A3:', 'U5:sinc', 'U0:outAbscissa', 'A2:', 'A1:', 'A0:', 'U3:rms', 'U2:fft_1d', 'U10:abs']
 {}
