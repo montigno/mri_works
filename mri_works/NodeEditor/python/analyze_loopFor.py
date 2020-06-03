@@ -21,13 +21,13 @@ class analyzeLoopFor:
         # valueF[3] : list of arrows
         # valueF[4] : list of arrows
 
-        print('keyF', keyF)
-        print('valueF', valueF)
-        print('listBlock', listBlock)
-        print('listModul', listModul)
-        print('ModulExecution', ModulExecution)
-        print('listArrowExtern', listArrowExtern)
-        print('listConstants', listConstants)
+#         print('keyF', keyF)
+#         print('valueF', valueF)
+#         print('listBlock', listBlock)
+#         print('listModul', listModul)
+#         print('ModulExecution', ModulExecution)
+#         print('listArrowExtern', listArrowExtern)
+#         print('listConstants', listConstants)
 
         listBlockStart = []
         listBlockRemaining = []
@@ -316,8 +316,7 @@ class analyzeLoopFor:
         txt2 = ''
         for df in self.listModExecution:
             txt2 += '[submod ' + df + ']\n' + self.listModExecution[df]
-        print("listForExecution : ",txtlist + txt2)
-
+#         print("listForExecution : ",txtlist + txt2)
         return txtlist + txt2
 
     def getListBlockExecution(self):

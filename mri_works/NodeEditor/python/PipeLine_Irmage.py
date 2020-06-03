@@ -4138,7 +4138,7 @@ class ForLoopItem(QGraphicsRectItem):
             self.proxyWidget.setWidget(self.elemProxy)
             self.proxyWidget.setPos(3, 3)
             self.proxyWidget.setZValue(3)
-            portCondition = Port('val', 'in', 'bool', self.unit, True, True, -18, -25, self)
+            portCondition = Port('val', 'in', 'bool', self.unit, False, True, -18, -25, self)
             self.inputs.append(portCondition)
             portCondition.setPos(0, 15)
 
@@ -4377,7 +4377,7 @@ class ForLoopItem(QGraphicsRectItem):
                 name = 'in' + str(inc)
                 break
 
-        portIn = Port(name, 'in', 'unkn', self.unit, True, True, -18, -25, self)
+        portIn = Port(name, 'in', 'unkn', self.unit, False, True, -18, -25, self)
         portOut = Port(name, 'out', 'unkn', self.unit, False, True, 4, -12, self)
         self.inputs.append(portIn)
         self.outputs.append(portOut)
@@ -4437,7 +4437,7 @@ class ForLoopItem(QGraphicsRectItem):
                 name = 'out' + str(inc)
                 break
 
-        portOut = Port(name, 'out', 'unkn', self.unit, True, True, -24, -25, self)
+        portOut = Port(name, 'out', 'unkn', self.unit, False, True, -24, -25, self)
         portIn = Port(name, 'in', 'unkn', self.unit, False, True, 4, -12, self)
         self.outputs.append(portOut)
         self.inputs.append(portIn)
@@ -4490,7 +4490,7 @@ class ForLoopItem(QGraphicsRectItem):
     def updateTunnelInput(self, inp):
         self.nbin += 1
         name = inp[0][0]
-        portIn = Port(name, 'in', inp[0][2], self.unit, True, True, -18, -25, self)
+        portIn = Port(name, 'in', inp[0][2], self.unit, False, True, -18, -25, self)
         portOut = Port(name, 'out', inp[1][2], self.unit, False, True, 4, -12, self)
 #         portIn.label.setPlainText(name)
         self.inputs.append(portIn)
@@ -4520,7 +4520,7 @@ class ForLoopItem(QGraphicsRectItem):
     def updateTunnelOutput(self, outp):
         self.nbout += 1
         name = outp[0][0]
-        portOut = Port(name, 'out', outp[1][2], self.unit, True, True, -24, -25, self)
+        portOut = Port(name, 'out', outp[1][2], self.unit, False, True, -24, -25, self)
         portIn = Port(name, 'in', outp[0][2], self.unit, False, True, 4, -12, self)
         self.outputs.append(portOut)
         self.inputs.append(portIn)
@@ -5412,23 +5412,25 @@ class Port(QGraphicsRectItem):
         if self.isMod:
             menu = QMenu()
             ac, cp = None, None
-            if ('F' in self.unit or 'I' in self.unit):
-                ac = menu.addAction('Delete this tunnel')
-                ac.triggered.connect(self.deleteConnector)
+            if ('F' in self.unit or 'I' in self.unit ):
+                if 'val' not in self.name:
+                    ac = menu.addAction('Delete this tunnel')
+                    ac.triggered.connect(self.deleteConnector)
             elif ('S' in self.unit):
                 ac = menu.addAction('Delete this port')
                 ac.triggered.connect(self.deletePort)
             if self.typeio == 'out':
                 cp = menu.addAction('add Print block for this port')
                 cp.triggered.connect(self.addPrint)
-#             elif 'list' not in self.format and 'array' not in self.format:
-#                 yet = False
-#                 for key, val in listNodes[editor.currentTab].items():
-#                     if self.unit+':'+self.name in val:
-#                         yet = True
-#                 if not yet:
-#                     cp = menu.addAction('add constant for this port')
-#                     cp.triggered.connect(self.addConstant)
+            elif 'list' not in self.format and 'array' not in self.format and 'I' not in self.unit:
+                yet = False
+                for key, val in listNodes[editor.currentTab].items():
+                    tmpVal = val[val.index("#Node#")+6:]
+                    if self.unit+':'+self.name == tmpVal:
+                        yet = True
+                if not yet:
+                    cp = menu.addAction('add constant for this port')
+                    cp.triggered.connect(self.addConstant)
 
         if ac or cp:
             menu.exec_(event.screenPos())
@@ -5441,9 +5443,15 @@ class Port(QGraphicsRectItem):
 
     def deletePort(self):
         listItems[editor.currentTab][self.unit].deletePort(self.name, self.typeio)
-
+        
     def addConstant(self):
-        # print('format = ', self.format)
+        if 'U' in self.unit:
+            self.addConstantBlock()
+        elif 'M' in self.unit:
+            self.addConstantSubMod()
+            
+
+    def addConstantBlock(self):
 
         nameClass = listItems[editor.currentTab][self.unit].name
         ind = 0
@@ -5451,7 +5459,7 @@ class Port(QGraphicsRectItem):
             if j[0] == nameClass:
                 ind = i
                 break
-        listEnter = editor.getlib()[ind][2][0]
+        listEnter = listBlocks[editor.currentTab][self.unit][2][0]
 
         if 'int' in self.format:
             val = 0
@@ -5493,6 +5501,57 @@ class Port(QGraphicsRectItem):
         del listBlocks[editor.currentTab][self.unit]
         listBlocks[editor.currentTab][self.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
         UpdateUndoRedo()
+        
+    def addConstantSubMod(self):
+        nameClass = listItems[editor.currentTab][self.unit].name
+        ind = 0
+        for i, j in enumerate(libSubMod):
+            if j[0] == nameClass:
+                ind = i
+                break
+        listEnter = listSubMod[editor.currentTab][self.unit][1][0]
+
+        if 'int' in self.format:
+            val = 0
+        elif 'float' in self.format:
+            val = 0.0
+        elif 'enumerate' in self.format:
+            for lst in range(len(listEnter)):
+                if listEnter[lst] == self.name:
+                    self.format = libSubMod[ind][1][0][1][lst]
+            val = self.format[11:self.format.index(',')]
+        elif 'str' in self.format:
+            val = 'your text'
+        elif 'path' in self.format:
+            val = 'path'
+        elif 'bool' in self.format:
+            val = True
+        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
+        editor.diagramScene[editor.currentTab].addItem(a1)
+        listItems[editor.currentTab][a1.unit] = a1
+        if 'enumerate' in self.format:
+            self.format = 'enumerate_str'
+        startConnection = Connection('',
+                                     a1.outputs[0],
+                                     self,
+                                     self.format)
+        startConnection.setEndPos(self.scenePos())
+        startConnection.setToPort(self)
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
+
+        listVal = listSubMod[editor.currentTab][self.unit]
+        newList = []
+        for i in range(len(listEnter)):
+            if listEnter[i] == self.name:
+                newList.append('Node(' + startConnection.link.name + ')')
+            else:
+                newList.append(listVal[1][1][i])
+
+        del listSubMod[editor.currentTab][self.unit]
+        listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
+        UpdateUndoRedo()
+        
 
     def addPrint(self):
         if 'tuple' in self.format:
