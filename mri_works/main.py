@@ -84,6 +84,7 @@ class createTabs(QWidget):
         self.verticalLayout.addWidget(self.tabs)
         self.verticalLayout.addWidget(self.textInfo)
 
+
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)

@@ -4057,6 +4057,8 @@ class ForLoopItem(QGraphicsRectItem):
         self.unit = unit
         self.w = w
         self.h = h
+        self.wmin = 0.0
+        self.hmin = 0.0
         self.nbin, self.nbout = 0, 0
         self.moved = False
         self.isMod = isMod
@@ -5412,7 +5414,7 @@ class Port(QGraphicsRectItem):
         if self.isMod:
             menu = QMenu()
             ac, cp = None, None
-            if ('F' in self.unit or 'I' in self.unit ):
+            if ('F' in self.unit or 'I' in self.unit):
                 if 'val' not in self.name:
                     ac = menu.addAction('Delete this tunnel')
                     ac.triggered.connect(self.deleteConnector)
@@ -5443,13 +5445,12 @@ class Port(QGraphicsRectItem):
 
     def deletePort(self):
         listItems[editor.currentTab][self.unit].deletePort(self.name, self.typeio)
-        
+
     def addConstant(self):
         if 'U' in self.unit:
             self.addConstantBlock()
         elif 'M' in self.unit:
             self.addConstantSubMod()
-            
 
     def addConstantBlock(self):
 
@@ -5468,7 +5469,10 @@ class Port(QGraphicsRectItem):
         elif 'enumerate' in self.format:
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
-                    self.format = editor.getlib()[ind][2][1][lst]
+                    try:
+                        self.format = editor.getlib()[ind][2][1][lst]
+                    except Exception as e:
+                        self.format = self.getEnumerateFromYml()
             val = self.format[11:self.format.index(',')]
         elif 'str' in self.format:
             val = 'your text'
@@ -5501,7 +5505,7 @@ class Port(QGraphicsRectItem):
         del listBlocks[editor.currentTab][self.unit]
         listBlocks[editor.currentTab][self.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
         UpdateUndoRedo()
-        
+
     def addConstantSubMod(self):
         nameClass = listItems[editor.currentTab][self.unit].name
         ind = 0
@@ -5551,7 +5555,6 @@ class Port(QGraphicsRectItem):
         del listSubMod[editor.currentTab][self.unit]
         listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
         UpdateUndoRedo()
-        
 
     def addPrint(self):
         if 'tuple' in self.format:
@@ -5596,6 +5599,16 @@ class Port(QGraphicsRectItem):
         del listBlocks[editor.currentTab][b1.unit]
         listBlocks[editor.currentTab][b1.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
         UpdateUndoRedo()
+
+    def getEnumerateFromYml(self):
+        pathBlock = listBlocks[editor.currentTab][self.unit][1].split('.')
+        classBlock = listBlocks[editor.currentTab][self.unit][0]
+        pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', pathBlock[0], pathBlock[1] + ".yml")
+        if os.path.exists(pathYml):
+            with open(pathYml, 'r') as stream:
+                self.dicts = yaml.load(stream, yaml.FullLoader)
+        en = self.dicts[classBlock][self.name]
+        return en
 
 
 class TreeLibrary(QTreeView):
@@ -5642,7 +5655,7 @@ class TreeLibrary(QTreeView):
                         for elem in previewScene.items():
                             previewScene.removeItem(elem)
 
-                elif mimidat in'blocks_subModules':
+                elif mimidat in 'blocks_subModules':
                     if sel not in listCategorySubMod:
                         ind = 0
                         for i, j in enumerate(libSubMod):
@@ -5655,7 +5668,7 @@ class TreeLibrary(QTreeView):
                         for elem in previewScene.items():
                             previewScene.removeItem(elem)
 
-                elif mimidat in'structures_tools':
+                elif mimidat in 'structures_tools':
                     name = model.itemFromIndex(idx).text()
                     if sel not in listCategoryTools:
                         if "Constant" in name:
@@ -5777,10 +5790,10 @@ class ReorderList:
         listOrder = self.sorted_nicely(list)
         self.list = list
 
-    def sorted_nicely(self, l):
+    def sorted_nicely(self, lst):
         convert = lambda text: int(text) if text.isdigit() else text
         alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
-        return sorted(l, key=alphanum_key)
+        return sorted(lst, key=alphanum_key)
 
     def getNewList(self):
         return self.list
