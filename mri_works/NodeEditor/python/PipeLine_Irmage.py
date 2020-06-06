@@ -538,9 +538,14 @@ class ShowLegend:
                 textRow.setPos(pos1X, pos1Y - 15)
 
                 editor.diagramScene[editor.currentTab].addItem(textRow)
-
+                
                 pos1X, pos1Y = 0, pos1Y + 20
                 pos2X, pos2Y = 100, pos1Y
+
+#         editor.diagramView[editor.currentTab].setDragMode(QGraphicsView.ScrollHandDrag)
+        editor.diagramView[editor.currentTab].setEnabled(False)
+        editor.diagramView[editor.currentTab].setInteractive(False);
+
 
 
 class LibMod(QStandardItemModel):
