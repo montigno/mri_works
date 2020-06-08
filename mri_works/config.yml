@@ -20,9 +20,7 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories:
-  - /home/domicile-xubuntu/Desktop/projects_mri_works/script_loopfor.dgr
-  - /home/domicile-xubuntu/Desktop/projects_mri_works/script_if.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.05.24a

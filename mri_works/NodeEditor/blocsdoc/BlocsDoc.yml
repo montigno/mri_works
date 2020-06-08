@@ -1,0 +1,57 @@
+exponential:
+   functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
+   amplitude: (float) amplitude (a) of function
+   decay: (float) decay (b) of function (in ms)
+   shift: (float) shift (c) of function
+   function: "(enumerate) list of possible function :
+               'a*exp(-bx)', 'a*exp(-bx)+c',
+               'a*(1-exp(-bx))', 'a*(1-exp(-bx))+c',
+               'a*(1-2*exp(-bx))', 'a*(1-2*c*exp(-bx))')"
+   x: (list of float) abscissa x
+   outFunction: (list of float) out of function selected
+   
+FloatToInt_array:
+   functionality: "Allows the conversion of a float array to an integer array.
+                   Example  [[0.1] , [1.1] , [2.2]] --> [[0] , [1] , [2]]"
+   arrayFloat : (array of float) array of floating values
+   outArrayInt: (array of integer) array of integer values
+   
+FloatToInt_list:
+   functionality: "Allows the conversion of a float list to an integer list.
+                   Example  [0.1 , 1.1 , 2.2 ] --> [0 , 1 , 2]"
+   listFloat : (list of float) list of floating values
+   outListInt: (list of integer) list of integer values
+   
+FloatToInt_simple:
+   functionality: "Allows the conversion of a float number to an integer number.
+                   Example  1.1 --> 1"
+   inFloat: (float) float number
+   outInt: (integer) integer number
+   
+NlargestInArray:
+   functionality: Check the n largest value in array input.
+   in_array: (array of float) array input
+   n: (integer) number of desired largest values
+   listMax: (list of float) list of n largest values of in_array
+   
+NsmallestInArray:
+   functionality: Check the n smallest value in array input.
+   in_array: (array of float) array input
+   n: (integer) number of desired smallest values
+   listMin: (list of float) list of n smallest values of in_array
+  
+trigonometric:
+   functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
+                     y = f(x+angle)"
+   angle : (float) shift angle
+   function : "(enumerate) list of possible function :
+               'sin(x)', 'cos(x)', 'tan(x)',
+               'arcsin(x)', 'arccos(x)', 'arctan(x)'"
+   x_degree : (list of float) abscissa x in degree
+   outFunction : (list of float) out of function selected
+   
+fsl_ApplyMask:
+   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+   
+
+   

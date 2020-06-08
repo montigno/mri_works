@@ -114,8 +114,7 @@ class Menu(QMenuBar):
         self.menu4.triggered[QAction].connect(self.btnPressed)
 
         self.menu5 = self.addMenu('Help')
-        self.menu5.addAction('Legend')
-        self.menu5.addAction('Nodes doc')
+        self.menu5.addAction('HTML documentation')
         self.menu5.addSeparator()
         self.examples = self.menu5.addMenu('Examples')
         expl = self.load_dir_examples()
@@ -416,10 +415,7 @@ class Menu(QMenuBar):
                 textEdit.append(f.read())
                 f.close()
 
-        if tmpActText == 'Legend':
-            ShowLegend()
-
-        if tmpActText == 'Nodes doc':
+        if tmpActText == 'HTML documentation':
             tmp = str(os.path.join(QDir.currentPath(),
                                    '../docs',
                                    'index.html'))
@@ -471,15 +467,15 @@ class Menu(QMenuBar):
 class ShowLegend:
 
     def __init__(self):
-        editor.addTab('Legend')
 
-        pos1X, pos1Y, pos2X, pos2Y = 0, 0, 100, 0
-        labColum = 'simple                     list                        array'
+        pos1X, pos1Y, pos2X, pos2Y = 0, 0, 60, 0
+        labColum = 'simple            list              array'
         textColumn = QGraphicsTextItem(labColum, parent=None)
         textColumn.setDefaultTextColor(QtGui.QColor(250, 250, 250))
         textColumn.setFont(QFont("Times", 12, QFont.Bold))
-        textColumn.setPos(pos1X + 20, pos1Y - 40)
-        editor.diagramScene[editor.currentTab].addItem(textColumn)
+        textColumn.setPos(pos1X  , pos1Y - 40)
+#         editor.diagramScene[editor.currentTab].addItem(textColumn)
+        legendScene.addItem(textColumn)
 
         for types in TypeColor:
             if types != TypeColor.unkn:
@@ -525,26 +521,26 @@ class ShowLegend:
                         line.setPath(path)
                         bisLine.setPath(path)
 
-                        editor.diagramScene[editor.currentTab].addItem(link)
-                        editor.diagramScene[editor.currentTab].addItem(line)
-                        editor.diagramScene[editor.currentTab].addItem(bisLine)
+                        legendScene.addItem(link)
+                        legendScene.addItem(line)
+                        legendScene.addItem(bisLine)
 
-                    pos1X = pos1X + 120
-                    pos2X = pos1X + 100
+                    pos1X = pos1X + 80
+                    pos2X = pos1X + 60
 
                 textRow = QGraphicsTextItem(types.name, parent=None)
                 textRow.setDefaultTextColor(QtGui.QColor(color))
                 textRow.setFont(QFont("Times", 12, QFont.Bold))
                 textRow.setPos(pos1X, pos1Y - 15)
 
-                editor.diagramScene[editor.currentTab].addItem(textRow)
+                legendScene.addItem(textRow)
                 
                 pos1X, pos1Y = 0, pos1Y + 20
-                pos2X, pos2Y = 100, pos1Y
+                pos2X, pos2Y = 60, pos1Y
 
 #         editor.diagramView[editor.currentTab].setDragMode(QGraphicsView.ScrollHandDrag)
-        editor.diagramView[editor.currentTab].setEnabled(False)
-        editor.diagramView[editor.currentTab].setInteractive(False);
+        legendDiagram.setEnabled(False)
+        legendDiagram.setInteractive(False);
 
 
 
@@ -2619,6 +2615,7 @@ class BlockCreate(QGraphicsRectItem):
                 b1.preview = True
                 textSource = 'Source : ' + editor.getlib()[ind][1]
                 TreeLibrary().showModel(b1, textSource)
+                TreeLibrary().showDoc(b1.name)
             else:
                 ind = 0
                 for i, j in enumerate(libSubMod):
@@ -5644,6 +5641,8 @@ class TreeLibrary(QTreeView):
                 sel = model.itemFromIndex(idx).text()
                 mimidat = model.name
                 name = model.itemFromIndex(idx).text()
+                
+                blocsdoc.clear()
 
                 if mimidat in 'mod_SubMod':
                     if sel not in listCategory:
@@ -5656,6 +5655,7 @@ class TreeLibrary(QTreeView):
                         b1.preview = True
                         textSource = 'Source : ' + editor.getlib()[ind][1]
                         self.showModel(b1, textSource)
+                        self.showDoc(b1.name)
                     else:
                         for elem in previewScene.items():
                             previewScene.removeItem(elem)
@@ -5716,6 +5716,7 @@ class TreeLibrary(QTreeView):
         previewScene.clear()
         previewDiagram.scene().addItem(item)
         previewDiagram.scene().update()
+        blocsdoc.clear()
 
         rec = item.boundingRect()
         height = rec.height() / 2
@@ -5749,8 +5750,33 @@ class TreeLibrary(QTreeView):
         previewDiagram.centerOn(0, 0)
 #         previewDiagram.fitInView(rec.x(), rec.y(), rec.width() , rec.height(), QtCore.Qt.KeepAspectRatio)
         previewDiagram.fitInView(previewScene.sceneRect(), QtCore.Qt.KeepAspectRatio)
-        previewDiagram.scale(0.6, 0.6)
-
+        previewDiagram.scale(0.8, 0.8)
+        
+    def showDoc(self, classUnit):
+        docYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'blocsdoc', "BlocsDoc.yml")
+        if os.path.exists(docYml):
+            with open(docYml, 'r') as stream:
+                dicts = yaml.load(stream, yaml.FullLoader)
+                if classUnit in dicts.keys():
+                    blocsdoc.append("<span style=\" \
+                                          font-size:14pt; \
+                                          font-weight:1000; \
+                                          color:#000000; \" ><u>" + classUnit + "</u><br></span>")
+                    blocsdoc.append("<span style=\" \
+                                          font-size:12pt; \
+                                          font-weight:600; \
+                                          color:#3060FF;\" >" + dicts[classUnit]['functionality'] + "<br></span>")
+                    for ks, vl in dicts[classUnit].items():
+                        if ks != 'functionality':
+                            blocsdoc.append("<span style=\" \
+                                            font-size:11pt; \
+                                            font-weight:800; \
+                                            color:#000000;\" >" + ks + ": </span> \
+                                            <span style=\" \
+                                            font-size:11pt; \
+                                            font-weight:600; \
+                                            color:#00AA50;\" >" + vl+ "</span>")
+                    
     def drawLink(self, inp, posX, posY):
         format = inp.format
         link = QGraphicsPathItem()
@@ -5810,7 +5836,7 @@ class NodeEdit(QWidget):
 
     def __init__(self, textInfo):
 
-        global textEdit, previewDiagram, previewScene, editor, textInf, currentTab
+        global textEdit, previewDiagram, previewScene, legendDiagram, legendScene, blocsdoc, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
         global undoredoTyping, pointTyping, itemStored
@@ -6055,15 +6081,26 @@ class NodeEdit(QWidget):
         previewScene.setSceneRect(QtCore.QRectF())
         previewDiagram = PreviewBlock()
         previewDiagram.setScene(previewScene)
-
-#         rec = previewScene.sceneRect()
-#         previewDiagram.fitInView(rec, QtCore.Qt.KeepAspectRatio)
-
         layoutDiagram = QVBoxLayout()
         layoutDiagram.addWidget(previewDiagram)
         layoutDiagram.setContentsMargins(0, 0, 0, 0)
         previewBlock.setStyleSheet("background-color:rgb(50,50,50)")
         previewBlock.setLayout(layoutDiagram)
+        
+        legend = QWidget(self)
+        legendScene = QGraphicsScene()
+        legendScene.setSceneRect(QtCore.QRectF())
+        legendDiagram = PreviewBlock()
+        legendDiagram.setScene(legendScene)
+        layoutDiagram = QVBoxLayout()
+        layoutDiagram.addWidget(legendDiagram)
+        layoutDiagram.setContentsMargins(0, 0, 0, 0)
+        legend.setStyleSheet("background-color:rgb(50,50,50)")
+        legend.setLayout(layoutDiagram)
+        ShowLegend()
+        
+        blocsdoc = QTextEdit()
+
 
         self.tabsDiagram = QTabWidget()
         self.tabsDiagram.setAutoFillBackground(False)
@@ -6083,23 +6120,33 @@ class NodeEdit(QWidget):
         self.diagramView = []
         self.pathDiagram = []
 
-        self.splitter1 = QSplitter(Qt.Vertical)
-        self.splitter1.addWidget(self.tabLib)
+        self.splitter1 = QSplitter(Qt.Horizontal)
         self.splitter1.addWidget(previewBlock)
-        self.splitter1.setSizes([400, 200])
+        self.splitter1.addWidget(blocsdoc)
+        self.splitter1.setSizes([200, 300])
 
-        self.splitter2 = QSplitter(Qt.Vertical)
-        self.splitter2.addWidget(self.tabsDiagram)
+        self.splitter2 = QSplitter(Qt.Horizontal)
         self.splitter2.addWidget(textEdit)
+        self.splitter2.addWidget(legend)
         self.splitter2.setSizes([400, 200])
-
+        
         self.splitter3 = QSplitter(Qt.Horizontal)
         self.splitter3.addWidget(self.splitter1)
         self.splitter3.addWidget(self.splitter2)
-        self.splitter3.setSizes([100, 400, 200])
+        self.splitter3.setSizes([300, 500])
+        
+        self.splitter4 = QSplitter(Qt.Horizontal)
+        self.splitter4.addWidget(self.tabLib)
+        self.splitter4.addWidget(self.tabsDiagram)
+        self.splitter4.setSizes([100, 800])
+
+        self.splitter5 = QSplitter(Qt.Vertical)
+        self.splitter5.addWidget(self.splitter4)
+        self.splitter5.addWidget(self.splitter3)
+        self.splitter5.setSizes([400, 150])
 
         self.verticalLayout.addWidget(self.menub)
-        self.verticalLayout.addWidget(self.splitter3)
+        self.verticalLayout.addWidget(self.splitter5)
 
         self.addTab('')
         textInf.setText('')
@@ -6140,7 +6187,7 @@ class NodeEdit(QWidget):
         self.tabsDiagram.tabBar().setTabTextColor(i, ItemColor.text_tab.value)
         self.tabsDiagram.setCurrentIndex(i)
         self.tabsDiagram.setTabToolTip(i, title)
-#         UpdateUndoRedo()
+
 
     def closeTab(self, currentIndex):
         currentQWidget = self.tabsDiagram.widget(currentIndex)
