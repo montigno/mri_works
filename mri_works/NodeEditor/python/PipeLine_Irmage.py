@@ -5787,6 +5787,7 @@ class TreeLibrary(QTreeView):
                                             color:#AA1100;\" >" + dicts[classUnit]['packages_required'] + "<br></span>")
                     except:
                         pass
+                    blocsdoc.verticalScrollBar().setValue(0)
                     
     def drawLink(self, inp, posX, posY):
         format = inp.format
