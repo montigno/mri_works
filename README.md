@@ -34,6 +34,11 @@ mri_works is open source and is released under the [CeCILL-b software license](h
 
 # Release history
 
+	08/06/2020 : Version 20.06.08b
+	- added 'legend' and 'block documentation' windows
+
+<p></p>
+
 	08/06/2020 : Version 20.06.08a
 	- added 'legend' and 'block documentation' windows
 

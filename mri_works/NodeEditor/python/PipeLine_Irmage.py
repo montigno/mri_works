@@ -2327,9 +2327,9 @@ class BlockCreate(QGraphicsRectItem):
             if self.category:
                 sc = menu.addAction('See code')
                 sc.triggered.connect(self.seeCode)
-                menu.addSeparator()
-                cs = menu.addAction('Capture Screen')
-                cs.triggered.connect(self.captureScreen)
+#                 menu.addSeparator()
+#                 cs = menu.addAction('Capture Screen')
+#                 cs.triggered.connect(self.captureScreen)
             else:
                 su = menu.addAction('See submodul')
                 su.triggered.connect(self.seeSubMod)
@@ -5767,7 +5767,7 @@ class TreeLibrary(QTreeView):
                                           font-weight:600; \
                                           color:#3060FF;\" >" + dicts[classUnit]['functionality'] + "<br></span>")
                     for ks, vl in dicts[classUnit].items():
-                        if ks != 'functionality':
+                        if ks not in ['functionality', 'packages_required']:
                             blocsdoc.append("<span style=\" \
                                             font-size:11pt; \
                                             font-weight:800; \
@@ -5776,6 +5776,17 @@ class TreeLibrary(QTreeView):
                                             font-size:11pt; \
                                             font-weight:600; \
                                             color:#00AA50;\" >" + vl+ "</span>")
+                    try:
+                        blocsdoc.append("<br><span style=\" \
+                                          font-size:12pt; \
+                                          font-weight:800; \
+                                          color:#000000;\" >Package(s) required: \
+                                          <span style=\" \
+                                            font-size:11pt; \
+                                            font-weight:600; \
+                                            color:#AA1100;\" >" + dicts[classUnit]['packages_required'] + "<br></span>")
+                    except:
+                        pass
                     
     def drawLink(self, inp, posX, posY):
         format = inp.format

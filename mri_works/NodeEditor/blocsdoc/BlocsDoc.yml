@@ -1,3 +1,9 @@
+Choose_directory:
+   functionality: Displays a dialog box from which the user can select a repertory.
+   RepDefault: (path) default directory
+   title: (string)dialog box title
+   filePath: (path) directory path selected
+
 exponential:
    functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
    amplitude: (float) amplitude (a) of function
@@ -9,6 +15,23 @@ exponential:
                'a*(1-2*exp(-bx))', 'a*(1-2*c*exp(-bx))')"
    x: (list of float) abscissa x
    outFunction: (list of float) out of function selected
+   packages_required: Numpy
+   
+fetch_atlas_harvard_oxford:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
+   packages_required: Nilearn
+   
+fetch_atlas_msdl:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
+   packages_required: Nilearn
+   
+fetch_atlas_smith_2009:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
+   packages_required: Nilearn
+   
+fetch_neurovault_motor_task:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
+   packages_required: Nilearn
    
 FloatToInt_array:
    functionality: "Allows the conversion of a float array to an integer array.
@@ -28,6 +51,39 @@ FloatToInt_simple:
    inFloat: (float) float number
    outInt: (integer) integer number
    
+FloatToString:
+   functionality: "Allows the conversion of a floating number to string.
+                  Example 1.1 --> '1.1'"
+   inFloat: (float) float number
+   outString: (string) string of float number
+   
+fsl_ApplyMask:
+   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+   
+IntToFloat_array:
+   functionality: "Allows the conversion of an integer array to a floating array.
+                  Example [[0] , [1] , [2]] --> [[0.0] , [1.0] , [2.0]]"
+   arrayInt: (array of integer) array of integer values
+   outArrayFloat: (array of float) array of floating values
+   
+IntToFloat_list:
+   functionality: "Allows the conversion of an integer list to a float list.
+                  Example [0 , 1 , 2] --> [0.0 , 1.0 , 2.0]"
+   listInt: (list of integer) list of integer values
+   outListFloat: (list of float) list of floating values
+   
+IntToFloat_simple:
+   functionality: "Allows the conversion of an integer number to a float number.
+                  Example 2 --> 2.0"
+   inInt: (integer) list of integer values
+   outFloat: (float) list of floating values
+   
+IntToString:
+   functionality: "Allows the conversion of a integer number to string.
+                  Example 1 --> '1'"
+   inInt: (integer) integer number
+   outString: (string) string of integer number  
+
 NlargestInArray:
    functionality: Check the n largest value in array input.
    in_array: (array of float) array input
@@ -39,7 +95,30 @@ NsmallestInArray:
    in_array: (array of float) array input
    n: (integer) number of desired smallest values
    listMin: (list of float) list of n smallest values of in_array
-  
+   
+Plot_anat:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_anat.html
+   packages_required: Nilearn
+
+Plot_epi:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_epi.html
+   packages_required: Nilearn
+   
+Plot_glass_brain:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_glass_brain.html
+   packages_required: Nilearn
+
+Plot_img:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_img.html
+   packages_required: Nilearn
+   
+Plot_prob_atlas:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_prob_atlas.html
+   
+Plot_roi:
+   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_roi.html
+   packages_required: Nilearn
+     
 trigonometric:
    functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
                      y = f(x+angle)"
@@ -49,9 +128,45 @@ trigonometric:
                'arcsin(x)', 'arccos(x)', 'arctan(x)'"
    x_degree : (list of float) abscissa x in degree
    outFunction : (list of float) out of function selected
+   packages_required: Numpy
    
-fsl_ApplyMask:
-   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+x_Equal_y:
+   functionality: Check if x == y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)
    
+x_GreaterOrEqual_y:
+   functionality: Check if x >= y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)
+   
+x_Greater_y:
+   functionality: Check if x > y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)
+   
+x_is_None:
+   functionality: Check if x == None
+   x: (float) a float number
+   out: (boolean) check condition (True or False)
 
-   
+x_LessOrEqual_y:
+   functionality: Check if x &lt;&#61; y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)
+
+x_Less_y:
+   functionality: Check if x &lt; y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)
+
+x_Not_Equal_y:
+   functionality: Check if x != y
+   x: (float) a float number
+   y: (float) a float number
+   out: (boolean) check condition (True or False)  
