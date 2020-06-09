@@ -33,7 +33,7 @@ from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QTreeView, QWidget, QVBoxLayout, QTabBar, QTabWidget, QSplitter, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
-    QPushButton, QScrollBar, QGraphicsProxyWidget, QGraphicsTextItem
+    QPushButton, QScrollBar, QGraphicsProxyWidget, QGraphicsTextItem, QToolTip
 
 from . import analyze
 from . import execution
@@ -2154,6 +2154,7 @@ class BlockCreate(QGraphicsRectItem):
         self.hmin = 0.0
         self.setZValue(0)
         self.preview = False
+        self.link = ''
 
         self.moved = False
         self.setAcceptHoverEvents(True)
@@ -2288,6 +2289,12 @@ class BlockCreate(QGraphicsRectItem):
             pass
 
         return w, h
+    
+    def hoverEnterEvent(self, event):
+        pos = event.screenPos()
+        self.showToolTip(self.name, pos)
+        event.accept()
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
     def contextMenuEvent(self, event):
         menu = QMenu()
@@ -2615,7 +2622,6 @@ class BlockCreate(QGraphicsRectItem):
                 b1.preview = True
                 textSource = 'Source : ' + editor.getlib()[ind][1]
                 TreeLibrary().showModel(b1, textSource)
-                TreeLibrary().showDoc(b1.name)
             else:
                 ind = 0
                 for i, j in enumerate(libSubMod):
@@ -2655,6 +2661,58 @@ class BlockCreate(QGraphicsRectItem):
             self.addinput()
         elif event.key() == QtCore.Qt.Key_Minus and '_dyn' in self.name:
             self.subinput()
+        elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+U"):
+            if self.link:
+                webbrowser.open(self.link)
+            
+    def showToolTip(self, classUnit, position):
+        self.link = ''
+        docYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'blocsdoc', "BlocsDoc.yml")
+        if os.path.exists(docYml):
+            with open(docYml, 'r') as stream:
+                dicts = yaml.load(stream, yaml.FullLoader)
+                if classUnit in dicts.keys():
+                    txtFunctionalité = dicts[classUnit]['functionality']
+                    if 'http://' in txtFunctionalité or 'https://' in txtFunctionalité:
+                        self.link = txtFunctionalité
+                    txt = "<p style=\"background-color: #ffffff;\">"
+                    txt += "<span style=\" \
+                            font-size:12pt; \
+                            font-weight:1000; \
+                            color:#000000; \" >" + classUnit + " : <br><br></span>"
+                    txt += "<span style=\" \
+                            font-size:10pt; \
+                            font-weight:600; \
+                            color:#3060FF;\" >" + txtFunctionalité + "<br>"
+                    if self.link:
+                        txt += "<span style=\" \
+                                font-size:10pt; \
+                                font-weight:1000; \
+                                color:#000000; \" > (type Ctrl+U to go to this link)<br>"
+                    txt += "<br></span>"
+                    for ks, vl in dicts[classUnit].items():
+                        if ks not in ['functionality', 'dependencies']:
+                            txt += "<span style=\" \
+                                    font-size:10pt; \
+                                    font-weight:800; \
+                                    color:#000000;\" >" + ks + ": </span> \
+                                    <span style=\" \
+                                    font-size:9pt; \
+                                    font-weight:600; \
+                                    color:#00AA50;\" >" + vl+ "<br></span>"
+                    try:
+                        txt += "<br><span style=\" \
+                                font-size:10pt; \
+                                font-weight:800; \
+                                color:#000000;\" >Dependencies: \
+                                <span style=\" \
+                                font-size:9pt; \
+                                font-weight:600; \
+                                color:#AA1100;\" >" + dicts[classUnit]['dependencies'] + "<br></span>"
+                    except:
+                        pass
+                    txt += "</p>"
+                    self.setToolTip(txt)
 
     def inputOptions(self):
         cat = self.category.split('.')
@@ -5407,6 +5465,14 @@ class Port(QGraphicsRectItem):
                 cb(value)
             return value
         return super(Port, self).itemChange(change, value)
+    
+    def hoverEnterEvent(self, event):
+        pos = event.screenPos()
+        self.setToolTip("<span style=\"background-color: #ffffff;\">format: <b>{}</b></span>".format(self.format)) 
+
+#     def hoverLeaveEvent(self, event):
+#         event.accept()
+#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mousePressEvent(self, event):
         if self.isMod and event.button() == 1:
@@ -5642,8 +5708,6 @@ class TreeLibrary(QTreeView):
                 mimidat = model.name
                 name = model.itemFromIndex(idx).text()
                 
-                blocsdoc.clear()
-
                 if mimidat in 'mod_SubMod':
                     if sel not in listCategory:
                         ind = 0
@@ -5655,7 +5719,6 @@ class TreeLibrary(QTreeView):
                         b1.preview = True
                         textSource = 'Source : ' + editor.getlib()[ind][1]
                         self.showModel(b1, textSource)
-                        self.showDoc(b1.name)
                     else:
                         for elem in previewScene.items():
                             previewScene.removeItem(elem)
@@ -5716,7 +5779,6 @@ class TreeLibrary(QTreeView):
         previewScene.clear()
         previewDiagram.scene().addItem(item)
         previewDiagram.scene().update()
-        blocsdoc.clear()
 
         rec = item.boundingRect()
         height = rec.height() / 2
@@ -5751,43 +5813,7 @@ class TreeLibrary(QTreeView):
 #         previewDiagram.fitInView(rec.x(), rec.y(), rec.width() , rec.height(), QtCore.Qt.KeepAspectRatio)
         previewDiagram.fitInView(previewScene.sceneRect(), QtCore.Qt.KeepAspectRatio)
         previewDiagram.scale(0.8, 0.8)
-        
-    def showDoc(self, classUnit):
-        docYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'blocsdoc', "BlocsDoc.yml")
-        if os.path.exists(docYml):
-            with open(docYml, 'r') as stream:
-                dicts = yaml.load(stream, yaml.FullLoader)
-                if classUnit in dicts.keys():
-                    blocsdoc.append("<span style=\" \
-                                          font-size:14pt; \
-                                          font-weight:1000; \
-                                          color:#000000; \" ><u>" + classUnit + "</u><br></span>")
-                    blocsdoc.append("<span style=\" \
-                                          font-size:12pt; \
-                                          font-weight:600; \
-                                          color:#3060FF;\" >" + dicts[classUnit]['functionality'] + "<br></span>")
-                    for ks, vl in dicts[classUnit].items():
-                        if ks not in ['functionality', 'packages_required']:
-                            blocsdoc.append("<span style=\" \
-                                            font-size:11pt; \
-                                            font-weight:800; \
-                                            color:#000000;\" >" + ks + ": </span> \
-                                            <span style=\" \
-                                            font-size:11pt; \
-                                            font-weight:600; \
-                                            color:#00AA50;\" >" + vl+ "</span>")
-                    try:
-                        blocsdoc.append("<br><span style=\" \
-                                          font-size:12pt; \
-                                          font-weight:800; \
-                                          color:#000000;\" >Package(s) required: \
-                                          <span style=\" \
-                                            font-size:11pt; \
-                                            font-weight:600; \
-                                            color:#AA1100;\" >" + dicts[classUnit]['packages_required'] + "<br></span>")
-                    except:
-                        pass
-                    blocsdoc.verticalScrollBar().setValue(0)
+
                     
     def drawLink(self, inp, posX, posY):
         format = inp.format
@@ -5848,7 +5874,7 @@ class NodeEdit(QWidget):
 
     def __init__(self, textInfo):
 
-        global textEdit, previewDiagram, previewScene, legendDiagram, legendScene, blocsdoc, editor, textInf, currentTab
+        global textEdit, previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
         global undoredoTyping, pointTyping, itemStored
@@ -6111,9 +6137,6 @@ class NodeEdit(QWidget):
         legend.setLayout(layoutDiagram)
         ShowLegend()
         
-        blocsdoc = QTextEdit()
-
-
         self.tabsDiagram = QTabWidget()
         self.tabsDiagram.setAutoFillBackground(False)
         self.tabsDiagram.setContentsMargins(0, 0, 0, 0)
@@ -6132,33 +6155,28 @@ class NodeEdit(QWidget):
         self.diagramView = []
         self.pathDiagram = []
 
-        self.splitter1 = QSplitter(Qt.Horizontal)
+        self.splitter1 = QSplitter(Qt.Vertical)
+        self.splitter1.addWidget(self.tabLib)
         self.splitter1.addWidget(previewBlock)
-        self.splitter1.addWidget(blocsdoc)
-        self.splitter1.setSizes([200, 300])
+        self.splitter1.setSizes([400, 200])
 
         self.splitter2 = QSplitter(Qt.Horizontal)
         self.splitter2.addWidget(textEdit)
         self.splitter2.addWidget(legend)
         self.splitter2.setSizes([400, 200])
         
-        self.splitter3 = QSplitter(Qt.Horizontal)
-        self.splitter3.addWidget(self.splitter1)
+        self.splitter3 = QSplitter(Qt.Vertical)
+        self.splitter3.addWidget(self.tabsDiagram)
         self.splitter3.addWidget(self.splitter2)
-        self.splitter3.setSizes([300, 500])
+        self.splitter3.setSizes([400, 200])
         
         self.splitter4 = QSplitter(Qt.Horizontal)
-        self.splitter4.addWidget(self.tabLib)
-        self.splitter4.addWidget(self.tabsDiagram)
-        self.splitter4.setSizes([100, 800])
-
-        self.splitter5 = QSplitter(Qt.Vertical)
-        self.splitter5.addWidget(self.splitter4)
-        self.splitter5.addWidget(self.splitter3)
-        self.splitter5.setSizes([400, 150])
+        self.splitter4.addWidget(self.splitter1)
+        self.splitter4.addWidget(self.splitter3)
+        self.splitter4.setSizes([100, 600])
 
         self.verticalLayout.addWidget(self.menub)
-        self.verticalLayout.addWidget(self.splitter5)
+        self.verticalLayout.addWidget(self.splitter4)
 
         self.addTab('')
         textInf.setText('')

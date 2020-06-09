@@ -1,9 +1,25 @@
-Choose_directory:
-   functionality: Displays a dialog box from which the user can select a repertory.
-   RepDefault: (path) default directory
-   title: (string)dialog box title
-   filePath: (path) directory path selected
+AbsX:
+   functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
+                  Example (xmin=0.0, xmax=10.0, delta_x=0.1) --> [0.0, 0.1, ...., 9.9, 10.0]"
+   xmin: (float) minimum value
+   xmax: (float) maximal value
+   delta_x: (float) deviation of x
+   outAbscissa: (list of float) list of abscissa of x
+   dependencies: Numpy
 
+Choose_directory:
+   functionality: Open a dialog box from which the user can select a directory.
+   RepDefault: (path) default directory
+   title: (string) dialog box title
+   filePath: (path) path of the selected directory
+   
+Choose_file:
+   functionality: Open a dialog box from which the user can select a file.
+   fileDefault: (path) default file
+   extension: (string) file name filtering (ex '*.jpg' '*.txt' '.nii .json ')
+   title: (string) dialog box title
+   filePath: (path) path of the selected file
+   
 exponential:
    functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
    amplitude: (float) amplitude (a) of function
@@ -15,23 +31,23 @@ exponential:
                'a*(1-2*exp(-bx))', 'a*(1-2*c*exp(-bx))')"
    x: (list of float) abscissa x
    outFunction: (list of float) out of function selected
-   packages_required: Numpy
+   dependencies: Numpy
    
 fetch_atlas_harvard_oxford:
    functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 fetch_atlas_msdl:
    functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 fetch_atlas_smith_2009:
    functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 fetch_neurovault_motor_task:
    functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 FloatToInt_array:
    functionality: "Allows the conversion of a float array to an integer array.
@@ -84,6 +100,11 @@ IntToString:
    inInt: (integer) integer number
    outString: (string) string of integer number  
 
+ListOfInt:
+   functionality: Create a list of integer number 0 to n-1.
+   n: (integer) an integer number
+   serie_int: (list of integer) a list of integer number 0 to n-1
+
 NlargestInArray:
    functionality: Check the n largest value in array input.
    in_array: (array of float) array input
@@ -98,26 +119,26 @@ NsmallestInArray:
    
 Plot_anat:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_anat.html
-   packages_required: Nilearn
+   dependencies: Nilearn
 
 Plot_epi:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_epi.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 Plot_glass_brain:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_glass_brain.html
-   packages_required: Nilearn
+   dependencies: Nilearn
 
 Plot_img:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_img.html
-   packages_required: Nilearn
+   dependencies: Nilearn
    
 Plot_prob_atlas:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_prob_atlas.html
    
 Plot_roi:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_roi.html
-   packages_required: Nilearn
+   dependencies: Nilearn
      
 trigonometric:
    functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
@@ -128,7 +149,7 @@ trigonometric:
                'arcsin(x)', 'arccos(x)', 'arctan(x)'"
    x_degree : (list of float) abscissa x in degree
    outFunction : (list of float) out of function selected
-   packages_required: Numpy
+   dependencies: Numpy
    
 x_Equal_y:
    functionality: Check if x == y

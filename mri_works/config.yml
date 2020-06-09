@@ -20,7 +20,8 @@ packages:
   traits: sudo pip3 install traits (5.2.0)
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Bruker_Paravision/Search_param_Paravision_submod.dgr
   modules: modules
   projects: ../data
-version: 20.06.08b
+version: 20.06.09a
