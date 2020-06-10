@@ -1,12 +1,39 @@
 AbsX:
    functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
                   Example (xmin=0.0, xmax=10.0, delta_x=0.1) --> [0.0, 0.1, ...., 9.9, 10.0]"
-   xmin: (float) minimum value
-   xmax: (float) maximal value
+   xmin : (float) minimum value
+   xmax : (float) maximal value
    delta_x: (float) deviation of x
    outAbscissa: (list of float) list of abscissa of x
    dependencies: Numpy
 
+Array_3D_random:
+   functionality: Generate a random image 3D (row, column and slice)
+   row: (integer) number of row
+   col: (integer) number of column
+   slice: (integer) number of slice
+   rand_out: (array of float) image 3D
+   dependencies: Numpy
+
+Array_4D_random:
+   functionality: Generate a random image 4D (row, column, slice and temporel)
+   row: (integer) number of row
+   col: (integer) number of column
+   slice: (integer) number of slice
+   temporal: (integer) number of temporal stack
+   rand_out: (array of float) image 4D
+   dependencies: Numpy
+   
+Array_5D_random:
+   functionality: Generate a random image 5D (row, column, slice, temporal and canal)
+   row: (integer) number of row
+   col: (integer) number of column
+   slice: (integer) number of slice
+   temporal: (integer) number of temporal stack
+   canal:  (integer) number of canal
+   rand_out: (array of float) image 5D
+   dependencies: Numpy
+   
 Choose_directory:
    functionality: Open a dialog box from which the user can select a directory.
    RepDefault: (path) default directory
@@ -32,7 +59,13 @@ exponential:
    x: (list of float) abscissa x
    outFunction: (list of float) out of function selected
    dependencies: Numpy
-   
+
+fact:
+   functionality: return x factorial as integer
+   enter_int: (integer) an integer number
+   factorial: (integer) factorial of enter_int
+   dependencies: Numpy
+
 fetch_atlas_harvard_oxford:
    functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
    dependencies: Nilearn
