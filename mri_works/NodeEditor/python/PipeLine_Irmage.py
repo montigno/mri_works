@@ -2291,11 +2291,12 @@ class BlockCreate(QGraphicsRectItem):
         return w, h
     
     def hoverEnterEvent(self, event):
+        self.setFocus(True)
         pos = event.screenPos()
         self.showToolTip(self.name, pos)
-        event.accept()
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)
-
+#         event.accept()
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)    
+        
     def contextMenuEvent(self, event):
         menu = QMenu()
         activ = False
@@ -4734,6 +4735,8 @@ class ScriptItem(QGraphicsRectItem):
         self.unit = unit
         self.w = w
         self.h = h
+        self.wmin = 80.0
+        self.hmin = 0.0
         self.nbin, self.nbout = 0, 0
         self.moved = False
         self.isMod = isMod
@@ -4788,9 +4791,18 @@ class ScriptItem(QGraphicsRectItem):
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
         self.proxyWidget.setWidget(self.elemProxy)
         self.proxyWidget.setPos(5, 5)
-
+        
         x, y = self.newSize(self.w, self.h)
+        
+        if self.isMod:
+            self.resize = Wrist(self)
+            self.resize.setPos(x, y)
+            self.resize.posChangeCallbacks.append(self.newSize)  # Connect the callback
+            self.resize.setFlag(self.resize.ItemIsSelectable, True)
+            self.resize.wmin = self.wmin
+            self.resize.hmin = self.hmin
 
+        
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
             self.deleteScript()
@@ -4912,6 +4924,12 @@ class ScriptItem(QGraphicsRectItem):
         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def newSize(self, w, h):
+        # Limit the block size:
+        if h < self.hmin:
+            h = self.hmin
+        if w < self.wmin:
+            w = self.wmin
+        
         self.setRect(0.0, 0.0, w, h)
         self.elemProxy.setMinimumSize(w - 10, h - 10)
         self.elemProxy.setMaximumSize(w - 10, h - 10)
@@ -4939,21 +4957,26 @@ class ScriptItem(QGraphicsRectItem):
         return w, h
 
     def updateSize(self):
-
         factorh = 20
         hmin = factorh * len(self.inputs)
 #         w = self.boundingRect().width()
 #         h = self.boundingRect().height()
         w = self.w
         h = self.h
+        
+        self.hmin = hmin
 
         if h < hmin:
             h = hmin
         hmin = factorh * len(self.outputs)
+        
+        if self.hmin < hmin:
+            self.hmin = hmin
         if h < hmin:
             h = hmin
         if w < 100:
             w = 100
+        
         x, y = self.newSize(w, h)
         return x, y
 

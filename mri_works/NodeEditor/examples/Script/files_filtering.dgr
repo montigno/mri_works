@@ -1,9 +1,9 @@
 [diagram]
-link=[N1] node=[S0:list_filtered#Node#U1:in_list_Path]
-block=[U1] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['', 'Node(N1)'], [], [])] RectF=[(181.0, 14.0, 150.0, 80.0)]
 link=[N0] node=[U0:filesPath#Node#S0:list_files]
+link=[N1] node=[S0:list_filtered#Node#U1:in_list_Path]
+script=[S0] inputs=[['list_files', 'in', 'list_path']] outputs=[['list_filtered', 'out', 'list_path']] code=[your code] RectF=[(-186.73029556650246, 1.4384236453202135, 194.77524630541876, 133.1231527093596)]
 block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Choose files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-510.0, 43.0, 206.59375, 80.0)]
-script=[S0] inputs=[['list_files', 'in', 'list_path']] outputs=[['list_filtered', 'out', 'list_path']] code=[your code] RectF=[(-193.0, -32.0, 200.0, 200.0)]
+block=[U1] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['', 'Node(N1)'], [], [])] RectF=[(181.0, 14.0, 150.0, 80.0)]
 [source S0]
 ['list_files=U0:filesPath']
 list_filtered = []
@@ -17,7 +17,7 @@ for lst in list_files:
 [execution]
 []
 ['U0', 'S0', 'U1']
-{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Choose files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U1': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['', 'S0:list_filtered'], [], [])")}
-['U0:filesPath', 'S0:list_filtered']
+{'U1': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['', 'S0:list_filtered'], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Choose files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])")}
+['S0:list_filtered', 'U0:filesPath']
 {}
 []
