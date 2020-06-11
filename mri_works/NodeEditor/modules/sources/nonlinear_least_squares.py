@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 class T1_nonlinear_least_squares:
     def __init__(self,x,y,a,b,c,n):
 #         x = np.linspace(0, 10., n)
-        y_model = self.f(x, a, b, c)
+#         y_model = self.f(x, a, b, c)
 #         y = y_model + 10*np.random.randn(n)
-        
+        x = np.asarray(x)
+        y = np.asarray(y)
+
         (a_, b_, c_), _ = opt.curve_fit(self.f, x, y)
         
         y_fit = self.f(x, a_, b_, c_)
@@ -34,8 +36,10 @@ class T1_nonlinear_least_squares:
 class T2_nonlinear_least_squares:
     def __init__(self,x,y,a,b,c,n):
 #         x = np.linspace(0, 10., n)
-        y_model = self.f(x, a, b, c)
+#         y_model = self.f(x, a, b, c)
 #         y = y_model + 5*np.random.randn(n)
+        x = np.asarray(x)
+        y = np.asarray(y)
         
         (a_, b_, c_), _ = opt.curve_fit(self.f, x, y)
         

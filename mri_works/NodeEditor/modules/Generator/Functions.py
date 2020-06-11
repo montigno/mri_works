@@ -36,7 +36,8 @@ class trigonometric:
                  x_degree=[0.0]):
         import numpy as np
         self.y = []
-        x = np.asarray(x_degree * np.pi / 180.0)
+#         x = np.asarray(x_degree * np.pi / 180.0)
+        x = np.radians(x_degree)
         angle *= np.pi / 180.0
               
         if function == 'sin(x)':
