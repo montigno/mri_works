@@ -150,6 +150,26 @@ NsmallestInArray:
    n: (integer) number of desired smallest values
    listMin: (list of float) list of n smallest values of in_array
    
+numpy_abs:
+   functionality: Returns the absolute value of the array elements.
+   y: (array of float) array input
+   abs: (array of float) absolute of y
+   
+numpy_exponential:
+   functionality: Returns the exponential of the array elements.
+   y: (array of float) array input
+   exp: (array of float) exponential of y
+   
+numpy_RMS:
+   functionality: Returns the Root Mean Square of the array elements.
+   y: (array of float) array input
+   rms: (array of float) rms of y
+   
+numpy_std:
+   functionality: Returns the standard deviation of the array elements.
+   y: (array of float) array input
+   std: (array of float) standard deviation of y
+
 Plot_anat:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_anat.html
    dependencies: Nilearn

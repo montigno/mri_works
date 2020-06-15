@@ -4773,6 +4773,11 @@ class ScriptItem(QGraphicsRectItem):
                 self.updateInput(inout[0][i])
             for i in range(0, len(inout[1])):
                 self.updateOutput(inout[1][i])
+                
+        factorh = 20
+        self.hmin = factorh * len(self.inputs)
+        if self.hmin < factorh * len(self.outputs):
+            self.hmin = factorh * len(self.outputs)
 
         self.label = QGraphicsTextItem(name, self)
         self.label.setFont(QFont("Times", 16, QFont.Bold))
