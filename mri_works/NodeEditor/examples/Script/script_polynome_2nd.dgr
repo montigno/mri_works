@@ -1,20 +1,20 @@
 [diagram]
-constant=[A2] value=[-2.0] format=[float] label=[c] RectF=[(-334.5109608277753, 87.26246482295022, 118.0, 31.0)]
-constant=[A1] value=[-1.0] format=[float] label=[b] RectF=[(-333.7354691537868, 13.948440775575193, 118.0, 31.0)]
 constant=[A0] value=[2.0] format=[float] label=[a] RectF=[(-334.71025308692185, -79.46746237088962, 118.0, 31.0)]
-link=[N5] node=[S0:x2#Node#U2:inFloat]
-link=[N4] node=[S0:x1#Node#U1:inFloat]
-link=[N3] node=[S0:delta#Node#U0:inFloat]
-link=[N2] node=[A0:#Node#S0:a]
-link=[N1] node=[A1:#Node#S0:b]
+constant=[A1] value=[-1.0] format=[float] label=[b] RectF=[(-333.7354691537868, 13.948440775575193, 118.0, 31.0)]
+constant=[A2] value=[-2.0] format=[float] label=[c] RectF=[(-334.5109608277753, 87.26246482295022, 118.0, 31.0)]
 link=[N0] node=[A2:#Node#S0:c]
-block=[U2] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['x2 = ', 'Node(N5)'], [], [])] RectF=[(226.51993437985658, 107.77489972264576, 150.0, 80.0)]
-block=[U1] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['x1 = ', 'Node(N4)'], [], [])] RectF=[(222.59413450905058, -26.3532812067903, 150.0, 80.0)]
-block=[U0] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['delta = ', 'Node(N3)'], [], [])] RectF=[(233.16017160360354, -158.0546041678274, 150.0, 80.0)]
+link=[N1] node=[A1:#Node#S0:b]
+link=[N2] node=[A0:#Node#S0:a]
+link=[N3] node=[S0:delta#Node#U0:inFloat]
+link=[N4] node=[S0:x1#Node#U1:inFloat]
+link=[N5] node=[S0:x2#Node#U2:inFloat]
 script=[S0] inputs=[['a', 'in', 'float'], ['b', 'in', 'float'], ['c', 'in', 'float']] outputs=[['delta', 'out', 'float'], ['x1', 'out', 'float'], ['x2', 'out', 'float']] code=[your code] RectF=[(-123.91788598311514, -86.92968504772813, 246.35091300563414, 226.74091134940434)]
+block=[U0] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['delta = ', 'Node(N3)'], [], [])] RectF=[(233.16017160360354, -158.0546041678274, 150.0, 80.0)]
+block=[U1] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['x1 = ', 'Node(N4)'], [], [])] RectF=[(222.59413450905058, -26.3532812067903, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['x2 = ', 'Node(N5)'], [], [])] RectF=[(226.51993437985658, 107.77489972264576, 150.0, 80.0)]
 comments=[] RectF=[(-193.98871155833098, -153.5340118188199, 310.21619447793626, 10.0)] text=['second degree polynomial']
 [source S0]
-['c=-2.0', 'b=-1.0', 'a=2.0']
+['a=2.0', 'b=-1.0', 'c=-2.0']
 import math
 
 delta = b*b - 4 *a *c
@@ -32,7 +32,7 @@ if delta < 0:
 [execution]
 []
 ['S0', 'U0', 'U1', 'U2']
-{'U0': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['delta = ', 'S0:delta'], [], [])"), 'U1': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['x1 = ', 'S0:x1'], [], [])"), 'U2': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['x2 = ', 'S0:x2'], [], [])")}
-['A2:', 'A1:', 'A0:', 'S0:delta', 'S0:x1', 'S0:x2']
+{'U2': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['x2 = ', 'S0:x2'], [], [])"), 'U1': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['x1 = ', 'S0:x1'], [], [])"), 'U0': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['delta = ', 'S0:delta'], [], [])")}
+['S0:x2', 'S0:x1', 'S0:delta', 'A0:', 'A1:', 'A2:']
 {}
 []

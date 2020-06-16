@@ -5520,7 +5520,8 @@ class Port(QGraphicsRectItem):
             if self.typeio == 'out':
                 cp = menu.addAction('add Print block for this port')
                 cp.triggered.connect(self.addPrint)
-            elif 'list' not in self.format and 'array' not in self.format and 'I' not in self.unit:
+            elif 'list' not in self.format and 'array' not in self.format \
+                and 'I' not in self.unit and 'S' not in self.unit:
                 yet = False
                 for key, val in listNodes[editor.currentTab].items():
                     tmpVal = val[val.index("#Node#")+6:]
@@ -5576,7 +5577,7 @@ class Port(QGraphicsRectItem):
             val = 'path'
         elif 'bool' in self.format:
             val = True
-        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
         listItems[editor.currentTab][a1.unit] = a1
@@ -5626,7 +5627,7 @@ class Port(QGraphicsRectItem):
             val = 'path'
         elif 'bool' in self.format:
             val = True
-        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
         listItems[editor.currentTab][a1.unit] = a1
