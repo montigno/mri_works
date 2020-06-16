@@ -21,7 +21,7 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/ommaster/Bureau/projects_mriworks/ForLoop_recursive.dgr
+  - /home/domicile-xubuntu/Desktop/projects_mri_works/script_loopfor.dgr
   modules: modules
   projects: ../data
 version: 20.06.09a
