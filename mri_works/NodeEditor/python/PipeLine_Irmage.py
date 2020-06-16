@@ -273,6 +273,8 @@ class Menu(QMenuBar):
         if tmpActText == 'Pipeline execution by Capsul':
             txt = SaveDiagram()
             rep = str(os.path.join(QDir.currentPath(), 'tmp'))
+            if not os.path.exists(rep):
+                os.makedirs(rep)
             exportCapsul(txt.toPlainText(), rep, True, textEdit)
 
         if (tmpActText == 'Run Pipeline' or
