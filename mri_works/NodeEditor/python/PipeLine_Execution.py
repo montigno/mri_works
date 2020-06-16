@@ -314,6 +314,15 @@ class execution:
                                          txt)
                         for uj in a.getOutValues().keys():
                             self.listDynamicValue[uj] = a.getOutValues()[uj]
+                            
+                    start_sum += (time.time() - start_bb)
+                    textEditor.append("<span style=\" \
+                                      font-size:8pt; \
+                                      font-weight:600; \
+                                      color:#006600;\" >" +
+                                      execution +
+                                      " --- time : %.2f seconds ---"
+                                      % (time.time() - start_bb) + "</span>")
 
                 except Exception as e:
                     textEditor.append("<span style=\" \
@@ -383,11 +392,27 @@ class execution:
                                     self.listDynamicValueIf.copy(),
                                     textEditor,
                                     None)
+                start_sum += (time.time() - start_bb)
+                textEditor.append("<span style=\" \
+                                      font-size:8pt; \
+                                      font-weight:600; \
+                                      color:#006600;\" >" +
+                                      execution +
+                                      " --- time : %.2f seconds ---"
+                                      % (time.time() - start_bb) + "</span>")
                 for uj in a.getOutValues().keys():
                     self.listDynamicValue[uj] = a.getOutValues()[uj]
                     
             elif 'S' in execution:
                 a = executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor )
+                start_sum += (time.time() - start_bb)
+                textEditor.append("<span style=\" \
+                                      font-size:8pt; \
+                                      font-weight:600; \
+                                      color:#006600;\" >" +
+                                      execution +
+                                      " --- time : %.2f seconds ---"
+                                      % (time.time() - start_bb) + "</span>")
                 for uj in a.getOutValues().keys():
                     self.listDynamicValue[uj] = a.getOutValues()[uj]
                 
