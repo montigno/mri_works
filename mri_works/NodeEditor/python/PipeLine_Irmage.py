@@ -5576,7 +5576,7 @@ class Port(QGraphicsRectItem):
             val = 'path'
         elif 'bool' in self.format:
             val = True
-        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
         listItems[editor.currentTab][a1.unit] = a1
@@ -5626,7 +5626,7 @@ class Port(QGraphicsRectItem):
             val = 'path'
         elif 'bool' in self.format:
             val = True
-        a1 = Constants('newConstant', 80, 30, val, self.format, '', True)
+        a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
         listItems[editor.currentTab][a1.unit] = a1
