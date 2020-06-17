@@ -34,7 +34,7 @@ from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
     QPushButton, QScrollBar, QGraphicsProxyWidget, QGraphicsTextItem, QToolTip
-
+    
 from . import analyze
 from . import execution
 from . import editParam
@@ -51,6 +51,8 @@ from . import ConfigModuls, windowConfig
 from . import editCombobox
 from . import exportCapsul
 from Config import Config
+import NodeEditor.python.syntax
+
 
 currentpathwork = ''
 
@@ -4791,9 +4793,11 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
-        self.elemProxy.setStyleSheet("background-color: rgb(200, 200, 200);\
-                                                                       selection-background-color: yellow;\
-                                                                       color: blue")
+        highlight = NodeEditor.python.syntax.PythonHighlighter(self.elemProxy)
+
+#         self.elemProxy.setStyleSheet("background-color: rgb(200, 200, 200);\
+#                                                                        selection-background-color: yellow;\
+#                                                                        color: blue")
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
         self.proxyWidget.setWidget(self.elemProxy)

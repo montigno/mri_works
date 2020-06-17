@@ -1,15 +1,15 @@
 [diagram]
-constant=[A0] value=[5] format=[int] label=[Matrix dimension ] RectF=[(-557.9250534189808, 108.34352019495338, 87.0, 31.0)]
-link=[N0] node=[S0:zeros_out#Node#U0:in_array_Float]
-link=[N1] node=[S0:ones_out#Node#U1:in_array_Float]
-link=[N2] node=[S0:eye_out#Node#U2:in_array_Float]
+constant=[A0] value=[10] format=[int] label=[dimension ] RectF=[(-539.6367297707784, 108.34352019495338, 87.0, 31.0)]
 link=[N3] node=[A0:#Node#S0:dimension]
+link=[N2] node=[S0:eye_out#Node#U2:in_array_Float]
+link=[N1] node=[S0:ones_out#Node#U1:in_array_Float]
+link=[N0] node=[S0:zeros_out#Node#U0:in_array_Float]
+block=[U2] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N2)'], [], [])] RectF=[(41.61549781105836, 216.19839430831368, 150.0, 80.0)]
+block=[U1] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N1)'], [], [])] RectF=[(38.67517583833559, 72.44333848436311, 150.0, 80.0)]
+block=[U0] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N0)'], [], [])] RectF=[(35.877424549375434, -85.28293009544788, 153.79363221956044, 85.6904483293407)]
 script=[S0] inputs=[['dimension', 'in', 'int']] outputs=[['zeros_out', 'out', 'array_float'], ['ones_out', 'out', 'array_float'], ['eye_out', 'out', 'array_float']] code=[your code] RectF=[(-344.7404238920568, 33.36822004806157, 197.5081602815102, 180.0652822520812)]
-block=[U0] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N0)'], [], [])] RectF=[(74.89251499887368, -70.65227117688605, 153.79363221956044, 85.6904483293407)]
-block=[U1] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N1)'], [], [])] RectF=[(77.69026628783382, 68.78567375472264, 150.0, 80.0)]
-block=[U2] category=[Tools.Print] class=[Print_array_float] valInputs=[(['comment', 'in_array_Float'], ['', 'Node(N2)'], [], [])] RectF=[(78.19214510746295, 204.00617854284556, 150.0, 80.0)]
 [source S0]
-['dimension=5']
+['dimension=10']
 import numpy as np
 
 n = dimension
@@ -25,7 +25,7 @@ eye_out = np.eye(n)
 [execution]
 []
 ['S0', 'U0', 'U1', 'U2']
-{'U2': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:eye_out'], [], [])"), 'U1': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:ones_out'], [], [])"), 'U0': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:zeros_out'], [], [])")}
-['A0:', 'S0:eye_out', 'S0:ones_out', 'S0:zeros_out']
+{'U0': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:zeros_out'], [], [])"), 'U1': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:ones_out'], [], [])"), 'U2': ('Tools.Print', 'Print_array_float', "(['comment', 'in_array_Float'], ['', 'S0:eye_out'], [], [])")}
+['S0:zeros_out', 'S0:ones_out', 'S0:eye_out', 'A0:']
 {}
 []
