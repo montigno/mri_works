@@ -5526,8 +5526,7 @@ class Port(QGraphicsRectItem):
             if self.typeio == 'out':
                 cp = menu.addAction('add Print block for this port')
                 cp.triggered.connect(self.addPrint)
-            elif 'list' not in self.format and 'array' not in self.format \
-                and 'I' not in self.unit and 'S' not in self.unit:
+            elif 'list' not in self.format and 'array' not in self.format:
                 yet = False
                 for key, val in listNodes[editor.currentTab].items():
                     tmpVal = val[val.index("#Node#")+6:]
@@ -5554,9 +5553,10 @@ class Port(QGraphicsRectItem):
             self.addConstantBlock()
         elif 'M' in self.unit:
             self.addConstantSubMod()
+        elif 'I' in self.unit or 'S' in self.unit:
+            self.addConstantStr()
 
     def addConstantBlock(self):
-
         nameClass = listItems[editor.currentTab][self.unit].name
         ind = 0
         for i, j in enumerate(editor.getlib()):
@@ -5657,6 +5657,32 @@ class Port(QGraphicsRectItem):
 
         del listSubMod[editor.currentTab][self.unit]
         listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
+        UpdateUndoRedo()
+        
+    def addConstantStr(self):
+        if 'int' in self.format:
+            val = 0
+        elif 'float' in self.format:
+            val = 0.0
+        elif 'str' in self.format:
+            val = 'your text'
+        elif 'path' in self.format:
+            val = 'path'
+        elif 'bool' in self.format:
+            val = True
+        a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
+        a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
+        editor.diagramScene[editor.currentTab].addItem(a1)
+        listItems[editor.currentTab][a1.unit] = a1
+        
+        startConnection = Connection('',
+                                     a1.outputs[0],
+                                     self,
+                                     self.format)
+        startConnection.setEndPos(self.scenePos())
+        startConnection.setToPort(self)
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
+        
         UpdateUndoRedo()
 
     def addPrint(self):
