@@ -10,6 +10,7 @@ from NodeEditor.python.PipeLine_Analyze import analyze
 from NodeEditor.python.PipeLine_Execution import execution
 from NodeEditor.python.editParam import editParam
 from NodeEditor.python.editParamForLoop import editParamLoopFor
+from NodeEditor.python.titleScript import changeTitle
 from NodeEditor.python.addOptions import chOptions
 from NodeEditor.python.defTunnels import defineTunnels
 from NodeEditor.python.def_inputs_outputs  import define_inputs_outputs

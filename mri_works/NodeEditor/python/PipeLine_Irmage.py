@@ -39,6 +39,7 @@ from . import analyze
 from . import execution
 from . import editParam
 from . import editParamLoopFor
+from . import changeTitle
 from . import chOptions
 from . import defineTunnels
 from . import define_inputs_outputs
@@ -732,6 +733,8 @@ class LoadDiagram:
 
             elif line[0:6] == 'script':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('title=') + 7:len(line)]
+                tit = line[0:line.index('] inputs')]
                 line = line[line.index('inputs=') + 7:len(line)]
                 inp = line[0:line.index(' outputs')]
                 line = line[line.index('outputs=') + 8:len(line)]
@@ -740,7 +743,7 @@ class LoadDiagram:
                 code = line[0:line.index('] RectF=')]
                 line = line[line.index('RectF=') + 7:len(line)]
                 pos = eval(line[0:line.index(']')])
-                edit.loadScriptItem(unit, pos, eval(inp), eval(outp))
+                edit.loadScriptItem(unit, tit, pos, eval(inp), eval(outp))
                 listSc[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = code
 
@@ -1032,6 +1035,7 @@ class SaveDiagram(QTextEdit):
                 listCodeScript[item.unit] = item.elemProxy.toPlainText()
                 rect = item.rect()
                 self.append('script=[' + str(item.unit) +
+                            '] title=[' + item.name +
                             '] inputs=' + str(libTools[editor.currentTab][item.unit][0]) +
                             ' outputs=' + str(libTools[editor.currentTab][item.unit][1]) +
                             ' code=[' + "your code" +
@@ -1502,8 +1506,8 @@ class DiagramView(QGraphicsView):
         listItems[editor.currentTab][self.b7.unit] = self.b7
         self.ball = self.b7
 
-    def loadScriptItem(self, unit, pos, inp, outp):
-        self.b8 = ScriptItem(unit, 'Script_editor', pos[2], pos[3], True, inp, outp)
+    def loadScriptItem(self, unit, title, pos, inp, outp):
+        self.b8 = ScriptItem(unit, title, pos[2], pos[3], True, inp, outp)
         self.b8.setPos(pos[0], pos[1])
         self.scene().addItem(self.b8)
         listItems[editor.currentTab][self.b8.unit] = self.b8
@@ -3086,6 +3090,8 @@ class BlockCreate(QGraphicsRectItem):
                 listTools[editor.currentTab][unit] = eval(listIt)
             elif line[0:6] == 'script':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('title=') + 7:len(line)]
+                tit = line[0:line.index('] inputs')]
                 line = line[line.index('inputs=') + 7:len(line)]
                 inp = line[0:line.index(' outputs')]
                 line = line[line.index('outputs=') + 8:len(line)]
@@ -3094,7 +3100,7 @@ class BlockCreate(QGraphicsRectItem):
                 code = line[0:line.index('] RectF=')]
                 line = line[line.index('RectF=') + 7:len(line)]
                 pos = eval(line[0:line.index(']')])
-                edit.loadScriptItem(unit, pos, eval(inp), eval(outp))
+                edit.loadScriptItem(unit, tit, pos, eval(inp), eval(outp))
                 listSc[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = code
             elif line[0:6] == 'submod':
@@ -5002,6 +5008,8 @@ class ScriptItem(QGraphicsRectItem):
             outtu.triggered.connect(self.add_Output)
             de = menu.addAction('Delete')
             de.triggered.connect(self.deleteScript)
+            ct = menu.addAction('Change title')
+            ct.triggered.connect(self.changeTitle)
             menu.exec_(event.screenPos())
             return QGraphicsRectItem.contextMenuEvent(self, event)
 
@@ -5021,6 +5029,13 @@ class ScriptItem(QGraphicsRectItem):
         del listItems[editor.currentTab][self.unit]
 #         UpdateUndoRedo()
 
+    def changeTitle(self):
+        c = changeTitle(self.name, self.nameUnit.toPlainText())
+        c.exec_()
+        if c.getNewValues():
+            self.name = c.getNewValues()
+            self.label.setPlainText(c.getNewValues())
+    
     def add_Input(self):
         c = define_inputs_outputs(self.unit, 'input')
         c.exec_()
