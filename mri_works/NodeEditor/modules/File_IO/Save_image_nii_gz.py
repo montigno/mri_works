@@ -7,7 +7,7 @@ class Save_NiiGz:
         root = tk.Tk()
         root.withdraw()
 
-        if filepath is 'path':
+        if filepath == 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:
             if 'nii.gz' in filepath:
@@ -30,7 +30,7 @@ class Save_NiiGz_header:
         from tkinter import filedialog
         root = tk.Tk()
         root.withdraw()
-        if filepath is 'path':
+        if filepath == 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:
             if 'nii.gz' in filepath:

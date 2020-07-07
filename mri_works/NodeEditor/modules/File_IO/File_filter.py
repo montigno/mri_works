@@ -10,10 +10,10 @@ class filter_directory_files_pattern:
         import os
         self.outfiles = []
         for file in os.listdir(directory):
-            if operator is '==':
+            if operator == '==':
                 if file == pattern:
                     self.outfiles.append(os.path.join(directory, file))
-            elif operator is '!=':
+            elif operator == '!=':
                 if file != pattern:
                     self.outfiles.append(os.path.join(directory, file))
             elif operator == 'contains':
@@ -22,10 +22,10 @@ class filter_directory_files_pattern:
             elif operator == 'not contains':
                 if pattern not in file:
                     self.outfiles.append(os.path.join(directory, file))
-            elif operator is 'in':
+            elif operator == 'in':
                 if file in pattern.strip():
                     self.outfiles.append(os.path.join(directory, file))
-            elif operator is 'not in':
+            elif operator == 'not in':
                 if file not in pattern.strip():
                     self.outfiles.append(os.path.join(directory, file))
 
@@ -46,10 +46,10 @@ class filter_input_files_pattern:
         self.outfiles = []
         for filePath in input_files:
             file=os.path.basename(filePath)
-            if operator is '==':
+            if operator == '==':
                 if file == pattern:
                     self.outfiles.append(filePath)
-            elif operator is '!=':
+            elif operator == '!=':
                 if file != pattern:
                     self.outfiles.append(filePath)
             elif operator == 'contains':
@@ -58,10 +58,10 @@ class filter_input_files_pattern:
             elif operator == 'not contains':
                 if pattern not in file:
                     self.outfiles.append(filePath)
-            elif operator is 'in':
+            elif operator == 'in':
                 if file in pattern.strip():
                     self.outfiles.append(filePath)
-            elif operator is 'not in':
+            elif operator == 'not in':
                 if file not in pattern.strip():
                     self.outfiles.append(filePath)
     

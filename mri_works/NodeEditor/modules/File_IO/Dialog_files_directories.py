@@ -4,7 +4,7 @@ class Choose_file:
         import os.path
         from PyQt5.QtWidgets import QFileDialog
         self.fileChosen = fileDefault
-        if fileDefault is 'path' or not os.path.exists(fileDefault):
+        if fileDefault == 'path' or not os.path.exists(fileDefault):
             fileCh = QFileDialog.getOpenFileName(
                             None,
                             title,
@@ -59,7 +59,7 @@ class Choose_directory:
         import os.path
         from PyQt5.QtWidgets import QFileDialog
         self.repChosen = RepDefault
-        if RepDefault is 'path' or not os.path.exists(RepDefault):
+        if RepDefault == 'path' or not os.path.exists(RepDefault):
             self.repChosen = QFileDialog.getExistingDirectory(None, title, '')
 
     def filePath(self: 'path'):
