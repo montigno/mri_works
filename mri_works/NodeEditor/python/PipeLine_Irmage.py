@@ -6603,7 +6603,7 @@ class NodeEdit(QWidget):
                                     tmp.append(nt)
                                     listTools[editor.currentTab][a] = [tmplistTools[0], tmp]
 
-                    if tmpformat is 'unkn' or self.fromPort.format is 'unkn':
+                    if tmpformat == 'unkn' or self.fromPort.format == 'unkn':
                         if tmpformat in 'unkn':
                             tmpformat = self.fromPort.format
                         else:
@@ -6618,7 +6618,7 @@ class NodeEdit(QWidget):
                         if types.name in self.fromPort.format:
                             color2 = types.value
 
-                    if 'C' in a and b is 'unkn':
+                    if 'C' in a and b == 'unkn':
                         b = d
                         mm = True
                         suffix = 0
@@ -6645,7 +6645,7 @@ class NodeEdit(QWidget):
                         del listConnects[editor.currentTab][a]
                         listConnects[editor.currentTab][a] = (tmp[0], b, tmpformat, oldVal)
 
-                    if 'C' in c and d is 'unkn':
+                    if 'C' in c and d == 'unkn':
                         d = b
                         mm = True
                         suffix = 0
