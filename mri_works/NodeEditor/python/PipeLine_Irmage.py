@@ -1442,7 +1442,10 @@ class DiagramView(QGraphicsView):
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
-            listItems[editor.currentTab][self.a1.unit] = self.a1
+            try:
+                listItems[editor.currentTab][self.a1.unit] = self.a1
+            except:
+                pass
         UpdateUndoRedo()
         return QGraphicsView.dropEvent(self, event)
 
@@ -3769,6 +3772,8 @@ class Constants(QGraphicsRectItem):
         self.outputs[0].setPos(self.w + 2, self.h / 2)
         if self.isMod:
             listConstants[editor.currentTab][self.unit] = (self.form, val, self.label)
+        else:
+            self.elemProxy.setEnabled(False)
         if form == 'str' or form == 'path':
             self.changeText()
 
