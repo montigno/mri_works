@@ -6,3 +6,5 @@ class outJson():
                 
     def dict_json(self:'dict'):
         return self.outJson
+    
+###############################################################################
