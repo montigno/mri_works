@@ -34,7 +34,7 @@ if __name__ == '__main__':
         version_min = valpk[valpk.index('(')+1:valpk.index(')')]
         valpk=valpk.replace('('+version_min+')', '')
         try:
-            lso = ("sudo pip3 show", keypk)
+            lso = ("pip3 show", keypk)
             command = " ".join(lso)
             p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
             p.wait()
