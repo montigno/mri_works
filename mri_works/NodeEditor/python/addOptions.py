@@ -7,7 +7,6 @@
 ##########################################################################
 
 
-import os
 import yaml
 from PyQt5.QtWidgets import QDialog, QCheckBox, QVBoxLayout, QHBoxLayout, \
      QLabel, QPushButton, QScrollArea, QWidget, QMenuBar, QAction, \

@@ -11,8 +11,8 @@ Created on 11 feb. 2020
 @author: omonti
 '''
 
-from os import path
 import yaml
+import os
 
 class Config():
     
@@ -20,7 +20,8 @@ class Config():
         self.config = self.loadConfig()
         
     def loadConfig(self):
-        with open("config.yml", 'r') as stream:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        with open(dir_path+"/config.yml", 'r') as stream:
             try:
                 return yaml.load(stream, yaml.FullLoader)
             except yaml.YAMLError as exc:
@@ -48,7 +49,7 @@ class Config():
         hist = self.config["paths"]["histories"]
         newHist=[]
         for h in hist:
-            if path.exists(h):
+            if os.path.exists(h):
                 newHist.append(h)
         self.setPathHistories(newHist)
         return newHist
@@ -59,7 +60,7 @@ class Config():
     
     def getPathProjectsFile(self):
         folder = self.getPathToProjectsFolder()
-        return path.join(folder,'projects.json')
+        return os.path.join(folder,'projects.json')
     
     def getPathLibraries(self):
         return self.config['packages']

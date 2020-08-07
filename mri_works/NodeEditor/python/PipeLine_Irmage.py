@@ -122,26 +122,27 @@ class Menu(QMenuBar):
         self.examples = self.menu5.addMenu('Examples')
         expl = self.load_dir_examples()
         if expl:
+            pathExamples = os.path.dirname(os.path.realpath(__file__))
+            pathExamples = dir_path = os.path.dirname(pathExamples)
+            pathExamples = os.path.join(pathExamples,
+                                    'examples')
             expl = sorted(expl)
             for lstD in expl:
                 self.exs = self.examples.addMenu(lstD)
                 expl_files = self.load_file_examples(
-                    os.path.join(QDir.currentPath(),
-                                 'NodeEditor',
-                                 'examples',
+                    os.path.join(pathExamples,
                                  lstD))
                 for lstF in expl_files:
-                    self.Dictexamples[lstF] = os.path.join(QDir.currentPath(),
-                                                           'NodeEditor',
-                                                           'examples',
+                    self.Dictexamples[lstF] = os.path.join(pathExamples,
                                                            lstD)
                     self.exs.addAction(lstF)
 
         self.menu5.triggered[QAction].connect(self.btnPressed)
 
     def load_dir_examples(self):
-        pathExamples = os.path.join(QDir.currentPath(),
-                                    'NodeEditor',
+        pathExamples = os.path.dirname(os.path.realpath(__file__))
+        pathExamples = dir_path = os.path.dirname(pathExamples)
+        pathExamples = os.path.join(pathExamples,
                                     'examples')
         if os.path.isdir(pathExamples):
             listDir = [dI for dI in os.listdir(pathExamples)
@@ -156,6 +157,8 @@ class Menu(QMenuBar):
         return onlyfiles
 
     def loadHistories(self):
+        path_config = os.path.dirname(os.path.realpath(__file__))
+        print('path_config = ', path_config)
         pathYml = os.path.join(QDir.currentPath(), "config.yml")
         if os.path.isdir(pathYml):
             with open(pathYml, 'r') as stream:
@@ -275,7 +278,9 @@ class Menu(QMenuBar):
 
         if tmpActText == 'Pipeline execution by Capsul':
             txt = SaveDiagram()
-            rep = str(os.path.join(QDir.currentPath(), 'tmp'))
+            path_tmp = os.path.dirname(os.path.realpath(__file__))
+            path_tmp = os.path.dirname(path_tmp)
+            rep = str(os.path.join(path_tmp, 'tmp'))
             if not os.path.exists(rep):
                 os.makedirs(rep)
             exportCapsul(txt.toPlainText(), rep, True, textEdit)
@@ -317,13 +322,14 @@ class Menu(QMenuBar):
                     break
 
             if connectPresent:
+                pat_submod = os.path.dirname(os.path.realpath(__file__))
+                pat_submod = os.path.dirname(pat_submod)
                 txt = SaveDiagram()
                 file = QFileDialog.getSaveFileName(self,
                                                    "save submodul " +
                                                    str(editor.currentTab),
                                                    str(os.path.join(
-                                                       QDir.currentPath(),
-                                                       'NodeEditor',
+                                                       pat_submod,
                                                        'submodules')),
                                                    "SubModul (*.mod)",
                                                    None,
@@ -421,8 +427,9 @@ class Menu(QMenuBar):
                 f.close()
 
         if tmpActText == 'HTML documentation':
-            tmp = str(os.path.join(QDir.currentPath(),
-                                   '../docs',
+            path_html = os.path.dirname(os.path.realpath(__file__))
+            tmp = str(os.path.join(path_html,
+                                   '../../../docs',
                                    'index.html'))
             webbrowser.open(tmp)
 
@@ -1888,7 +1895,8 @@ class LinkItem(QGraphicsPathItem):
                         tmpList.append(tmpList[-1])
                     listValDefault = tmpList
                 else:
-                    pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+                    pathYml = os.path.dirname(os.path.realpath(__file__))
+                    pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                     if os.path.exists(pathYml):
                         with open(pathYml, 'r') as stream:
                             self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -2047,7 +2055,8 @@ class ProcessItem():
                     tmpList.append(tmpList[-1])
                 listValDefault = tmpList
             else:
-                pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+                pathYml = os.path.dirname(os.path.realpath(__file__))
+                pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                 if os.path.exists(pathYml):
                     with open(pathYml, 'r') as stream:
                         self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -2442,7 +2451,8 @@ class BlockCreate(QGraphicsRectItem):
                 tmpList.append(tmpList[-1])
             listValDefault = tmpList
         else:
-            pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+            pathYml = os.path.dirname(os.path.realpath(__file__))
+            pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
             if os.path.exists(pathYml):
                 with open(pathYml, 'r') as stream:
                     self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -2679,7 +2689,8 @@ class BlockCreate(QGraphicsRectItem):
             
     def showToolTip(self, classUnit, position):
         self.link = ''
-        docYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'blocsdoc', "BlocsDoc.yml")
+        path_blockdoc = os.path.dirname(os.path.realpath(__file__))
+        docYml = os.path.join(path_blockdoc, '../blocsdoc', "BlocsDoc.yml")
         if os.path.exists(docYml):
             with open(docYml, 'r') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
@@ -2728,7 +2739,8 @@ class BlockCreate(QGraphicsRectItem):
 
     def inputOptions(self):
         cat = self.category.split('.')
-        pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+        pathYml = os.path.dirname(os.path.realpath(__file__))
+        pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
@@ -2937,7 +2949,8 @@ class BlockCreate(QGraphicsRectItem):
                             tmpList.append(tmpList[-1])
                         listValDefault = tmpList
                     else:
-                        pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+                        pathYml = os.path.dirname(os.path.realpath(__file__))
+                        pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                         if os.path.exists(pathYml):
                             with open(pathYml, 'r') as stream:
                                 self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -3007,8 +3020,8 @@ class BlockCreate(QGraphicsRectItem):
 
     def seeSubMod(self):
         editor.addTab(self.name + '.mod')
-
-        file = os.path.join(QDir.currentPath(), 'NodeEditor', 'submodules', self.name + '.mod')
+        path_submod = os.path.dirname(os.path.realpath(__file__))
+        file = os.path.join(path_submod, '../submodules', self.name + '.mod')
         editor.pathDiagram[editor.currentTab] = file
         textInf.setText(file)
 
@@ -3464,7 +3477,8 @@ class ConnectorItem(QGraphicsPolygonItem):
                             tmpList.append(tmpList[-1])
                         listValDefault = tmpList
                     else:
-                        pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+                        pathYml = os.path.dirname(os.path.realpath(__file__))
+                        pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                         if os.path.exists(pathYml):
                             with open(pathYml, 'r') as stream:
                                 self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -5752,7 +5766,8 @@ class Port(QGraphicsRectItem):
     def getEnumerateFromYml(self):
         pathBlock = listBlocks[editor.currentTab][self.unit][1].split('.')
         classBlock = listBlocks[editor.currentTab][self.unit][0]
-        pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', pathBlock[0], pathBlock[1] + ".yml")
+        pathYml = os.path.dirname(os.path.realpath(__file__))
+        pathYml = os.path.join(pathYml, '../modules', pathBlock[0], pathBlock[1] + ".yml")
         if os.path.exists(pathYml):
             with open(pathYml, 'r') as stream:
                 self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -5967,7 +5982,9 @@ class NodeEdit(QWidget):
         listStand = []
         listImport = []
 
-        currentpathwork = str(os.path.join(QDir.currentPath(), 'NodeEditor', 'examples'))
+
+        currentpathwork = os.path.dirname(os.path.realpath(__file__))
+        currentpathwork = str(os.path.join(currentpathwork, '../examples'))
 
         QWidget.__init__(self)
         self.setWindowTitle("Diagram editor")
@@ -6519,7 +6536,8 @@ class NodeEdit(QWidget):
                                 listEnter = listVal[2][0]
                                 listValDefault = listVal[2][1]
                             else:
-                                pathYml = os.path.join(QDir.currentPath(), 'NodeEditor', 'modules', cat[0], cat[1] + ".yml")
+                                pathYml = os.path.dirname(os.path.realpath(__file__))
+                                pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                                 if os.path.exists(pathYml):
                                     with open(pathYml, 'r') as stream:
                                         self.dicts = yaml.load(stream, yaml.FullLoader)

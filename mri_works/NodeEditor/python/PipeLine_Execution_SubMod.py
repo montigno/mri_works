@@ -32,7 +32,9 @@ class executionSubmod:
         listOut = []
         listModul = {}
         listConnctOut = []
-
+        
+        path_submod = os.path.dirname(os.path.realpath(__file__))
+        
         for i, ln in enumerate(txt.splitlines()):
             if i == 0:
                 ln = ln.replace('\\', '\\\\')
@@ -61,9 +63,8 @@ class executionSubmod:
         listModExecution = {}
         if modul:
             for ls in listModul.keys():
-                file = os.path.join(os.path.abspath(os.getcwd()),
-                                    'NodeEditor',
-                                    'submodules',
+                file = os.path.join(path_submod,
+                                    '../submodules',
                                     modul[0] + '.mod')
                 f = open(file, 'r')
                 txt = f.read()
@@ -91,9 +92,8 @@ class executionSubmod:
         for ls in listBlockExecution:
             if 'S' in ls:
                 if modul:
-                    file = os.path.join(os.path.abspath(os.getcwd()),
-                                        'NodeEditor',
-                                        'submodules',
+                    file = os.path.join(path_submod,
+                                        '../submodules',
                                         modul[0] + '.mod')
                     f = open(file, 'r')
                     txt = f.read()
@@ -104,9 +104,8 @@ class executionSubmod:
                 listScriptExecution[ls] = tmp
                     
             if 'F' in ls:
-                file = os.path.join(os.path.abspath(os.getcwd()),
-                                    'NodeEditor',
-                                    'submodules',
+                file = os.path.join(path_submod,
+                                    '../submodules',
                                     modul[0] + '.mod')
                 f = open(file, 'r')
                 txt = f.read()
@@ -120,9 +119,8 @@ class executionSubmod:
                         break
                 listForExecution[ls] = tmp1
             elif 'I' in ls:
-                file = os.path.join(os.path.abspath(os.getcwd()),
-                                    'NodeEditor',
-                                    'submodules',
+                file = os.path.join(path_submod,
+                                    '../submodules',
                                     modul[0] + '.mod')
                 f = open(file, 'r')
                 txt = f.read()

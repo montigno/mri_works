@@ -7,7 +7,6 @@
 ##########################################################################
 
 
-import os
 import ast
 import numpy as np
 from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod

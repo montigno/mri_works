@@ -23,11 +23,8 @@ class ConfigModuls():
     config = {}
 
     def loadConfig(self, listStand):
-
-        pathConfig = os.path.dirname(__file__)
-        pathConfig, last = os.path.split(pathConfig)
-        pathConfig = os.path.join(pathConfig,
-                                  'python',
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        pathConfig = os.path.join(dir_path,
                                   'config_standalone.yml')
         if os.path.exists(pathConfig):
             with open(pathConfig, 'r') as stream:
@@ -56,11 +53,10 @@ class ConfigModuls():
         return config[cat]
 
     def saveConfig(self):
-        fileConfig = os.path.join(QDir.currentPath(),
-                                  'NodeEditor',
-                                  'python',
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        pathConfig = os.path.join(dir_path,
                                   'config_standalone.yml')
-        with open(fileConfig, 'w', encoding='utf8') as configfile:
+        with open(pathConfig, 'w', encoding='utf8') as configfile:
             yaml.dump(config,
                       configfile,
                       default_flow_style=False,

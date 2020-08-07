@@ -44,7 +44,7 @@ class DispNifti():
         image = QImage()
         self.imageLabel = QLabel()
         self.imageLabel.setBackgroundRole(QPalette.Base)
-#         self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+        self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         self.imageLabel.setScaledContents(True)
         self.imageLabel.setPixmap(QPixmap.fromImage(image))
         self.imageLabel.adjustSize()
@@ -87,7 +87,7 @@ class DispNifti():
             self.a1.setMaximum(self.img.shape[2]-1)
             self.a2.setMaximum(self.img.shape[3]-1)
             self.a3.setMaximum(self.img.shape[4]-1)
-        x = rotate(x,-90,reshape=True)
+        x = rotate(x,-90,reshape = True)
         x = np.uint8((x - x.min())/x.ptp()*255.0)
         self.x = x
         

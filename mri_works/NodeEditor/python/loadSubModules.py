@@ -15,19 +15,16 @@ from PyQt5.QtCore import QDir
 class getlistSubModules:
 
     def __init__(self):
-
-        submodules = os.path.dirname(__file__)
-        submodules, last = os.path.split(submodules)
-        submodules = os.path.join(submodules, 'submodules')
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        dir_path = os.path.dirname(dir_path)
+        submodules = os.path.join(dir_path, 'submodules')
 
         self.category = []
         self.listSubMod = []
 
         for name in os.listdir(submodules):
             if name.endswith(".mod"):
-                file = os.path.join(QDir.currentPath(),
-                                    'NodeEditor',
-                                    'submodules',
+                file = os.path.join(submodules,
                                     name)
                 self.readFile(file)
 

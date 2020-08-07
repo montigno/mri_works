@@ -88,9 +88,9 @@ class analyze:
                 line = line[line.index('valInputs') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF')]
                 self.listModul[unit] = (nameMod, Vinput)
-                file = os.path.join(os.path.abspath(os.getcwd()),
-                                    'NodeEditor',
-                                    'submodules',
+                path_submod = os.path.dirname(os.path.realpath(__file__))
+                file = os.path.join(path_submod,
+                                    '../submodules',
                                     nameMod + '.mod')
                 f = open(file, 'r')
                 txt = f.read()

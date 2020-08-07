@@ -7,7 +7,6 @@
 ##########################################################################
 
 
-import os
 import ast
 import sys
 import numpy as np

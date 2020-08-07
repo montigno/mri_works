@@ -6,7 +6,7 @@
 # for details.
 ##########################################################################
 
-import os.path
+import os
 import numpy
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QDialog, QLabel, \
