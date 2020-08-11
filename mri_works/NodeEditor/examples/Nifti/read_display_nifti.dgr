@@ -1,13 +1,13 @@
 [diagram]
 link=[N1] node=[U1:image#Node#U2:image]
 link=[N0] node=[U0:filePath#Node#U1:fileSource]
-block=[U1] category=[Nifti.Nifti] class=[Open_Nifti] valInputs=[(['fileSource'], ['Node(N0)'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])] RectF=[(-500.36095083777946, 37.14696303157601, 150.734375, 80.0)]
-block=[U2] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N1)', ''], [], [])] RectF=[(-209.02058152344455, 11.457764842777479, 150.0, 80.0)]
-block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', 'Select a Nifti file'], ['filePath'], ['path'])] RectF=[(-727.7347489193588, 41.76046166065922, 154.3125, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', 'Select a Nifti file'], ['filePath'], ['path'])] RectF=[(-637.1307403601787, 44.44502487722751, 154.3125, 80.0)]
+block=[U2] category=[Nifti.Nifti] class=[DisplayNifti] valInputs=[(['image', 'title'], ['Node(N1)', ''], [], [])] RectF=[(-78.81926551988226, -22.099275364326203, 150.0, 80.0)]
+block=[U1] category=[Nifti.Nifti] class=[Open_Nifti] valInputs=[(['fileSource'], ['Node(N0)'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])] RectF=[(-378.8844652880641, 32.44897740258149, 150.734375, 80.0)]
 [execution]
 []
 ['U0', 'U1', 'U2']
-{'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', 'Select a Nifti file'], ['filePath'], ['path'])"), 'U2': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['U1:image', ''], [], [])"), 'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['U0:filePath'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])")}
+{'U1': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['U0:filePath'], ['image', 'dim', 'filePath'], ['array_float', 'int', 'path'])"), 'U2': ('Nifti.Nifti', 'DisplayNifti', "(['image', 'title'], ['U1:image', ''], [], [])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii *.nii.gz', 'Select a Nifti file'], ['filePath'], ['path'])")}
 ['U0:filePath', 'U1:image']
 {}
 []

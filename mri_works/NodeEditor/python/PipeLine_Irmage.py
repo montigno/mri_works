@@ -278,8 +278,9 @@ class Menu(QMenuBar):
 
         if tmpActText == 'Pipeline execution by Capsul':
             txt = SaveDiagram()
-            path_tmp = os.path.dirname(os.path.realpath(__file__))
-            path_tmp = os.path.dirname(path_tmp)
+#             path_tmp = os.path.dirname(os.path.realpath(__file__))
+#             path_tmp = os.path.dirname(path_tmp)
+            path_tmp = os.path.expanduser("~")
             rep = str(os.path.join(path_tmp, 'tmp'))
             if not os.path.exists(rep):
                 os.makedirs(rep)

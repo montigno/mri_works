@@ -1,0 +1,10 @@
+Module_T2map:
+  folder_out: 'path'
+  flag_test: True
+  threshold: 5.0
+  output_filename_ext: 'T2map'
+  OutputSequenceName: 'AllName'
+  RefInput: 1
+  InputToReshape: 1
+  Table_in: [0.0]
+  Table_out: [0.0]

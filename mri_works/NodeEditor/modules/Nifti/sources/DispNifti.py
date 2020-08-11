@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPalette, QPixmap
-from PyQt5.QtWidgets import QSlider, QLabel, QApplication, QSizePolicy, \
+from PyQt5.QtWidgets import QSlider, QLabel, QSizePolicy, \
     QLineEdit, QGroupBox, QGridLayout, QVBoxLayout, QWidget, QDialog
 from scipy.ndimage import rotate
 
@@ -32,7 +32,7 @@ class DispNifti():
         self.verticalLayout.addWidget(self.layoutSlide)
          
         self.dia.setWindowTitle(title)
-        x,y=self.pixm.width(),self.pixm.height()
+        x,y = self.pixm.width(),self.pixm.height()
         self.dia.resize(400,600)
         self.dia.setLayout(self.verticalLayout)
 
@@ -44,24 +44,30 @@ class DispNifti():
         image = QImage()
         self.imageLabel = QLabel()
         self.imageLabel.setBackgroundRole(QPalette.Base)
-        self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+#         self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         self.imageLabel.setScaledContents(True)
+#         self.imageLabel.setFixedSize(85 , 128)
+#         self.imageLabel.setAlignment(Qt.AlignCenter)
         self.imageLabel.setPixmap(QPixmap.fromImage(image))
-        self.imageLabel.adjustSize()
-        self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
+#         self.imageLabel.setPixmap(QPixmap(image).scaled(200,200, Qt.KeepAspectRatio))
+#         self.imageLabel.adjustSize()
+#         self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
+        
+
         
     def navigImage(self):
         self.indexImage()
         self.displayPosValue()
-        h,w = self.x.shape
+        h, w = self.x.shape
 #         image = QImage(self.x.data,w,h,QImage.Format_Indexed8)
         totalBytes = self.x.data.nbytes
         bytesPerLine = int(totalBytes/h)
-        image = QImage(self.x.data,w,h,bytesPerLine,QImage.Format_Grayscale8)
+        image = QImage(self.x.data, w, h, bytesPerLine, QImage.Format_Grayscale8)
         self.pixm = QPixmap.fromImage(image)
         self.imageLabel.setPixmap(self.pixm)
-        self.imageLabel.adjustSize()
-        self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
+
+#         self.imageLabel.adjustSize()
+#         self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
         
     def indexImage(self):
         sl1=self.a1.value()
