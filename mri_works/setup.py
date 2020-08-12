@@ -13,21 +13,24 @@ Created on 11 feb. 2020
 
 import subprocess
 from subprocess import Popen, PIPE
-from packaging import version
 import sys
-from Config import Config
+
 
 def install(command):
     p=subprocess.Popen(command,shell=True)
     p.wait()
     
 def getCurrentVersion(inf):
+    from packaging import version
     version = inf[inf.index('Version:')+8:]
     version=version[:version.index('\n')]
     return version.strip()
     
 if __name__ == '__main__':
-#     install('sudo -H pip3 install --ignore-installed PyYAML')
+    install('pip install --upgrade pip')
+    install('pip3 install packaging')
+    install('pip3 install --ignore-installed PyYAML')
+    from Config import Config
     pack = Config().getPathLibraries()
     for keypk,valpk in pack.items():
         version_min=''

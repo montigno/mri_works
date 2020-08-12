@@ -19,12 +19,13 @@ packages:
   scipy: pip3 install scipy (1.5.1)
   sip: pip3 install sip (5.3.0)
   sympy: pip3 install sympy (1.6.1)
-  traits: pip3 install traits (5.2.0)
+  traits: pip3 install traits==5.2.0 (5.2.0)
 paths:
   data: /tmp/
   histories:
   - /home/omontigon/Documents/mri_works_projects/N4_Bias.dgr
   - /home/omontigon/Documents/mri_works_projects/N4_Bias_subMod.dgr
+  - /home/omontigon/Documents/mri_works_projects/Matlab_engine.dgr
   modules: modules
   projects: ../data
 version: 20.07.07a

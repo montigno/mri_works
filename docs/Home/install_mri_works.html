@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta name = "author" content = "Olivier MONTIGON">
+	<meta name = "description"	content = "mri_works">
+	<title>mri_works documentation (IRMaGe)</title>
+	<link rel="stylesheet" media="screen" type="text/css" href="../styles.css">
+	<script src="../datemodif.js"></script>
+	<script src="../buttontop.js"></script>
+</head>
+  <body> 
+	<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+	<div><iframe class="sommaire" src = "sommaire.html"></iframe></div>
+	<div class="box">
+	
+	<h1 align="center">Install and Configuration mri_works</h1>
+	<br><hr>
+		<ul>
+			<li> 1 - Creation of virtuel environment </li>
+			<li> 2 - Download mri_works </li>
+			<li> 3 - Package installation </li>
+			<li> 4 - Configuration </li>
+			<li> 5 - Launch mri_works </li>
+			<li> 6 - About Matlab engine </li>
+		</ul>
+		<hr>
+		
+		<h2 id="venv"><font color="blue">1 - Creation of virtuel environment </font></h2>
+			<div>
+			<b>venv</b> will allow to create an isolated Python environment (Python 3.6 or 3.7). It will create a folder wich will contain all the necessay executables to use the packages that a Python project would need.<br><br>
+			- open terminal and type :
+			<pre class="console" style="width:800px;">sudo apt install -y python3-env</pre>
+			<pre class="console" style="width:900px;">cd</pre>
+			<pre class="console" style="width:900px;">python3.6 -m venv Apps/python_env</pre>
+			</div><hr>
+
+		<h2 id="dwnl"><font color="blue">2 - Download mri_works</font></h2>
+			<div> 
+			- download the release of mri_works from <a href="https://github.com/montigno/mri_works/archive/master.zip" target="_blank">the github homepage</a><br><br>
+			- decompress the downloaded file and store 'docs' and 'mri_works' repertories in ~/Apps/python_env/<br>
+			</div><hr>
+
+		<h2 id="package"><font color="blue">3 - Package installation</font></h2>
+			<div> 
+			<pre class="console" style="width:500px;">cd Apps/python_env/mri_works</pre>
+			- activate venv:
+			<pre class="console" style="width:500px;">source ../bin/activate</pre>
+			- install package:
+			<pre class="console" style="width:500px;">python3 setup.py</pre>
+			</div><hr>
+		
+        <h2 id="config"><font color="blue">4 - Configuration</font></h2>
+			<div>
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:800px;">#mri_works<br>alias mri_works='source ~/Apps/python_env/bin/activate; cd ~/Apps/python_env/mri_works; python3 main.py'</pre>
+			- to save<br>
+			- type: 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
+			</div><hr>
+		
+		<h2 id="launch"><font color="blue">5 - Launch mri_works</font></h2>
+			<div>
+			- type everywhere:
+       		<pre class="console" style="width:500px;">mri_works</pre>
+			</div><hr>
+		
+		<h2 id="launch"><font color="blue">	6 - About Matlab engine</font></h2>
+			- the Matlab engine install must be done in the virtual environment :
+       		<pre class="console" style="width:500px;">mri_works</pre>
+			- go to the directory where the setup.py file  is located : 
+       		<pre class="console" style="width:500px;">cd /usr/local/MATLAB/R2020a/extern/engines/python</pre>
+			- launch the setup : 
+      		<pre class="console" style="width:500px;">python3 setup.py build --build-base ~/Apps/python_env/build install</pre>
+
+
+
+    </div>
+  </body>
+</html>
