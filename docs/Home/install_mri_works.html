@@ -31,22 +31,22 @@
 			<div>
 			<b>venv</b> will allow to create an isolated Python environment (Python 3.6 or 3.7). It will create a folder wich will contain all the necessay executables to use the packages that a Python project would need.<br><br>
 			- open terminal and type :
-			<pre class="console" style="width:800px;">sudo apt install -y python3-env</pre>
-			<pre class="console" style="width:900px;">cd</pre>
-			<pre class="console" style="width:900px;">python3.6 -m venv Apps/python_env</pre>
+			<pre class="console" style="width:500px;">sudo apt install -y python3-env</pre>
+			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre>
 			</div><hr>
 
 		<h2 id="dwnl"><font color="blue">2 - Download mri_works</font></h2>
 			<div> 
 			- download the release of mri_works from <a href="https://github.com/montigno/mri_works/archive/master.zip" target="_blank">the github homepage</a><br><br>
 			- decompress the downloaded file and store 'docs' and 'mri_works' repertories in ~/Apps/python_env/<br>
-			</div><hr>
+			</div><br><hr>
 
 		<h2 id="package"><font color="blue">3 - Package installation</font></h2>
 			<div> 
-			<pre class="console" style="width:500px;">cd Apps/python_env/mri_works</pre>
+			<pre class="console" style="width:500px;">cd ~/Apps/python_env/</pre>
 			- activate venv:
-			<pre class="console" style="width:500px;">source ../bin/activate</pre>
+			<pre class="console" style="width:500px;">source bin/activate</pre>
 			- install package:
 			<pre class="console" style="width:500px;">python3 setup.py</pre>
 			</div><hr>
@@ -77,7 +77,6 @@
 			- launch the setup : 
       		<pre class="console" style="width:500px;">python3 setup.py build --build-base ~/Apps/python_env/build install</pre>
       		<pre class="console" style="width:500px;">exit</pre>
-
 
 
     </div>
