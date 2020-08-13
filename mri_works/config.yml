@@ -10,7 +10,7 @@ packages:
   nipype: pip3 install nipype
   niwidgets: pip3 install niwidgets
   nose: pip3 install nose
-  numpy: pip3 install numpy
+  numpy: pip3 install numpy==1.16.6
   pandas: pip3 install pandas
   pyqt5: pip3 install pyqt5
   pytest: pip3 install -U pytest
