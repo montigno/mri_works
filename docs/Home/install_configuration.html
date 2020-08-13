@@ -28,8 +28,9 @@
 			<pre class="console" style="width:900px;">cd</pre>
 			<pre class="console" style="width:900px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
-				<pre class="bashrc" style="width:900px;">#AFNI<br>export PATH=/usr/lib/afni/bin:$PATH</pre>
-			- to save<br><br>
+			<pre class="bashrc" style="width:900px;">#AFNI<br>export PATH=/usr/lib/afni/bin:$PATH</pre>
+			- to save and type : 
+			<pre class="console" style="width:900px;">source .bashrc</pre>
 			</div><hr>
 
 		<h2 id="ants"><font color="blue">ANTS : </font></h2>
@@ -41,7 +42,8 @@
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:500px;">#ANTs<br>export PATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64:$PATH<br>export ANTSPATH=/usr/local/antsbin/ANTs.2.1.0.Debian-Ubuntu_X64/</pre>
-			- to save<br><br>
+			- to save and type : 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
 			</div><hr>
 
 		<h2 id="fsl"><font color="blue">FSL : </font></h2>
@@ -53,7 +55,8 @@
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:500px;">#FSL<br>FSLDIR=/usr/local/fsl<br>. ${FSLDIR}/etc/fslconf/fsl.sh<br>PATH=${FSLDIR}/bin:${PATH}<br>export FSLDIR PATH</pre>			
-			- to save<br><br>
+			- to save and type : 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
 			</div><hr>
 		
         <h2 id="spm"><font color="blue">SPM : (requires MATLAB)</font></h2>
@@ -65,13 +68,14 @@
 			<pre class="console" style="width:500px;">sudo nano pathdef.m</pre>
 			- find the line <b>%%% BEGIN ENTRIES %%%</b> and add to the line below : <b>matlabroot,'/toolbox/spm12:', ...</b>
 			<pre class="bashrc" style="width:500px;">%%% BEGIN ENTRIES %%%<br>matlabroot,'/toolbox/spm12:', ...</pre>
-			- to save<br>
-			- type: 
+			- to save<br><br>
+			- type : 
 			<pre class="console" style="width:500px;">cd</pre>
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>			
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:500px;">#SPM12<br>export SPM_PATH=/usr/local/MATLAB/R2019a/toolbox/spm12/</pre>
-			- to save<br><br>
+			- to save and type : 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
 			</div><hr>
 		
         <h2 id="imagej"><font color="blue">ImageJ : </font></h2>
@@ -82,7 +86,8 @@
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:500px;">#ImageJ<br>export PATH=/home/ommaster/Apps/ImageJ:$PATH</pre>
-			- to save<br><br>
+			- to save and type : 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
 			</div><hr>
 
 		<h2 id="mrifilemanager"><font color="blue">MRIFileManager : </font></h2>
@@ -93,17 +98,19 @@
 			<pre class="console" style="width:700px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:700px;">#MRIFileManager<br>export MRIFilePATH=/home/ommaster/Apps/Github/mri_conv/MRIFileManager/MRIManager.jar</pre>
-			- to save<br>	
+			- to save and type : 
+			<pre class="console" style="width:700px;">source .bashrc</pre>	
 			</div><hr>
 
 		<h2 id="matlab"><font color="blue">MATLAB : (if you have it)</font></h2>
 			<div>
 			- open terminal and type :
-			<pre class="console" style="width:500px;">cd</pre>
-			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			<pre class="console" style="width:700px;">cd</pre>
+			<pre class="console" style="width:700px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:700px;">#MATLAB<br>export PATH=/usr/local/MATLAB/R2019a/bin:$PATH<br>export MATLABCMD=/usr/local/MATLAB/R2019a/bin/glnxa64/MATLAB</pre>
-			- to save<br><br>
+			- to save and type : 
+			<pre class="console" style="width:700px;">source .bashrc</pre>
 			</div><hr>
 		
 		<h2 id="mrtrix3"><font color="blue">MRTrix3 :</font></h2>

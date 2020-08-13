@@ -24,11 +24,11 @@ A beta documentation is available here : [https://montigno.github.io/mri_works](
 
 # Installation
 
-- See [here](https://montigno.github.io/mri_works/Home/install_mri_works.html)
+See [here](https://montigno.github.io/mri_works/Home/install_mri_works.html)
 
 # to launch the software
 
- - type *mri_works* in terminal
+type *mri_works* in terminal
 
 # License
 

@@ -18,12 +18,13 @@
 	<h1 align="center">Install and Configuration mri_works</h1>
 	<br><hr>
 		<ul>
-			<li><a class="style1" href="#venv"> 1 - Creation of virtuel environment </a></li>
-			<li><a class="style1" href="#dwnl"> 2 - Download mri_works </a></li>
-			<li><a class="style1" href="#package"> 3 - Package installation </a></li>
-			<li><a class="style1" href="#config"> 4 - Configuration </a></li>
-			<li><a class="style1" href="#launch"> 5 - Launch mri_works </a></li>
-			<li><a class="style1" href="#mat_eng"> 6 - About Matlab engine </a></li>
+			<a class="style1" href="#venv"> 1 - Creation of virtuel environment </a><br>
+			<a class="style1" href="#dwnl"> 2 - Download mri_works </a><br>
+			<a class="style1" href="#package"> 3 - Package installation </a><br>
+			<a class="style1" href="#config"> 4 - Configuration </a><br>
+			<a class="style1" href="#launch"> 5 - Launch mri_works </a><br>
+			<a class="style1" href="#leave"> 6 - To leave the virtual environment </a><br>
+			<a class="style1" href="#mat_eng"> 7 - About Matlab engine </a><br>
 		</ul>
 		<hr>
 		
@@ -33,7 +34,7 @@
 			- open terminal and type :
 			<pre class="console" style="width:500px;">sudo apt install -y python3-env</pre>
 			<pre class="console" style="width:500px;">cd</pre>
-			<pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre>
+			<pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre> 
 			</div><hr>
 
 		<h2 id="dwnl"><font color="blue">2 - Download mri_works</font></h2>
@@ -48,6 +49,7 @@
 			- activate venv:
 			<pre class="console" style="width:500px;">source bin/activate</pre>
 			- install package:
+			<pre class="console" style="width:500px;">cd mri_works</pre>
 			<pre class="console" style="width:500px;">python3 setup.py</pre>
 			</div><hr>
 		
@@ -68,7 +70,14 @@
        		<pre class="console" style="width:500px;">mri_works</pre>
 			</div><hr>
 		
-		<h2 id="mat_eng"><font color="blue">	6 - About Matlab engine</font></h2>
+		<h2 id="mat_eng"><font color="blue">6 - To leave the virtual environment</font></h2>
+			<div>
+			- When you close mri_works, the virtual environment is still active. To stop it, type : 
+       		<pre class="console" style="width:500px;">deactivate</pre>
+			</div><hr>
+		
+		<h2 id="mat_eng"><font color="blue">7 - About Matlab engine</font></h2>
+			<div>
 			- the Matlab engine install must be done in the virtual environment :
        		<pre class="console" style="width:500px;">cd ~/Apps/python_env</pre>
        		<pre class="console" style="width:500px;">source bin/activate</pre>
@@ -77,7 +86,7 @@
 			- launch the setup : 
       		<pre class="console" style="width:500px;">python3 setup.py build --build-base ~/Apps/python_env/build install</pre>
       		<pre class="console" style="width:500px;">exit</pre>
-
+			</div><hr>
 
     </div>
   </body>
