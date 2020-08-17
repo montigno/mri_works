@@ -97,7 +97,13 @@ class string_compare:
     def compare_res(self:'bool'):
         return self.res
             
-            
-            
+###############################################################################
+
+class string_index_subarray:
+    def __init__(self, in_string_array=[['']], index_start=0, index_end=1):
+        self.res = in_string_array  [index_start:index_end]
+        
+    def out_subarray(self:'array_str'):
+        return self.res
             
             

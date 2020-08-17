@@ -58,6 +58,17 @@ class IntToFloat_array():
 
 ###############################################################################
 
+class StringToFloat_array():
+    def __init__(self,arrayStr=[['']]):
+        import numpy as np
+        arrayStr = np.array(arrayStr)
+        self.outarrayfloat = arrayStr.astype(np.float)
+    
+    def outArrayFloat(self:'array_float'):
+        return self.outarrayfloat
+    
+###############################################################################
+
 class PathToString():
     def __init__(self,inPath='path'):
         self.outStr = str(inPath)

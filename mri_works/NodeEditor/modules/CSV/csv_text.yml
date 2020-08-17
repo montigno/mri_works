@@ -1,0 +1,6 @@
+csv_reader_text:
+  delimiter: ''
+  quoting: enumerate(('csv.QUOTE_ALL','csv.QUOTE_MINIMAL','csv.QUOTE_NONE','csv.QUOTE_NONNUMERIC'))
+  dialect: ''
+  quotechar: ''
+  skipinitialspace: True

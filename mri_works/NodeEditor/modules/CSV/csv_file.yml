@@ -1,0 +1,5 @@
+csv_reader_file:
+  delimiter: ''
+  dialect: ''
+  quotechar: ''
+  skipinitialspace: True

@@ -48,10 +48,12 @@ class createListString():
 #############################################################################
 
 
-class addElementListString():
-    def __init__(self, listIn=[''], element=''):
+class addElementListString_dyn():
+    def __init__(self, listIn=[''], element='', **dynamicsInputs ):
         self.elem2 = listIn.copy()
         self.elem2.append(element)
+        for di in dynamicsInputs:
+            self.elem2.append(dynamicsInputs[di])
 
     def out2(self: 'list_str'):
         return self.elem2

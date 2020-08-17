@@ -192,6 +192,96 @@ Plot_prob_atlas:
 Plot_roi:
    functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_roi.html
    dependencies: Nilearn
+   
+Print_array_bool:
+  functionality: Prints the boolean array to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_array_Bool: (array of boolean value) array of boolean values
+
+Print_array_float:
+  functionality: Prints the array of floating numbers to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_array_Float: (array of float) array of floating values
+  
+Print_array_int:
+  functionality: Prints the array of integer numbers to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_array_Int: (array of integer) array of integer numbers
+  
+Print_array_path:
+  functionality: Prints the array of file/directory paths to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_array_Path: (array of path) array of file/directory paths
+  
+Print_array_str:
+  functionality: Prints the array of strings to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_array_String: (array of string) array of strings
+  
+Print_bool:
+  functionality: Prints the boolean value to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inBool: (boolean) boolean value
+  
+Print_dict:
+  functionality: Prints the dictionary structure to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inBool: (dict) dictionary structure
+
+Print_float:
+  functionality: Prints the floating number to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inFloat: (float) float number
+  
+Print_int:
+  functionality: Prints the integer number to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inInt: (integer) integer number
+  
+Print_list_bool:
+  functionality: Prints the boolean list to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_list_Bool: (list of boolean value) list of boolean values
+
+Print_list_float:
+  functionality: Prints the list of floating numbers to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_list_Float: (list of float) list of floating values
+  
+Print_list_int:
+  functionality: Prints the list of integer numbers to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_list_Int: (list of integer) list of integer numbers
+  
+Print_list_path:
+  functionality: Prints the list of file/directory paths to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_list_Path: (list of path) list of file/directory paths
+  
+Print_list_str:
+  functionality: Prints the list of strings to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  in_list_String: (list of string) list of strings
+  
+Print_path:
+  functionality: Prints file/directory path to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inPath: (path) file/directory paths
+  
+Print_str:
+  functionality: Prints the string to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inString: (string) string
+  
+Print_tuple:
+  functionality: Prints the tuple structure to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inString: (tuple) tuple
+  
+Print_type_var:
+  functionality: Prints the type of variable to the terminal with a specified message from comment port.
+  comment: (string) your comment
+  inString: (all type) your variable whatever the type
      
 trigonometric:
    functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
