@@ -2196,7 +2196,7 @@ class BlockCreate(QGraphicsRectItem):
         self.setBrush(QBrush(gradient))
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
-            self.setFlag(self.ItemIsFocusable, True)
+        self.setFlag(self.ItemIsFocusable, True)
 
         self.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         # Label:
@@ -2325,6 +2325,7 @@ class BlockCreate(QGraphicsRectItem):
             activ = True
 
         if self.isMod:
+            ac = menu.addAction('')
             ac = menu.addAction('Add all inputs to connectors')
             ac.triggered.connect(self.addConnectorInputs)
             ad = menu.addAction('Add all outputs to connectors')
@@ -2347,7 +2348,6 @@ class BlockCreate(QGraphicsRectItem):
                     dya.triggered.connect(self.addinput)
                     dys = menu.addAction('Remove input dyn (-)')
                     dys.triggered.connect(self.subinput)
-
             else:
                 pa.triggered.connect(self.editParametersSubProcess)
                 su = menu.addAction('See submodul')

@@ -47,6 +47,16 @@ Choose_file:
    title: (string) dialog box title
    filePath: (path) path of the selected file
    
+csv_reader_file: 
+  functionality: https://docs.python.org/3/library/csv.html
+  file: (path) path of CSV file
+  array_csv: (string array) string array contained in the CSV file
+  
+csv_reader_text:
+  functionality: https://docs.python.org/3/library/csv.html
+  txt: (string) text in CSV format
+  array_csv: (string array) string array contained in the text
+   
 exponential:
    functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
    amplitude: (float) amplitude (a) of function
