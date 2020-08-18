@@ -90,4 +90,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     imageViewer = Project_Irmage()
     imageViewer.show()
+    app.setWindowIcon(QIcon('main.png'))
     sys.exit(app.exec_())
