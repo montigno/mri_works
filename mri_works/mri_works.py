@@ -90,5 +90,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     imageViewer = Project_Irmage()
     imageViewer.show()
-    app.setWindowIcon(QIcon('main.png'))
+    app.setWindowIcon(QIcon('mri_works.png'))
     sys.exit(app.exec_())
