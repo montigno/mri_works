@@ -6015,7 +6015,8 @@ class NodeEdit(QWidget):
         self.tabLib.setTabBar(HorizontalTabBar())
         self.tabLib.setTabPosition(QTabWidget.West)
         self.tabLib.setStyleSheet('''
-                            QTabBar::tab {width: 100px;height: 30px;background-color: lightGray;}
+                            QTabBar {color:blue; font-size:14pt;}
+                            QTabBar::tab {width: 100%;height: 25px;background-color: lightGray;}
                             QTabBar::tab:selected {background-color: gray;}
                             ''')
 

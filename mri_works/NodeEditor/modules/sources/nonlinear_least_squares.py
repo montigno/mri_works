@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 
 class T1_nonlinear_least_squares:
     def __init__(self,x,y,a,b,c,n):
-#         x = np.linspace(0, 10., n)
-#         y_model = self.f(x, a, b, c)
-#         y = y_model + 10*np.random.randn(n)
         x = np.asarray(x)
         y = np.asarray(y)
 
@@ -16,7 +13,6 @@ class T1_nonlinear_least_squares:
         y_fit = self.f(x, a_, b_, c_)
         
         fig, ax = plt.subplots(1, 1, figsize=(6, 4))
-        # ax.plot(x, y_model, '--k')
         ax.plot(x, y, 'o')
         ax.plot(x, y_fit, '-')
         textstr = '\n'.join((
@@ -35,9 +31,6 @@ class T1_nonlinear_least_squares:
     
 class T2_nonlinear_least_squares:
     def __init__(self,x,y,a,b,c,n):
-#         x = np.linspace(0, 10., n)
-#         y_model = self.f(x, a, b, c)
-#         y = y_model + 5*np.random.randn(n)
         x = np.asarray(x)
         y = np.asarray(y)
         
@@ -46,7 +39,6 @@ class T2_nonlinear_least_squares:
         y_fit = self.f(x, a_, b_, c_)
         
         fig, ax = plt.subplots(1, 1, figsize=(6, 4))
-        # ax.plot(x, y_model, '--k')
         ax.plot(x, y, 'o')
         ax.plot(x, y_fit, '-')
         textstr = '\n'.join((
