@@ -54,11 +54,13 @@ class exportCapsul():
                 if '_dyn' in classs:
                     classs += str(len(tmpVal[0]))
                 try:
-                    tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
+#                     tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
+                    tmpDoub = list(set(tmpVal[0]) & set(tmpVal[2]))
                     if tmpDoub:
-                        newTmpVal0 = [w.replace(tmpDoub, tmpDoub + '_xx') for w in tmpVal[0]]
-                        tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
-                        listDoublon_InOut.append(unit + '.' + tmpDoub)
+                        for elem in tmpDoub:
+                            newTmpVal0 = [w.replace(elem, elem + '_xx') for w in tmpVal[0]]
+                            tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
+                            listDoublon_InOut.append(unit + '.' + elem)
                 except Exception as e:
                     pass
                 listUnit[unit] = tmpVal

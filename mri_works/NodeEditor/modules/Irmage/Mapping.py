@@ -37,7 +37,7 @@ class T1Map_LevenbergM():
                     params.add('amp', value=max)
                     params.add('decay', value=t1)
                     params.add('shift', value=1.0)
-                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc),maxfev=iteration)
+                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc),max_nfev=iteration)
                     result = minner.minimize()
                     t1=result.params['decay'].value
                     magn=result.params['amp'].value
@@ -122,7 +122,7 @@ class T2Map_LevenbergM():
                     params.add('amp', value=max)
                     params.add('decay', value=t2)
                     params.add('shift', value=1.0)
-                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc[offset_time:]),maxfev=iteration)
+                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc[offset_time:]),max_nfev=iteration)
                     result = minner.minimize()
                     t2=result.params['decay'].value
                     magn=result.params['amp'].value
@@ -208,7 +208,7 @@ class TIMap_LevenbergM():
                     params.add('amp', value=max)
                     params.add('decay', value=ti)
                     params.add('shift', value=1.0)
-                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc),maxfev=iteration)
+                    minner = Minimizer( _fcn2min, params, fcn_args=(self.listEcho,dataproc),max_nfev=iteration)
                     result = minner.minimize()
                     ti=result.params['decay'].value
                     magn=result.params['amp'].value

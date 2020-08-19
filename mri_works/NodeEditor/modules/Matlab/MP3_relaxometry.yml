@@ -1,10 +1,18 @@
-Module_T2map:
-  folder_out: 'path'
-  flag_test: True
+MP3_T2map:
   threshold: 5.0
   output_filename_ext: 'T2map'
-  OutputSequenceName: 'AllName'
-  RefInput: 1
-  InputToReshape: 1
-  Table_in: [0.0]
-  Table_out: [0.0]
+
+MP3_DeltaR2:
+  NbEchoUsed: 3
+  Output_orientation: enumerate(('First input','Second input'))
+
+MP3_T1map_MultiAngles:
+  threshold: 5.0
+  output_filename_ext: 'T1map'
+  
+MP3_MGE2Dfrom3D:
+  first_slice: 4
+  number_of_slices: 4
+  echo_to_trash: 'end'
+  OutputResolution: '128'
+  output_filename_ext: 'MGE2Dfrom3D'

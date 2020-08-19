@@ -469,12 +469,20 @@ class Menu(QMenuBar):
             f = open(tmpActText, 'r')
             txt = f.readlines()
             f.close()
-            LoadDiagram(txt)
-            editor.diagramView[editor.currentTab].fitInView(
-                editor.diagramScene[editor.currentTab].sceneRect(),
-                QtCore.Qt.KeepAspectRatio)
-            editor.diagramView[editor.currentTab].scale(0.8, 0.8)
-            UpdateUndoRedo()
+            try:
+            	LoadDiagram(txt)
+            	editor.diagramView[editor.currentTab].fitInView(
+                					editor.diagramScene[editor.currentTab].sceneRect(),
+                					QtCore.Qt.KeepAspectRatio)
+            	editor.diagramView[editor.currentTab].scale(0.8, 0.8)
+            	UpdateUndoRedo()
+            	textEdit.clear()
+            except Exception as e:
+               redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
+               redText = redText + ('This diagram contains errors !')
+               redText = redText + ("</span>")
+               textEdit.clear()
+               textEdit.append(redText)
 
 
 class ShowLegend:
