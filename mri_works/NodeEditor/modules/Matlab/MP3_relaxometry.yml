@@ -1,5 +1,5 @@
 MP3_T2map:
-  threshold: 5.0 # the threshold in %
+  threshold: 5.0  # the threshold in %
   output_filename_ext: 'T2map' # default name for output file
 
 MP3_DeltaR2:
