@@ -2077,15 +2077,15 @@ class ProcessItem():
                                         listValDefault = (*listValDefault, self.dicts[name][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, eval(self.dicts[name][el]))
+                                            listValDefault = (*listValDefault, str(eval(self.dicts[name][el])))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, self.dicts[name][el])
+                                            listValDefault = (*listValDefault, str(self.dicts[name][el]))
                                 else:
                                     try:
                                         listValDefault = (*listValDefault, eval(self.dicts[name][el]))
                                     except Exception as e:
                                         listValDefault = (*listValDefault, self.dicts[name][el])
-
+        
         ###############################################################################
         newVal = []
         if inout[0][1]:
@@ -2227,10 +2227,12 @@ class BlockCreate(QGraphicsRectItem):
         i = 0
         if self.listValIn:
             for i, j in enumerate(self.listValIn):
-                try:
-                    typ = DefinitType(eval(j)).returntype()
-                except Exception as e:
-                    typ = DefinitType(j).returntype()
+                typ='str'
+                if type(j).__name__ not in 'str' or j == 'path':
+                    try:
+                        typ = DefinitType(eval(j)).returntype()
+                    except Exception as e:
+                        typ = DefinitType(j).returntype()
 
                 portIn = Port(self.inout[0][0][i], 'in', typ, self.unit, True, self.isMod, 4, -16, self)
                 self.inputs.append(portIn)
