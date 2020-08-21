@@ -2228,7 +2228,7 @@ class BlockCreate(QGraphicsRectItem):
         if self.listValIn:
             for i, j in enumerate(self.listValIn):
                 typ='str'
-                if type(j).__name__ not in 'str' or j == 'path':
+                if type(j).__name__ not in 'str' or j == 'path' or 'enumerate' in j:
                     try:
                         typ = DefinitType(eval(j)).returntype()
                     except Exception as e:

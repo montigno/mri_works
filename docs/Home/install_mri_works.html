@@ -33,7 +33,7 @@
 			<b>venv</b> will allow to create an isolated Python environment (Python 3.6 or 3.7). It will create a folder wich will contain all the necessay executables to use the packages that a Python project would need.<br><br>
 			- open terminal and type :
 			<pre class="console" style="width:500px;">sudo apt install -y python3-venv</pre>
-			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">cd ~</pre>
 			<pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre> 
 			</div><hr>
 
@@ -55,7 +55,7 @@
 		
         <h2 id="config"><font color="blue">4 - Configuration</font></h2>
 			<div>
-			<pre class="console" style="width:500px;">cd</pre>
+			<pre class="console" style="width:500px;">cd ~</pre>
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
 			- add the following lines at the end of your .bashrc file
 			<pre class="bashrc" style="width:900px;">#mri_works<br>alias mri_works='source ~/Apps/python_env/bin/activate; cd ~/Apps/python_env/mri_works; python3 mri_works.py; deactivate'</pre>
@@ -85,7 +85,7 @@
        		<pre class="console" style="width:500px;">cd /usr/local/MATLAB/R2020a/extern/engines/python</pre>
 			- launch the setup : 
       		<pre class="console" style="width:500px;">python3 setup.py build --build-base ~/Apps/python_env/build install</pre>
-      		<pre class="console" style="width:500px;">exit</pre>
+      		<pre class="console" style="width:500px;">exit</pre><br>
 			</div><hr>
 
     </div>

@@ -147,6 +147,13 @@ ListOfInt:
    functionality: Create a list of integer number 0 to n-1.
    n: (integer) an integer number
    serie_int: (list of integer) a list of integer number 0 to n-1
+   
+MP3_T2map:
+  functionality: Create a T2 map from a multi-echo time data.
+  mat_eng: (str) functions of a called MATLAB (used with 'start_matlab' brick)
+  file_in: (path) path of your Nifti file (with JSON)
+  file_out: (path) recording Nifti file path (a JSON file with the same name will also be created)
+  dependencies: Matlab engine
 
 NlargestInArray:
    functionality: Check the n largest value in array input.

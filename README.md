@@ -36,8 +36,14 @@ mri_works is open source and is released under the [CeCILL-b software license](h
 
 # Release history
 
+	21/08/2020 : Version 20.08.21a
+	- MP3 modules integration
+	- continued block documentation
+
+<p></p>
+
 	13/08/2020 : Version 20.08.13a
-	- mri_works integrated into in a virtual environment (venv)
+	- mri_works install into a virtual environment (venv)
 	- compatibility with MATLAB engine
 	- continued block documentation
 
