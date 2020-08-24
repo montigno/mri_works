@@ -1,0 +1,16 @@
+MP3_CMRO2:
+  Ca: 20.43
+  Output_orientation: enumerate(('First input','Second input'))
+  output_filename: 'CMRO2'
+  
+MP3_R2Prim:
+  Output_orientation: enumerate(('First input','Second input'))
+  output_filename: 'R2Prim'
+  
+MP3_SO2:
+  B0: 4.7
+  deltaxi_HBC: 0.264
+  HCT: 0.375
+  Output_orientation: enumerate(('First input','Second input'))
+  output_filename: 'SO2'
+ 

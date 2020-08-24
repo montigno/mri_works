@@ -53,7 +53,6 @@ class DispNifti():
 #         self.imageLabel.adjustSize()
 #         self.imageLabel.resize(self.scaleFactor * self.imageLabel.pixmap().size())
         
-
         
     def navigImage(self):
         self.indexImage()

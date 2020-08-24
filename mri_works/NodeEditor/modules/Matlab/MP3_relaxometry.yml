@@ -14,7 +14,7 @@ MP3_MGE2Dfrom3D:
   first_slice: 4 #
   number_of_slices: 4
   echo_to_trash: 'end'
-  OutputResolution: '128'
+  OutputResolution: enumerate(('64', '128', '256'))
   output_filename_ext: 'MGE2Dfrom3D'
   
 MP3_T1map_MIT:
