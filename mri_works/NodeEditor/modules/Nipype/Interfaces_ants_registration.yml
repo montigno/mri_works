@@ -1,0 +1,57 @@
+ants_MeasureImageSimilarity:
+  args: ''
+  dimension: 2
+  environ: {}
+  fixed_image_mask: 'path'
+  metric_weight: 1.0
+  moving_image_mask: 'path'
+  num_threads: 1
+  sampling_strategy: enumerate(('None', 'Regular', 'Random'))
+
+ants_Registration:
+  args: ''
+  collapse_output_transforms: True
+  convergence_threshold: [1.e-8, 1.e-9]
+  convergence_window_size: [10]
+  dimension: 2
+  environ: {}
+  fixed_image_mask: 'path'
+  fixed_image_masks: ['path']
+  float: False
+  initial_moving_transform: ['path']
+  initial_moving_transform_com: 0
+  initialize_transforms_per_stage: False
+  interpolation: enumerate(('Linear', 'NearestNeighbor', 'CosineWindowedSinc', 'WelchWindowedSinc', 'HammingWindowedSinc', 'LanczosWindowedSinc', 'BSpline', 'MultiLabel', 'Gaussian'))
+  interpolation_parameters: (1.0, 1.0)
+  invert_initial_moving_transform: [False, False]
+  metric_item_trait: enumerate(('CC', 'MeanSquares', 'Demons', 'GC', 'MI', 'Mattes'))
+  metric_stage_trait: enumerate(('CC', 'MeanSquares', 'Demons', 'GC', 'MI', 'Mattes'))
+  metric_weight_item_trait: 1.0
+  metric_weight_stage_trait: [0.0]
+  moving_image_mask: 'path'
+  moving_image_masks: ['path']
+  num_threads: 1
+  number_of_iterations: [[1500, 200], [100, 50, 30]]
+  output_inverse_warped_image: 'path'
+  output_transform_prefix: ''
+  output_warped_image: 'path'
+  radius_bins_item_trait: 5
+  radius_bins_stage_trait: [0]
+  radius_or_number_of_bins: [5]
+  restore_state: 'path'
+  restrict_deformation: [[0,1]]
+  sampling_percentage: [0.05, [0.05, 0.10]]
+  sampling_percentage_item_trait: 0.0
+  sampling_percentage_stage_trait: [0.0]
+  sampling_strategy: ['Random', None]
+  sampling_strategy_item_trait: enumerate(('None', 'Regular', 'Random'))
+  sampling_strategy_stage_trait: enumerate(('None', 'Regular', 'Random'))
+  save_state: 'path'
+  sigma_units: ['vox', 'mm']
+  transform_parameters: [(2.0,), (0.25, 26, 0, 3)]
+  use_estimate_learning_rate_once: [True, True]
+  use_histogram_matching: [True, True]
+  verbose: False
+  winsorize_lower_quantile: 0.0
+  winsorize_upper_quantile: 1.0
+  write_composite_transform: False

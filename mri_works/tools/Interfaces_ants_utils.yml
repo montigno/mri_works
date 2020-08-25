@@ -1,0 +1,86 @@
+ants_AI:
+  args: {}
+  convergence: {}
+  dimension: {}
+  environ: {}
+  fixed_image_mask: {}
+  moving_image_mask: {}
+  num_threads: {}
+  output_transform: {}
+  principal_axes: {}
+  search_factor: {}
+  search_grid: {}
+  transform: {}
+  verbose: {}
+ants_AffineInitializer:
+  args: {}
+  dimension: {}
+  environ: {}
+  local_search: {}
+  num_threads: {}
+  out_file: {}
+  principal_axes: {}
+  radian_fraction: {}
+  search_factor: {}
+ants_AverageAffineTransform:
+  args: {}
+  environ: {}
+  num_threads: {}
+ants_AverageImages:
+  args: {}
+  environ: {}
+  num_threads: {}
+  output_average_image: {}
+ants_ComposeMultiTransform:
+  args: {}
+  dimension: {}
+  environ: {}
+  num_threads: {}
+  output_transform: {}
+  reference_image: {}
+ants_CreateJacobianDeterminantImage:
+  args: {}
+  doLogJacobian: {}
+  environ: {}
+  num_threads: {}
+  useGeometric: {}
+ants_ImageMath:
+  args: {}
+  copy_header: {}
+  dimension: {}
+  environ: {}
+  num_threads: {}
+  op2: {}
+  output_image: {}
+ants_LabelGeometry:
+  args: {}
+  dimension: {}
+  environ: {}
+  num_threads: {}
+  output_file: {}
+ants_MultiplyImages:
+  args: {}
+  environ: {}
+  num_threads: {}
+ants_ResampleImageBySpacing:
+  addvox: {}
+  apply_smoothing: {}
+  args: {}
+  dimension: {}
+  environ: {}
+  nn_interp: {}
+  num_threads: {}
+  output_image: {}
+ants_ThresholdImage:
+  args: {}
+  dimension: {}
+  environ: {}
+  input_mask: {}
+  inside_value: {}
+  mode: {}
+  num_threads: {}
+  num_thresholds: {}
+  output_image: {}
+  outside_value: {}
+  th_high: {}
+  th_low: {}

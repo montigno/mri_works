@@ -1,0 +1,46 @@
+ants_ApplyTransforms:
+  args: {}
+  default_value: {}
+  dimension: {}
+  environ: {}
+  float: {}
+  input_image_type: {}
+  interpolation: {}
+  interpolation_parameters: {}
+  invert_transform_flags: {}
+  num_threads: {}
+  out_postfix: {}
+  output_image: {}
+  print_out_composite_warp_file: {}
+ants_ApplyTransformsToPoints:
+  args: {}
+  dimension: {}
+  environ: {}
+  invert_transform_flags: {}
+  num_threads: {}
+  output_file: {}
+ants_WarpImageMultiTransform:
+  args: {}
+  dimension: {}
+  environ: {}
+  invert_affine: {}
+  num_threads: {}
+  out_postfix: {}
+  output_image: {}
+  reference_image: {}
+  reslice_by_header: {}
+  tightest_box: {}
+  use_bspline: {}
+  use_nearest: {}
+ants_WarpTimeSeriesImageMultiTransform:
+  args: {}
+  dimension: {}
+  environ: {}
+  invert_affine: {}
+  num_threads: {}
+  out_postfix: {}
+  reference_image: {}
+  reslice_by_header: {}
+  tightest_box: {}
+  use_bspline: {}
+  use_nearest: {}
