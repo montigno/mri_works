@@ -5,7 +5,7 @@
 	<meta charset="utf-8"/>
 	<meta name = "author" content = "Olivier MONTIGON">
 	<meta name = "description"	content = "mri_works">
-	<title>mri_works documentation (IRMaGe)</title>
+	<title>mri_works (IRMaGe)</title>
 	<link rel="stylesheet" media="screen" type="text/css" href="../styles.css">
 	<script src="../datemodif.js"></script>
 	<script src="../buttontop.js"></script>
@@ -32,9 +32,9 @@
 			<div>
 			<b>venv</b> will allow to create an isolated Python environment (Python 3.6 or 3.7). It will create a folder wich will contain all the necessay executables to use the packages that a Python project would need.<br><br>
 			- open terminal and type :
-			<pre class="console" style="width:500px;">sudo apt install -y python3-venv</pre>
-			<pre class="console" style="width:500px;">cd ~</pre>
-			<pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre> 
+			<table><tbody><tr><td><pre class="console" style="width:500px;">sudo apt install -y python3-venv</pre></td><td>(install <i>venv</i> package)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ~</pre><td>(go to your home)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">python3.6 -m venv Apps/python_env</pre><td>(create the directory where mri_works will be installed)</td></tr></tbody></table> 
 			</div><hr>
 
 		<h2 id="dwnl"><font color="blue">2 - Download mri_works</font></h2>
@@ -45,12 +45,10 @@
 
 		<h2 id="package"><font color="blue">3 - Package installation</font></h2>
 			<div> 
-			<pre class="console" style="width:500px;">cd ~/Apps/python_env/</pre>
-			- activate venv:
-			<pre class="console" style="width:500px;">source bin/activate</pre>
-			- install package:
-			<pre class="console" style="width:500px;">cd mri_works</pre>
-			<pre class="console" style="width:500px;">python3 setup.py</pre>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ~/Apps/python_env/</pre></td><td>(go to the new virtual directory)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">source bin/activate</pre></td><td>(activate the virtual machine)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">cd mri_works</pre></td><td>(go to the mri_works directory)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">python3 setup.py</pre></td><td>(install all necessary packages)</td></tr></tbody></table>
 			</div><hr>
 		
         <h2 id="config"><font color="blue">4 - Configuration</font></h2>
