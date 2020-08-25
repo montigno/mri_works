@@ -2663,7 +2663,8 @@ class BlockCreate(QGraphicsRectItem):
                         break
                 bm = BlockCreate(self.name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
                 TreeLibrary().showModel(bm, '')
-
+        
+        event.accept()
 #         if event.button() == 1 and event.modifiers() == Qt.ControlModifier:
 #             editor.blockSelection(self)
 #         return QGraphicsRectItem.mousePressEvent(self, event)

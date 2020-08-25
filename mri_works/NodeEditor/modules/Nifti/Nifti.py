@@ -11,6 +11,7 @@ class Open_Nifti:
             img =  nib.load(fileSource)
             self.img = img.get_fdata()
             self.dim = len(img.shape)
+            self.pxd = img.header._structarr['pixdim']
         else:
             print('no Nifti file')
     
@@ -19,6 +20,9 @@ class Open_Nifti:
     
     def dim(self:'int'): 
         return self.dim
+    
+    def pixdim(self:'list_float'):
+        return self.pxd
              
     def filePath(self:'path'):
         return self.fileSource
@@ -26,9 +30,21 @@ class Open_Nifti:
 ##############################################################################
 
 class DisplayNifti:
+    def __init__(self,image='path', title=''):
+        from NodeEditor.modules.Nifti.sources.DispNifti import DispNifti
+        Niftifile = Open_Nifti(image)
+        print('NiftitiFile : ', Niftifile)
+        pixdim = Niftifile.pixdim()[1:4]
+        print('pixdim : ', pixdim)
+        self.wid = DispNifti(Niftifile.image(), pixdim, title)
+        self.wid.getDialog().exec_()
+        
+##############################################################################
+
+class DisplayImage:
     def __init__(self,image=[[0.0]],title=''):
         from NodeEditor.modules.Nifti.sources.DispNifti import DispNifti
-        self.wid = DispNifti(image,title)
+        self.wid = DispNifti(image,[1.0,1.0],title)
         self.wid.getDialog().exec_()
         
 ###############################################################################

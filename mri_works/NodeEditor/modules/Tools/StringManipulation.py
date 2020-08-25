@@ -105,5 +105,14 @@ class string_index_subarray:
         
     def out_subarray(self:'array_str'):
         return self.res
+    
+###############################################################################
+
+class string_index_sublist:
+    def __init__(self, in_string_list=[''], index_start=0, index_end=1):
+        self.res = in_string_list  [index_start:index_end]
+        
+    def out_subarray(self:'list_str'):
+        return self.res
             
             
