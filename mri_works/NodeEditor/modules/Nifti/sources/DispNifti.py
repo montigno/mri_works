@@ -13,7 +13,7 @@ class DispNifti():
     def __init__(self, img, pixdim=(1.0, 1.0), title='', parent=None):
         
         self.dia = QDialog()
-        self.scaleFactor = 3
+        self.scaleFactor = 2
               
         self.img = img
         self.dim = len(img.shape)
@@ -60,7 +60,7 @@ class DispNifti():
         self.verticalLayout.addWidget(self.layoutSlide)
          
         self.dia.setWindowTitle(title)
-        self.dia.resize(self.w * self.scaleFactor, self.h * self.scaleFactor)
+        self.dia.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
 #         self.dia.resize(self.w, self.h)
         self.dia.setLayout(self.verticalLayout)
 
@@ -174,6 +174,7 @@ class DispNifti():
     def createFieldValue(self):
         fieldValue = QLineEdit()
         fieldValue.setEnabled(False)
+        fieldValue.setFixedWidth(80)
         fieldValue.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         return fieldValue
      

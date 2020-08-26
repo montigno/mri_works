@@ -33,9 +33,7 @@ class DisplayNifti:
     def __init__(self,image='path', title=''):
         from NodeEditor.modules.Nifti.sources.DispNifti import DispNifti
         Niftifile = Open_Nifti(image)
-        print('NiftitiFile : ', Niftifile)
         pixdim = Niftifile.pixdim()[1:4]
-        print('pixdim : ', pixdim)
         self.wid = DispNifti(Niftifile.image(), pixdim, title)
         self.wid.getDialog().exec_()
         
