@@ -1,4 +1,5 @@
 class ants_AntsJointFusion():
+
     def __init__(self, atlas_segmentation_image=['path', 'path'],
                  atlas_image=[['path']], target_image=['path'], **options):
         from nipype.interfaces.ants import AntsJointFusion
@@ -25,28 +26,8 @@ class ants_AntsJointFusion():
 ###############################################################################
 
 
-class ants_N4BiasFieldCorrection():
-    def __init__(self, input_image='path', save_bias=False,
-                 copy_header=False, **options):
-        from nipype.interfaces.ants import N4BiasFieldCorrection
-        n4 = N4BiasFieldCorrection()
-        n4.inputs.input_image = input_image
-        n4.inputs.save_bias = save_bias
-        n4.inputs.copy_header = copy_header
-        for ef in options:
-            setattr(n4.inputs, ef, options[ef])
-        self.res = n4.run()
-
-    def output_image(self: 'path'):
-        return self.res.outputs.output_image
-
-    def bias_image(self: 'path'):
-        return self.res.outputs.bias_image
-
-##########################################################################################
-
-
 class ants_BrainExtraction():
+
     def __init__(self, anatomical_image='path', brain_template='path',
                  brain_probability_mask='path', **options):
         from nipype.interfaces.ants.segmentation import BrainExtraction
@@ -111,3 +92,51 @@ class ants_BrainExtraction():
 
     def N4Truncated0(self: 'path'):
         return self.res.outputs.N4Truncated0
+    
+##############################################################################
+
+
+class ants_JointFusion():
+
+    def __init__(self, warped_label_images=['path'], warped_intensity_images=['path'],
+                       output_label_image='path', target_image=['path'],
+                       modalities=1, dimension=3, **options):
+        
+        from nipype.interfaces.ants import JointFusion
+        at = JointFusion()
+        at.inputs.warped_label_images = warped_label_images
+        at.inputs.warped_intensity_images = warped_intensity_images
+        at.inputs.output_label_image = output_label_image
+        at.inputs.target_image = target_image
+        at.inputs.modalities = modalities
+        at.inputs.dimension = dimension
+        for ef in options:
+            setattr(at.inputs, ef, options[ef])
+        self.res = at.run()
+        
+    def output_label_image(self:'path'):
+        return self.res.outputs.output_label_image
+
+##############################################################################
+
+
+class ants_N4BiasFieldCorrection():
+
+    def __init__(self, input_image='path', save_bias=False,
+                 copy_header=False, **options):
+        from nipype.interfaces.ants import N4BiasFieldCorrection
+        n4 = N4BiasFieldCorrection()
+        n4.inputs.input_image = input_image
+        n4.inputs.save_bias = save_bias
+        n4.inputs.copy_header = copy_header
+        for ef in options:
+            setattr(n4.inputs, ef, options[ef])
+        self.res = n4.run()
+
+    def output_image(self: 'path'):
+        return self.res.outputs.output_image
+
+    def bias_image(self: 'path'):
+        return self.res.outputs.bias_image
+
+##############################################################################

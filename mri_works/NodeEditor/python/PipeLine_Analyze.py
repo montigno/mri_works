@@ -68,8 +68,8 @@ class analyze:
                             listBlockStop.append(c)
                         elif 'out' not in d:
                             listBlockStop.append(c)
-                # else:
-                #     listBlockStart.append(c)
+                else:
+                    listBlockStart.append(c)
 
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)

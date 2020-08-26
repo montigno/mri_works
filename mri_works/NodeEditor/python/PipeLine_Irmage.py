@@ -5572,7 +5572,7 @@ class Port(QGraphicsRectItem):
             if self.typeio == 'out':
                 cp = menu.addAction('add Print block for this port')
                 cp.triggered.connect(self.addPrint)
-            elif 'list' not in self.format and 'array' not in self.format:
+            elif 'list' not in self.format and 'array' not in self.format and 'dict' not in self.format:
                 yet = False
                 for key, val in listNodes[editor.currentTab].items():
                     tmpVal = val[val.index("#Node#")+6:]

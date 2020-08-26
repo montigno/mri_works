@@ -19,6 +19,30 @@ ants_AntsJointFusion:
   retain_label_posterior_images: False
   beta: 2.0
   args: ''
+ants_BrainExtraction:
+  dimension: 3
+  out_prefix: 'highres001'
+  extraction_registration_mask: 'path'
+  image_suffix: 'nii.gz'
+  use_random_seeding: 1
+  keep_temporary_files: 0
+  use_floatingpoint_precision: 0
+  debug: False
+  num_threads: 1
+  args: ''
+  environ: {}
+ants_JointFusion:
+  atlas_group_weights: [0]
+  exclusion_region: 'path'
+  alpha: 0.0
+  atlas_group_id: [0]
+  num_threads: 1
+  beta: 0
+  search_radius: [0]
+  patch_radius: [0]
+  environ: {}
+  method: ''
+  args: ''
 ants_N4BiasFieldCorrection:
   dimension: 3
   mask_image: 'path'
@@ -30,18 +54,6 @@ ants_N4BiasFieldCorrection:
   n_iterations: [0]
   convergence_threshold: 0.0
   bias_image: 'path'
-  num_threads: 1
-  args: ''
-  environ: {}
-ants_BrainExtraction:
-  dimension: 3
-  out_prefix: 'highres001'
-  extraction_registration_mask: 'path'
-  image_suffix: 'nii.gz'
-  use_random_seeding: 1
-  keep_temporary_files: 0
-  use_floatingpoint_precision: 0
-  debug: False
   num_threads: 1
   args: ''
   environ: {}

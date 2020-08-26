@@ -27,7 +27,10 @@ class executionScript:
             az = lst.split(':')
             code += 'self.listDynamicValueToReturn["'+lst+'"]='+az[1]+'\n'
 #         print(code)
-        exec(code)
+        try:
+            exec(code)
+        except Exception as e:
+            print("Script error: {0}".format(e))
 
     def getOutValues(self):
         return self.listDynamicValueToReturn
