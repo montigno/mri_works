@@ -112,7 +112,7 @@ class execution:
                         tmp1 += ln + '\n'
                     elif i > 6:
                         break
-                listIfExecution[ls+'-true'] = tmp1
+                listIfExecution[ls + '-true'] = tmp1
                 tmp = txt[txt.index('[loopif ' + ls + ' False'):len(txt)]
                 tmp1 = ''
                 for i, ln in enumerate(tmp.splitlines()):
@@ -120,11 +120,11 @@ class execution:
                         tmp1 += ln + '\n'
                     elif i > 6:
                         break
-                listIfExecution[ls+'-false'] = tmp1
+                listIfExecution[ls + '-false'] = tmp1
             
             elif 'S' in ls:
-                tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
-                tmp = tmp[tmp.index('\n')+1:]
+                tmp = txt[txt.index('[source ' + ls):txt.index('[/source ' + ls)]
+                tmp = tmp[tmp.index('\n') + 1:]
                 listScriptExecution[ls] = tmp
         
         listNodeValue = list(set(listOut))
@@ -153,11 +153,11 @@ class execution:
                 textEditor.append("<span style=\" \
                                   font-size:8pt; \
                                   font-weight:600; \
-                                  color:#006600;\" >[" +
-                                  ' , '.join(listInThread) +
+                                  color:#006600;\" >[" + 
+                                  ' , '.join(listInThread) + 
                                   "] --- time : %.2f seconds ---"
                                   % (time.time() - start_bb) + "</span>")
-                # print("thread lisdynamicvalue",self.listDynamicValue.keys())
+#                 print("thread lisdynamicvalue", self.listDynamicValue.keys())
             else:
                 self.progress.setValue(i)
                 i += 100 / n
@@ -169,7 +169,7 @@ class execution:
                     'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
-                module = importlib.import_module('NodeEditor.modules.' +
+                module = importlib.import_module('NodeEditor.modules.' + 
                                                  category)
                 MyClass = getattr(module, classes)
                 tmp = eval(listBlock[execution][2])
@@ -201,6 +201,7 @@ class execution:
 #                     gc.collect()
                     try:
                         list3 = dict(zip(Enters, tmp[1]))
+#                         print('list3 = ',list3)
                         if threadcurrent:
                             threads.append(ThreadClass(MyClass, list3, outUnit))
                             listInThread.append(execution)
@@ -210,10 +211,10 @@ class execution:
                             textEditor.append("<span style=\" \
                                               font-size:8pt; \
                                               font-weight:600; \
-                                              color:#006600;\" >" +
-                                              execution +
+                                              color:#006600;\" >" + 
+                                              execution + 
                                               " --- time : %.2f seconds ---"
-                                              % (time.time() - start_bb) +
+                                              % (time.time() - start_bb) + 
                                               "</span>")
                     except Exception as e:
                         textEditor.append("<span style=\" \
@@ -221,8 +222,8 @@ class execution:
                                           font-weight:600; \
                                           color:#cc0000;\" \
                                           > Pipeline Execution \
-                                          stopped <br>" +
-                                          execution + ' : ' + str(e) +
+                                          stopped <br>" + 
+                                          execution + ' : ' + str(e) + 
                                           "</span>")
                         return
                 if not threadcurrent:
@@ -234,12 +235,18 @@ class execution:
                                 self.listDynamicValue[lsi] = value()
                             except Exception as e:
                                 self.listDynamicValue[lsi] = value
+                                
+#                 print('list3 & outUnit : ', list3,' , ',outUnit)
 
             elif 'M' in execution:
                 self.listDynamicValueSub = {}
                 txtCurrentSubmod = listModExecution[execution].splitlines()[0]
                 txtCurrentSubmod = txtCurrentSubmod.replace('\\', '\\\\')
                 txtCurrentSubmod = txtCurrentSubmod[2:len(txtCurrentSubmod) - 2]
+                outUnit = []
+                for lsi in listNodeValue:
+                    if execution + ':' in lsi:
+                        outUnit.append(lsi)
                 for li in txtCurrentSubmod.split("\', \'"):
                     st = li[0:li.index('=')]
                     ed = li[li.index('=') + 1:len(li)]
@@ -250,28 +257,35 @@ class execution:
                             self.listDynamicValueSub[st] = eval(ed)
                         except Exception as e:
                             self.listDynamicValueSub[st] = ed
+
                 try:
-                    a = executionSubmod(listModExecution[execution],
+                    if threadcurrent:
+                        threads.append(ThreadSubMod(listModExecution[execution],
+                                        self.listDynamicValueSub,
+                                        listModul[execution]))
+                        listInThread.append(execution)
+                    else:
+                        a = executionSubmod(listModExecution[execution],
                                         self.listDynamicValueSub,
                                         textEditor,
                                         listModul[execution])
-                    start_sum += (time.time() - start_bb)
-                    textEditor.append("<span style=\" \
+                        start_sum += (time.time() - start_bb)
+                        textEditor.append("<span style=\" \
                                       font-size:8pt; \
                                       font-weight:600; \
-                                      color:#006600;\" >" +
-                                      execution +
+                                      color:#006600;\" >" + 
+                                      execution + 
                                       " --- time : %.2f seconds ---"
                                       % (time.time() - start_bb) + "</span>")
-                    for uj in a.getOutValues().keys():
-                        self.listDynamicValue[uj] = a.getOutValues()[uj]
+                        for uj in a.getOutValues().keys():
+                            self.listDynamicValue[uj] = a.getOutValues()[uj]
                 except Exception as e:
                     textEditor.append("<span style=\" \
                                       font-size:10pt; \
                                       font-weight:600; \
                                       color:#cc0000;\" \
                                       > Pipeline Execution \
-                                      SubMod stopped <br>" +
+                                      SubMod stopped <br>" + 
                                       execution + ' : ' + str(e) + "</span>")
                     return
 
@@ -305,7 +319,7 @@ class execution:
                     if 'm' in execution:  # multiprocessing LoopFor
                         executionFor_proc(listForExecution[execution],
                                           self.listDynamicValueFor,
-                                          txt,'*' in execution)
+                                          txt, '*' in execution)
                     else:
                         a = executionFor(listForExecution[execution],
                                          self.listDynamicValueFor,
@@ -318,8 +332,8 @@ class execution:
                     textEditor.append("<span style=\" \
                                       font-size:8pt; \
                                       font-weight:600; \
-                                      color:#006600;\" >" +
-                                      execution +
+                                      color:#006600;\" >" + 
+                                      execution + 
                                       " --- time : %.2f seconds ---"
                                       % (time.time() - start_bb) + "</span>")
 
@@ -328,22 +342,22 @@ class execution:
                                       font-size:10pt; \
                                       font-weight:600; \
                                       color:#cc0000;\" \
-                                      > Pipeline Execution " +
-                                      execution +
-                                      " stopped <br>" +
-                                      execution + ' : ' +
+                                      > Pipeline Execution " + 
+                                      execution + 
+                                      " stopped <br>" + 
+                                      execution + ' : ' + 
                                       str(e) + "</span>")
                     return
 
             elif 'I' in execution:
                 self.listDynamicValueIf = {}
-                txtIf = listIfExecution[execution+'-true']
+                txtIf = listIfExecution[execution + '-true']
                 txtCurrentIf = txtIf.splitlines()[0]
                 txtCurrentIf = txtCurrentIf.replace('\\', '\\\\')
                 txtCurrentIf = eval(txtCurrentIf)
                 for indif in txtCurrentIf:
-                    if execution+':val' in indif:
-                        tmpVal = indif[indif.index('=')+1:]
+                    if execution + ':val' in indif:
+                        tmpVal = indif[indif.index('=') + 1:]
                         try:
                             tmpVal = eval(tmpVal)
                         except Exception as e:
@@ -362,18 +376,18 @@ class execution:
 
                 try:
                     if not tmpVal:
-                        txtIf = listIfExecution[execution+'-false']
+                        txtIf = listIfExecution[execution + '-false']
                 except Exception as e:
                     pass
                 try:
                     if not self.listDynamicValue[tmpVal]:
-                        txtIf = listIfExecution[execution+'-false']
+                        txtIf = listIfExecution[execution + '-false']
                 except Exception as e:
                     pass
 
                 tmpMod = eval(txtIf.split('\n')[4]).keys()
                 for mod in tmpMod:
-                    tmp = txt[txt.index('[submod '+mod):len(txt)]
+                    tmp = txt[txt.index('[submod ' + mod):len(txt)]
                     tmp1 = ''
                     for i, ln in enumerate(tmp.splitlines()):
                         if i < 7:
@@ -384,7 +398,7 @@ class execution:
     
                 for ls in eval(txtIf.splitlines()[1]):
                     if 'S' in ls:
-                        tmp2 = txt[txt.index('[source '+ls):txt.index('[/source '+ls)+10+len(ls)]
+                        tmp2 = txt[txt.index('[source ' + ls):txt.index('[/source ' + ls) + 10 + len(ls)]
                         txtIf += '\n' + tmp2
                         
                 a = executionSubmod(txtIf,
@@ -395,21 +409,21 @@ class execution:
                 textEditor.append("<span style=\" \
                                       font-size:8pt; \
                                       font-weight:600; \
-                                      color:#006600;\" >" +
-                                      execution +
+                                      color:#006600;\" >" + 
+                                      execution + 
                                       " --- time : %.2f seconds ---"
                                       % (time.time() - start_bb) + "</span>")
                 for uj in a.getOutValues().keys():
                     self.listDynamicValue[uj] = a.getOutValues()[uj]
                     
             elif 'S' in execution:
-                a = executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor )
+                a = executionScript(listScriptExecution[execution], self.listDynamicValue, textEditor)
                 start_sum += (time.time() - start_bb)
                 textEditor.append("<span style=\" \
                                       font-size:8pt; \
                                       font-weight:600; \
-                                      color:#006600;\" >" +
-                                      execution +
+                                      color:#006600;\" >" + 
+                                      execution + 
                                       " --- time : %.2f seconds ---"
                                       % (time.time() - start_bb) + "</span>")
                 for uj in a.getOutValues().keys():
@@ -442,7 +456,7 @@ class execution:
                           color:#0000CC;\" \
                           >Pipeline finished ! \
                           --- Total time : %s seconds ---"
-                          % (time.time() - start) +
+                          % (time.time() - start) + 
                           " : " + str(start_sum) + "</span>")
         
         gc.collect()
@@ -476,3 +490,25 @@ class ThreadClass(threading.Thread):
     def join(self, *args):
         threading.Thread.join(self, *args)
         return self._return
+
+    
+class ThreadSubMod(threading.Thread):
+
+    def __init__(self, listModExc, listDynVal, listModul):
+        threading.Thread.__init__(self)
+        self.listModExc = listModExc
+        self.listDynVal = listDynVal
+        self.listModul = listModul
+        
+    def run(self):
+        self._return = {}
+        a = executionSubmod(self.listModExc,
+                            self.listDynVal,
+                            None,
+                            self.listModul)
+        for el in a.getOutValues().keys():
+            self._return[el] = a.getOutValues()[el]
+        
+    def join(self, *args):
+        threading.Thread.join(self, *args)
+        return self._return    

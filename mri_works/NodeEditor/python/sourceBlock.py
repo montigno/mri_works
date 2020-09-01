@@ -12,6 +12,7 @@ import inspect
 import sys
 from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialog, QScrollArea
 from PyQt5.QtGui import QFont
+from PyQt5.Qt import Qt
 
 
 class seeCode(QDialog):
@@ -38,6 +39,7 @@ class seeCode(QDialog):
         font = QFont("Times", 11, QFont.Bold)
         label = QLabel(src)
         label.setFont(font)
+        label.setTextInteractionFlags(Qt.TextSelectableByMouse)
 
         scroll = QScrollArea()
         # Set to make the inner widget resize with scroll area

@@ -4088,9 +4088,10 @@ class Constants_float(QDoubleSpinBox):
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('float', self.value(), self.lab)
         self.setReadOnly(True)
-
+        
     def focusInEvent(self, event):
         self.setReadOnly(False)
+
 
 ###############################################################################
 
@@ -5610,12 +5611,14 @@ class Port(QGraphicsRectItem):
                 ind = i
                 break
         listEnter = listBlocks[editor.currentTab][self.unit][2][0]
+        indx = listEnter.index(self.name)
+        val = listBlocks[editor.currentTab][self.unit][2][1][indx]
 
-        if 'int' in self.format:
-            val = 0
-        elif 'float' in self.format:
-            val = 0.0
-        elif 'enumerate' in self.format:
+#         if 'int' in self.format:
+#             val = 0
+#         elif 'float' in self.format:
+#             val = 0.0
+        if 'enumerate' in self.format:
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
                     try:
@@ -5623,12 +5626,12 @@ class Port(QGraphicsRectItem):
                     except Exception as e:
                         self.format = self.getEnumerateFromYml()
             val = self.format[11:self.format.index(',')]
-        elif 'str' in self.format:
-            val = 'your text'
-        elif 'path' in self.format:
-            val = 'path'
-        elif 'bool' in self.format:
-            val = True
+#         elif 'str' in self.format:
+#             val = 'your text'
+#         elif 'path' in self.format:
+#             val = 'path'
+#         elif 'bool' in self.format:
+#             val = True
         a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
@@ -5663,22 +5666,24 @@ class Port(QGraphicsRectItem):
                 ind = i
                 break
         listEnter = listSubMod[editor.currentTab][self.unit][1][0]
+        indx = listEnter.index(self.name)
+        val = listSubMod[editor.currentTab][self.unit][1][1][indx]
 
-        if 'int' in self.format:
-            val = 0
-        elif 'float' in self.format:
-            val = 0.0
-        elif 'enumerate' in self.format:
+#         if 'int' in self.format:
+#             val = 0
+#         elif 'float' in self.format:
+#             val = 0.0
+        if 'enumerate' in self.format:
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
                     self.format = libSubMod[ind][1][0][1][lst]
             val = self.format[11:self.format.index(',')]
-        elif 'str' in self.format:
-            val = 'your text'
-        elif 'path' in self.format:
-            val = 'path'
-        elif 'bool' in self.format:
-            val = True
+#         elif 'str' in self.format:
+#             val = 'your text'
+#         elif 'path' in self.format:
+#             val = 'path'
+#         elif 'bool' in self.format:
+#             val = True
         a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
@@ -6269,7 +6274,7 @@ class NodeEdit(QWidget):
         self.splitter1 = QSplitter(Qt.Vertical)
         self.splitter1.addWidget(self.tabLib)
         self.splitter1.addWidget(previewBlock)
-        self.splitter1.setSizes([400, 200])
+        self.splitter1.setSizes([400, 150])
 
         self.splitter2 = QSplitter(Qt.Horizontal)
         self.splitter2.addWidget(textEdit)
@@ -6284,7 +6289,7 @@ class NodeEdit(QWidget):
         self.splitter4 = QSplitter(Qt.Horizontal)
         self.splitter4.addWidget(self.splitter1)
         self.splitter4.addWidget(self.splitter3)
-        self.splitter4.setSizes([100, 600])
+        self.splitter4.setSizes([50, 800])
 
         self.verticalLayout.addWidget(self.menub)
         self.verticalLayout.addWidget(self.splitter4)
