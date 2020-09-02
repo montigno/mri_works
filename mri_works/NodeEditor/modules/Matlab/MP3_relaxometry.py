@@ -35,8 +35,9 @@ class MP3_DeltaR2():
 
     def file_out(self:'path'):
         return self.map
-    
+
 ##############################################################################
+
 
 class MP3_T1map_MultiAngles():
     def __init__(self, mat_eng='', file_in=['path'], file_out='path', **options):
@@ -54,8 +55,9 @@ class MP3_T1map_MultiAngles():
 
     def file_out(self:'path'):
         return self.map
-    
+
 ##############################################################################
+
 
 class MP3_MGE2Dfrom3D():
     def __init__(self, mat_eng='', file_in='path', file_out='path', **options):
@@ -76,6 +78,7 @@ class MP3_MGE2Dfrom3D():
 
 ##############################################################################
 
+
 class MP3_T1map_MIT():
     def __init__(self, mat_eng='', file_in='path', file_out='path', **options):
         import matlab.engine
@@ -95,6 +98,7 @@ class MP3_T1map_MIT():
 
 ##############################################################################
 
+
 class MP3_Slice_Sum():
     def __init__(self, mat_eng='', file_in='path', file_out='path', **options):
         import matlab.engine
@@ -111,4 +115,3 @@ class MP3_Slice_Sum():
 
     def file_out(self:'path'):
         return self.map
-        

@@ -41,11 +41,13 @@ class T1Map_LevenbergM():
                     result = minner.minimize()
                     t1=result.params['decay'].value
                     magn=result.params['amp'].value
+                    if t1 < 5000.0:
+                        t1 = -1.0
                 except:
-                    t1 = 0.0
+                    t1 = -1.0
                     magn = 0.0
             else:
-                t1 = 0.0
+                t1 = -1.0
                 magn = 0.0
             return t1, magn
            
@@ -67,18 +69,18 @@ class T1Map_LevenbergM():
         column=image.shape[1]
         if len(image.shape) == 4:
             slice=image.shape[2]
-            self.final=np.zeros((row,column,slice))
+            self.t1=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.final[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.t1[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
         else:
-            self.final=np.zeros((row,column))
+            self.t1=np.zeros((row,column))
             self.magn=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.final[j,k],self.magn[j,k]=_process(image[j,k])
+                self.t1[j,k],self.magn[j,k]=_process(image[j,k])
 
     def T1map(self:'array_float'):
-        return self.final
+        return self.t1
     
     def magnitude(self:'array_float'):
         return self.magn
@@ -126,11 +128,13 @@ class T2Map_LevenbergM():
                     result = minner.minimize()
                     t2=result.params['decay'].value
                     magn=result.params['amp'].value
+                    if t2 > 3500.5:
+                        t2 = -1
                 except:
-                    t2=0.0
+                    t2=-1.0
                     magn=0.0
             else:
-                t2=0.0
+                t2=-1.0
                 magn=0.0
             return t2, magn
        
@@ -152,18 +156,18 @@ class T2Map_LevenbergM():
         column=image.shape[1]
         if len(image.shape) == 4:
             slice=image.shape[2]
-            self.final=np.zeros((row,column,slice))
+            self.t2=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.final[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.t2[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
         else:
-            self.final=np.zeros((row,column))
+            self.t2=np.zeros((row,column))
             self.magn=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.final[j,k],self.magn[j,k]=_process(image[j,k])
+                self.t2[j,k],self.magn[j,k]=_process(image[j,k])
  
     def T2map(self:'array_float'):
-        return self.final
+        return self.t2
     
     def magnitude(self:'array_float'):
         return self.magn
@@ -237,18 +241,18 @@ class TIMap_LevenbergM():
         column=image.shape[1]
         if len(image.shape) == 4:
             slice=image.shape[2]
-            self.final=np.zeros((row,column,slice))
+            self.ti=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.final[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.ti[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
         else:
-            self.final=np.zeros((row,column))
+            self.ti=np.zeros((row,column))
             self.magn=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.final[j,k],self.magn[j,k]=_process(image[j,k])
+                self.ti[j,k],self.magn[j,k]=_process(image[j,k])
  
     def TImap(self:'array_float'):
-        return self.final
+        return self.ti
     
     def magnitude(self:'array_float'):
         return self.magn

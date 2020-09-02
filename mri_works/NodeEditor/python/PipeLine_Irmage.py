@@ -34,7 +34,7 @@ from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
     QPushButton, QScrollBar, QGraphicsProxyWidget, QGraphicsTextItem, QToolTip
-    
+
 from . import analyze
 from . import execution
 from . import editParam
@@ -53,7 +53,6 @@ from . import editCombobox
 from . import exportCapsul
 from Config import Config
 import NodeEditor.python.syntax
-
 
 currentpathwork = ''
 
@@ -124,8 +123,7 @@ class Menu(QMenuBar):
         if expl:
             pathExamples = os.path.dirname(os.path.realpath(__file__))
             pathExamples = dir_path = os.path.dirname(pathExamples)
-            pathExamples = os.path.join(pathExamples,
-                                    'examples')
+            pathExamples = os.path.join(pathExamples, 'examples')
             expl = sorted(expl)
             for lstD in expl:
                 self.exs = self.examples.addMenu(lstD)
@@ -293,8 +291,8 @@ class Menu(QMenuBar):
             txt_code = ''
             for keyS, valS in listTools[editor.currentTab].items():
                 if 'S' in keyS:
-                    tmpS = 'source '+keyS+']'
-                    txt_code += txt_raw[txt_raw.index('['+tmpS):txt_raw.index('[/'+tmpS)+len(tmpS)+2]+'\n'
+                    tmpS = 'source ' + keyS + ']'
+                    txt_code += txt_raw[txt_raw.index('[' + tmpS):txt_raw.index('[/' + tmpS) + len(tmpS) + 2] + '\n'
             if 'with Thread' in tmpActText:
                 txt = analyze(txt_raw, textEdit, True).\
                                 getListForExecution()
@@ -470,19 +468,19 @@ class Menu(QMenuBar):
             txt = f.readlines()
             f.close()
             try:
-            	LoadDiagram(txt)
-            	editor.diagramView[editor.currentTab].fitInView(
-                					editor.diagramScene[editor.currentTab].sceneRect(),
-                					QtCore.Qt.KeepAspectRatio)
-            	editor.diagramView[editor.currentTab].scale(0.8, 0.8)
-            	UpdateUndoRedo()
-            	textEdit.clear()
+                LoadDiagram(txt)
+                editor.diagramView[editor.currentTab].fitInView(
+                                    editor.diagramScene[editor.currentTab].sceneRect(),
+                                    QtCore.Qt.KeepAspectRatio)
+                editor.diagramView[editor.currentTab].scale(0.8, 0.8)
+                UpdateUndoRedo()
+                textEdit.clear()
             except Exception as e:
-               redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-               redText = redText + ('This diagram contains errors !')
-               redText = redText + ("</span>")
-               textEdit.clear()
-               textEdit.append(redText)
+                redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
+                redText = redText + ('This diagram contains errors !')
+                redText = redText + ("</span>")
+                textEdit.clear()
+                textEdit.append(redText)
 
 
 class ShowLegend:
@@ -494,7 +492,7 @@ class ShowLegend:
         textColumn = QGraphicsTextItem(labColum, parent=None)
         textColumn.setDefaultTextColor(QtGui.QColor(250, 250, 250))
         textColumn.setFont(QFont("Times", 12, QFont.Bold))
-        textColumn.setPos(pos1X  , pos1Y - 40)
+        textColumn.setPos(pos1X, pos1Y - 40)
 #         editor.diagramScene[editor.currentTab].addItem(textColumn)
         legendScene.addItem(textColumn)
 
@@ -555,14 +553,13 @@ class ShowLegend:
                 textRow.setPos(pos1X, pos1Y - 15)
 
                 legendScene.addItem(textRow)
-                
+
                 pos1X, pos1Y = 0, pos1Y + 20
                 pos2X, pos2Y = 60, pos1Y
 
 #         editor.diagramView[editor.currentTab].setDragMode(QGraphicsView.ScrollHandDrag)
         legendDiagram.setEnabled(False)
-        legendDiagram.setInteractive(False);
-
+        legendDiagram.setInteractive(False)
 
 
 class LibMod(QStandardItemModel):
@@ -601,27 +598,28 @@ class LibIcon(QPixmap):
 
 
 class LoadCodeScript:
+
     def __init__(self):
         self.listCodeScript = ''
         for keyS, valS in listItems[editor.currentTab].items():
             if 'S' in keyS:
                 if type(valS) == ScriptItem:
-                    txt = '[source '+valS.unit+']\n'
-                    txt += repr(self.getInputsScript(keyS))+'\n'
-                    txt += valS.elemProxy.toPlainText()+'\n'
-                    txt += str([keyS+':'+item.name for item in valS.outputs])+'\n'
-                    txt += '[/source '+valS.unit+']\n'
+                    txt = '[source ' + valS.unit + ']\n'
+                    txt += repr(self.getInputsScript(keyS)) + '\n'
+                    txt += valS.elemProxy.toPlainText() + '\n'
+                    txt += str([keyS + ':' + item.name for item in valS.outputs]) + '\n'
+                    txt += '[/source ' + valS.unit + ']\n'
                     self.listCodeScript += txt
 
     def writeListScript(self):
         return self.listCodeScript
 
-    def getInputsScript(self,  unitScript):
+    def getInputsScript(self, unitScript):
         listInputVal = []
         for key, val in listNodes[editor.currentTab].items():
             tmpout = val[val.index("#Node") + 6:]
-            if unitScript+':' in tmpout:
-                tmpIn = tmpout[tmpout.index(':')+1:]
+            if unitScript + ':' in tmpout:
+                tmpIn = tmpout[tmpout.index(':') + 1:]
                 tmpVal = val[0:val.index('#Node#')]
                 if 'A' in tmpVal[0:1]:
                     tmpConstName = tmpVal[0:-1]
@@ -765,7 +763,7 @@ class LoadDiagram:
 
             elif line[0:8] == '[source ':
                 insource = True
-                tmpKeyScript = line[line.index('[source ')+8:]
+                tmpKeyScript = line[line.index('[source ') + 8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
                 tmpValScript = '\n'.join(tmpValScript.splitlines()[1:-1])
@@ -1460,7 +1458,7 @@ class DiagramView(QGraphicsView):
                 self.addItemLoop(self.a1.unit)
             try:
                 listItems[editor.currentTab][self.a1.unit] = self.a1
-            except:
+            except Exception as e:
                 pass
         UpdateUndoRedo()
         return QGraphicsView.dropEvent(self, event)
@@ -1740,8 +1738,8 @@ class Connection:
         editor.diagramScene[editor.currentTab].removeItem(self.link.getlinkShow())
         editor.diagramScene[editor.currentTab].removeItem(self.link.getBislink())
 
-
 ##########################################################################
+
 
 class LinkItem(QGraphicsPathItem):
 
@@ -2085,7 +2083,7 @@ class ProcessItem():
                                         listValDefault = (*listValDefault, eval(self.dicts[name][el]))
                                     except Exception as e:
                                         listValDefault = (*listValDefault, self.dicts[name][el])
-        
+
         ###############################################################################
         newVal = []
         if inout[0][1]:
@@ -2227,7 +2225,7 @@ class BlockCreate(QGraphicsRectItem):
         i = 0
         if self.listValIn:
             for i, j in enumerate(self.listValIn):
-                typ='str'
+                typ = 'str'
                 if type(j).__name__ not in 'str' or j == 'path' or 'enumerate' in j:
                     try:
                         typ = DefinitType(eval(j)).returntype()
@@ -2320,14 +2318,14 @@ class BlockCreate(QGraphicsRectItem):
             pass
 
         return w, h
-    
+
     def hoverEnterEvent(self, event):
         self.setFocus(True)
         pos = event.screenPos()
         self.showToolTip(self.name, pos)
 #         event.accept()
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)    
-        
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)
+
     def contextMenuEvent(self, event):
         menu = QMenu()
         activ = False
@@ -2663,7 +2661,7 @@ class BlockCreate(QGraphicsRectItem):
                         break
                 bm = BlockCreate(self.name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
                 TreeLibrary().showModel(bm, '')
-        
+
         event.accept()
 #         if event.button() == 1 and event.modifiers() == Qt.ControlModifier:
 #             editor.blockSelection(self)
@@ -2698,7 +2696,7 @@ class BlockCreate(QGraphicsRectItem):
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+U"):
             if self.link:
                 webbrowser.open(self.link)
-            
+
     def showToolTip(self, classUnit, position):
         self.link = ''
         path_blockdoc = os.path.dirname(os.path.realpath(__file__))
@@ -2734,7 +2732,7 @@ class BlockCreate(QGraphicsRectItem):
                                     <span style=\" \
                                     font-size:9pt; \
                                     font-weight:600; \
-                                    color:#00AA50;\" >" + vl+ "<br></span>"
+                                    color:#00AA50;\" >" + vl + "<br></span>"
                     try:
                         txt += "<br><span style=\" \
                                 font-size:10pt; \
@@ -2744,7 +2742,7 @@ class BlockCreate(QGraphicsRectItem):
                                 font-size:9pt; \
                                 font-weight:600; \
                                 color:#AA1100;\" >" + dicts[classUnit]['dependencies'] + "<br></span>"
-                    except:
+                    except Exception as e:
                         pass
                     txt += "</p>"
                     self.setToolTip(txt)
@@ -3161,7 +3159,7 @@ class BlockCreate(QGraphicsRectItem):
 
             elif line[0:8] == '[source ':
                 insource = True
-                tmpKeyScript = line[line.index('[source ')+8:]
+                tmpKeyScript = line[line.index('[source ') + 8:]
                 tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
             elif line[0:9] == '[/source ':
                 tmpValScript = '\n'.join(tmpValScript.splitlines()[1:-1])
@@ -4088,10 +4086,9 @@ class Constants_float(QDoubleSpinBox):
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('float', self.value(), self.lab)
         self.setReadOnly(True)
-        
+
     def focusInEvent(self, event):
         self.setReadOnly(False)
-
 
 ###############################################################################
 
@@ -4121,7 +4118,6 @@ class Constants_text(QTextEdit):
         tmpTxt = tmpTxt.replace('\\n', '')
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
-
 
 #         print('new value string : ', self.toPlainText())
 ###############################################################################
@@ -4742,7 +4738,7 @@ class ForLoopItem(QGraphicsRectItem):
         c.exec_()
         if c.getNewValues():
             if '*' not in self.unit:
-                tmp = self.unit+'*'
+                tmp = self.unit + '*'
             self.updateListNodeTools(self.unit, tmp)
             self.nameUnit.setPlainText(tmp)
             self.unit = tmp
@@ -4763,8 +4759,8 @@ class ForLoopItem(QGraphicsRectItem):
             if oldUnit in valN:
                 listNodes[editor.currentTab][keyN] = valN.replace(oldUnit, newUnit)
 
-
 ##############################################################################
+
 
 class ScriptItem(QGraphicsRectItem):
 
@@ -4815,7 +4811,7 @@ class ScriptItem(QGraphicsRectItem):
                 self.updateInput(inout[0][i])
             for i in range(0, len(inout[1])):
                 self.updateOutput(inout[1][i])
-                
+
         factorh = 20
         self.hmin = factorh * len(self.inputs)
         if self.hmin < factorh * len(self.outputs):
@@ -4840,9 +4836,9 @@ class ScriptItem(QGraphicsRectItem):
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
         self.proxyWidget.setWidget(self.elemProxy)
         self.proxyWidget.setPos(5, 5)
-        
+
         x, y = self.newSize(self.w, self.h)
-        
+
         if self.isMod:
             self.resize = Wrist(self)
             self.resize.setPos(x, y)
@@ -4851,7 +4847,6 @@ class ScriptItem(QGraphicsRectItem):
             self.resize.wmin = self.wmin
             self.resize.hmin = self.hmin
 
-        
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
             self.deleteScript()
@@ -4978,7 +4973,7 @@ class ScriptItem(QGraphicsRectItem):
             h = self.hmin
         if w < self.wmin:
             w = self.wmin
-        
+
         self.setRect(0.0, 0.0, w, h)
         self.elemProxy.setMinimumSize(w - 10, h - 10)
         self.elemProxy.setMaximumSize(w - 10, h - 10)
@@ -5012,20 +5007,20 @@ class ScriptItem(QGraphicsRectItem):
 #         h = self.boundingRect().height()
         w = self.w
         h = self.h
-        
+
         self.hmin = hmin
 
         if h < hmin:
             h = hmin
         hmin = factorh * len(self.outputs)
-        
+
         if self.hmin < hmin:
             self.hmin = hmin
         if h < hmin:
             h = hmin
         if w < 100:
             w = 100
-        
+
         x, y = self.newSize(w, h)
         return x, y
 
@@ -5067,14 +5062,14 @@ class ScriptItem(QGraphicsRectItem):
         if c.getNewValues():
             self.name = c.getNewValues()
             self.label.setPlainText(c.getNewValues())
-    
+
     def add_Input(self):
         c = define_inputs_outputs(self.unit, 'input')
         c.exec_()
 
         if c.getNewValues():
             self.nbin += 1
-            portIn = Port(c.getNewValues()[0], 'in',  c.getNewValues()[1], self.unit, True, True, -18, -25, self)
+            portIn = Port(c.getNewValues()[0], 'in', c.getNewValues()[1], self.unit, True, True, -18, -25, self)
             portIn.label.setPos(5 - portIn.label.boundingRect().width(), -28)
             self.inputs.append(portIn)
             x, y = self.updateSize()
@@ -5317,7 +5312,6 @@ class Control_IF(QComboBox):
                     itLink.linkTxt.setOpacity(state)
                     itLink.linkShow.setOpacity(state)
 
-
 ###############################################################################
 
 
@@ -5546,10 +5540,10 @@ class Port(QGraphicsRectItem):
                 cb(value)
             return value
         return super(Port, self).itemChange(change, value)
-    
+
     def hoverEnterEvent(self, event):
         pos = event.screenPos()
-        self.setToolTip("<span style=\"background-color: #ffffff;\">format: <b>{}</b></span>".format(self.format)) 
+        self.setToolTip("<span style=\"background-color: #ffffff;\">format: <b>{}</b></span>".format(self.format))
 
 #     def hoverLeaveEvent(self, event):
 #         event.accept()
@@ -5576,8 +5570,8 @@ class Port(QGraphicsRectItem):
             elif 'list' not in self.format and 'array' not in self.format and 'dict' not in self.format:
                 yet = False
                 for key, val in listNodes[editor.currentTab].items():
-                    tmpVal = val[val.index("#Node#")+6:]
-                    if self.unit+':'+self.name == tmpVal:
+                    tmpVal = val[val.index("#Node#") + 6:]
+                    if self.unit + ':' + self.name == tmpVal:
                         yet = True
                 if not yet:
                     cp = menu.addAction('add constant for this port')
@@ -5644,7 +5638,7 @@ class Port(QGraphicsRectItem):
                                      self.format)
         startConnection.setEndPos(self.scenePos())
         startConnection.setToPort(self)
-        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':' + '#Node#' + self.unit + ':' + self.name
 
         listVal = listBlocks[editor.currentTab][self.unit]
         newList = []
@@ -5696,7 +5690,7 @@ class Port(QGraphicsRectItem):
                                      self.format)
         startConnection.setEndPos(self.scenePos())
         startConnection.setToPort(self)
-        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':' + '#Node#' + self.unit + ':' + self.name
 
         listVal = listSubMod[editor.currentTab][self.unit]
         newList = []
@@ -5709,7 +5703,7 @@ class Port(QGraphicsRectItem):
         del listSubMod[editor.currentTab][self.unit]
         listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
         UpdateUndoRedo()
-        
+
     def addConstantStr(self):
         if 'int' in self.format:
             val = 0
@@ -5725,15 +5719,15 @@ class Port(QGraphicsRectItem):
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
         listItems[editor.currentTab][a1.unit] = a1
-        
+
         startConnection = Connection('',
                                      a1.outputs[0],
                                      self,
                                      self.format)
         startConnection.setEndPos(self.scenePos())
         startConnection.setToPort(self)
-        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':'+'#Node#' + self.unit+':'+self.name
-        
+        listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':' + '#Node#' + self.unit + ':' + self.name
+
         UpdateUndoRedo()
 
     def addPrint(self):
@@ -5751,7 +5745,7 @@ class Port(QGraphicsRectItem):
                          editor.getlib()[ind][1],
                          150, 80,
                          editor.getlib()[ind][2]).getBlocks()
-        b1.setPos(self.mapToScene(self.boundingRect().x()+100, self.boundingRect().y()))
+        b1.setPos(self.mapToScene(self.boundingRect().x() + 100, self.boundingRect().y()))
         inp = b1.inputs
         for fd in inp:
             if fd.name != 'comment':
@@ -5765,7 +5759,7 @@ class Port(QGraphicsRectItem):
                                      self.format)
         startConnection.setEndPos(toPort.scenePos())
         startConnection.setToPort(toPort)
-        listNodes[editor.currentTab][startConnection.link.name] = self.unit + ':'+self.name+'#Node#' + b1.unit+':'+toPort.name
+        listNodes[editor.currentTab][startConnection.link.name] = self.unit + ':' + self.name + '#Node#' + b1.unit + ':' + toPort.name
 
         listVal = listBlocks[editor.currentTab][b1.unit]
         listEnter = editor.getlib()[ind][2][0]
@@ -5820,7 +5814,7 @@ class TreeLibrary(QTreeView):
                 sel = model.itemFromIndex(idx).text()
                 mimidat = model.name
                 name = model.itemFromIndex(idx).text()
-                
+
                 if mimidat in 'mod_SubMod':
                     if sel not in listCategory:
                         ind = 0
@@ -5927,7 +5921,6 @@ class TreeLibrary(QTreeView):
         previewDiagram.fitInView(previewScene.sceneRect(), QtCore.Qt.KeepAspectRatio)
         previewDiagram.scale(0.8, 0.8)
 
-                    
     def drawLink(self, inp, posX, posY):
         format = inp.format
         link = QGraphicsPathItem()
@@ -5998,7 +5991,6 @@ class NodeEdit(QWidget):
         itemStored = None
         listStand = []
         listImport = []
-
 
         currentpathwork = os.path.dirname(os.path.realpath(__file__))
         currentpathwork = str(os.path.join(currentpathwork, '../examples'))
@@ -6240,7 +6232,7 @@ class NodeEdit(QWidget):
         layoutDiagram.setContentsMargins(0, 0, 0, 0)
         previewBlock.setStyleSheet("background-color:rgb(50,50,50)")
         previewBlock.setLayout(layoutDiagram)
-        
+
         legend = QWidget(self)
         legendScene = QGraphicsScene()
         legendScene.setSceneRect(QtCore.QRectF())
@@ -6252,7 +6244,7 @@ class NodeEdit(QWidget):
         legend.setStyleSheet("background-color:rgb(50,50,50)")
         legend.setLayout(layoutDiagram)
         ShowLegend()
-        
+
         self.tabsDiagram = QTabWidget()
         self.tabsDiagram.setAutoFillBackground(False)
         self.tabsDiagram.setContentsMargins(0, 0, 0, 0)
@@ -6280,12 +6272,12 @@ class NodeEdit(QWidget):
         self.splitter2.addWidget(textEdit)
         self.splitter2.addWidget(legend)
         self.splitter2.setSizes([400, 200])
-        
+
         self.splitter3 = QSplitter(Qt.Vertical)
         self.splitter3.addWidget(self.tabsDiagram)
         self.splitter3.addWidget(self.splitter2)
         self.splitter3.setSizes([400, 200])
-        
+
         self.splitter4 = QSplitter(Qt.Horizontal)
         self.splitter4.addWidget(self.splitter1)
         self.splitter4.addWidget(self.splitter3)
@@ -6333,7 +6325,6 @@ class NodeEdit(QWidget):
         self.tabsDiagram.tabBar().setTabTextColor(i, ItemColor.text_tab.value)
         self.tabsDiagram.setCurrentIndex(i)
         self.tabsDiagram.setTabToolTip(i, title)
-
 
     def closeTab(self, currentIndex):
         currentQWidget = self.tabsDiagram.widget(currentIndex)

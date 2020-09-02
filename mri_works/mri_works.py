@@ -69,7 +69,10 @@ class createTabs(QWidget):
 
         self.tabs = QTabWidget()
         self.tabs.setAutoFillBackground(False)
-        self.tabs.setStyleSheet('QTabBar{font-size:14pt;font-family:Times;text-align: center;color:blue;}')
+        self.tabs.setStyleSheet('QTabBar{font-size:14pt;\
+                                         font-family:Times;\
+                                         text-align: center;\
+                                         color:blue;}')
         self.tabs.setMovable(True)
 
         self.textInfo = QLineEdit(self)
