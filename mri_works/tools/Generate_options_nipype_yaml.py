@@ -1,7 +1,7 @@
 import yaml
 import inspect
 
-interf = 'ants'
+interf = 'fsl'
 
 exec('from nipype.interfaces import '+interf)
 lis = inspect.getmembers(eval(interf), lambda a:not(inspect.isroutine(a)))

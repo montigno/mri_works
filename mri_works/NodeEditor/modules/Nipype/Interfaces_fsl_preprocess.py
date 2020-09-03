@@ -1,39 +1,3 @@
-class fsl_FAST:
-    def __init__(self, in_files=['path'], **options):
-        from nipype.interfaces import fsl
-        fastr = fsl.FAST()
-        fastr.inputs.in_files = in_files
-        for ef in options:
-            setattr(fastr.inputs, ef, options[ef])
-        self.res = fastr.run()
-
-    def tissue_class_map(self: 'path'):
-        return self.res.outputs.tissue_class_map
-
-    def tissue_class_files(self: 'list_path'):
-        return self.res.outputs.tissue_class_files
-
-    def restored_image(self: 'list_path'):
-        return self.res.outputs.restored_image
-
-    def mixeltype(self: 'path'):
-        return self.res.outputs.mixeltype
-
-    def partial_volume_map(self: 'path'):
-        return self.res.outputs.partial_volume_map
-
-    def partial_volume_files(self: 'list_path'):
-        return self.res.outputs.partial_volume_files
-
-    def bias_field(self: 'list_path'):
-        return self.res.outputs.bias_field
-
-    def probability_maps(self: 'list_path'):
-        return self.res.outputs.probability_maps
-
-##############################################################################
-
-
 class fsl_BET:
 
     def __init__(self, in_file='path', **options):
@@ -76,3 +40,63 @@ class fsl_BET:
 
     def skull_mask_file(self: 'path'):
         return self.res.outputs.skull_mask_file
+    
+##############################################################################
+
+
+class fsl_FAST:
+    def __init__(self, in_files=['path'], **options):
+        from nipype.interfaces import fsl
+        fastr = fsl.FAST()
+        fastr.inputs.in_files = in_files
+        for ef in options:
+            setattr(fastr.inputs, ef, options[ef])
+        self.res = fastr.run()
+
+    def tissue_class_map(self: 'path'):
+        return self.res.outputs.tissue_class_map
+
+    def tissue_class_files(self: 'list_path'):
+        return self.res.outputs.tissue_class_files
+
+    def restored_image(self: 'list_path'):
+        return self.res.outputs.restored_image
+
+    def mixeltype(self: 'path'):
+        return self.res.outputs.mixeltype
+
+    def partial_volume_map(self: 'path'):
+        return self.res.outputs.partial_volume_map
+
+    def partial_volume_files(self: 'list_path'):
+        return self.res.outputs.partial_volume_files
+
+    def bias_field(self: 'list_path'):
+        return self.res.outputs.bias_field
+
+    def probability_maps(self: 'list_path'):
+        return self.res.outputs.probability_maps
+
+##############################################################################
+
+
+class fsl_FLIRT:
+    
+    def __init__(self, in_file = 'path', reference = 'path', **options):
+        from nipype.interfaces import fsl
+        flt = fsl.FLIRT()
+        flt.inputs.in_file = in_file
+        flt.inputs.reference = reference
+        for ef in options:
+            setattr(flt.inputs, ef, options[ef])
+        self.res = flt.run()
+        
+    def out_file(self: 'path'):
+        return self.res.outputs.out_file
+    
+    def out_log(self: 'path'):
+        return self.res.outputs.out_log
+
+    def out_matrix_file(self: 'path'):
+        return self.res.outputs.out_matrix_file
+

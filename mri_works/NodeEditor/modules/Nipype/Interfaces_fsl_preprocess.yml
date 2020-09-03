@@ -1,3 +1,25 @@
+fsl_BET:
+  args: ''
+  center: [0, 0, 0]
+  environ: {}
+  frac: 0.0
+  functional: True
+  mask: True
+  mesh: True
+  no_output: True
+  out_file: 'path'
+  outline: True
+  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ'))
+  padding: True
+  radius: 0
+  reduce_bias: True
+  remove_eyes: True
+  robust: True
+  skull: True
+  surfaces: True
+  t2_guided: 'path'
+  threshold: True
+  vertical_gradient: 0.0
 fsl_FAST:
   out_basename: 'path'
   number_classes: 1
@@ -23,25 +45,54 @@ fsl_FAST:
   output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ'))
   args: ''
   environ: {}
-fsl_BET:
+fsl_FLIRT:
+  angle_rep: enumerate(('quaternion', 'euler'))
+  apply_isoxfm: 0.0
+  apply_xfm: False
   args: ''
-  center: [0, 0, 0]
+  bbrslope: 0.0
+  bbrtype: enumerate(('signed', 'global_abs', 'local_abs'))
+  bgvalue: 0.0
+  bins: 0
+  coarse_search: 0
+  cost: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr'))
+  cost_func: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr'))
+  datatype: enumerate(('char', 'short', 'int', 'float', 'double'))
+  display_init: False
+  dof: 0
+  echospacing: 0.0
   environ: {}
-  frac: 0.0
-  functional: True
-  mask: True
-  mesh: True
-  no_output: True
+  fieldmap: 'path'
+  fieldmapmask: 'path'
+  fine_search: 0
+  force_scaling: False
+  in_matrix_file: 'path'
+  in_weight: 'path'
+  interp: enumerate(('trilinear', 'nearestneighbour', 'sinc', 'spline'))
+  min_sampling: 0.0
+  no_clamp: False
+  no_resample: False
+  no_resample_blur: False
+  no_search: False
   out_file: 'path'
-  outline: True
-  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ'))
-  padding: True
-  radius: 0
-  reduce_bias: True
-  remove_eyes: True
-  robust: True
-  skull: True
-  surfaces: True
-  t2_guided: 'path'
-  threshold: True
-  vertical_gradient: 0.0
+  out_log: 'path'
+  out_matrix_file: 'path'
+  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI'))
+  padding_size: 0
+  pedir: 0
+  ref_weight: 'path'
+  rigid2D: False
+  save_log: False
+  schedule: 'path'
+  searchr_x: [0]
+  searchr_y: [0]
+  searchr_z: [0]
+  sinc_width: 0
+  sinc_window: enumerate(('rectangular', 'hanning', 'blackman'))
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none'))
+  uses_qform: False
+  verbose: 0
+  wm_seg: 'path'
+  wmcoords: 'path'
+  wmnorms: 'path'
+
