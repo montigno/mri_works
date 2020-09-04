@@ -22,12 +22,11 @@ class MP3_Arithmetic():
         import matlab.engine
         files_in , files_out = {}, {}
         options['flag_test'] = 0
-#         options['Table_in']['Type'] = 'ROI'
-        setattr(options['Table_in'], 'Type', 'ROI')        
+        options['Table_in'] = {'Type':'ROI'}
         files_in['In1'] = [img1]
         files_in['In2'] = [img2]
         files_out['In1'] = [file_out]
-        mat_eng.Module_Brain_Arithmetic(files_in, files_out, options)
+        mat_eng.Module_Arithmetic(files_in, files_out, options)
         self.mat_eng = mat_eng
         self.map = file_out
 

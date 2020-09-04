@@ -1,0 +1,5 @@
+MP3_FLIRT:
+  Registration_type: enumerate(('Affine (12 parameter model)', 'Traditional (9 parameter model)', 'Global Rescale (7 parameter model)', 'Rigid Body (6 parameter model)', 'Translation Only (3 parameter model)'))
+  Search: enumerate(('Incorrect Orentation', 'Already virtually aligned (no search)', 'Not aligned, but same orientation'))
+  Cost_Function: enumerate(('Normalised Mutual information', 'Correlation Ratio', 'Mutual Information', 'Least Square (intra-modal)'))
+  Interpolation: enumerate(('Nearest neighbour', 'Trilinear', 'Spline'))
