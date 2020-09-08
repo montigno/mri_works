@@ -95,4 +95,48 @@ fsl_FLIRT:
   wm_seg: 'path'
   wmcoords: 'path'
   wmnorms: 'path'
+fsl_FNIRT:
+  affine_file: 'path'
+  apply_inmask: [0]
+  apply_intensity_mapping: [0]
+  apply_refmask: [0]
+  args: ''
+  bias_regularization_lambda: 10000.0
+  biasfield_resolution: (50, 50, 50)
+  config_file: enumerate(('T1_2_MNI152_2mm', 'FA_2_FMRIB58_1mm'))
+  derive_from_ref: False
+  environ: {}
+  field_file: False
+  fieldcoeff_file: False
+  hessian_precision: 0.0
+  in_fwhm: [6, 4, 2, 2]
+  in_intensitymap_file: 'path'
+  inmask_file: 'path'
+  inmask_val: 0.0
+  intensity_mapping_model: enumerate(('none', 'global_linear', 'global_non_linearlocal_linear', 'global_non_linear_with_bias', 'local_non_linear'))
+  intensity_mapping_order: 5
+  inwarp_file: 'path'
+  jacobian_file: False
+  jacobian_range: (0.01, 100.0)
+  log_file: 'path'
+  max_nonlin_iter: [5, 5, 5, 5]
+  modulatedref_file: False
+  out_intensitymap_file: False
+  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI'))
+  ref_fwhm: [4, 2, 0, 0]
+  refmask_file: 'path'
+  refmask_val: 0.0
+  regularization_lambda: [0.0]
+  regularization_model: enumerate(('membrane_energy', 'bending_energy'))
+  skip_implicit_in_masking: False
+  skip_implicit_ref_masking: False
+  skip_inmask: False
+  skip_intensity_mapping: False
+  skip_lambda_ssq: False
+  skip_refmask: False
+  spline_order: 3
+  subsampling_scheme: [4, 2, 1, 1]
+  Terminal_output: enumerate(('stream', 'allatonce', 'file', 'none'))
+  warp_resolution: (10, 10, 10)
+  warped_file: 'path'
 

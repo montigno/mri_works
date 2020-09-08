@@ -5554,9 +5554,9 @@ class Port(QGraphicsRectItem):
             editor.startLink(self, self.format, event.pos())
 
     def contextMenuEvent(self, event):
+        ac, cp = None, None
         if self.isMod:
             menu = QMenu()
-            ac, cp = None, None
             if ('F' in self.unit or 'I' in self.unit):
                 if 'val' not in self.name:
                     ac = menu.addAction('Delete this tunnel')

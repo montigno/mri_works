@@ -100,3 +100,40 @@ class fsl_FLIRT:
     def out_matrix_file(self: 'path'):
         return self.res.outputs.out_matrix_file
 
+##############################################################################
+
+
+class fsl_FNIRT:
+    
+    def __init__(self, in_file = 'path', reference = 'path', **options):
+        from nipype.interfaces import fsl
+        fnt = fsl.FNIRT()
+        fnt.inputs.in_file = in_file
+        fnt.inputs.reference = reference
+        for ef in options:
+            setattr(fnt.inputs, ef, options[ef])
+        self.res = fnt.run()
+        
+    def field_file(self: 'path'):
+        return self.res.outputs.field_file
+    
+    def fieldcoeff_file(self: 'path'):
+        return self.res.outputs.fieldcoeff_file
+
+    def jacobian_file(self: 'path'):
+        return self.res.outputs.jacobian_file
+    
+    def log_file(self: 'path'):
+        return self.res.outputs.log_file
+    
+    def modulatedref_file(self: 'path'):
+        return self.res.outputs.modulatedref_file
+    
+    def out_intensitymap_file(self: 'path'):
+        return self.res.outputs.out_intensitymap_file
+    
+    def warped_file(self: 'path'):
+        return self.res.outputs.warped_file
+    
+##############################################################################
+
