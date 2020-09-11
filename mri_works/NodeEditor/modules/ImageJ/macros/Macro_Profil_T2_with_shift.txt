@@ -66,9 +66,10 @@
             Plot.setColor("blue");
             Plot.setLineWidth(2);
             Plot.add("line", Times, values2);
-            Plot.addText("T2 = "+T2, 0.7, 0.2);
-            Plot.addText("M0 = "+M0, 0.7, 0.25);
-            Plot.addText("C = "+C, 0.7, 0.3);
+            Plot.addText("s(t)=M0.e(-t/T2))+C",0.7, 0.2);
+            Plot.addText("T2 = "+T2, 0.7, 0.3);
+            Plot.addText("M0 = "+M0, 0.7, 0.35);
+            Plot.addText("C = "+C, 0.7, 0.4);
             Plot.update();
 
             selectWindow(img1);

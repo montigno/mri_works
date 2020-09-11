@@ -1,9 +1,0 @@
-fsl_ICA_AROMA:
-  TR: {}
-  args: {}
-  dim: {}
-  environ: {}
-  fnirt_warp_file: {}
-  mask: {}
-  mat_file: {}
-  melodic_dir: {}

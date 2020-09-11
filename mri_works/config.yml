@@ -22,7 +22,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories: empty
+  histories:
+  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
   modules: modules
   projects: ../data
-version: 20.09.09a
+version: 20.09.11a

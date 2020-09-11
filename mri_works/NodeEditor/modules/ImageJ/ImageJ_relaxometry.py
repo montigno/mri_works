@@ -1,7 +1,7 @@
 class ImageJ_RelaxationTime_profil():
 
     def __init__(self, image='path', relax_Time='path', Intensity='path', Shift='path', 
-                        ListTime=[0.0], profil="enumerate(('T2','T1','TInv'))"):
+                        ListTime=[0.0], time_type="enumerate(('EchoTime','RepetitionTime','InversionTime'))"):
         from NodeEditor.modules.ImageJ.ImageJ_open import openImagej_multiFiles
         import subprocess
         from subprocess import Popen
@@ -13,18 +13,18 @@ class ImageJ_RelaxationTime_profil():
         if Shift!='path':
             scriptfile+='open("'+Shift+'");run(\"Enhance Contrast\", \"saturated=0.35\");\n'
             script+='var img4="'+os.path.basename(Shift)+'";'
-            if profil=='T2':
+            if time_type=='EchoTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_T2_with_shift.txt')
-            elif profil=='T1':
+            elif time_type=='RepetitionTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_T1_with_shift.txt')
-            elif profil=='TInv':
+            elif time_type=='InversionTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_TInv_with_shift.txt')
         else:
-            if profil=='T2':
+            if time_type=='EchoTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_T2.txt')
-            elif profil=='T1':
+            elif time_type=='RepetitionTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_T1.txt')
-            elif profil=='TInv':
+            elif time_type=='InversionTime':
                 filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)),'macros', 'Macro_Profil_TInv.txt')
         
         scriptmacro = open(filemacro, 'r').read()
