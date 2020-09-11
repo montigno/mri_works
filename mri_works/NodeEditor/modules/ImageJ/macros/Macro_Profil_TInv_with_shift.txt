@@ -1,0 +1,83 @@
+  macro "Profil T2 Tool - C059o11ee" {
+
+      max_magn = 0.0;
+
+      leftButton=16;
+      rightButton=4;
+      shift=1;
+      ctrl=2; 
+      alt=8;
+      x2=-1; y2=-1; z2=-1; flags2=-1;
+
+      selectWindow(img1);
+      Stack.setFrame(1)
+      Stack.getDimensions(width, height, channels, slices, frames);
+      run("Properties...", "channels="+channels+" slices="+slices+" frames="+frames+" pixel_width=1.0000000 pixel_height=1.0000000 voxel_depth=1.0000000");
+      values = newArray(frames);
+      values2 = newArray(frames);
+      fittings = newArray(frames);   
+
+      getCursorLoc(x, y, z, flags);
+      while (flags&leftButton!=0) {
+          getCursorLoc(x, y, z, flags);
+          if (x!=x2 || y!=y2 || z!=z2 || flags!=flags2) {
+
+            makePoint(x, y, "small red cross");
+
+            selectWindow(img2);
+            run("Select None");
+            setSlice(z+1);
+            TI = getPixel(x, y);
+            makePoint(x, y, "small blue cross");
+
+            selectWindow(img3);
+            run("Select None");
+            setSlice(z+1);
+            M0 = getPixel(x, y);
+            makePoint(x, y, "small blue cross");
+
+            selectWindow(img4);
+            run("Select None");
+            setSlice(z+1);
+            C = getPixel(x, y);
+            makePoint(x, y, "small blue cross");
+
+            selectWindow(img1);
+
+            for (i=0;i < frames; i++){
+                Stack.setFrame(i+1);
+                values[i] = getPixel(x, y);
+                values2[i] = abs(M0*(1 - 2*C*exp(-Times[i] / TI)));
+            }
+
+            if (max_magn < values[frames - 1]){
+                max_magn = values[frames - 1] * 1.2;
+            }
+            if (max_magn < values2[frames - 1]){
+                max_magn = values2[frames - 1] * 1.2;
+            }
+
+            Plot.create("Profile TI", "TInv (ms)", "M0 (amp.)");
+            Plot.setFrameSize(600, 400);
+            Plot.setLimits(0, Times[frames-1]*1.1, 0, max_magn);
+            Plot.setColor("red");
+            Plot.setLineWidth(2);
+            Plot.add("x", Times, values);
+            Plot.setColor("blue");
+            Plot.setLineWidth(2);
+            Plot.add("line", Times, values2);
+            Plot.addText("TI = "+TI, 0.7, 0.2);
+            Plot.addText("M0 = "+M0, 0.7, 0.25);
+            Plot.addText("C = "+C, 0.7, 0.3);
+            Plot.update();
+
+            selectWindow(img1);
+            Stack.setFrame(1)
+
+            logOpened = true;
+            startTime = getTime();
+          }
+          x2=x; y2=y; z2=z; flags2=flags;
+          wait(10);
+      }
+ }

@@ -22,17 +22,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/omontigon/Documents/mri_works_projects/Matlab_engine.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_Bruker_spnam.dgr
-  - /home/omontigon/Documents/mri_works_projects/csv_test.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_DeltaR2.dgr
-  - /home/omontigon/Documents/mri_works_projects/read_Nifti.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Arithmetic.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_FSL_Flirt.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Brain_Mask_PCNN3D.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
+  histories: empty
   modules: modules
   projects: ../data
-version: 20.08.27a
+version: 20.09.09a
