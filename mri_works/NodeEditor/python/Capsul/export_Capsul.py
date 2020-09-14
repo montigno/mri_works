@@ -284,6 +284,11 @@ class exportCapsul():
                 codeMain += 'xmlpipe.' + keyParam + "=" + str(valParam) + '\n'
         codeMain += 'if sys.argv[1] == "runPipeline":\n'
         codeMain.indent()
+        codeMain += 'app = QApplication.instance()\n'
+        codeMain += 'if app is None:\n'
+        codeMain.indent()
+        codeMain += 'app = QApplication(sys.argv)\n'
+        codeMain.dedent()
         codeMain += 'start=time.time()\n'
         codeMain += 'if parameter_dict:\n'
         codeMain.indent()

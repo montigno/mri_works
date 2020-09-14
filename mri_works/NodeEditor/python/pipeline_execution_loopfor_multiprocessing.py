@@ -54,7 +54,7 @@ class executionFor_proc:
 
         listNodeValue = list(set(listOut))
 
-        listModulExecution = {}
+#         listModulExecution = {}
         for ls in listModul.keys():
             tmp = txtfull[txtfull.index('[submod '+ls):len(txtfull)]
             tmp1 = ''
@@ -65,6 +65,12 @@ class executionFor_proc:
                     break
 #             listModulExecution[ls]=tmp1
             txt += '\n' + tmp1
+            
+        # listScriptExecution
+        for ls in listBlockExecution:
+            if 'S' in ls:
+                tmp2 = txtfull[txtfull.index('[source '+ls):txtfull.index('[/source '+ls)+10+len(ls)]
+                txt += '\n' + tmp2
 
         ######################################################################
         self.listDynamicValueSubToReturn = {}

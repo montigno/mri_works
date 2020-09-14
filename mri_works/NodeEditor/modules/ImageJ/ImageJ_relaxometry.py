@@ -2,7 +2,6 @@ class ImageJ_RelaxationTime_profil():
 
     def __init__(self, image='path', relax_Time='path', Intensity='path', Shift='path', 
                         ListTime=[0.0], time_type="enumerate(('EchoTime','RepetitionTime','InversionTime'))"):
-        from NodeEditor.modules.ImageJ.ImageJ_open import openImagej_multiFiles
         import subprocess
         from subprocess import Popen
         import os
