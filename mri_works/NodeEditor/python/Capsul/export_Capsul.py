@@ -197,6 +197,7 @@ class exportCapsul():
             codeModuls += "''')\n"
             tmp = str(tuple(valClass[1][0]))
             tmpw = tmp.replace("'", "")
+            tmp = tmp.replace("_xx", "")
             codeModuls += 'def ' + keyClass + tmpw + ':\n'
             codeModuls.indent()
             codeModuls += 'listInputs=dict(zip(' + tmp + ',' + str(tmpw) + '))\n'
@@ -322,6 +323,7 @@ class exportCapsul():
                               color:#006600;\" \
                               > Pipeline running \
                               by Capsul </span>")
+#             subprocess.call("ls", cwd="/")
             subprocess.Popen(['python3', pathMain, 'runPipeline'], shell=False)
 
     def prettify(self, elem):
