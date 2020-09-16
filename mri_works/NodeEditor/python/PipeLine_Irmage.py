@@ -473,7 +473,7 @@ class Menu(QMenuBar):
                                     editor.diagramScene[editor.currentTab].sceneRect(),
                                     QtCore.Qt.KeepAspectRatio)
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
-                UpdateUndoRedo()
+#                 UpdateUndoRedo()
                 textEdit.clear()
             except Exception as e:
                 redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
@@ -2323,7 +2323,7 @@ class BlockCreate(QGraphicsRectItem):
         self.setFocus(True)
         pos = event.screenPos()
         self.showToolTip(self.name, pos)
-#         event.accept()
+        event.accept()
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
     def contextMenuEvent(self, event):
@@ -6422,6 +6422,10 @@ class NodeEdit(QWidget):
 
         self.tabLib.addTab(self.libBrowser[len(self.libBrowser) - 1], 'subModules')
         self.tabLib.setCurrentIndex(len(self.tabLib) - 1)
+        
+    @staticmethod
+    def check_project_saved(self):
+        pass
 
     def startLink(self, port, format, pos):
         self.startConnection = Connection('', port, None, format)
@@ -6752,3 +6756,4 @@ class NodeEdit(QWidget):
                     textEdit.append(greenText)
 
             self.startConnection = None
+

@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
-    QMenuBar, QAction, qApp, QLineEdit, QMainWindow
+    QAction, qApp, QLineEdit, QMainWindow, QMessageBox
 
 from Config import Config
 from About import AboutSoft
@@ -27,6 +27,8 @@ from PyQt5.QtGui import QIcon
 
 class Project_Irmage(QMainWindow):
     def __init__(self):
+        
+        self.state = True;
 
         # Main Window ###########################################
         super(Project_Irmage, self).__init__()
@@ -58,6 +60,16 @@ class Project_Irmage(QMainWindow):
 
     def showAbout(self):
         AboutSoft()
+        
+    def closeEvent(self,event):
+        aws = QMessageBox.question(self,
+                                            "Confirm Exit...",
+                                            "Have you saved your project(s) ?",
+                                            QMessageBox.Yes| QMessageBox.No)
+        event.ignore()
+
+        if aws == QMessageBox.Yes:
+            event.accept()
 
 
 class createTabs(QWidget):
@@ -94,4 +106,5 @@ if __name__ == '__main__':
     imageViewer = Project_Irmage()
     imageViewer.show()
     app.setWindowIcon(QIcon('mri_works.png'))
-    sys.exit(app.exec_())
+    if imageViewer.state:
+        sys.exit(app.exec_())

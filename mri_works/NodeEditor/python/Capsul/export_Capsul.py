@@ -105,17 +105,25 @@ class exportCapsul():
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] label')]
                 line = line[line.index('label=') + 7:len(line)]
-                lab = line[0:line.index('] RectF')]
-                try:
-                    listConstant[unit] = (lab, eval(vout))
-                except Exception as e:
-                    listConstant[unit] = (lab, vout)
+                lab  = line[0:line.index('] RectF')]
+                if fort == 'bool':
+                    dt = eval(vout)
+                    if eval(dt) is False:
+                        listConstant[unit] = (lab, False)
+                    else:
+                        listConstant[unit] = (lab, True)
+                else:    
+                    try:
+                        listConstant[unit] = (lab, eval(vout))
+                    except Exception as e:
+                        listConstant[unit] = (lab, vout)
 
         for keyLink, valLink in listArrow.items():
             if 'A' in valLink[0]:
                 listInputs[listConstant[valLink[0]][0]] = listConstant[valLink[0]][1]
                 ET.SubElement(pipeline, "link", source=listConstant[valLink[0]][0], dest=valLink[2] + "." + valLink[3])
 #                 listInputs[valLink[0]] = listConstant[valLink[0]]
+#         print('listInputs = ',listInputs)
 
         for keyUnit, valUnit in listUnit.items():
             for listOut in valUnit[2]:
