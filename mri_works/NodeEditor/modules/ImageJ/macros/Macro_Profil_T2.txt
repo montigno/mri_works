@@ -40,7 +40,8 @@
             selectWindow(img1);
 
             for (i=0;i < frames; i++){
-                Stack.setFrame(i+1);
+                //Stack.setFrame(i+1);
+                setZCoordinate((slices * i) + z);
                 values[i] = getPixel(x, y);
                 values2[i] = M0*exp(-Times[i] / T2);
             }
