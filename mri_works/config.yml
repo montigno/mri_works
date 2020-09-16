@@ -24,8 +24,11 @@ paths:
   data: /tmp/
   histories:
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
+  - /home/omontigon/Documents/mri_works_projects/Script_LoopFor_multiprocessing.dgr
+  - /home/omontigon/Documents/mri_works_projects/Benchmark_submod_error.dgr
+  - /home/omontigon/Documents/mri_works_projects/pb_jsonpath_capsul.dgr
+  - /home/omontigon/Documents/mri_works_projects/read_json_irmage.dgr
   - /home/omontigon/Documents/mri_works_projects/free.dgr
-
   modules: modules
   projects: ../data
 version: 20.09.16a

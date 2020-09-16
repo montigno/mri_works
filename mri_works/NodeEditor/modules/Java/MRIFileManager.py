@@ -13,7 +13,7 @@ class BrukerToNifti:
         if bvals_bvecs:
             options_export = "00013"
         command='java -classpath $MRIFilePATH'+\
-                  ' BrukerToNifti \"' + listBruker + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
+                  ' BrukerToNifti \"' + listBruker + '\" ' + path_export + ' ' + naming + ' [ExportOptions]' + options_export
         print('Bruker : ',command)
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
@@ -45,7 +45,8 @@ class PhilipsToNifti:
         if bvals_bvecs:
             options_export = "00013"
         command='java -classpath $MRIFilePATH'+\
-                  ' PhilipsToNifti \"' + listPhilips + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
+                  ' PhilipsToNifti \"' + listPhilips + '\" ' + path_export + ' ' + naming + ' [ExportOptions]' + options_export
+        print('Philips : ',command)
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
         rc = p.returncode
@@ -77,7 +78,7 @@ class BidsToNifti:
             options_export = "00013"
 #         command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
         command='java -classpath $MRIFilePATH'+\
-                  ' BidsToNifti \"' + listBids + '\" ' + path_export + ' ' + naming + ' [ExportOptions] ' + options_export
+                  ' BidsToNifti \"' + listBids + '\" ' + path_export + ' ' + naming + ' [ExportOptions]' + options_export
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
         rc = p.returncode
