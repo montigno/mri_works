@@ -1581,7 +1581,12 @@ class DiagramView(QGraphicsView):
 
             if type(itemStored) == BlockCreate:
                 if itemStored.category is not None:
-                    self.b1 = ProcessItem('newBlock', itemStored.name, itemStored.category, 150, 80, *itemStored.inout).getBlocks()
+                    ind = 0
+                    for i, j in enumerate(editor.getlib()):
+                        if j[0] == itemStored.name:
+                            ind = i
+                            break
+                    self.b1 = ProcessItem('newBlock', itemStored.name, itemStored.category, 150, 80, editor.getlib()[ind][2]).getBlocks()
                     self.b1.setPos(self.m_originX, self.m_originY)
                     self.scene().addItem(self.b1)
                     listItems[editor.currentTab][self.b1.unit] = self.b1
