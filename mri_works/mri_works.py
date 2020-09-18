@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
-    QAction, qApp, QLineEdit, QMainWindow, QMessageBox
+    QAction, qApp, QLineEdit, QMainWindow, QMessageBox, QPushButton
 
 from Config import Config
 from About import AboutSoft
@@ -62,13 +62,13 @@ class Project_Irmage(QMainWindow):
         AboutSoft()
         
     def closeEvent(self,event):
-        aws = QMessageBox.question(self,
-                                            "Confirm Exit...",
-                                            "Have you saved your project(s) ?",
-                                            QMessageBox.Yes| QMessageBox.No)
+        box = QMessageBox.question(self,
+                                   "Confirm Exit...",
+                                   "Do you want quit mri_works? your projects are saved? ",
+                                   QMessageBox.Yes| QMessageBox.No, QMessageBox.No)
         event.ignore()
 
-        if aws == QMessageBox.Yes:
+        if box == QMessageBox.Yes:
             event.accept()
 
 
@@ -89,7 +89,6 @@ class createTabs(QWidget):
 
         self.textInfo = QLineEdit(self)
         self.textInfo.resize(500, 40)
-        # self.textInfo.setEnabled(False)
         self.textInfo.setText('Welcome to Irmage')
 
         self.tabs.addTab(NodeEdit(self.textInfo), "PipeLine Manager")

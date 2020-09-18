@@ -2339,6 +2339,9 @@ class BlockCreate(QGraphicsRectItem):
 
         if self.isMod:
             ac = menu.addAction('')
+#             ci = menu.addAction('Add constants to all inputs')
+#             ci.triggered.connect(self.addConstantsInputs)
+#             menu.addSeparator()
             ac = menu.addAction('Add all inputs to connectors')
             ac.triggered.connect(self.addConnectorInputs)
             ad = menu.addAction('Add all outputs to connectors')
@@ -2378,9 +2381,9 @@ class BlockCreate(QGraphicsRectItem):
 
         menu.exec_(event.screenPos())
 
-    def addConstantsInputs(self):
-        pass
-
+    
+    def addConstantsInputs(self):        pass
+    
     def addConnectorInputs(self):
         height = self.boundingRect().height() / 2
         i = 0
@@ -6484,26 +6487,29 @@ class NodeEdit(QWidget):
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection impossible : same type of connector (input=input or output=output) ')
-                greenText = greenText + ("</span>")
+                greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
             elif tmpformat == 'unkn' and self.fromPort.format == 'unkn':
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection impossible : unknow plug to unknow plug')
-                greenText = greenText + ("</span>")
+                greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
             elif (tmpformat == 'unkn' and 'A' in self.fromPort.unit) or (
                     self.fromPort.format == 'unkn' and 'A' in tmpunit):
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection impossible : constant to connector ')
-                greenText = greenText + ("</span>")
+                greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
             elif not self.touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                greenText = greenText + ('Connection impossible : different type of format')
+                greenText = greenText + ('Connection not recommended due to different formats')
                 greenText = greenText + ("</span>")
+                greenText = greenText + "<span style=\" font-size:10pt; font-weight:600; color:#003300;\" >"
+                greenText = greenText + (' (but you can force the connection by keeping the "Ctrl" key pressed)')
+                greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
             else:
                 if self.fromPort.typeio == 'out':
@@ -6528,7 +6534,7 @@ class NodeEdit(QWidget):
                             self.startConnection.delete()
                             greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                             greenText = greenText + ('Connection impossible : input already taken')
-                            greenText = greenText + ("</span>")
+                            greenText = greenText + ("</span><br>")
                             textEdit.append(greenText)
                             inAlready = True
                             break
@@ -6757,7 +6763,7 @@ class NodeEdit(QWidget):
                     textEdit.setStyleSheet("background-color : lightgray")
                     greenText = "<span style=\" font-size:10pt; font-weight:600; color:#003300;\" >"
                     greenText = greenText + ('Connection ok')
-                    greenText = greenText + ("</span>")
+                    greenText = greenText + ("</span><br>")
                     textEdit.append(greenText)
 
             self.startConnection = None
