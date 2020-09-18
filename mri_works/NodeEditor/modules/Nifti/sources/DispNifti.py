@@ -15,8 +15,8 @@ class DispNifti():
         self.dia = QDialog()
         self.scaleFactor = 2
               
-        self.img = img
-        self.dim = len(img.shape)
+        self.img = np.array(img)
+        self.dim = len(self.img.shape)
 
         if (self.dim == 2):
             tmpimg = self.img.copy()

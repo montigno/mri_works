@@ -28,6 +28,7 @@ class T1Map_LevenbergM():
             t1=_T1init(dataproc)
             magn=0.0
             max=0.0
+            shift=0.0
             try:
                 max=dataproc[-1]
             except:
@@ -41,15 +42,20 @@ class T1Map_LevenbergM():
                     result = minner.minimize()
                     t1=result.params['decay'].value
                     magn=result.params['amp'].value
+                    shift=result.params['shift'].value
                     if t1 < 5000.0:
                         t1 = -1.0
+                        magn = 0.0
+                        shift = 0.0
                 except:
                     t1 = -1.0
                     magn = 0.0
+                    shift = 0.0
             else:
                 t1 = -1.0
                 magn = 0.0
-            return t1, magn
+                shift = 0.0
+            return t1, magn, shift
            
         def _T1init(y):
             ymax = y[-1]
@@ -71,19 +77,24 @@ class T1Map_LevenbergM():
             slice=image.shape[2]
             self.t1=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
+            self.shift=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.t1[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.t1[j,k,i],self.magn[j,k,i], self.shift[j,k,i]=_process(image[j,k,i])
         else:
             self.t1=np.zeros((row,column))
             self.magn=np.zeros((row,column))
+            self.shift=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.t1[j,k],self.magn[j,k]=_process(image[j,k])
+                self.t1[j,k],self.magn[j,k], self.shift[j,k] =_process(image[j,k])
 
     def T1map(self:'array_float'):
         return self.t1
     
     def magnitude(self:'array_float'):
         return self.magn
+    
+    def shift(self:'array_float'):
+        return self.shift
     
 ##############################################################################
 
@@ -100,6 +111,7 @@ class T2Map_LevenbergM():
         from scipy.optimize import fmin as simplex
         import numpy as np
         from itertools import product
+
         
         def _fcn2min(params, listEcho, data):
             amp = params['amp']
@@ -115,6 +127,7 @@ class T2Map_LevenbergM():
             t2=_T2init(dataproc[offset_time:])
             magn=0.0
             max=0.0
+            shift=0.0
             try:
                 max=dataproc[offset_time]
             except:
@@ -128,16 +141,21 @@ class T2Map_LevenbergM():
                     result = minner.minimize()
                     t2=result.params['decay'].value
                     magn=result.params['amp'].value
+                    shift=result.params['shift'].value
                     if t2 > 3500.5:
                         t2 = -1
+                        magn=0.0
+                        shift = 0
                 except:
                     t2=-1.0
                     magn=0.0
+                    shift = 0
             else:
                 t2=-1.0
                 magn=0.0
-            return t2, magn
-       
+                shift = 0
+            return t2, magn, shift
+
         def _T2init(y):
             ymax = y[offset_time]
             yT2 = ymax*np.exp(-1)
@@ -150,21 +168,23 @@ class T2Map_LevenbergM():
             return xT2
     
         self.listEcho=np.asarray(listEcho[offset_time:])
-        image=np.asarray(image)
+        self.image=np.asarray(image)
         params=Parameters()
-        row= image.shape[0]
-        column=image.shape[1]
-        if len(image.shape) == 4:
-            slice=image.shape[2]
+        row= self.image.shape[0]
+        column=self.image.shape[1]
+        if len(self.image.shape) == 4:
+            slice=self.image.shape[2]
             self.t2=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
+            self.shift=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.t2[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.t2[j,k,i],self.magn[j,k,i],self.shift[j,k,i]=_process(image[j,k,i])
         else:
             self.t2=np.zeros((row,column))
             self.magn=np.zeros((row,column))
+            self.shift=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.t2[j,k],self.magn[j,k]=_process(image[j,k])
+                self.t2[j,k],self.magn[j,k],self.shift[j,k]=_process(image[j,k])
  
     def T2map(self:'array_float'):
         return self.t2
@@ -172,6 +192,9 @@ class T2Map_LevenbergM():
     def magnitude(self:'array_float'):
         return self.magn
     
+    def shift(self:'array_float'):
+        return self.shift
+        
 ##############################################################################
 
 class TIMap_LevenbergM():
@@ -203,6 +226,7 @@ class TIMap_LevenbergM():
             ti=_TIinit(dataproc)
             magn=0.0
             max=0.0
+            shift=0.0
             try:
                 max=dataproc[-1]
             except:
@@ -216,13 +240,16 @@ class TIMap_LevenbergM():
                     result = minner.minimize()
                     ti=result.params['decay'].value
                     magn=result.params['amp'].value
+                    shift=result.params['shift'].value
                 except:
                     ti=0.0
                     magn=0.0
+                    shift=0.0
             else:
                 ti=0.0
                 magn=0.0
-            return ti, magn
+                shift=0.0
+            return ti, magn, shift
        
         def _TIinit(y):
             ymax = y[-1]
@@ -243,13 +270,15 @@ class TIMap_LevenbergM():
             slice=image.shape[2]
             self.ti=np.zeros((row,column,slice))
             self.magn=np.zeros((row,column,slice))
+            self.shift=np.zeros((row,column,slice))
             for i,j,k in product(range(slice),range(row),range(column)):
-                self.ti[j,k,i],self.magn[j,k,i]=_process(image[j,k,i])
+                self.ti[j,k,i], self.magn[j,k,i], self.shift[j,k,i]=_process(image[j,k,i])
         else:
             self.ti=np.zeros((row,column))
             self.magn=np.zeros((row,column))
+            self.shift=np.zeros((row,column))
             for j,k in product(range(row),range(column)):
-                self.ti[j,k],self.magn[j,k]=_process(image[j,k])
+                self.ti[j,k], self.magn[j,k], self.shift[j,k,i]=_process(image[j,k])
  
     def TImap(self:'array_float'):
         return self.ti
@@ -257,3 +286,5 @@ class TIMap_LevenbergM():
     def magnitude(self:'array_float'):
         return self.magn
     
+    def shift(self:'array_float'):
+        return self.shift
