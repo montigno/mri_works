@@ -31,6 +31,7 @@ class analyze:
         listConnectOutPos = {}
         listConstant = {}
         listConstantInLoopIf = {}
+        listConstantInLoopFor = {}
         tmpIn = {}
         tmpOut = {}
         self.listOut = []
@@ -111,11 +112,15 @@ class analyze:
                 line = line[line.index('listItems') + 11:len(line)]
                 listItems = line[0:line.index('] RectF')]
                 listTmp = []
+                tmplistConstantInLoopFor = []
                 for el in eval(listItems):
                     if 'A' not in el:
                         listTmp.append(el)
+                    else:
+                        tmplistConstantInLoopFor.append(el)
                 listItems = str(listTmp)
                 self.listLoopFor[unit] = [vinput, voutputs, listItems, {}]
+                listConstantInLoopFor[unit] = tmplistConstantInLoopFor
 
             elif line[0:6] == 'loopIf':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -265,6 +270,19 @@ class analyze:
                         elif tmpUnitstart in listConstantInLoopIf[tmpUnitend][1]:
                             tmpVal[1].append(listConstant[tmpUnitstart][0])
                         self.listConstantLoop[tmpKey] = tmpVal
+                    else:
+                        self.listConstantLoop[tmpKey] = listConstant[tmpUnitstart][0]
+                        
+                elif 'F' in tmpUnitend:
+                    tmpKey = tmpUnitend + ":" + tmpEntend
+                    if 'out' in tmpEntend:
+                        if tmpKey in self.listConstantLoop:  # already exist ?
+                            tmpVal = self.listConstantLoop[tmpKey]
+                        else:
+                            tmpVal = []
+                        if tmpUnitstart in listConstantInLoopFor[tmpUnitend]:
+                            tmpVal.append(listConstant[tmpUnitstart][0])
+                        self.listConstantLoop[tmpKey] = tmpVal[0]
                     else:
                         self.listConstantLoop[tmpKey] = listConstant[tmpUnitstart][0]
 

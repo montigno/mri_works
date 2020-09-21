@@ -3986,33 +3986,34 @@ class Constants(QGraphicsRectItem):
             editor.blockSelection(self)
 
     def mouseDoubleClickEvent(self, event):
-        if type(self.elemProxy) == Constants_Combo and self.form != 'bool':
-            AllItems = [self.elemProxy.itemText(i) for i in range(self.elemProxy.count())]
-            p = editCombobox(AllItems)
-            p.exec_()
-            if p.getAnswer() == 'ok':
-                newList = p.getNewList()
-                self.elemProxy.clear()
-                self.elemProxy.addItems(newList)
-                self.elemProxy.txt = "enumerate(" + str(tuple(newList)) + ")"
-                self.elemProxy.value = str(newList[0])
-                self.elemProxy.setSizeAdjustPolicy(QComboBox.AdjustToContents)
-                self.elemProxy.adjustSize()
-                self.form = "enumerate(" + str(tuple(newList)) + ")"
-                self.changeCombo()
-                del listConstants[editor.currentTab][self.unit]
-                listConstants[editor.currentTab][self.unit] = (self.elemProxy.txt, self.elemProxy.value, self.label)
-        elif type(self.elemProxy) == Constants_text and self.form == 'path':
-            currentpathTmp = self.elemProxy.toPlainText()
-#             currentpathTmp=currentpathwork
-            fileCh = QFileDialog.getOpenFileName(None,
-                                                 "Choose file",
-                                                 currentpathTmp,
-                                                 'All Files (*)',
-                                                 None,
-                                                 QFileDialog.DontUseNativeDialog)
-            if fileCh[0]:
-                self.elemProxy.setPlainText(fileCh[0])
+        if self.isMod:
+            if type(self.elemProxy) == Constants_Combo and self.form != 'bool':
+                AllItems = [self.elemProxy.itemText(i) for i in range(self.elemProxy.count())]
+                p = editCombobox(AllItems)
+                p.exec_()
+                if p.getAnswer() == 'ok':
+                    newList = p.getNewList()
+                    self.elemProxy.clear()
+                    self.elemProxy.addItems(newList)
+                    self.elemProxy.txt = "enumerate(" + str(tuple(newList)) + ")"
+                    self.elemProxy.value = str(newList[0])
+                    self.elemProxy.setSizeAdjustPolicy(QComboBox.AdjustToContents)
+                    self.elemProxy.adjustSize()
+                    self.form = "enumerate(" + str(tuple(newList)) + ")"
+                    self.changeCombo()
+                    del listConstants[editor.currentTab][self.unit]
+                    listConstants[editor.currentTab][self.unit] = (self.elemProxy.txt, self.elemProxy.value, self.label)
+            elif type(self.elemProxy) == Constants_text and self.form == 'path':
+                currentpathTmp = self.elemProxy.toPlainText()
+    #             currentpathTmp=currentpathwork
+                fileCh = QFileDialog.getOpenFileName(None,
+                                                     "Choose file",
+                                                     currentpathTmp,
+                                                     'All Files (*)',
+                                                     None,
+                                                     QFileDialog.DontUseNativeDialog)
+                if fileCh[0]:
+                    self.elemProxy.setPlainText(fileCh[0])
 
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 

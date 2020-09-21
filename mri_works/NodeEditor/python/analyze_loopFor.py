@@ -90,8 +90,8 @@ class analyzeLoopFor:
                 tmp1 = tmpArrow[tmpArrow.index('#Node#') + 6:]
                 tmp2 = tmpArrow[0:tmpArrow.index('#Node#')]
                 self.listConnectOut.append(tmp1 + '=' + tmp2)
+                
 # search sequence of stacks #####################################
-
         tmplistArrowIntern = {}
         for keyAi, valueAi in listArrowIntern.items():
             tmp = valueAi
