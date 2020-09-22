@@ -7,7 +7,6 @@ ants_MeasureImageSimilarity:
   moving_image_mask: 'path'
   num_threads: 1
   sampling_strategy: enumerate(('None', 'Regular', 'Random'))
-
 ants_Registration:
   args: ''
   collapse_output_transforms: True

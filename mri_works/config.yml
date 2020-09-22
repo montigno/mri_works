@@ -22,12 +22,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/domicile-xubuntu/Documents/projects_mriworks/Matlab_MP3_Brain_Mask_PCNN3D.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/multi_scripts.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/Script_in_LoopFor.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/Script_in_LoopFor_multiprocessing.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/free.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.09.22a

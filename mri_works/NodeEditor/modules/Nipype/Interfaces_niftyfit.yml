@@ -1,4 +1,4 @@
-niftyfit_FitAsl : 
+niftyfit_FitAsl:
   pasl: False
   pcasl: False
   cbf_file: 'path'
