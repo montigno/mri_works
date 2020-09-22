@@ -449,8 +449,7 @@ class Menu(QMenuBar):
 
         if tmpActText == 'Redo':
             ct = editor.currentTab
-            if pointTyping[ct] < \
-                    len(undoredoTyping[ct]) - 1:
+            if pointTyping[ct] < len(undoredoTyping[ct]) - 1:
                 pointTyping[ct] += 1
                 for item in editor.diagramScene[ct].items():
                     editor.diagramScene[ct].removeItem(item)
@@ -3982,8 +3981,8 @@ class Constants(QGraphicsRectItem):
             editor.diagramScene[editor.currentTab].clearSelection()
             self.setSelected(True)
 
-        if event.button() == 1 and event.modifiers() == Qt.ControlModifier:
-            editor.blockSelection(self)
+#         if event.button() == 1 and event.modifiers() == Qt.ControlModifier:
+#             editor.blockSelection(self)
 
     def mouseDoubleClickEvent(self, event):
         if self.isMod:
@@ -4530,11 +4529,20 @@ class ForLoopItem(QGraphicsRectItem):
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
             UpdateUndoRedo()
         else:
-            self.scene().removeItem(portIn)
-            self.scene().removeItem(portOut)
-            self.inputs = self.inputs[:-1]
-            self.outputs = self.outputs[:-1]
-            self.nbin -= 1
+            ct = editor.currentTab
+            if pointTyping[ct] > 0:
+                pointTyping[ct] -= 1
+                for item in editor.diagramScene[ct].items():
+                    editor.diagramScene[ct].removeItem(item)
+                newDiagram = undoredoTyping[ct][pointTyping[ct]]
+                LoadDiagram(newDiagram.splitlines())
+                UpdateList(newDiagram)
+#             self.scene().removeItem(portIn)
+#             self.scene().removeItem(portOut)
+#             self.inputs = self.inputs[:-1]
+#             self.outputs = self.outputs[:-1]
+#             self.nbin -= 1
+
 
     def addTunnelOutput(self):
         self.nbout += 1
@@ -4591,11 +4599,20 @@ class ForLoopItem(QGraphicsRectItem):
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
             UpdateUndoRedo()
         else:
-            self.scene().removeItem(portIn)
-            self.scene().removeItem(portOut)
-            self.inputs = self.inputs[:-1]
-            self.outputs = self.outputs[:-1]
-            self.nbout -= 1
+            ct = editor.currentTab
+            if pointTyping[ct] > 0:
+                pointTyping[ct] -= 1
+                for item in editor.diagramScene[ct].items():
+                    editor.diagramScene[ct].removeItem(item)
+                newDiagram = undoredoTyping[ct][pointTyping[ct]]
+                LoadDiagram(newDiagram.splitlines())
+                UpdateList(newDiagram)
+#             self.scene().removeItem(portIn)
+#             self.scene().removeItem(portOut)
+#             self.inputs = self.inputs[:-1]
+#             self.outputs = self.outputs[:-1]
+#             self.nbout -= 1
+            
 
     def updateTunnelInput(self, inp):
         self.nbin += 1
@@ -5799,6 +5816,11 @@ class TreeLibrary(QTreeView):
 
     def __init__(self, parent=None):
         super(TreeLibrary, self).__init__(parent)
+        self.loading = False
+        
+    def __new__(self, *args, **kwargs):
+        self.loading = False
+        return QTreeView.__new__(self, *args, **kwargs)
 
     def contextMenuEvent(self, event):
         menu = QMenu()
@@ -5813,83 +5835,166 @@ class TreeLibrary(QTreeView):
 
     def uncolps(self):
         self.expandAll()
-
-    def mousePressEvent(self, event):
+    
+    def selectionChanged(self, *args, **kwargs):
         try:
-            idx = self.indexAt(event.pos())
-            if idx.isValid():
-                model = idx.model()
-                idx = idx.sibling(idx.row(), 0)
-                sel = model.itemFromIndex(idx).text()
-                mimidat = model.name
-                name = model.itemFromIndex(idx).text()
-
-                if mimidat in 'mod_SubMod':
-                    if sel not in listCategory:
-                        ind = 0
-                        for i, j in enumerate(editor.getlib()):
-                            if j[0] == name:
-                                ind = i
-                                break
-                        b1 = BlockCreate(name, '', editor.getlib()[ind][1], 150, 80, editor.getlib()[ind][2][1], False, editor.getlib()[ind][2])
-                        b1.preview = True
-                        textSource = 'Source : ' + editor.getlib()[ind][1]
-                        self.showModel(b1, textSource)
-                    else:
-                        for elem in previewScene.items():
-                            previewScene.removeItem(elem)
-
-                elif mimidat in 'blocks_subModules':
-                    if sel not in listCategorySubMod:
-                        ind = 0
-                        for i, j in enumerate(libSubMod):
-                            if j[0] == name:
-                                indMod = i
-                                break
-                        bm = BlockCreate(name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
-                        self.showModel(bm, '')
-                    else:
-                        for elem in previewScene.items():
-                            previewScene.removeItem(elem)
-
-                elif mimidat in 'structures_tools':
-                    name = model.itemFromIndex(idx).text()
-                    if sel not in listCategoryTools:
-                        if "Constant" in name:
-                            if 'string' in name:
-                                val = 'your text'
-                                form = 'str'
-                            elif 'integer' in name:
-                                val = 0
-                                form = 'int'
-                            elif 'float' in name:
-                                val = 0.0
-                                form = 'float'
-                            elif 'combobox' in name:
-                                form = "enumerate(('item1','item2','item3'))"
-                                val = 'item1'
-                            elif 'boolean' in name:
-                                val = True
-                                form = 'bool'
-                            elif 'path' in name:
-                                val = 'path'
-                                form = 'path'
-                            bc = Constants('', 80, 30, val, form, '', False)
-                        elif 'Comments' in name:
-                            bc = CommentsItem(200, 100, 'your comments', False)
-                        elif 'For' in name:
-                            bc = ForLoopItem('', name, 200, 200, False)
-                        elif 'If' in name:
-                            bc = ForLoopItem('', name, 200, 200, False)
-                        elif 'Script' in name:
-                            bc = ScriptItem('', name, 200, 200, False)
-                        self.showModel(bc, name)
-                    else:
-                        for elem in previewScene.items():
-                            previewScene.removeItem(elem)
+            index = self.selectedIndexes()
+            if index and not self.loading:
+                self.getSelectedItem()
+            else:
+                for elem in previewScene.items():
+                    previewScene.removeItem(elem)
         except Exception as e:
-            print('error showModel')
-        return QTreeView.mousePressEvent(self, event)
+            pass
+        return QTreeView.selectionChanged(self, *args, **kwargs)
+     
+    def getSelectedItem(self):
+        index = self.selectedIndexes()[0]
+        crawler = index.model().itemFromIndex(index)
+        name = crawler.text()
+        sel = crawler.text()
+        mimidat = index.model().name
+        if mimidat in 'mod_SubMod':
+            if sel not in listCategory:
+                ind = 0
+                for i, j in enumerate(editor.getlib()):
+                    if j[0] == name:
+                        ind = i
+                        break
+                b1 = BlockCreate(name, '', editor.getlib()[ind][1], 150, 80, editor.getlib()[ind][2][1], False, editor.getlib()[ind][2])
+                b1.preview = True
+                textSource = 'Source : ' + editor.getlib()[ind][1]
+                self.showModel(b1, textSource)
+            else:
+                for elem in previewScene.items():
+                    previewScene.removeItem(elem)
+ 
+        elif mimidat in 'blocks_subModules':
+            if sel not in listCategorySubMod:
+                ind = 0
+                for i, j in enumerate(libSubMod):
+                    if j[0] == name:
+                        indMod = i
+                        break
+                bm = BlockCreate(name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
+                self.showModel(bm, '')
+            else:
+                for elem in previewScene.items():
+                    previewScene.removeItem(elem)
+ 
+        elif mimidat in 'structures_tools':
+#             name = model.itemFromIndex(idx).text()
+            if sel not in listCategoryTools:
+                if "Constant" in name:
+                    if 'string' in name:
+                        val = 'your text'
+                        form = 'str'
+                    elif 'integer' in name:
+                        val = 0
+                        form = 'int'
+                    elif 'float' in name:
+                        val = 0.0
+                        form = 'float'
+                    elif 'combobox' in name:
+                        form = "enumerate(('item1','item2','item3'))"
+                        val = 'item1'
+                    elif 'boolean' in name:
+                        val = True
+                        form = 'bool'
+                    elif 'path' in name:
+                        val = 'path'
+                        form = 'path'
+                    bc = Constants('', 80, 30, val, form, '', False)
+                elif 'Comments' in name:
+                    bc = CommentsItem(200, 100, 'your comments', False)
+                elif 'For' in name:
+                    bc = ForLoopItem('', name, 200, 200, False)
+                elif 'If' in name:
+                    bc = ForLoopItem('', name, 200, 200, False)
+                elif 'Script' in name:
+                    bc = ScriptItem('', name, 200, 200, False)
+                self.showModel(bc, name)
+            else:
+                for elem in previewScene.items():
+                    previewScene.removeItem(elem)
+
+#     def mousePressEvent(self, event):
+#         try:
+#             idx = self.indexAt(event.pos())
+#             if idx.isValid():
+#                 model = idx.model()
+#                 idx = idx.sibling(idx.row(), 0)
+#                 sel = model.itemFromIndex(idx).text()
+#                 mimidat = model.name
+#                 name = model.itemFromIndex(idx).text()
+#                 print('sel=',sel,', mimidat=',mimidat,', name=',name)
+#  
+#                 if mimidat in 'mod_SubMod':
+#                     if sel not in listCategory:
+#                         ind = 0
+#                         for i, j in enumerate(editor.getlib()):
+#                             if j[0] == name:
+#                                 ind = i
+#                                 break
+#                         b1 = BlockCreate(name, '', editor.getlib()[ind][1], 150, 80, editor.getlib()[ind][2][1], False, editor.getlib()[ind][2])
+#                         b1.preview = True
+#                         textSource = 'Source : ' + editor.getlib()[ind][1]
+#                         self.showModel(b1, textSource)
+#                     else:
+#                         for elem in previewScene.items():
+#                             previewScene.removeItem(elem)
+#  
+#                 elif mimidat in 'blocks_subModules':
+#                     if sel not in listCategorySubMod:
+#                         ind = 0
+#                         for i, j in enumerate(libSubMod):
+#                             if j[0] == name:
+#                                 indMod = i
+#                                 break
+#                         bm = BlockCreate(name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
+#                         self.showModel(bm, '')
+#                     else:
+#                         for elem in previewScene.items():
+#                             previewScene.removeItem(elem)
+#  
+#                 elif mimidat in 'structures_tools':
+# #                     name = model.itemFromIndex(idx).text()
+#                     if sel not in listCategoryTools:
+#                         if "Constant" in name:
+#                             if 'string' in name:
+#                                 val = 'your text'
+#                                 form = 'str'
+#                             elif 'integer' in name:
+#                                 val = 0
+#                                 form = 'int'
+#                             elif 'float' in name:
+#                                 val = 0.0
+#                                 form = 'float'
+#                             elif 'combobox' in name:
+#                                 form = "enumerate(('item1','item2','item3'))"
+#                                 val = 'item1'
+#                             elif 'boolean' in name:
+#                                 val = True
+#                                 form = 'bool'
+#                             elif 'path' in name:
+#                                 val = 'path'
+#                                 form = 'path'
+#                             bc = Constants('', 80, 30, val, form, '', False)
+#                         elif 'Comments' in name:
+#                             bc = CommentsItem(200, 100, 'your comments', False)
+#                         elif 'For' in name:
+#                             bc = ForLoopItem('', name, 200, 200, False)
+#                         elif 'If' in name:
+#                             bc = ForLoopItem('', name, 200, 200, False)
+#                         elif 'Script' in name:
+#                             bc = ScriptItem('', name, 200, 200, False)
+#                         self.showModel(bc, name)
+#                     else:
+#                         for elem in previewScene.items():
+#                             previewScene.removeItem(elem)
+#         except Exception as e:
+#             print('error showModel')
+#         return QTreeView.mousePressEvent(self, event)
 
     def showModel(self, item, text):
         previewScene.clear()
@@ -6768,4 +6873,3 @@ class NodeEdit(QWidget):
                     textEdit.append(greenText)
 
             self.startConnection = None
-
