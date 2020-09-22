@@ -38,7 +38,7 @@ class T1Map_LevenbergM():
                 try:
                     params.add('amp', value=max)
                     params.add('decay', value=t1)
-                    params.add('shift', value=1.0)
+                    params.add('shift', value=0.0)
                     minner = Minimizer(_fcn2min, params, fcn_args=(self.listEcho, dataproc), max_nfev=iteration)
                     result = minner.minimize()
                     t1 = result.params['decay'].value
