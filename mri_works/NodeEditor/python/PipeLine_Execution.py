@@ -139,13 +139,16 @@ class execution:
         listInThread = []
 
         for execution in listBlockExecution:
-
+            
             if 'ThreadOn' in execution:
                 threadcurrent = True
                 threads = []
                 listInThread = []
 
             elif 'ThreadOff' in execution:
+                self.progress.setLabelText('['+' , '.join(listInThread)+'] running')
+                self.progress.setValue(i)
+                i += 100 / n
                 [thread.start() for thread in threads]
                 [self.listDynamicValue.update(thread.join()) for thread in threads]
                 threadcurrent = False
@@ -159,9 +162,12 @@ class execution:
                                   % (time.time() - start_bb) + "</span>")
 #                 print("thread lisdynamicvalue", self.listDynamicValue.keys())
             else:
+                if not threadcurrent:
+                    self.progress.setLabelText(execution+' running')
                 self.progress.setValue(i)
                 i += 100 / n
                 start_bb = time.time()
+            
             if ('M' not in execution and
                 'F' not in execution and
                 'I' not in execution and
