@@ -4462,7 +4462,7 @@ class ForLoopItem(QGraphicsRectItem):
                 pa.triggered.connect(self.editParameters)
                 outtu.setEnabled(False)
             menu.exec_(event.screenPos())
-            return QGraphicsRectItem.contextMenuEvent(self, event)
+#             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def deleteLoopFor(self):
         editor.diagramScene[editor.currentTab].removeItem(self)
@@ -5064,7 +5064,8 @@ class ScriptItem(QGraphicsRectItem):
             ct = menu.addAction('Change title')
             ct.triggered.connect(self.changeTitle)
             menu.exec_(event.screenPos())
-            return QGraphicsRectItem.contextMenuEvent(self, event)
+#             event.accept()
+#             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def deleteScript(self):
         editor.diagramScene[editor.currentTab].removeItem(self)
@@ -6122,6 +6123,10 @@ class NodeEdit(QWidget):
 
             def __init__(self, parent=None):
                 super(HorizontalTabBar, self).__init__(parent)
+
+            def mousePressEvent(self, *args, **kwargs):
+                self.setFocus(True)
+                return QTabBar.mousePressEvent(self, *args, **kwargs)
 
             def paintEvent(self, event):
                 painter = QStylePainter(self)
