@@ -1,153 +1,218 @@
 AbsX:
-   functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
+  functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
                   Example (xmin=0.0, xmax=10.0, delta_x=0.1) --> [0.0, 0.1, ...., 9.9, 10.0]"
-   xmin : (float) minimum value
-   xmax : (float) maximal value
-   delta_x: (float) deviation of x
-   outAbscissa: (list of float) list of abscissa of x
-   dependencies: Numpy
+  xmin : (float) minimum value
+  xmax : (float) maximal value
+  delta_x: (float) deviation of x
+  outAbscissa: (list of float) list of abscissa of x
+  dependencies: Numpy
+
+ants_AntsJointFusion:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  dependencies: Nipype, ANTs
+
+ants_BrainExtraction:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  dependencies: Nipype, ANTs
+
+ants_JointFusion:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  dependencies: Nipype, ANTs
+
+ants_MeasureImageSimilarity:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html
+  dependencies: Nipype, ANTs
+
+ants_N4BiasFieldCorrection:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  dependencies: Nipype, ANTs
+
+ants_Registration:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html
+  dependencies: Nipype, ANTs
 
 Array_3D_random:
-   functionality: Generate a random image 3D (row, column and slice)
-   row: (integer) number of row
-   col: (integer) number of column
-   slice: (integer) number of slice
-   rand_out: (array of float) image 3D
-   dependencies: Numpy
+  functionality: Generate a random image 3D (row, column and slice)
+  row: (integer) number of row
+  col: (integer) number of column
+  slice: (integer) number of slice
+  rand_out: (array of float) image 3D
+  dependencies: Numpy
 
 Array_4D_random:
-   functionality: Generate a random image 4D (row, column, slice and temporel)
-   row: (integer) number of row
-   col: (integer) number of column
-   slice: (integer) number of slice
-   temporal: (integer) number of temporal stack
-   rand_out: (array of float) image 4D
-   dependencies: Numpy
-   
+  functionality: Generate a random image 4D (row, column, slice and temporel)
+  row: (integer) number of row
+  col: (integer) number of column
+  slice: (integer) number of slice
+  temporal: (integer) number of temporal stack
+  rand_out: (array of float) image 4D
+  dependencies: Numpy
+
 Array_5D_random:
-   functionality: Generate a random image 5D (row, column, slice, temporal and canal)
-   row: (integer) number of row
-   col: (integer) number of column
-   slice: (integer) number of slice
-   temporal: (integer) number of temporal stack
-   canal:  (integer) number of canal
-   rand_out: (array of float) image 5D
-   dependencies: Numpy
-   
+  functionality: Generate a random image 5D (row, column, slice, temporal and canal)
+  row: (integer) number of row
+  col: (integer) number of column
+  slice: (integer) number of slice
+  temporal: (integer) number of temporal stack
+  canal:  (integer) number of canal
+  rand_out: (array of float) image 5D
+  dependencies: Numpy
+
 Choose_directory:
-   functionality: Open a dialog box from which the user can select a directory.
-   RepDefault: (path) default directory
-   title: (string) dialog box title
-   filePath: (path) path of the selected directory
-   
+  functionality: Open a dialog box from which the user can select a directory.
+  RepDefault: (path) default directory
+  title: (string) dialog box title
+  filePath: (path) path of the selected directory
+
 Choose_file:
-   functionality: Open a dialog box from which the user can select a file.
-   fileDefault: (path) default file
-   extension: (string) file name filtering (ex '*.jpg' '*.txt' '.nii .json ')
-   title: (string) dialog box title
-   filePath: (path) path of the selected file
-   
+  functionality: Open a dialog box from which the user can select a file.
+  fileDefault: (path) default file
+  extension: (string) file name filtering (ex '*.jpg' '*.txt' '.nii .json ')
+  title: (string) dialog box title
+  filePath: (path) path of the selected file
+
 csv_reader_file: 
   functionality: https://docs.python.org/3/library/csv.html
   file: (path) path of CSV file
   array_csv: (string array) string array contained in the CSV file
-  
+
 csv_reader_text:
   functionality: https://docs.python.org/3/library/csv.html
   txt: (string) text in CSV format
   array_csv: (string array) string array contained in the text
-   
+
 exponential:
-   functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
-   amplitude: (float) amplitude (a) of function
-   decay: (float) decay (b) of function (in ms)
-   shift: (float) shift (c) of function
-   function: "(enumerate) list of possible function :
+  functionality: Generates a MRI exponential function (T1, T2 or TI) with or without shift.
+  amplitude: (float) amplitude (a) of function
+  decay: (float) decay (b) of function (in ms)
+  shift: (float) shift (c) of function
+  function: "(enumerate) list of possible function :
                'a*exp(-bx)', 'a*exp(-bx)+c',
                'a*(1-exp(-bx))', 'a*(1-exp(-bx))+c',
                'a*(1-2*exp(-bx))', 'a*(1-2*c*exp(-bx))')"
-   x: (list of float) abscissa x
-   outFunction: (list of float) out of function selected
-   dependencies: Numpy
+  x: (list of float) abscissa x
+  outFunction: (list of float) out of function selected
+  dependencies: Numpy
 
 fact:
-   functionality: return x factorial as integer
-   enter_int: (integer) an integer number
-   factorial: (integer) factorial of enter_int
-   dependencies: Numpy
+  functionality: return x factorial as integer
+  enter_int: (integer) an integer number
+  factorial: (integer) factorial of enter_int
+  dependencies: Numpy
 
 fetch_atlas_harvard_oxford:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
+  dependencies: Nipype, Nilearn
+
 fetch_atlas_msdl:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
+  dependencies: Nipype, Nilearn
+
 fetch_atlas_smith_2009:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
+  dependencies: Nipype, Nilearn
+
 fetch_neurovault_motor_task:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
+  dependencies: Nipype, Nilearn
+
 FloatToInt_array:
-   functionality: "Allows the conversion of a float array to an integer array.
+  functionality: "Allows the conversion of a float array to an integer array.
                    Example  [[0.1] , [1.1] , [2.2]] --> [[0] , [1] , [2]]"
-   arrayFloat : (array of float) array of floating values
-   outArrayInt: (array of integer) array of integer values
-   
+  arrayFloat : (array of float) array of floating values
+  outArrayInt: (array of integer) array of integer values
+
 FloatToInt_list:
-   functionality: "Allows the conversion of a float list to an integer list.
+  functionality: "Allows the conversion of a float list to an integer list.
                    Example  [0.1 , 1.1 , 2.2 ] --> [0 , 1 , 2]"
-   listFloat : (list of float) list of floating values
-   outListInt: (list of integer) list of integer values
-   
+  listFloat : (list of float) list of floating values
+  outListInt: (list of integer) list of integer values
+
 FloatToInt_simple:
-   functionality: "Allows the conversion of a float number to an integer number.
+  functionality: "Allows the conversion of a float number to an integer number.
                    Example  1.1 --> 1"
-   inFloat: (float) float number
-   outInt: (integer) integer number
-   
+  inFloat: (float) float number
+  outInt: (integer) integer number
+
 FloatToString:
-   functionality: "Allows the conversion of a floating number to string.
+  functionality: "Allows the conversion of a floating number to string.
                   Example 1.1 --> '1.1'"
-   inFloat: (float) float number
-   outString: (string) string of float number
-   
+  inFloat: (float) float number
+  outString: (string) string of float number
+
 fsl_ApplyMask:
-   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
-   
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  dependencies: Nipype, fsl
+
+fsl_BET:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  dependencies: Nipype, fsl
+
+fsl_BinaryMaths:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  dependencies: Nipype, fsl
+
+fsl_FAST:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  dependencies: Nipype, fsl
+
+fsl_FLIRT:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  dependencies: Nipype, fsl
+
+fsl_FNIRT:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  dependencies: Nipype, fsl
+
+fsl_Merge:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  dependencies: Nipype, fsl
+
+fsl_Split:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  dependencies: Nipype, fsl
+
+fsl_SwapDimensions:
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  dependencies: Nipype, fsl
+
+fsl_Threshold:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  dependencies: Nipype, fsl
+
+fsl_UnaryMaths:
+  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  dependencies: Nipype, fsl
+
 IntToFloat_array:
-   functionality: "Allows the conversion of an integer array to a floating array.
+  functionality: "Allows the conversion of an integer array to a floating array.
                   Example [[0] , [1] , [2]] --> [[0.0] , [1.0] , [2.0]]"
-   arrayInt: (array of integer) array of integer values
-   outArrayFloat: (array of float) array of floating values
-   
+  arrayInt: (array of integer) array of integer values
+  outArrayFloat: (array of float) array of floating values
+
 IntToFloat_list:
-   functionality: "Allows the conversion of an integer list to a float list.
+  functionality: "Allows the conversion of an integer list to a float list.
                   Example [0 , 1 , 2] --> [0.0 , 1.0 , 2.0]"
-   listInt: (list of integer) list of integer values
-   outListFloat: (list of float) list of floating values
-   
+  listInt: (list of integer) list of integer values
+  outListFloat: (list of float) list of floating values
+
 IntToFloat_simple:
-   functionality: "Allows the conversion of an integer number to a float number.
+  functionality: "Allows the conversion of an integer number to a float number.
                   Example 2 --> 2.0"
-   inInt: (integer) list of integer values
-   outFloat: (float) list of floating values
-   
+  inInt: (integer) list of integer values
+  outFloat: (float) list of floating values
+
 IntToString:
-   functionality: "Allows the conversion of a integer number to string.
+  functionality: "Allows the conversion of a integer number to string.
                   Example 1 --> '1'"
-   inInt: (integer) integer number
-   outString: (string) string of integer number  
+  inInt: (integer) integer number
+  outString: (string) string of integer number
 
 ListOfInt:
-   functionality: Create a list of integer number 0 to n-1.
-   n: (integer) an integer number
-   serie_int: (list of integer) a list of integer number 0 to n-1
-   
+  functionality: Create a list of integer number 0 to n-1.
+  n: (integer) an integer number
+  serie_int: (list of integer) a list of integer number 0 to n-1
+
 MP3_T2map:
   functionality: Create a T2 map from a multi-echo time data.
   mat_eng: (str) functions of a called MATLAB (used with 'start_matlab' brick)
@@ -156,60 +221,60 @@ MP3_T2map:
   dependencies: Matlab engine
 
 NlargestInArray:
-   functionality: Check the n largest value in array input.
-   in_array: (array of float) array input
-   n: (integer) number of desired largest values
-   listMax: (list of float) list of n largest values of in_array
-   
+  functionality: Check the n largest value in array input.
+  in_array: (array of float) array input
+  n: (integer) number of desired largest values
+  listMax: (list of float) list of n largest values of in_array
+
 NsmallestInArray:
-   functionality: Check the n smallest value in array input.
-   in_array: (array of float) array input
-   n: (integer) number of desired smallest values
-   listMin: (list of float) list of n smallest values of in_array
-   
+  functionality: Check the n smallest value in array input.
+  in_array: (array of float) array input
+  n: (integer) number of desired smallest values
+  listMin: (list of float) list of n smallest values of in_array
+
 numpy_abs:
-   functionality: Returns the absolute value of the array elements.
-   y: (array of float) array input
-   abs: (array of float) absolute of y
-   
+  functionality: Returns the absolute value of the array elements.
+  y: (array of float) array input
+  abs: (array of float) absolute of y
+
 numpy_exponential:
-   functionality: Returns the exponential of the array elements.
-   y: (array of float) array input
-   exp: (array of float) exponential of y
-   
+  functionality: Returns the exponential of the array elements.
+  y: (array of float) array input
+  exp: (array of float) exponential of y
+
 numpy_RMS:
-   functionality: Returns the Root Mean Square of the array elements.
-   y: (array of float) array input
-   rms: (array of float) rms of y
-   
+  functionality: Returns the Root Mean Square of the array elements.
+  y: (array of float) array input
+  rms: (array of float) rms of y
+
 numpy_std:
-   functionality: Returns the standard deviation of the array elements.
-   y: (array of float) array input
-   std: (array of float) standard deviation of y
+  functionality: Returns the standard deviation of the array elements.
+  y: (array of float) array input
+  std: (array of float) standard deviation of y
 
 Plot_anat:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_anat.html
-   dependencies: Nilearn
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_anat.html
+  dependencies: Nilearn
 
 Plot_epi:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_epi.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_epi.html
+  dependencies: Nilearn
+
 Plot_glass_brain:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_glass_brain.html
-   dependencies: Nilearn
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_glass_brain.html
+  dependencies: Nilearn
 
 Plot_img:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_img.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_img.html
+  dependencies: Nilearn
+
 Plot_prob_atlas:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_prob_atlas.html
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_prob_atlas.html
+
 Plot_roi:
-   functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_roi.html
-   dependencies: Nilearn
-   
+  functionality: https://nilearn.github.io/modules/generated/nilearn.plotting.plot_roi.html
+  dependencies: Nilearn
+
 Print_array_bool:
   functionality: Prints the boolean array to the terminal with a specified message from comment port.
   comment: (string) your comment
@@ -219,27 +284,27 @@ Print_array_float:
   functionality: Prints the array of floating numbers to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_array_Float: (array of float) array of floating values
-  
+
 Print_array_int:
   functionality: Prints the array of integer numbers to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_array_Int: (array of integer) array of integer numbers
-  
+
 Print_array_path:
   functionality: Prints the array of file/directory paths to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_array_Path: (array of path) array of file/directory paths
-  
+
 Print_array_str:
   functionality: Prints the array of strings to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_array_String: (array of string) array of strings
-  
+
 Print_bool:
   functionality: Prints the boolean value to the terminal with a specified message from comment port.
   comment: (string) your comment
   inBool: (boolean) boolean value
-  
+
 Print_dict:
   functionality: Prints the dictionary structure to the terminal with a specified message from comment port.
   comment: (string) your comment
@@ -249,12 +314,12 @@ Print_float:
   functionality: Prints the floating number to the terminal with a specified message from comment port.
   comment: (string) your comment
   inFloat: (float) float number
-  
+
 Print_int:
   functionality: Prints the integer number to the terminal with a specified message from comment port.
   comment: (string) your comment
   inInt: (integer) integer number
-  
+
 Print_list_bool:
   functionality: Prints the boolean list to the terminal with a specified message from comment port.
   comment: (string) your comment
@@ -264,90 +329,90 @@ Print_list_float:
   functionality: Prints the list of floating numbers to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_list_Float: (list of float) list of floating values
-  
+
 Print_list_int:
   functionality: Prints the list of integer numbers to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_list_Int: (list of integer) list of integer numbers
-  
+
 Print_list_path:
   functionality: Prints the list of file/directory paths to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_list_Path: (list of path) list of file/directory paths
-  
+
 Print_list_str:
   functionality: Prints the list of strings to the terminal with a specified message from comment port.
   comment: (string) your comment
   in_list_String: (list of string) list of strings
-  
+
 Print_path:
   functionality: Prints file/directory path to the terminal with a specified message from comment port.
   comment: (string) your comment
   inPath: (path) file/directory paths
-  
+
 Print_str:
   functionality: Prints the string to the terminal with a specified message from comment port.
   comment: (string) your comment
   inString: (string) string
-  
+
 Print_tuple:
   functionality: Prints the tuple structure to the terminal with a specified message from comment port.
   comment: (string) your comment
   inString: (tuple) tuple
-  
+
 Print_type_var:
   functionality: Prints the type of variable to the terminal with a specified message from comment port.
   comment: (string) your comment
   inString: (all type) your variable whatever the type
-     
+
 trigonometric:
-   functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
+  functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
                      y = f(x+angle)"
-   angle : (float) shift angle
-   function : "(enumerate) list of possible function :
+  angle : (float) shift angle
+  function : "(enumerate) list of possible function :
                'sin(x)', 'cos(x)', 'tan(x)',
                'arcsin(x)', 'arccos(x)', 'arctan(x)'"
-   x_degree : (list of float) abscissa x in degree
-   outFunction : (list of float) out of function selected
-   dependencies: Numpy
-   
+  x_degree : (list of float) abscissa x in degree
+  outFunction : (list of float) out of function selected
+  dependencies: Numpy
+
 x_Equal_y:
-   functionality: Check if x == y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)
-   
+  functionality: Check if x == y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)
+
 x_GreaterOrEqual_y:
-   functionality: Check if x >= y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)
-   
+  functionality: Check if x >= y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)
+
 x_Greater_y:
-   functionality: Check if x > y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)
-   
+  functionality: Check if x > y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)
+
 x_is_None:
-   functionality: Check if x == None
-   x: (float) a float number
-   out: (boolean) check condition (True or False)
+  functionality: Check if x == None
+  x: (float) a float number
+  out: (boolean) check condition (True or False)
 
 x_LessOrEqual_y:
-   functionality: Check if x &lt;&#61; y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)
+  functionality: Check if x &lt;&#61; y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)
 
 x_Less_y:
-   functionality: Check if x &lt; y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)
+  functionality: Check if x &lt; y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)
 
 x_Not_Equal_y:
-   functionality: Check if x != y
-   x: (float) a float number
-   y: (float) a float number
-   out: (boolean) check condition (True or False)  
+  functionality: Check if x != y
+  x: (float) a float number
+  y: (float) a float number
+  out: (boolean) check condition (True or False)  

@@ -1,0 +1,36 @@
+[diagram]
+link=[N2] node=[S0:out_5D#Node#U2:image]
+link=[N1] node=[S0:out_4D#Node#U1:image]
+link=[N0] node=[S0:out_3D#Node#U0:image]
+block=[U2] category=[Nifti.Nifti] class=[DisplayImage] valInputs=[(['image', 'title'], ['Node(N2)', '5D'], [], [])] RectF=[(874.0, 197.0, 150.0, 80.0)]
+block=[U1] category=[Nifti.Nifti] class=[DisplayImage] valInputs=[(['image', 'title'], ['Node(N1)', '4D'], [], [])] RectF=[(884.0, 45.0, 150.0, 80.0)]
+block=[U0] category=[Nifti.Nifti] class=[DisplayImage] valInputs=[(['image', 'title'], ['Node(N0)', '3D'], [], [])] RectF=[(848.0, -93.0, 150.0, 80.0)]
+script=[S0] title=[Script_editor] inputs=[] outputs=[['out_3D', 'out', 'array_float'], ['out_4D', 'out', 'array_float'], ['out_5D', 'out', 'array_float']] code=[your code] RectF=[(-57.0, -91.0, 729.0, 323.0)]
+[source S0]
+[]
+from NodeEditor.modules.Generator.Random import Array_3D_random
+from NodeEditor.modules.Generator.Random import Array_4D_random
+from NodeEditor.modules.Generator.Random import Array_5D_random
+
+row=128
+column=128
+slice=21
+time=19
+type=2
+
+out_3D = Array_3D_random(row,column,slice).rand_out()
+
+out_4D = Array_4D_random(row,column,slice,time).rand_out()
+
+out_5D = Array_5D_random(row,column,slice,time,type).rand_out()
+
+['S0:out_3D', 'S0:out_4D', 'S0:out_5D']
+[/source S0]
+
+[execution]
+[]
+['S0', 'U0', 'U1', 'U2']
+{'U0': ('Nifti.Nifti', 'DisplayImage', "(['image', 'title'], ['S0:out_3D', '3D'], [], [])"), 'U1': ('Nifti.Nifti', 'DisplayImage', "(['image', 'title'], ['S0:out_4D', '4D'], [], [])"), 'U2': ('Nifti.Nifti', 'DisplayImage', "(['image', 'title'], ['S0:out_5D', '5D'], [], [])")}
+['S0:out_3D', 'S0:out_4D', 'S0:out_5D']
+{}
+[]

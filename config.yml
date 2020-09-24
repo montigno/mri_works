@@ -22,17 +22,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/omontigon/Documents/mri_works_projects/Script_LoopFor_multiprocessing.dgr
-  - /home/omontigon/Documents/mri_works_projects/Benchmark_submod_error.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_jsonpath_capsul.dgr
-  - /home/omontigon/Documents/mri_works_projects/read_json_irmage.dgr
-  - /home/omontigon/Documents/mri_works_projects/free.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Arithmetic.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_constant_outLoopFor.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map_script.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_script_with_matlabengine.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.09.22a
