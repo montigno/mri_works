@@ -1,5 +1,5 @@
 [diagram]
-script=[S0] title=[Script_editor] inputs=[] outputs=[] code=[your code] RectF=[(-282.233906094711, -272.2126638916002, 603.5802510236952, 609.4261073220628)]
+script=[S0] title=[Script_editor] inputs=[] outputs=[] code=[your code] RectF=[(-62.009769620277325, -197.43240667938073, 603.5802510236952, 609.4261073220628)]
 [source S0]
 []
 # statistics module - Mathematical statistics functions
@@ -35,6 +35,8 @@ print('median = ', st.median([1, 3, 5]))
 
 print('stdev = ', st.stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75]))
 print('variance in Fraction = ', st.variance([F(1, 6), F(1, 2), F(5, 3)]))
+print()
+
 []
 [/source S0]
 
