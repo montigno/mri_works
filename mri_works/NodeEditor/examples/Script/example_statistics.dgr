@@ -1,0 +1,47 @@
+[diagram]
+script=[S0] title=[Script_editor] inputs=[] outputs=[] code=[your code] RectF=[(-282.233906094711, -272.2126638916002, 603.5802510236952, 609.4261073220628)]
+[source S0]
+[]
+# statistics module - Mathematical statistics functions
+# see https://docs.python.org/3/library/statistics.html
+
+# mean() : Arithmetic mean (“average”) of data.
+# fmean() : Fast, floating point arithmetic mean (new in Python 3.8).
+# geometric_mean() : Geometric mean of data (new in Python 3.8).
+# harmonic_mean() : Harmonic mean of data.
+# median() : Median (middle value) of data.
+# median_low() : Low median of data.
+# median_high() : High median of data.
+# median_grouped() : Median, or 50th percentile, of grouped data.
+# mode() : Single mode (most common value) of discrete or nominal data.
+# multimode() : List of modes (most common values) of discrete or nomimal data.
+# quantiles() : Divide data into intervals with equal probability.
+
+# pstdev() : Population standard deviation of data.
+# pvariance() : Population variance of data.
+# stdev() : Sample standard deviation of data.
+# variance() : Sample variance of data.
+
+
+import statistics as st
+from fractions import Fraction as F
+from decimal import Decimal as D
+
+print('mean = ', st.mean([1, 2, 3, 4, 4]))
+print('mean in Fraction = ', st.mean([F(3, 7), F(1, 21), F(5, 3), F(1, 3)]))
+print('mean in Decimal = ', st.mean([D("0.5"), D("0.75"), D("0.625"), D("0.375")]))
+print('harmonic_mean = ', st.harmonic_mean([40, 60]))
+print('median = ', st.median([1, 3, 5]))
+
+print('stdev = ', st.stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75]))
+print('variance in Fraction = ', st.variance([F(1, 6), F(1, 2), F(5, 3)]))
+[]
+[/source S0]
+
+[execution]
+[]
+['S0']
+{}
+[]
+{}
+[]

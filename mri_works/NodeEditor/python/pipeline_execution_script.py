@@ -5,6 +5,7 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
+import ast
 
 class executionScript:
     def __init__(self, txt, listDynamicValue, textEditor):
