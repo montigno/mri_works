@@ -5,7 +5,6 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
-import ast
 
 class executionScript:
     def __init__(self, txt, listDynamicValue, textEditor):
@@ -19,7 +18,7 @@ class executionScript:
             if ':' in az[1]:
                 if type(listDynamicValue[az[1]]).__name__ == 'str':
                     code += az[0]+' = "'+str(listDynamicValue[az[1]])+'"\n'
-                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool']:
+                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list' ]:
                     code += az[0]+' = '+str(listDynamicValue[az[1]])+'\n'
                 elif type(listDynamicValue[az[1]]).__name__ in ['memmap']:
                     code += az[0]+' = '+ str(listDynamicValue[az[1]].tolist())+'\n'
