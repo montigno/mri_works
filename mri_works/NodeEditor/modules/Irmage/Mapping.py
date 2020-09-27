@@ -1,6 +1,5 @@
 ##############################################################################
 
-
 class T1Map_LevenbergM():
 
     def __init__(self,
@@ -279,10 +278,122 @@ class TIMap_LevenbergM():
             self.magn = np.zeros((row, column))
             self.shift = np.zeros((row, column))
             for j, k in product(range(row), range(column)):
-                self.ti[j, k], self.magn[j, k], self.shift[j, k, i] = _process(image[j, k])
+                self.ti[j, k], self.magn[j, k], self.shift[j, k] = _process(image[j, k])
  
     def TImap(self:'array_float'):
         return self.ti
+    
+    def magnitude(self:'array_float'):
+        return self.magn
+    
+    def shift(self:'array_float'):
+        return self.shift
+    
+##############################################################################
+
+
+class T2Map_LevenbergM_flat():
+
+    def __init__(self,
+                            image=[[0.0]],
+                            model="enumerate(('a*(exp(-bx))','a*(exp(-bx))+c'))",
+                            offset_time=0,
+                            min_amp=20000.0,
+                            iteration=5,
+                            listEcho=[0.0]):
+     
+        from lmfit import Minimizer, Parameters, report_fit
+        import numpy as np
+        from itertools import product
+        import ray
+        
+        @ray.remote(num_return_vals=3)
+        def _goFit(img):
+            row = img.shape[0]
+            column = img.shape[1]
+            a = np.zeros((row, column))
+            b = np.zeros((row, column))
+            c = np.zeros((row, column))
+            for j, k in product(range(row), range(column)):
+                a[j, k], b[j, k], c[j, k] = _process(img[j, k])
+            return a, b, c
+        
+        def _fcn2min(params, listEcho, data):
+            amp = params['amp']
+            decay = params['decay']
+            shift = params['shift']
+            if model == 'a*(exp(-bx))+c':
+                mod = amp * (np.exp(-listEcho / decay)) + shift
+            else:
+                mod = amp * (np.exp(-listEcho / decay))
+            return mod - data
+        
+        def _process(dataproc):
+            yT2 = dataproc[offset_time] * np.exp(-1)
+            idx = (np.abs(dataproc - yT2)).argmin()
+            t2 = self.listEcho[idx]
+            magn = 0.0
+            max = 0.0
+            shift = 0.0
+            try:
+                max = dataproc[offset_time]
+            except:
+                pass
+            if max > min_amp :
+                try:
+                    params.add('amp', value=max)
+                    params.add('decay', value=t2)
+                    params.add('shift', value=0.0)
+                    minner = Minimizer(_fcn2min, params, fcn_args=(self.listEcho, dataproc[offset_time:]), max_nfev=iteration)
+                    result = minner.minimize()
+                    t2 = result.params['decay'].value
+                    magn = result.params['amp'].value
+                    shift = result.params['shift'].value
+                    if t2 > 3500.5:
+                        t2 = -1
+                        magn = 0.0
+                        shift = 0
+                except:
+                    t2 = -1.0
+                    magn = 0.0
+                    shift = 0
+            else:
+                t2 = -1.0
+                magn = 0.0
+                shift = 0
+            return t2, magn, shift
+    
+        ray.init()
+        
+        self.listEcho = np.asarray(listEcho[offset_time:])
+        self.image = np.asarray(image)
+        params = Parameters()
+        if len(self.image.shape) == 4:
+            row = self.image.shape[0]
+            column = self.image.shape[1]
+            slice = self.image.shape[2]
+            self.t2, self.magn, self.shift = [], [], []
+            for j in range(slice):
+                id1, id2, id3 = _goFit.remote(self.image[:,:,j,:])
+                self.t2.append(id1)
+                self.magn.append(id2)
+                self.shift.append(id3)
+            self.t2 = np.asarray(ray.get(self.t2))
+            self.magn = np.asarray(ray.get(self.magn))
+            self.shift = np.asarray(ray.get(self.shift))
+            self.t2 = np.moveaxis(self.t2, 0, -1)
+            self.magn = np.moveaxis(self.magn, 0, -1)
+            self.shift = np.moveaxis(self.shift, 0, -1)
+            ray.shutdown()
+        else:
+            self.t2 = np.zeros((row, column))
+            self.magn = np.zeros((row, column))
+            self.shift = np.zeros((row, column))
+            for j, k in product(range(row), range(column)):
+                self.t2[j, k], self.magn[j, k], self.shift[j, k] = _process(image[j, k])
+                 
+    def T2map(self:'array_float'):
+        return self.t2
     
     def magnitude(self:'array_float'):
         return self.magn
