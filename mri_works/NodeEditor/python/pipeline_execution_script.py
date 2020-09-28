@@ -18,12 +18,12 @@ class executionScript:
             if ':' in az[1]:
                 if type(listDynamicValue[az[1]]).__name__ == 'str':
                     code += az[0]+' = "'+str(listDynamicValue[az[1]])+'"\n'
-                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list' ]:
+                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list']:
                     code += az[0]+' = '+str(listDynamicValue[az[1]])+'\n'
                 elif type(listDynamicValue[az[1]]).__name__ in ['memmap']:
-                    code += az[0]+' = '+ str(listDynamicValue[az[1]].tolist())+'\n'
+                    code += az[0]+' = '+str(listDynamicValue[az[1]].tolist())+'\n'
                 elif type(listDynamicValue[az[1]]).__name__ in ['ndarray']:
-                    code += az[0]+' = '+ str(list(listDynamicValue[az[1]]))+'\n'
+                    code += az[0]+' = '+str(list(listDynamicValue[az[1]]))+'\n'
             else:
                 code += lst+'\n'
         code += textScript+'\n'

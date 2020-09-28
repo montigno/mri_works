@@ -292,7 +292,9 @@ class Menu(QMenuBar):
             for keyS, valS in listTools[editor.currentTab].items():
                 if 'S' in keyS:
                     tmpS = 'source ' + keyS + ']'
-                    txt_code += txt_raw[txt_raw.index('[' + tmpS):txt_raw.index('[/' + tmpS) + len(tmpS) + 2] + '\n'
+                    txt_code += txt_raw[txt_raw.index('[' +
+                                        tmpS):txt_raw.index('[/' +
+                                        tmpS) + len(tmpS) + 2] + '\n'
             if 'with Thread' in tmpActText:
                 txt = analyze(txt_raw, textEdit, True).\
                                 getListForExecution()
@@ -2380,9 +2382,8 @@ class BlockCreate(QGraphicsRectItem):
 
         menu.exec_(event.screenPos())
 
-    
-    def addConstantsInputs(self):        pass
-    
+#     def addConstantsInputs(self):#         pass
+
     def addConnectorInputs(self):
         height = self.boundingRect().height() / 2
         i = 0
@@ -4543,7 +4544,6 @@ class ForLoopItem(QGraphicsRectItem):
 #             self.outputs = self.outputs[:-1]
 #             self.nbin -= 1
 
-
     def addTunnelOutput(self):
         self.nbout += 1
         listNameTunnel = []
@@ -4612,7 +4612,6 @@ class ForLoopItem(QGraphicsRectItem):
 #             self.inputs = self.inputs[:-1]
 #             self.outputs = self.outputs[:-1]
 #             self.nbout -= 1
-            
 
     def updateTunnelInput(self, inp):
         self.nbin += 1
@@ -5818,7 +5817,7 @@ class TreeLibrary(QTreeView):
     def __init__(self, parent=None):
         super(TreeLibrary, self).__init__(parent)
         self.loading = False
-        
+
     def __new__(self, *args, **kwargs):
         self.loading = False
         return QTreeView.__new__(self, *args, **kwargs)
@@ -5836,7 +5835,7 @@ class TreeLibrary(QTreeView):
 
     def uncolps(self):
         self.expandAll()
-    
+
     def selectionChanged(self, *args, **kwargs):
         try:
             index = self.selectedIndexes()
@@ -5848,7 +5847,7 @@ class TreeLibrary(QTreeView):
         except Exception as e:
             pass
         return QTreeView.selectionChanged(self, *args, **kwargs)
-     
+
     def getSelectedItem(self):
         index = self.selectedIndexes()[0]
         crawler = index.model().itemFromIndex(index)
@@ -5869,7 +5868,7 @@ class TreeLibrary(QTreeView):
             else:
                 for elem in previewScene.items():
                     previewScene.removeItem(elem)
- 
+
         elif mimidat in 'blocks_subModules':
             if sel not in listCategorySubMod:
                 ind = 0
@@ -5882,9 +5881,9 @@ class TreeLibrary(QTreeView):
             else:
                 for elem in previewScene.items():
                     previewScene.removeItem(elem)
- 
+
         elif mimidat in 'structures_tools':
-#             name = model.itemFromIndex(idx).text()
+            # name = model.itemFromIndex(idx).text()
             if sel not in listCategoryTools:
                 if "Constant" in name:
                     if 'string' in name:
@@ -5929,7 +5928,7 @@ class TreeLibrary(QTreeView):
 #                 mimidat = model.name
 #                 name = model.itemFromIndex(idx).text()
 #                 print('sel=',sel,', mimidat=',mimidat,', name=',name)
-#  
+#
 #                 if mimidat in 'mod_SubMod':
 #                     if sel not in listCategory:
 #                         ind = 0
@@ -5944,7 +5943,7 @@ class TreeLibrary(QTreeView):
 #                     else:
 #                         for elem in previewScene.items():
 #                             previewScene.removeItem(elem)
-#  
+#
 #                 elif mimidat in 'blocks_subModules':
 #                     if sel not in listCategorySubMod:
 #                         ind = 0
@@ -5957,7 +5956,7 @@ class TreeLibrary(QTreeView):
 #                     else:
 #                         for elem in previewScene.items():
 #                             previewScene.removeItem(elem)
-#  
+#
 #                 elif mimidat in 'structures_tools':
 # #                     name = model.itemFromIndex(idx).text()
 #                     if sel not in listCategoryTools:
@@ -6541,7 +6540,7 @@ class NodeEdit(QWidget):
 
         self.tabLib.addTab(self.libBrowser[len(self.libBrowser) - 1], 'subModules')
         self.tabLib.setCurrentIndex(len(self.tabLib) - 1)
-        
+
     @staticmethod
     def check_project_saved(self):
         pass

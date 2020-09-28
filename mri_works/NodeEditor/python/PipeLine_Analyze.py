@@ -272,7 +272,7 @@ class analyze:
                         self.listConstantLoop[tmpKey] = tmpVal
                     else:
                         self.listConstantLoop[tmpKey] = listConstant[tmpUnitstart][0]
-                        
+
                 elif 'F' in tmpUnitend:
                     tmpKey = tmpUnitend + ":" + tmpEntend
                     if 'out' in tmpEntend:
@@ -318,23 +318,22 @@ class analyze:
                 d = tmp
 #                 print('info 1 : ', keyA, valueA)
                 for keyF, valueF in self.listLoopFor.items():
-#                     print(keyA,': case 1 :', keyF + ':in', a + ':' + b)
-#                     print(keyA,': case 2 :', keyF + ':out', c + ':' + d)
-#                     print(keyA,': case 3 :', a, eval(self.listLoopFor[keyF][2]))
-#                     print(keyA,': case 4 :', c, eval(self.listLoopFor[keyF][2]))
-#                     print(keyA,': listArrow.keys() :',listArrow.keys())
+                    # print(keyA,': case 1 :', keyF + ':in', a + ':' + b)
+                    # print(keyA,': case 2 :', keyF + ':out', c + ':' + d)
+                    # print(keyA,': case 3 :', a, eval(self.listLoopFor[keyF][2]))
+                    # print(keyA,': case 4 :', c, eval(self.listLoopFor[keyF][2]))
+                    # print(keyA,': listArrow.keys() :',listArrow.keys())
                     if keyF + ':in' in a + ':' + b or \
                         keyF + ':out' in c + ':' + d or \
                         (a in eval(self.listLoopFor[keyF][2]) and
                             keyF == a) or \
-                        c in eval(self.listLoopFor[keyF][2]):
+                            c in eval(self.listLoopFor[keyF][2]):
                         if keyA in listArrow.keys():
                             # links from LoopFor deleted from the listArrow
                             del listArrow[keyA]
                             listArrowFor = self.listLoopFor[keyF][3]
                             listArrowFor[keyA] = valueA
                             self.listLoopFor[keyF][3] = listArrowFor
-
 
         # search arrows within loop If ###############
 
@@ -397,7 +396,7 @@ class analyze:
                 listBlockStart.extend(self.listBlock.keys())
             if len(self.listModul) != 0:
                 listBlockStart.extend(self.listModul.keys())
-            if len(self.listScript) !=0:
+            if len(self.listScript) != 0:
                 listBlockStart.extend(self.listScript)
             listBlockStart = list(set(listBlockStart))
 
@@ -766,10 +765,10 @@ class ReorderList:
         listOrder = self.sorted_nicely(list)
         self.list = listOrder
 
-    def sorted_nicely(self, l):
+    def sorted_nicely(self, lst):
         convert = lambda text: int(text) if text.isdigit() else text
         alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
-        return sorted(l, key=alphanum_key)
+        return sorted(lst, key=alphanum_key)
 
     def getNewList(self):
         return self.list

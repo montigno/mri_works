@@ -10,7 +10,7 @@ class exponential:
         import numpy as np
         self.y = []
         x = np.asarray(x)
-  
+
         if function == 'a*exp(-bx)':
             self.y = amplitude * np.exp(-x / decay)
         elif function == 'a*exp(-bx)+c':
@@ -23,7 +23,7 @@ class exponential:
             self.y = amplitude * (1 - 2 * np.exp(-x / decay))
         elif function == 'a*(1-2*c*exp(-bx))':
             self.y = amplitude * (1 - 2 * shift * np.exp(-x / decay))
-            
+
     def outFonction(self: 'list_float'):
         return self.y
 
@@ -32,14 +32,19 @@ class exponential:
 
 class trigonometric:
     def __init__(self, angle=0.0,
-                 function="enumerate(('sin(x)','cos(x)','tan(x)','arcsin(x)','arccos(x)','arctan(x)'))",
+                 function="enumerate(('sin(x)',\
+                                      'cos(x)',\
+                                      'tan(x)',\
+                                      'arcsin(x)',\
+                                      'arccos(x)',\
+                                      'arctan(x)'))",
                  x_degree=[0.0]):
         import numpy as np
         self.y = []
 #         x = np.asarray(x_degree * np.pi / 180.0)
         x = np.radians(x_degree)
         angle *= np.pi / 180.0
-              
+
         if function == 'sin(x)':
             self.y = np.sin(x + angle)
         elif function == 'cos(x)':

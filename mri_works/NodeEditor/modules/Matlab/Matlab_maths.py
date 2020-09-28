@@ -4,8 +4,8 @@ class sqrt():
         self.sqrt = mat_eng.sqrt(n)
         self.mat_eng = mat_eng
 
-    def mat_eng(self:'str'):
+    def mat_eng(self: 'str'):
         return self.mat_eng
 
-    def sqrt(self:'float'):
-    	return self.sqrt
+    def sqrt(self: 'float'):
+        return self.sqrt

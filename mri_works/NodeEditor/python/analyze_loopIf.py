@@ -41,11 +41,11 @@ class analyzeLoopIf:
                 if keyF + ':out' in keyC:
                     try:
                         listConstantsTrue[keyC] = valC[0][0]
-                    except:
+                    except Exception as e:
                         pass
                     try:
                         listConstantsFalse[keyC] = valC[1][0]
-                    except:
+                    except Exception as e:
                         pass
                 elif ':out' not in keyC:
                     listConstantsTrue[keyC] = valC
@@ -56,14 +56,14 @@ class analyzeLoopIf:
         tmpvalueF3 = valueF[3].copy()
         for lb in eval(valueF[2])[1]:
             for keyl, vall in valueF[3].items():
-                    tmpUnitAmont = vall[0:vall.index(':')]
-                    tmpUnitAval = vall[vall.index('#Node#')+6:]
-                    tmpUnitAval = tmpUnitAval[0:tmpUnitAval.index(':')]
-                    if lb == tmpUnitAmont or lb == tmpUnitAval:
-                        try:
-                            del tmpvalueF3[keyl]
-                        except:
-                            pass
+                tmpUnitAmont = vall[0:vall.index(':')]
+                tmpUnitAval = vall[vall.index('#Node#') + 6:]
+                tmpUnitAval = tmpUnitAval[0:tmpUnitAval.index(':')]
+                if lb == tmpUnitAmont or lb == tmpUnitAval:
+                    try:
+                        del tmpvalueF3[keyl]
+                    except Exception as e:
+                        pass
         tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[0]), tmpvalueF3, valueF[4][0]]
         tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsTrue)
         self.listBlockExecution[0] = tmp.getListBlockExecution()
@@ -72,14 +72,14 @@ class analyzeLoopIf:
         tmpvalueF3 = valueF[3].copy()
         for lb in eval(valueF[2])[0]:
             for keyl, vall in valueF[3].items():
-                    tmpUnitAmont = vall[0:vall.index(':')]
-                    tmpUnitAval = vall[vall.index('#Node#')+6:]
-                    tmpUnitAval = tmpUnitAval[0:tmpUnitAval.index(':')]
-                    if lb == tmpUnitAmont or lb == tmpUnitAval:
-                        try:
-                            del tmpvalueF3[keyl]
-                        except:
-                            pass
+                tmpUnitAmont = vall[0:vall.index(':')]
+                tmpUnitAval = vall[vall.index('#Node#') + 6:]
+                tmpUnitAval = tmpUnitAval[0:tmpUnitAval.index(':')]
+                if lb == tmpUnitAmont or lb == tmpUnitAval:
+                    try:
+                        del tmpvalueF3[keyl]
+                    except Exception as e:
+                        pass
         tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[1]), tmpvalueF3, valueF[4][1]]
         tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsFalse)
         self.listBlockExecution[1] = tmp.getListBlockExecution()
@@ -87,8 +87,8 @@ class analyzeLoopIf:
 
     def getListIfExecution(self):
         txtTrue, txtFalse = '', ''
-        txtTrue = '[loopif ' + self.unit+' True]\n' + self.executionTrue
-        txtFalse = '[loopif ' + self.unit+' False]\n' + self.executionFalse
+        txtTrue = '[loopif ' + self.unit + ' True]\n' + self.executionTrue
+        txtFalse = '[loopif ' + self.unit + ' False]\n' + self.executionFalse
         return txtTrue + txtFalse
 
     def getListBlockExecution(self):

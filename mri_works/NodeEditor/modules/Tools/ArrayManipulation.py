@@ -49,7 +49,7 @@ class createListString():
 
 
 class addElementListString_dyn():
-    def __init__(self, listIn=[''], element='', **dynamicsInputs ):
+    def __init__(self, listIn=[''], element='', **dynamicsInputs):
         self.elem2 = listIn.copy()
         self.elem2.append(element)
         for di in dynamicsInputs:

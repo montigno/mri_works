@@ -54,19 +54,19 @@ class exportCapsul():
                 if '_dyn' in classs:
                     classs += str(len(tmpVal[0]))
                 try:
-#                     tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
-#                     if tmpDoub:
-#                         newTmpVal0 = [w.replace(tmpDoub, tmpDoub + '_xx') for w in tmpVal[0]]
-#                         tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
-#                         listDoublon_InOut.append(unit + '.' + tmpDoub)                        
-                    
+                    # tmpDoub = str(list(set(tmpVal[0]) & set(tmpVal[2]))[0])
+                    # if tmpDoub:
+                    #    newTmpVal0 = [w.replace(tmpDoub, tmpDoub + '_xx') for w in tmpVal[0]]
+                    #    tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
+                    #    listDoublon_InOut.append(unit + '.' + tmpDoub)
+
                     tmpDoub = list(set(tmpVal[0]) & set(tmpVal[2]))
                     if tmpDoub:
                         for elem in tmpDoub:
                             newTmpVal0 = [w.replace(elem, elem + '_xx') for w in tmpVal[0]]
                             tmpVal = (newTmpVal0, tmpVal[1], tmpVal[2], tmpVal[3])
                             listDoublon_InOut.append(unit + '.' + elem)
-                            
+
                 except Exception as e:
                     pass
                 listUnit[unit] = tmpVal
@@ -105,14 +105,14 @@ class exportCapsul():
                 line = line[line.index('format=') + 8:len(line)]
                 fort = line[0:line.index('] label')]
                 line = line[line.index('label=') + 7:len(line)]
-                lab  = line[0:line.index('] RectF')]
+                lab = line[0:line.index('] RectF')]
                 if fort == 'bool':
                     dt = eval(vout)
                     if eval(dt) is False:
                         listConstant[unit] = (lab, False)
                     else:
                         listConstant[unit] = (lab, True)
-                else:    
+                else:
                     try:
                         listConstant[unit] = (lab, eval(vout))
                     except Exception as e:
@@ -209,7 +209,7 @@ class exportCapsul():
             codeModuls += 'def ' + keyClass + tmpw + ':\n'
             codeModuls.indent()
             codeModuls += 'listInputs=dict(zip(' + tmp + ',' + str(tmpw) + '))\n'
-            
+
             tmpkeyClass = keyClass
             if '_dyn' in tmpkeyClass:
                 tmpkeyClass = tmpkeyClass[0:tmpkeyClass.index('_dyn')+4]
@@ -253,16 +253,16 @@ class exportCapsul():
                     for line in self.lines_that_contain("NodeEditor", srcTmp.splitlines()):
                         listSources.append(line)
                     src += srcTmp + '\n\n'
-        
+
         if listSources:
-            src = src.replace('NodeEditor.modules.','')
+            src = src.replace('NodeEditor.modules.', '')
             if not os.path.isdir(os.path.join(repertory, "sources")):
                 os.mkdir(os.path.join(repertory, "sources"))
             for lst in listSources:
                 filepy = lst.strip()[32:lst.strip().index('import')-1]
-                copyfile(os.path.join("NodeEditor","modules","sources",filepy+'.py'),
-                         os.path.join(repertory, "sources",filepy+'.py'))
-        
+                copyfile(os.path.join("NodeEditor", "modules", "sources", filepy+'.py'),
+                         os.path.join(repertory, "sources", filepy+'.py'))
+
         f = open(os.path.join(repertory, "capsul_code_source.py"), 'w')
         f.write(src)
         f.close()
@@ -340,7 +340,7 @@ class exportCapsul():
         rough_string = ElementTree.tostring(elem, 'utf-8')
         reparsed = minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
-    
+
     def lines_that_contain(self, string, fp):
         return [line for line in fp if string in line]
 

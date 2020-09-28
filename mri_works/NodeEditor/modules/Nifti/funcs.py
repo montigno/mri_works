@@ -5,8 +5,8 @@ class concat_images:
         self.img = img_conc.get_fdata()
         self.header = img_conc.header
 
-    def concat_img(self:'array_float'):
+    def concat_img(self: 'array_float'):
         return self.img
-    
-    def header_img(self:'str'):
+
+    def header_img(self: 'str'):
         return self.header

@@ -38,24 +38,28 @@ class listFloat_to_Array():
 
     def outArray(self: 'array_float'):
         return self.output
-    
+
 ##############################################################################
 
 
 class flatten():
-    def __init__(self, array_in=[[0.0]], order="enumerate(('C', 'F', 'A', 'K'))"):
+    def __init__(self,
+                 array_in=[[0.0]],
+                 order="enumerate(('C', 'F', 'A', 'K'))"):
         import numpy as np
         a = np.array(array_in)
         self.output = a.flatten(order)
 
     def outArray(self: 'list_float'):
         return self.output
-    
+
 ##############################################################################
 
 
 class ravel():
-    def __init__(self, array_in=[[0.0]], order="enumerate(('C', 'F', 'A', 'K'))"):
+    def __init__(self,
+                 array_in=[[0.0]],
+                 order="enumerate(('C','F', 'A', 'K'))"):
         import numpy as np
         a = np.array(array_in)
         self.output = a.ravel(order)

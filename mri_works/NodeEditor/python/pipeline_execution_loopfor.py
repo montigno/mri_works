@@ -15,12 +15,12 @@ from NodeEditor.python.PipeLine_Execution_SubMod import executionSubmod
 class executionFor:
     def __init__(self, txt, listDynamicValue, textEditor, txtfull):
 
-#         print('txt pipeline for : ')
-#         print(txt)
-#         print('txtfull pipeline for : ')
-#         print(txtfull)
-#         print('listDynamicValue : ')
-#         print(listDynamicValue)
+        # print('txt pipeline for : ')
+        # print(txt)
+        # print('txtfull pipeline for : ')
+        # print(txtfull)
+        # print('listDynamicValue : ')
+        # print(listDynamicValue)
 
         listConnctIn = []
         listBlockExecution = []
@@ -66,13 +66,12 @@ class executionFor:
                     break
 #             listModulExecution[ls]=tmp1
             txt += '\n' + tmp1
-            
+
         # listScriptExecution
         for ls in listBlockExecution:
             if 'S' in ls:
                 tmp2 = txtfull[txtfull.index('[source '+ls):txtfull.index('[/source '+ls)+10+len(ls)]
                 txt += '\n' + tmp2
-                
 
         ######################################################################
         self.listDynamicValueSubToReturn = {}
@@ -116,11 +115,11 @@ class executionFor:
 
             except Exception as e:
                 textEditor.append("<span style=\" \
-                                   font-size:10pt; \
-                                   font-weight:600; \
-                                   color:#cc0000;\" \
-                                   > Pipeline Execution For Loop  stopped : " +
-                                    str(e) + "</span>")
+                                  font-size:10pt; \
+                                  font-weight:600; \
+                                  color:#cc0000;\" \
+                                  > Pipeline Execution For Loop  stopped : "
+                                  + str(e) + "</span>")
                 return
 
     def getOutValues(self):

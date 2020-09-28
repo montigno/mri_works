@@ -1,4 +1,5 @@
 class Save_NiiGz:
+
     def __init__(self, image=[[0.0]], filepath='path', **options):
         import nibabel as nib
         import numpy as np
@@ -20,11 +21,14 @@ class Save_NiiGz:
 
     def pathFile(self: 'path'):
         return self.fileSaved
-    
+
 ##############################################################################
 
+
 class Save_NiiGz_header:
-    def __init__(self, image=[[0.0]], filepath='path', new_header='', **options):
+
+    def __init__(self,
+                 image=[[0.0]], filepath='path', new_header='', **options):
         import nibabel as nib
         import tkinter as tk
         from tkinter import filedialog
@@ -38,7 +42,7 @@ class Save_NiiGz_header:
             else:
                 self.fileSaved = filepath + '.nii.gz'
         print("file saved", self.fileSaved)
-        img = nib.Nifti1Image(image, None,header=new_header )
+        img = nib.Nifti1Image(image, None, header=new_header)
         nib.save(img, self.fileSaved)
 
     def pathFile(self: 'path'):

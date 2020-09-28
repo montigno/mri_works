@@ -21,14 +21,13 @@ from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
 from Config import Config
 from About import AboutSoft
 from NodeEditor.python.PipeLine_Irmage import NodeEdit
-from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon
 
 
 class Project_Irmage(QMainWindow):
     def __init__(self):
-        
-        self.state = True;
+
+        self.state = True
 
         # Main Window ###########################################
         super(Project_Irmage, self).__init__()
@@ -50,7 +49,7 @@ class Project_Irmage(QMainWindow):
         mhelp.addAction(about)
 
         # Create Tabs ##########################################
-        t = createTabs()
+        t = CreateTabs()
         self.setCentralWidget(t)
 
         # Window Main ##########################################
@@ -60,21 +59,23 @@ class Project_Irmage(QMainWindow):
 
     def showAbout(self):
         AboutSoft()
-        
-    def closeEvent(self,event):
+
+    def closeEvent(self, event):
         box = QMessageBox.question(self,
                                    "Confirm Exit...",
-                                   "Do you want quit mri_works? your projects are saved? ",
-                                   QMessageBox.Yes| QMessageBox.No, QMessageBox.No)
+                                   "Do you want quit mri_works ? \n" +
+                                   "your projects are saved ? ",
+                                   QMessageBox.Yes | QMessageBox.No,
+                                   QMessageBox.No)
         event.ignore()
 
         if box == QMessageBox.Yes:
             event.accept()
 
 
-class createTabs(QWidget):
+class CreateTabs(QWidget):
     def __init__(self):
-        super(createTabs, self).__init__()
+        super(CreateTabs, self).__init__()
 
         self.config = Config()
         self.currentRep = self.config.getPathData()

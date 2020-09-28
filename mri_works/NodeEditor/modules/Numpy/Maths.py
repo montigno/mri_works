@@ -8,6 +8,7 @@ class numpy_abs():
 
 ##############################################################################
 
+
 class numpy_exponential():
     def __init__(self, y=[0.0]):
         import numpy as np
@@ -17,6 +18,7 @@ class numpy_exponential():
         return self.exp
 
 ##############################################################################
+
 
 class numpy_RMS():
     def __init__(self, y=[0.0]):
@@ -28,6 +30,7 @@ class numpy_RMS():
         return self.rms
 
 ##############################################################################
+
 
 class numpy_std():
     def __init__(self, y=[0.0]):

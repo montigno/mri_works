@@ -1,5 +1,5 @@
 class MatPlotCurve:
-    def __init__(self,data=[[0.0]],x=[0.0]):
+    def __init__(self, data=[[0.0]], x=[0.0]):
         try:
             import matplotlib.pyplot as plt
             plt.ion()
@@ -10,11 +10,12 @@ class MatPlotCurve:
             plt.show()
         except ImportError:
             pass
-        
+
 ###############################################################################
 
+
 class MatPlotCurve2:
-    def __init__(self,data=[0.0],x=[0.0]):
+    def __init__(self, data=[0.0], x=[0.0]):
         try:
             import matplotlib.pyplot as plt
             plt.ion()
@@ -24,11 +25,12 @@ class MatPlotCurve2:
             plt.show()
         except ImportError:
             pass
-        
+
 ###############################################################################
 
+
 class pyPlot:
-    def __init__(self,data=[0.0],x=[0.0],title=''):
+    def __init__(self, data=[0.0], x=[0.0], title=''):
         try:
             import matplotlib.pyplot as plt
             plt.ion()
@@ -42,23 +44,23 @@ class pyPlot:
 
 ###############################################################################
 
+
 class pyPlot2:
-    def __init__(self,data=[[0.0]],x=[0.0],title=['']):
+    def __init__(self, data=[[0.0]], x=[0.0], title=['']):
         try:
             import matplotlib.pyplot as plt
             plt.ion()
             if plt.get_fignums():
                 plt.close()
-            k=1
-            n=len(data)
+            k = 1
+            n = len(data)
             if len(title) != n:
                 title.extend(['']*(n-len(title)))
             for i, j in zip(data, title):
                 plt.subplot(n, 1, k)
                 plt.plot(x, i)
                 plt.title(j)
-                k+=1
+                k += 1
             plt.show()
         except ImportError:
             pass
-    

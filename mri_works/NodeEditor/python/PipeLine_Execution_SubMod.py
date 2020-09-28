@@ -21,10 +21,10 @@ class executionSubmod:
 
     def __init__(self, txt, listDynamicValue, textEditor, modul):
 
-#         print('txt SubMod')
-#         print(txt)
-#         print('modul SubMod')
-#         print(modul)
+        # print('txt SubMod')
+        # print(txt)
+        # print('modul SubMod')
+        # print(modul)
 
         listConnctIn = []
         listBlockExecution = []
@@ -32,9 +32,9 @@ class executionSubmod:
         listOut = []
         listModul = {}
         listConnctOut = []
-        
+
         path_submod = os.path.dirname(os.path.realpath(__file__))
-        
+
         for i, ln in enumerate(txt.splitlines()):
             if i == 0:
                 ln = ln.replace('\\', '\\\\')
@@ -100,9 +100,9 @@ class executionSubmod:
                     f.close()
                 tmp = txt[txt.index('[source '+ls):txt.index('[/source '+ls)]
                 tmp = tmp[tmp.index('\n')+1:]
-                               
+
                 listScriptExecution[ls] = tmp
-                    
+
             if 'F' in ls:
                 file = os.path.join(path_submod,
                                     '../submodules',
@@ -231,7 +231,7 @@ class executionSubmod:
                         listDynamicValue[uj] = a.getOutValues()[uj]
                 except Exception as e:
                     return
-                
+
             elif 'S' in execution:
                 self.listDynamicValueScript = {}
                 a = executionScript(listScriptExecution[execution], listDynamicValue, textEditor)
@@ -302,7 +302,7 @@ class executionSubmod:
                     if 'm' in execution:
                         executionFor_proc(listForExecution[execution],
                                           listDynamicValueFor,
-                                          txt,'*' in execution)
+                                          txt, '*' in execution)
                     else:
                         a, b, c, d, e, f, g = ForLoopInfo(listForExecution[execution],
                                                           txt).getListInfo()
@@ -345,7 +345,7 @@ class executionSubmod:
                                                   font-weight:600; \
                                                   color:#cc0000;\" \
                                                   > Pipeline Execution \
-                                                  For Loop  stopped : " + 
+                                                  For Loop  stopped : " +
                                                   str(e) + "</span>")
                                 return
                         for uj in listDynamicValueSubToReturn.keys():
@@ -355,9 +355,9 @@ class executionSubmod:
                                       font-size:10pt; \
                                       font-weight:600; \
                                       color:#cc0000;\" \
-                                      > Pipeline Execution " + 
-                                      execution + 
-                                      " stopped <br>" + 
+                                      > Pipeline Execution " +
+                                      execution +
+                                      " stopped <br>" +
                                       execution + ' : ' + str(e) + "</span>")
                     return
 

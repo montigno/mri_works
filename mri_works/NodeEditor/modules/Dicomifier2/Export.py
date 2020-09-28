@@ -1,4 +1,5 @@
 class bruker_to_dicom():
+
     def __init__(self, rep_data_bruker='path', rep_out='path'):
         import subprocess
         import os
@@ -15,10 +16,12 @@ class bruker_to_dicom():
 
     def out_diretory(self: 'path'):
         return self.output_directory
-    
+
 ##############################################################################
 
+
 class dicom_to_nifti():
+
     def __init__(self, rep_data_dicom='path', rep_out='path'):
         import subprocess
         import os
@@ -35,10 +38,12 @@ class dicom_to_nifti():
 
     def out_diretory(self: 'path'):
         return self.output_directory
-    
+
 ##############################################################################
 
+
 class bruker_to_nifti():
+
     def __init__(self, rep_data_bruker='path', rep_out='path'):
         import subprocess
         import os

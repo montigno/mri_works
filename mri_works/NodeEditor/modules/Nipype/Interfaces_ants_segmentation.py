@@ -92,16 +92,18 @@ class ants_BrainExtraction():
 
     def N4Truncated0(self: 'path'):
         return self.res.outputs.N4Truncated0
-    
+
 ##############################################################################
 
 
 class ants_JointFusion():
 
-    def __init__(self, warped_label_images=['path'], warped_intensity_images=['path'],
-                       output_label_image='path', target_image=['path'],
-                       modalities=1, dimension=3, **options):
-        
+    def __init__(self,
+                 warped_label_images=['path'],
+                 warped_intensity_images=['path'],
+                 output_label_image='path', target_image=['path'],
+                 modalities=1, dimension=3, **options):
+
         from nipype.interfaces.ants import JointFusion
         at = JointFusion()
         at.inputs.warped_label_images = warped_label_images
@@ -113,8 +115,8 @@ class ants_JointFusion():
         for ef in options:
             setattr(at.inputs, ef, options[ef])
         self.res = at.run()
-        
-    def output_label_image(self:'path'):
+
+    def output_label_image(self: 'path'):
         return self.res.outputs.output_label_image
 
 ##############################################################################

@@ -56,7 +56,11 @@ class Array_4D_random():
 class Array_5D_random():
     def __init__(self, row=10, col=10, slice=10, temporal=10, canal=10):
         import numpy as np
-        self.randout = np.random.rand(row, col, slice, temporal, canal).tolist()
+        self.randout = np.random.rand(row,
+                                      col,
+                                      slice,
+                                      temporal,
+                                      canal).tolist()
 
     def rand_out(self: 'array_float'):
         return self.randout

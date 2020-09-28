@@ -5,7 +5,7 @@ class meshfix_MeshFix():
         self.fix.inputs.in_file1 = in_file1
         for ef in options:
             setattr(self.fix.inputs, ef, options[ef])
-        self.fix.run()  
+        self.fix.run()
 
     def mesh_file(self: 'path'):
         return self.fix._outputs.mesh_file

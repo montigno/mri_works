@@ -65,7 +65,7 @@ class executionFor_proc:
                     break
 #             listModulExecution[ls]=tmp1
             txt += '\n' + tmp1
-            
+
         # listScriptExecution
         for ls in listBlockExecution:
             if 'S' in ls:

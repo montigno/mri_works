@@ -40,7 +40,7 @@ class fsl_BET:
 
     def skull_mask_file(self: 'path'):
         return self.res.outputs.skull_mask_file
-    
+
 ##############################################################################
 
 
@@ -81,8 +81,8 @@ class fsl_FAST:
 
 
 class fsl_FLIRT:
-    
-    def __init__(self, in_file = 'path', reference = 'path', **options):
+
+    def __init__(self, in_file='path', reference='path', **options):
         from nipype.interfaces import fsl
         flt = fsl.FLIRT()
         flt.inputs.in_file = in_file
@@ -90,10 +90,10 @@ class fsl_FLIRT:
         for ef in options:
             setattr(flt.inputs, ef, options[ef])
         self.res = flt.run()
-        
+
     def out_file(self: 'path'):
         return self.res.outputs.out_file
-    
+
     def out_log(self: 'path'):
         return self.res.outputs.out_log
 
@@ -104,8 +104,8 @@ class fsl_FLIRT:
 
 
 class fsl_FNIRT:
-    
-    def __init__(self, in_file = 'path', reference = 'path', **options):
+
+    def __init__(self, in_file='path', reference='path', **options):
         from nipype.interfaces import fsl
         fnt = fsl.FNIRT()
         fnt.inputs.in_file = in_file
@@ -113,27 +113,26 @@ class fsl_FNIRT:
         for ef in options:
             setattr(fnt.inputs, ef, options[ef])
         self.res = fnt.run()
-        
+
     def field_file(self: 'path'):
         return self.res.outputs.field_file
-    
+
     def fieldcoeff_file(self: 'path'):
         return self.res.outputs.fieldcoeff_file
 
     def jacobian_file(self: 'path'):
         return self.res.outputs.jacobian_file
-    
+
     def log_file(self: 'path'):
         return self.res.outputs.log_file
-    
+
     def modulatedref_file(self: 'path'):
         return self.res.outputs.modulatedref_file
-    
+
     def out_intensitymap_file(self: 'path'):
         return self.res.outputs.out_intensitymap_file
-    
+
     def warped_file(self: 'path'):
         return self.res.outputs.warped_file
-    
-##############################################################################
 
+##############################################################################

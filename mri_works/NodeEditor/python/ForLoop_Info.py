@@ -28,7 +28,7 @@ class ForLoopInfo:
                 ln = ln.replace('\\', '\\\\')
                 try:
                     self.listConnctIn.append(ast.literal_eval(ln))
-                except:
+                except Exception as e:
                     self.listConnctIn.append(ln)
                 self.listConnctIn = self.listConnctIn[0]
             if i == 1:

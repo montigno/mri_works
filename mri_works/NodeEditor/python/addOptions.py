@@ -6,7 +6,6 @@
 # for details.
 ##########################################################################
 
-
 import yaml
 import re
 from PyQt5.QtWidgets import QDialog, QCheckBox, QVBoxLayout, QHBoxLayout, \
@@ -40,7 +39,7 @@ class chOptions(QDialog):
             exec(TxtToImport)
             doc = eval(TxtToExecute)
             doc = doc[doc.index('[Optional]') + 11:doc.index('Outputs')]
-        except:
+        except Exception as e:
             doc = "No description"
 
         self.nameclass = nameclass
@@ -109,7 +108,7 @@ class chOptions(QDialog):
         hbox2 = QHBoxLayout()
 
         vbox2 = QVBoxLayout()
-                
+
         with open(pathYaml, 'r') as stream:
             try:
                 self.dicts = yaml.load(stream, yaml.FullLoader)
@@ -133,27 +132,26 @@ class chOptions(QDialog):
             except yaml.YAMLError as exc:
                 print('yamlerror', exc)
                 return
-            
+
         with open(pathYaml, 'r') as stream:
             rd = stream.readlines()
-            rd = rd[rd.index(nameclass+":\n")+1:]
+            rd = rd[rd.index(nameclass + ":\n") + 1:]
             rd = rd[:len(self.listCh)]
-            doc=''
+            doc = ''
             for lst in rd:
                 tmp = lst.rstrip()
                 tmp = tmp[:tmp.index(':')]
-                comm=''
+                comm = ''
                 try:
-                    comm = lst[lst.index('#')+1:]
-                except:
+                    comm = lst[lst.index('#') + 1:]
+                except Exception as e:
                     pass
-                if len(comm) !=0:
-                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#222222;\" >" + tmp +" : </span>"
-                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm +"</span><br>"
-            if len(doc) !=0:
+                if len(comm) != 0:
+                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#222222;\" >" + tmp + " : </span>"
+                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm + "</span><br>"
+            if len(doc) != 0:
                 desc.clear()
                 desc.append(doc)
-
 
         hbox2.addLayout(vbox2)
         hbox2.addWidget(desc)
@@ -193,7 +191,7 @@ class chOptions(QDialog):
                     if 'Node(' in str(self.values_inputs[ind]):
                         val = self.values_inputs[ind]
                         valueExists = True
-                except:
+                except Exception as e:
                     pass
 
                 if not valueExists:
@@ -204,15 +202,15 @@ class chOptions(QDialog):
                             imb = self.dicts[self.nameclass][aze.text()]
                         else:
                             try:
-                                imb = ""+eval(self.dicts[self.nameclass][aze.text()])
-                            except:
-                                imb = ""+self.dicts[self.nameclass][aze.text()]
+                                imb = "" + eval(self.dicts[self.nameclass][aze.text()])
+                            except Exception as e:
+                                imb = "" + self.dicts[self.nameclass][aze.text()]
                     else:
                         try:
                             imb = eval(self.dicts[self.nameclass][aze.text()])
-                        except:
+                        except Exception as e:
                             imb = self.dicts[self.nameclass][aze.text()]
-                    
+
                     _imb1 = imb
 
                     if type(imb).__name__ == 'str':

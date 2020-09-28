@@ -10,12 +10,12 @@ class T1Map_LevenbergM():
                  min_amp=20000.0,
                  iteration=5,
                  listEcho=[0.0]):
-    
+
         from lmfit import Minimizer, Parameters, report_fit
         import numpy as np
         from itertools import product
         import ray
-        
+
         @ray.remote(num_return_vals=3)
         def _goFit(img):
             row = img.shape[0]
@@ -26,7 +26,7 @@ class T1Map_LevenbergM():
             for j, k in product(range(row), range(column)):
                 a[j, k], b[j, k], c[j, k] = _process(img[j, k])
             return a, b, c
-   
+
         def _fcn2min(params, lstEch, data):
             amp = params['amp']
             shift = params['shift']
@@ -53,7 +53,10 @@ class T1Map_LevenbergM():
                 params.add('amp', value=ymax)
                 params.add('decay', value=t1_init)
                 params.add('shift', value=0.0)
-                minner = Minimizer(_fcn2min, params, fcn_args=(lstEch, y), max_nfev=iteration)
+                minner = Minimizer(_fcn2min,
+                                   params,
+                                   fcn_args=(lstEch, y),
+                                   max_nfev=iteration)
                 result = minner.minimize()
                 t1 = result.params['decay'].value
                 magn = result.params['amp'].value
@@ -62,14 +65,14 @@ class T1Map_LevenbergM():
                     t1 = -1.0
                     magn = 0.0
                     shift = 0.0
-            except:
+            except Exception as e:
                 t1 = -1.0
                 magn = 0.0
                 shift = 0.0
             return t1, magn, shift
-                       
+
         ray.init()
-        
+
         self.listEcho = np.asarray(listEcho)
         self.image = np.asarray(image)
         params = Parameters()
@@ -95,15 +98,15 @@ class T1Map_LevenbergM():
 
         ray.shutdown()
 
-    def T1map(self:'array_float'):
+    def T1map(self: 'array_float'):
         return self.t1
-    
-    def magnitude(self:'array_float'):
+
+    def magnitude(self: 'array_float'):
         return self.magn
-    
-    def shift(self:'array_float'):
+
+    def shift(self: 'array_float'):
         return self.shift
-    
+
 ##############################################################################
 
 
@@ -116,12 +119,12 @@ class T2Map_LevenbergM():
                  min_amp=20000.0,
                  iteration=5,
                  listEcho=[0.0]):
-     
+
         from lmfit import Minimizer, Parameters, report_fit
         import numpy as np
         from itertools import product
         import ray
-        
+
         @ray.remote(num_return_vals=3)
         def _goFit(img):
             row = img.shape[0]
@@ -132,7 +135,7 @@ class T2Map_LevenbergM():
             for j, k in product(range(row), range(column)):
                 a[j, k], b[j, k], c[j, k] = _process(img[j, k])
             return a, b, c
-        
+
         def _fcn2min(params, lstEch, data):
             amp = params['amp']
             decay = params['decay']
@@ -142,7 +145,7 @@ class T2Map_LevenbergM():
             else:
                 mod = amp * (np.exp(-lstEch / decay))
             return mod - data
-        
+
         def _process(dataproc):
             y = dataproc[offset_time:]
             lstEch = self.listEcho[offset_time:]
@@ -152,7 +155,7 @@ class T2Map_LevenbergM():
                 magn = 0.0
                 shift = 0.0
                 return t2, magn, shift
-            
+
             yT1 = ymax * (1 - np.exp(-1))
             idx = (np.abs(y - yT1)).argmin()
             t2_init = lstEch[idx]
@@ -160,7 +163,10 @@ class T2Map_LevenbergM():
                 params.add('amp', value=ymax)
                 params.add('decay', value=t2_init)
                 params.add('shift', value=0.0)
-                minner = Minimizer(_fcn2min, params, fcn_args=(lstEch, y), max_nfev=iteration)
+                minner = Minimizer(_fcn2min,
+                                   params,
+                                   fcn_args=(lstEch, y),
+                                   max_nfev=iteration)
                 result = minner.minimize()
                 t2 = result.params['decay'].value
                 magn = result.params['amp'].value
@@ -169,14 +175,14 @@ class T2Map_LevenbergM():
                     t2 = -1
                     magn = 0.0
                     shift = 0.0
-            except:
+            except Exception as e:
                 t2 = -1.0
                 magn = 0.0
                 shift = 0.0
             return t2, magn, shift
-    
+
         ray.init()
-        
+
         self.listEcho = np.asarray(listEcho)
         self.image = np.asarray(image)
         params = Parameters()
@@ -201,16 +207,16 @@ class T2Map_LevenbergM():
             self.shift = np.asarray(ray.get(self.shift))
 
         ray.shutdown()
-                 
-    def T2map(self:'array_float'):
+
+    def T2map(self: 'array_float'):
         return self.t2
 
-    def magnitude(self:'array_float'):
+    def magnitude(self: 'array_float'):
         return self.magn
 
-    def shift(self:'array_float'):
+    def shift(self: 'array_float'):
         return self.shift
-        
+
 ##############################################################################
 
 
@@ -223,12 +229,12 @@ class TIMap_LevenbergM():
                  min_amp=20000.0,
                  iteration=5,
                  listEcho=[0.0]):
-     
+
         from lmfit import Minimizer, Parameters, report_fit
         import numpy as np
         from itertools import product
         import ray
-        
+
         @ray.remote(num_return_vals=3)
         def _goFit(img):
             row = img.shape[0]
@@ -239,7 +245,7 @@ class TIMap_LevenbergM():
             for j, k in product(range(row), range(column)):
                 a[j, k], b[j, k], c[j, k] = _process(img[j, k])
             return a, b, c
-        
+
         def _fcn2min(params, lstEch, data):
             amp = params['amp']
             decay = params['decay']
@@ -259,26 +265,29 @@ class TIMap_LevenbergM():
                 magn = 0.0
                 shift = 1.0
                 return ti, magn, shift
-                                
+
             idx = (np.abs(y)).argmin()
             ti_init = lstEch[idx] / np.log(2)
             try:
                 params.add('amp', value=ymax)
                 params.add('decay', value=ti_init)
                 params.add('shift', value=1.0)
-                minner = Minimizer(_fcn2min, params, fcn_args=(lstEch, y), max_nfev=iteration)
+                minner = Minimizer(_fcn2min,
+                                   params,
+                                   fcn_args=(lstEch, y),
+                                   max_nfev=iteration)
                 result = minner.minimize()
                 ti = result.params['decay'].value
                 magn = result.params['amp'].value
                 shift = result.params['shift'].value
-            except:
+            except Exception as e:
                 ti = -1.0
                 magn = 0.0
                 shift = 1.0
             return ti, magn, shift
-    
+
         ray.init()
-        
+
         self.listEcho = np.asarray(listEcho)
         self.image = np.asarray(image)
         params = Parameters()
@@ -296,20 +305,20 @@ class TIMap_LevenbergM():
             self.ti = np.moveaxis(self.ti, 0, -1)
             self.magn = np.moveaxis(self.magn, 0, -1)
             self.shift = np.moveaxis(self.shift, 0, -1)
-        
+
         else:
             self.ti, self.magn, self.shift = _goFit.remote(self.image)
             self.ti = np.asarray(ray.get(self.ti))
             self.magn = np.asarray(ray.get(self.magn))
             self.shift = np.asarray(ray.get(self.shift))
-                
-        ray.shutdown()       
- 
-    def TImap(self:'array_float'):
+
+        ray.shutdown()
+
+    def TImap(self: 'array_float'):
         return self.ti
-    
-    def magnitude(self:'array_float'):
+
+    def magnitude(self: 'array_float'):
         return self.magn
-    
-    def shift(self:'array_float'):
+
+    def shift(self: 'array_float'):
         return self.shift
