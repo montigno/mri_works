@@ -11,8 +11,10 @@ class Save_NiiGz:
         if filepath == 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:
-            if 'nii.gz' in filepath:
+            if '.nii.gz' in filepath:
                 self.fileSaved = filepath
+            elif '.nii' in filepath:
+                self.fileSaved = filepath + '.gz'
             else:
                 self.fileSaved = filepath + '.nii.gz'
         print("file saved", self.fileSaved)

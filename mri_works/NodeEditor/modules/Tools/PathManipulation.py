@@ -18,9 +18,8 @@ class addToList_dyn():
 class separatePath():
     def __init__(self, inPath="path"):
         import os
-        self.inPath = inPath
-        self.dir = os.path.dirname(self.inPath)
-        tmp = os.path.basename(self.inPath)
+        self.dir = os.path.dirname(inPath)
+        tmp = os.path.basename(inPath)
         self.name = ('.').join(tmp.split('.')[:-1])
         self.ext = tmp.split('.')[-1]
 
@@ -93,5 +92,38 @@ class rstrip_path:
     def __init__(self, in_path='path', chr=''):
         self.outPath = in_path.rstrip(chr)
 
+    def newPath(self: 'path'):
+        return self.outPath
+
+###############################################################################
+
+
+class change_extension:
+    def __init__(self, file_path='path', new_extension='.txt'):
+        import os
+        pre, ext = os.path.splitext(file_path)
+        self.outPath = os.path.join(pre + new_extension)
+        
+    def newPath(self: 'path'):
+        return self.outPath
+    
+###############################################################################
+
+
+class add_suffixprefix_file:
+    def __init__(self,
+                 file_path='path',
+                 new_str='',
+                 place="enumerate(('suffix','prefix'))"):
+        import os
+        dir = os.path.dirname(file_path)
+        tmp = os.path.basename(file_path)
+        name = ('.').join(tmp.split('.')[:-1])
+        ext = tmp.split('.')[-1]
+        if place == 'suffix':
+            self.outPath = os.path.join(dir, name + new_str + '.'+ext)
+        elif place == 'prefix':
+            self.outPath = os.path.join(dir, new_str + name + '.'+ext)
+        
     def newPath(self: 'path'):
         return self.outPath
