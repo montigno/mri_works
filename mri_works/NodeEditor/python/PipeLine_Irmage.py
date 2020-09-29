@@ -5090,7 +5090,7 @@ class ScriptItem(QGraphicsRectItem):
             self.label.setPlainText(c.getNewValues())
 
     def add_Input(self):
-        c = define_inputs_outputs(self.unit, 'input')
+        c = define_inputs_outputs(self.unit, 'input', self.inputs)
         c.exec_()
 
         if c.getNewValues():
@@ -5111,7 +5111,7 @@ class ScriptItem(QGraphicsRectItem):
             UpdateUndoRedo()
 
     def add_Output(self):
-        c = define_inputs_outputs(self.unit, 'output')
+        c = define_inputs_outputs(self.unit, 'output', self.outputs)
         c.exec_()
 
         if c.getNewValues():

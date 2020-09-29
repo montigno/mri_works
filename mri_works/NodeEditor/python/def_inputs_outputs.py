@@ -13,11 +13,15 @@ from PyQt5 import QtCore
 
 class define_inputs_outputs(QDialog):
 
-    def __init__(self, unit, typeport, parent=None):
+    def __init__(self, unit, typeport, ports, parent=None):
         super(define_inputs_outputs, self).__init__(parent)
         self.typeport = typeport
         listformat = ["int", "float", "str", "path", "bool", "dict", "tuple"]
         listdim = ["", "list", "array"]
+        self.listPorts=[]
+        
+        for prts in ports:
+            self.listPorts.append(prts.name) 
 
         self.vbox = QVBoxLayout(self)
 
@@ -64,9 +68,16 @@ class define_inputs_outputs(QDialog):
         if not self.portName.text():
             self.info.setText("<span style=\" \
                               font-size:10pt; \
-                              color:#cc0000;\" > error : Name "
+                              color:#cc0000;\" > error : name "
                               + self.typeport
                               + " port  is empty </span>")
+            return
+        if self.portName.text() in self.listPorts:
+            self.info.setText("<span style=\" \
+                              font-size:10pt; \
+                              color:#cc0000;\" > error : name "
+                              + self.typeport
+                              + " is already taken ! </span>")
             return
         self.format.append(self.portName.text())
         if self.comboDim.currentText():
