@@ -13,7 +13,7 @@ from NodeEditor.python.editParamForLoop import editParamLoopFor
 from NodeEditor.python.titleScript import changeTitle
 from NodeEditor.python.addOptions import chOptions
 from NodeEditor.python.defTunnels import defineTunnels
-from NodeEditor.python.def_inputs_outputs  import define_inputs_outputs
+from NodeEditor.python.def_inputs_outputs import define_inputs_outputs
 from NodeEditor.python.changeLabelConn import changeLabel
 from NodeEditor.python.errorHandler import errorHandler
 from NodeEditor.python.loadModules import getlistModules

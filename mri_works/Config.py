@@ -14,11 +14,12 @@ Created on 11 feb. 2020
 import yaml
 import os
 
+
 class Config():
-    
+
     def __init__(self):
         self.config = self.loadConfig()
-        
+
     def loadConfig(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         with open(dir_path+"/config.yml", 'r') as stream:
@@ -26,42 +27,44 @@ class Config():
                 return yaml.load(stream, yaml.FullLoader)
             except yaml.YAMLError as exc:
                 print(exc)
-                
+
     def saveConfig(self):
         with open('config.yml', 'w', encoding='utf8') as configfile:
-            yaml.dump(self.config, configfile, default_flow_style=False, allow_unicode=True)
-            
+            yaml.dump(self.config,
+                      configfile,
+                      default_flow_style=False,
+                      allow_unicode=True)
+
     def getVersion(self):
         return self.config['version']
-            
+
     def getPathToProjectsFolder(self):
         return self.config["paths"]["projects"]
-    
+
     def getPathData(self):
         return self.config["paths"]["data"]
-    
-    def setPathData(self,path):
+
+    def setPathData(self, path):
         if (path is not None and path != ''):
             self.config["paths"]["data"] = path
             self.saveConfig()
-    
+
     def getPathHistories(self):
         hist = self.config["paths"]["histories"]
-        newHist=[]
+        newHist = []
         for h in hist:
             if os.path.exists(h):
                 newHist.append(h)
         self.setPathHistories(newHist)
         return newHist
-    
+
     def setPathHistories(self, hist):
         self.config["paths"]["histories"] = hist
         self.saveConfig()
-    
+
     def getPathProjectsFile(self):
         folder = self.getPathToProjectsFolder()
-        return os.path.join(folder,'projects.json')
-    
+        return os.path.join(folder, 'projects.json')
+
     def getPathLibraries(self):
         return self.config['packages']
-       

@@ -10,6 +10,7 @@ class ImageJ_load_Image():
 
 ##############################################################################
 
+
 class ImageJ_load_multiImages():
     def __init__(self, file=['path']):
         self.currentImg = file
@@ -19,8 +20,8 @@ class ImageJ_load_multiImages():
 
 ##############################################################################
 
-class openImageJ():
 
+class openImageJ():
     def __init__(self, file='path'):
         import subprocess
         from subprocess import Popen
@@ -30,17 +31,17 @@ class openImageJ():
         script_macro = "run(\"Appearance...\", \"interpolate auto menu=15 gui=1 16-bit=Automatic\");"\
                        "run(\"Brightness/Contrast...\");"\
                        "run(\"Enhance Contrast\", \"saturated=0.35\");"
-        subprocess.Popen(['ImageJ', file, '-eval',script_macro], shell=False)
+        subprocess.Popen(['ImageJ', file, '-eval', script_macro], shell=False)
         tmp = os.path.basename(file)
         self.currentImg = ('.').join(tmp.split('.')[:-1])
-                
+
     def currentImage(self: 'str'):
         return self.currentImg
-    
+
 ##############################################################################
 
-class openImagej_multiFiles():
 
+class openImagej_multiFiles():
     def __init__(self, file=['path']):
         import subprocess
         from subprocess import Popen
@@ -54,23 +55,23 @@ class openImagej_multiFiles():
                         "open(list[i]);"\
                         "run(\"Enhance Contrast\", \"saturated=0.35\");"\
                         "};"
-        proc = subprocess.Popen(['ImageJ', '-eval', script_macro1+script_macro])
-        
+        proc = subprocess.Popen(['ImageJ', '-eval', script_macro1 + script_macro])
+
 ##########################################################################################
 
-class ImageJ_macro():
 
+class ImageJ_macro():
     def __init__(self, file_macro='path'):
         import subprocess
         from subprocess import Popen
         import os
         option = '-macro'
         subprocess.Popen(['ImageJ', option, file_macro])
-        
+
 ##############################################################################
 
-class ImageJ_macrofile():
 
+class ImageJ_macrofile():
     def __init__(self, pathImage='path', filemacro='path'):
         import subprocess
         from subprocess import Popen
@@ -78,5 +79,5 @@ class ImageJ_macrofile():
         option = '-macro'
 #         subprocess.call(['java','-jar',pathImageJ,pathImage,option,filemacro], shell=False)
         subprocess.Popen(['ImageJ', pathImage, option, filemacro])
-        
+
 ##############################################################################

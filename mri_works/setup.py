@@ -18,19 +18,19 @@ import sys
 
 
 def install(command):
-    p=subprocess.Popen(command,shell=True)
+    p = subprocess.Popen(command, shell=True)
     p.wait()
 
-    
+
 if __name__ == '__main__':
     install('python3 -m pip install --upgrade pip')
     install('pip install --upgrade pip')
     install('pip3 install --ignore-installed PyYAML')
     from Config import Config
     pack = Config().getPathLibraries()
-    for keypk,valpk in pack.items():
+    for keypk, valpk in pack.items():
         try:
-            print('\033[93m'+'checking ',keypk,end=' : ')
+            print('\033[93m'+'checking ', keypk, end=' : ')
             print('\033[0m')
             install(valpk)
             print('\033[0m')
