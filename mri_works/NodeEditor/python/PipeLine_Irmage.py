@@ -1457,6 +1457,10 @@ class DiagramView(QGraphicsView):
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
+            elif "Probe" in name:
+                self.a1 = Probes('newProbe', 'unkn','', True)
+                self.a1.setPos(self.mapToScene(event.pos()))
+                self.scene().addItem(self.a1)
             try:
                 listItems[editor.currentTab][self.a1.unit] = self.a1
             except Exception as e:
@@ -3269,6 +3273,78 @@ class BlockCreate(QGraphicsRectItem):
         UpdateUndoRedo()
 
 
+class Probes(QGraphicsPolygonItem):
+    def __init__(self, unit='', format='unkn', label='', isMod=True, parent=None):
+        super(Probes, self).__init__(parent)
+        
+        self.setAcceptHoverEvents(True)
+        
+        if unit in 'newProbe':
+            ProbeExist = True
+            inc = 0
+            while ProbeExist:
+                if 'P' + str(inc) in listProbes[editor.currentTab]:
+                    inc += 1
+                else:
+                    ProbeExist = False
+            self.unit = 'P' + str(inc)
+        else:
+            self.unit = unit
+            
+        polyhead = QPolygonF([QPointF(0, 8), QPointF(20, 0), QPointF(70, 0),
+                                  QPointF(70, 26), QPointF(20, 26), QPointF(0, 18)])
+        self.setPolygon(polyhead)
+        
+        self.setPen(QtGui.QPen(ItemColor.frame_probe.value, 3))
+        self.setBrush(QtGui.QBrush(QtCore.Qt.darkGray))
+        self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
+#         self.txt = QGraphicsTextItem('Probe', self)
+#         self.txt.setDefaultTextColor(ItemColor.frame_probe.value)
+#         self.txt.setPos(20, 0)
+        
+        self.label = QGraphicsTextItem(self.unit, self)
+        self.label.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
+        self.label.setPos(75, 0)
+
+        #     __init__(self, name, nameItem, format, unit, showlabel, isMod, dx, dy, parent=None):
+        
+        self.input = Port('Probe', 'in', format, self.unit, True, True, 10, -15, self)
+        self.input.setPos(0, 13)
+        
+        listProbes[editor.currentTab][self.unit] = format
+        
+        
+    def contextMenuEvent(self, event):
+        if not self.isSelected():
+            return
+        menu = QMenu()
+        de = menu.addAction('Delete')
+        de.triggered.connect(self.deleteProbe)
+        menu.exec_(event.screenPos())
+
+    def deleteProbe(self):
+        for elem in editor.diagramView[editor.currentTab].items():
+            if type(elem) == LinkItem:
+                if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
+                    self.deletelink(elem, self.unit)
+                    editor.diagramScene[editor.currentTab].removeItem(elem)
+                    editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
+                    editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
+                    editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
+                    del listNodes[editor.currentTab][elem.name]
+        editor.diagramScene[editor.currentTab].removeItem(self)
+        del listProbes[editor.currentTab][self.unit]
+        UpdateUndoRedo()
+        
+    def hoverEnterEvent(self, event):
+        self.setSelected(1)
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)
+
+    def hoverLeaveEvent(self, event):
+        self.setSelected(0)
+#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
+    
+
 class ConnectorItem(QGraphicsPolygonItem):
 
     def __init__(self, name, connct='', w=70, h=26, inout='in', format='unkn', Vinput='', parent=None):
@@ -3347,13 +3423,6 @@ class ConnectorItem(QGraphicsPolygonItem):
         self.label.setPos(lx1, ly1)
         self.nameConnect.setPos(lx2, ly2)
 
-#     def hoverEnterEvent(self, event):
-#         self.setSelected(1)
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)
-#
-#     def hoverLeaveEvent(self, event):
-#         self.setSelected(0)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseDoubleClickEvent(self, event):
         if self.inout in 'in':
@@ -5375,6 +5444,7 @@ class ItemColor(Enum):
     cross_scene = QColor(250, 100, 0, 255)
     frame_connect = QColor(0, 250, 100, 255)
     frame_constants = QColor(200, 200, 200, 255)
+    frame_probe = QColor(50, 50, 150, 255)
     text_tab = QColor(20, 20, 20, 255)
 
 ###############################################################################
@@ -6094,8 +6164,9 @@ class NodeEdit(QWidget):
 
     def __init__(self, textInfo):
 
-        global textEdit, previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
-        global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants
+        global textEdit, consol 
+        global previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
+        global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, listProbes
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
         global undoredoTyping, pointTyping, itemStored
         global listConfigModul, currentpathwork
@@ -6234,7 +6305,7 @@ class NodeEdit(QWidget):
 #         self.libBrowser.append(TreeLibrary())
 
         libTools = []
-        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'Script']
+        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'Script', 'Probes']
         self.libMod1 = LibMod('structures_tools')
         self.libMod1.setColumnCount(1)
 
@@ -6293,6 +6364,14 @@ class NodeEdit(QWidget):
         self.libMod1.appendRow(self.stdItem1)
         branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
+        
+        branch1 = QStandardItem(listCategoryTools[5])
+        branch1.setEditable(False)
+        self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Probe')
+        self.stdItem1.setEditable(False)
+        self.libMod1.appendRow(self.stdItem1)
+        branch1.appendRow([QStandardItem(self.stdItem1), None])
+        self.rootNode1.appendRow([branch1, None])
 
         self.libBrowser.append(TreeLibrary())
         self.libBrowser[len(self.libBrowser) - 1].setModel(self.model1)
@@ -6331,7 +6410,7 @@ class NodeEdit(QWidget):
 
         self.tabLib.addTab(self.libBrowser[len(self.libBrowser) - 1], 'SubModuls')
 
-        ###########################################################################################
+        #######################################################################
 
         textEdit = TextInfo(self)
         textEdit.setStyleSheet("background-color : lightgray")
@@ -6339,6 +6418,13 @@ class NodeEdit(QWidget):
         redText = redText + ("Welcome to Irmage")
         redText = redText + ("</span>")
         textEdit.append(redText)
+        
+        #######################################################################
+        
+        consol = TextInfo(self)
+        consol.setStyleSheet("background-color : lightgray")
+        
+        #######################################################################
 
         previewBlock = QWidget(self)
         previewScene = QGraphicsScene()
@@ -6374,7 +6460,8 @@ class NodeEdit(QWidget):
         self.tabsDiagram.tabCloseRequested.connect(self.closeTab)
         self.tabsDiagram.currentChanged.connect(self.tabSelected)
 
-        listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, libTools = [], [], [], [], [], [], [], []
+        listItems, listBlocks, listNodes, listConnects, listProbes = [], [], [], [], []
+        listSubMod, listTools, listConstants, libTools = [], [], [], []
         undoredoTyping, pointTyping = [], []
 
         self.diagramScene = []
@@ -6388,8 +6475,9 @@ class NodeEdit(QWidget):
 
         self.splitter2 = QSplitter(Qt.Horizontal)
         self.splitter2.addWidget(textEdit)
+        self.splitter2.addWidget(consol)
         self.splitter2.addWidget(legend)
-        self.splitter2.setSizes([400, 200])
+        self.splitter2.setSizes([200, 200, 200])
 
         self.splitter3 = QSplitter(Qt.Vertical)
         self.splitter3.addWidget(self.tabsDiagram)
@@ -6426,6 +6514,7 @@ class NodeEdit(QWidget):
         listTools.append({})
         listConstants.append({})
         libTools.append({})
+        listProbes.append({})
         pointTyping.append(-1)
         undoredoTyping.append({})
         self.pathDiagram.append('')
@@ -6461,6 +6550,7 @@ class NodeEdit(QWidget):
             del listConstants[currentIndex]
             del listTools[currentIndex]
             del libTools[currentIndex]
+            del listProbes[currentIndex]
             del undoredoTyping[currentIndex]
             del pointTyping[currentIndex]
             del editor.diagramView[currentIndex]
@@ -6542,8 +6632,8 @@ class NodeEdit(QWidget):
         self.tabLib.setCurrentIndex(len(self.tabLib) - 1)
 
     @staticmethod
-    def check_project_saved(self):
-        pass
+    def setTextInfo(text):
+        consol.append(text)
 
     def startLink(self, port, format, pos):
         self.startConnection = Connection('', port, None, format)

@@ -140,3 +140,12 @@ class Print_tuple:
         print('\33[0m')
 
 #############################################################################
+
+
+class PrintToConsol:
+    def __init__(self, comment='',in_str=''):
+        from NodeEditor.python.PipeLine_Irmage import NodeEdit
+        text = "<span style=\" font-size:10pt; font-weight:600; color:#d500f9;\" >"
+        text = text + (comment + str(in_str))
+        text = text + ("</span>")
+        NodeEdit.setTextInfo(text)
