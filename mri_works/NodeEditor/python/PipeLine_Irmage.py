@@ -1300,6 +1300,7 @@ class DiagramScene(QGraphicsScene):
                     self.prevItem.append(item)
         editor.sceneMouseReleaseEvent(mouseEvent)
         super(DiagramScene, self).mouseReleaseEvent(mouseEvent)
+        UpdateUndoRedo()
 
     def mousePressEvent(self, mouseEvent):
 
@@ -6725,6 +6726,7 @@ class NodeEdit(QWidget):
             pos = event.scenePos()
             items = self.diagramScene[editor.currentTab].items(pos)
             nt = self.startConnection.link.name
+            tmpformat=''
 
             for item in items:
                 if type(item) is LinkItem:
