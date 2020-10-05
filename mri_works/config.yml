@@ -24,7 +24,6 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map.dgr
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Arithmetic.dgr
   - /home/omontigon/Documents/mri_works_projects/pb_constant_outLoopFor.dgr
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map_script.dgr
@@ -32,8 +31,8 @@ paths:
   - /home/omontigon/Documents/mri_works_projects/test_flatten.dgr
   - /home/omontigon/Documents/mri_works_projects/script_stat.dgr
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
-  - /home/omontigon/Documents/mri_works_projects/T2map_ray.dgr
   - /home/omontigon/Documents/mri_works_projects/test_print_consol.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
   modules: modules
   projects: ../data
 version: 20.09.29a

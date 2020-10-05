@@ -30,6 +30,7 @@ class analyze:
         listConnectInPos = {}
         listConnectOutPos = {}
         listConstant = {}
+        listProbe = {}
         listConstantInLoopIf = {}
         listConstantInLoopFor = {}
         tmpIn = {}
@@ -59,19 +60,20 @@ class analyze:
                 line = line[line.index('#Node#') + 6:len(line)]
                 c = line[0:line.index(':')]
                 d = line[line.index(':') + 1:]
-                if 'A' not in a:
+#                 print('Analyze : a,b,c,d link',a, ', ', b, ', ', c, ', ', d )
+                if 'A' not in a :
                     if 'I' not in a and 'F' not in a:
                         listBlockStart.append(a)
                     elif 'in' not in b:
                         listBlockStart.append(a)
-                    if 'C' not in c:
+                    if 'C' not in c and 'P' not in c:
                         if 'I' not in c and 'F' not in c:
                             listBlockStop.append(c)
                         elif 'out' not in d:
                             listBlockStop.append(c)
                 else:
                     listBlockStart.append(c)
-
+ 
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('category') + 10:len(line)]
@@ -193,6 +195,14 @@ class analyze:
             elif line[0:6] == 'script':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 self.listScript.append(unit)
+                
+            elif line[0:5] == 'probe':
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('label=') + 7:len(line)]
+                lab = line[0:line.index(']')]
+                line = line[line.index('format=') + 8:len(line)]
+                form = line[0:line.index('] RectF')]
+                listProbe[unit] = (form, lab, '') 
 
         # sort of connectors list ##########################
 
@@ -644,6 +654,18 @@ class analyze:
             self.listBlockExecution.append('ThreadOff')
         else:
             self.listBlockExecution.extend(tmpListBlock)
+            
+        # place list probe in listBlockExecution #############
+        if listProbe:
+            for klink, vlink in listArrow.items():
+                tmp = vlink
+                tmp = tmp.replace("#Node#",':')
+                a, b, c, d = tmp.split(':')
+                if 'P' in c:
+                    indx = self.listBlockExecution.index(a)
+                    self.listBlockExecution.insert(indx+1, c)
+        
+        ######################################################
 
         # replace Node() by listOut corresponding ###################################################
         for listB in self.listBlock.keys():
@@ -670,7 +692,7 @@ class analyze:
                     if el + ':' in fg:
                         self.listOut.remove(fg)
 
-        # delete in listBlock of diagram elements which are in loopfor yet ###
+        # delete in listModul of diagram elements which are in loopfor yet ###
         tmp2 = self.listModul.copy()
         tmp = tmp2.keys()
         for el in tmp:
