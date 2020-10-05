@@ -202,7 +202,7 @@ class analyze:
                 lab = line[0:line.index(']')]
                 line = line[line.index('format=') + 8:len(line)]
                 form = line[0:line.index('] RectF')]
-                listProbe[unit] = (form, lab, '') 
+                listProbe[unit] = (form, lab) 
 
         # sort of connectors list ##########################
 
@@ -655,15 +655,6 @@ class analyze:
         else:
             self.listBlockExecution.extend(tmpListBlock)
             
-        # place list probe in listBlockExecution #############
-        if listProbe:
-            for klink, vlink in listArrow.items():
-                tmp = vlink
-                tmp = tmp.replace("#Node#",':')
-                a, b, c, d = tmp.split(':')
-                if 'P' in c:
-                    indx = self.listBlockExecution.index(a)
-                    self.listBlockExecution.insert(indx+1, c)
         
         ######################################################
 
@@ -743,6 +734,24 @@ class analyze:
                 txtExc = txtExc.replace(li, listM + ':' + li[li.index(':') + 1:len(li)])
 
             self.listModExecution[listM] = txtExc
+            
+        # place list probe in listBlockExecution #############
+        if listProbe:
+            for klink, vlink in listArrow.items():
+                tmp = vlink
+                tmp = tmp.replace("#Node#",':')
+                a, b, c, d = tmp.split(':')
+                if 'P' in c:
+                    indx = self.listBlockExecution.index(a)
+                    if 'ThreadOn' in self.listBlockExecution:
+                        for i in range(indx, len(self.listBlockExecution)):
+                            if self.listBlockExecution[i] == 'ThreadOn':
+                                break
+                            elif self.listBlockExecution[i] == 'ThreadOff':
+                                indx=i
+                                break
+                    self.listBlockExecution.insert(indx+1, c)
+                    self.listBlock[c] = (listProbe[c][0], listProbe[c][1], a+':'+b)
 
 ######################################################################
 

@@ -22,6 +22,7 @@ from NodeEditor.python.pipeline_execution_loopfor import executionFor
 from NodeEditor.python.pipeline_execution_loopfor_multiprocessing import executionFor_proc
 from NodeEditor.python.pipeline_execution_script import executionScript
 from NodeEditor.python.progressBar import progressBar
+from NodeEditor.python.ClassForProbe import printProbe
 
 
 class execution:
@@ -172,6 +173,7 @@ class execution:
                 'F' not in execution and
                 'I' not in execution and
                 'S' not in execution and
+                'P' not in execution and
                     'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
@@ -243,6 +245,10 @@ class execution:
                                 self.listDynamicValue[lsi] = value
 
                 # print('list3 & outUnit : ', list3,' , ',outUnit)
+                
+            elif 'P' in execution:
+                valToPrint = self.listDynamicValue[listBlock[execution][2]]
+                printProbe(listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
 
             elif 'M' in execution:
                 self.listDynamicValueSub = {}

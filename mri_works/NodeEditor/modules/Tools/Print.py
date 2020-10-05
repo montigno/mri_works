@@ -24,7 +24,7 @@ class Print_int:
 
 class Print_float:
     def __init__(self, comment='', inFloat=0.0):
-        print('\033[0;33m' + comment, inFloat)
+        print('\033[0;93m' + comment, inFloat)
         print('\33[0m')
 
 ##############################################################################
