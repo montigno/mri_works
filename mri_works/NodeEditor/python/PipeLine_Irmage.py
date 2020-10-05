@@ -6730,7 +6730,8 @@ class NodeEdit(QWidget):
 
             for item in items:
                 if type(item) is LinkItem:
-                    linkcurrent = item
+                    if item.name == nt:
+                        linkcurrent = item
                 if type(item) is Port:
                     portcurrent = item
                     tmpname = item.name
@@ -7039,6 +7040,7 @@ class NodeEdit(QWidget):
                         linkcurrent.linkShow.setPen(QtGui.QPen(color, 2))
                         linkcurrent.linkShow.setBrush(color)
                         linkcurrent.color = color
+                        print('changeColorLink : ', linkcurrent.name)
 
                     textEdit.setStyleSheet("background-color : lightgray")
                     greenText = "<span style=\" font-size:10pt; font-weight:600; color:#003300;\" >"

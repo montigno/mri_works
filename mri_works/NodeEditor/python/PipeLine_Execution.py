@@ -22,7 +22,7 @@ from NodeEditor.python.pipeline_execution_loopfor import executionFor
 from NodeEditor.python.pipeline_execution_loopfor_multiprocessing import executionFor_proc
 from NodeEditor.python.pipeline_execution_script import executionScript
 from NodeEditor.python.progressBar import progressBar
-from NodeEditor.python.ClassForProbe import printProbe
+from NodeEditor.python.classForProbe import printProbe
 
 
 class execution:
