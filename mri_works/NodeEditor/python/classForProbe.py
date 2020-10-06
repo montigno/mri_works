@@ -1,5 +1,5 @@
 class printProbe():
-    def __init__(self, lab, format, label, val):
+    def __init__(self, unit, lab, format, label, val):
         if 'int' in format:
             col = '\033[0;94m'
         elif 'float' in format:
@@ -12,5 +12,4 @@ class printProbe():
             col = '\033[0;33m'
         if label == 'Type':
             val = type(val)
-        print(col+lab,' : ',val)
-            
+        print(col+unit+'('+lab+')',' : ',val)

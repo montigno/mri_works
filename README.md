@@ -18,6 +18,8 @@ Features :
 - possibility to create sub-modules
 - bricks are very easy to make.
 
+![title](https://montigno.github.io/mri_works/Home/images/welcom01.png)
+
 # Documentation
 
 A beta documentation is available here : [https://montigno.github.io/mri_works](https://montigno.github.io/mri_works)

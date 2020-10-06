@@ -20,27 +20,18 @@ class analyze:
 
         # initialize variables ##########################
         listArrow = {}
-        self.listBlock = {}
-        self.listModul = {}
-        self.listLoopFor = {}
-        self.listLoopIf = {}
+        self.listBlock, self.listModul = {}, {}
+        self.listLoopFor, self.listLoopIf = {}, {}
         self.listModExecution = {}
         self.listConstantLoop = {}
         self.listScript = []
-        listConnectInPos = {}
-        listConnectOutPos = {}
-        listConstant = {}
-        listProbe = {}
-        listConstantInLoopIf = {}
-        listConstantInLoopFor = {}
-        tmpIn = {}
-        tmpOut = {}
+        listConnectInPos, listConnectOutPos = {}, {}
+        listConstant, listProbe = {}, {}
+        listConstantInLoopIf, listConstantInLoopFor = {}, {}
+        tmpIn, tmpOut = {}, {}
         self.listOut = []
-        self.listConnectIn = []
-        self.listConnectOut = []
-        listBlockStart = []
-        listBlockRemaining = []
-        listBlockStop = []
+        self.listConnectIn, self.listConnectOut = [], []
+        listBlockStart, listBlockRemaining, listBlockStop = [], [], []
 
         tmp = txt.splitlines()
         tmp.reverse()
@@ -54,13 +45,8 @@ class analyze:
                 nameNode = 'Node(' + nameNode + ')'
                 line = line[line.index('node=') + 6:len(line) - 1]
                 listArrow[nameNode] = line
-                self.listOut.append(line[0:line.index('#Node#')])
-                a = line[0:line.index(':')]
-                b = line[line.index(':') + 1:line.index('#Node#')]
-                line = line[line.index('#Node#') + 6:len(line)]
-                c = line[0:line.index(':')]
-                d = line[line.index(':') + 1:]
-#                 print('Analyze : a,b,c,d link',a, ', ', b, ', ', c, ', ', d )
+                a, b, c, d = line.replace('#Node#',':').split(':')
+                self.listOut.append(a+':'+b)
                 if 'A' not in a :
                     if 'I' not in a and 'F' not in a:
                         listBlockStart.append(a)
@@ -318,21 +304,8 @@ class analyze:
             listArrowFor = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
-                tmp = valueA
-                a = tmp[0:tmp.index(':')]
-                tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                b = tmp[0:tmp.index('#Node#')]
-                tmp = tmp[tmp.index('#Node#') + 6:len(tmp)]
-                c = tmp[0:tmp.index(':')]
-                tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                d = tmp
-#                 print('info 1 : ', keyA, valueA)
+                a, b, c, d = valueA.replace('#Node#',':').split(':')
                 for keyF, valueF in self.listLoopFor.items():
-                    # print(keyA,': case 1 :', keyF + ':in', a + ':' + b)
-                    # print(keyA,': case 2 :', keyF + ':out', c + ':' + d)
-                    # print(keyA,': case 3 :', a, eval(self.listLoopFor[keyF][2]))
-                    # print(keyA,': case 4 :', c, eval(self.listLoopFor[keyF][2]))
-                    # print(keyA,': listArrow.keys() :',listArrow.keys())
                     if keyF + ':in' in a + ':' + b or \
                         keyF + ':out' in c + ':' + d or \
                         (a in eval(self.listLoopFor[keyF][2]) and
@@ -360,22 +333,14 @@ class analyze:
             listArrowIf = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
-                tmp = valueA
-                tmpUnitAmont = tmp[0:tmp.index(':')]
-                tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                tmpPortAmont = tmp[0:tmp.index('#Node#')]
-                tmp = tmp[tmp.index('#Node#') + 6:len(tmp)]
-                tmpUnitAval = tmp[0:tmp.index(':')]
-                tmp = tmp[tmp.index(':') + 1:len(tmp)]
-                tmpPortAval = tmp
-
+                a, b, c, d = valueA.replace('#Node#',':').split(':')
                 for keyF, valueF in self.listLoopIf.items():
-                    if (keyF + ':in' in tmpUnitAmont + ':' + tmpPortAmont) or (
-                        keyF + ':out' in tmpUnitAval + ':' + tmpPortAval) or (
-                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[0]) or (
-                        tmpUnitAval in eval(self.listLoopIf[keyF][2])[0]) or (
-                        tmpUnitAmont in eval(self.listLoopIf[keyF][2])[1]) or (
-                            tmpUnitAval in eval(self.listLoopIf[keyF][2])[1]):
+                    if (keyF + ':in' in a + ':' + b) or (
+                        keyF + ':out' in c + ':' + d) or (
+                        a in eval(self.listLoopIf[keyF][2])[0]) or (
+                        c in eval(self.listLoopIf[keyF][2])[0]) or (
+                        a in eval(self.listLoopIf[keyF][2])[1]) or (
+                            c in eval(self.listLoopIf[keyF][2])[1]):
                         if keyA in listArrow.keys():
                             # links from LoopIf deleted from the listArrow
                             del listArrow[keyA]
@@ -738,9 +703,7 @@ class analyze:
         # place list probe in listBlockExecution #############
         if listProbe:
             for klink, vlink in listArrow.items():
-                tmp = vlink
-                tmp = tmp.replace("#Node#",':')
-                a, b, c, d = tmp.split(':')
+                a, b, c, d = vlink.replace("#Node#",':').split(':')
                 if 'P' in c:
                     indx = self.listBlockExecution.index(a)
                     if 'ThreadOn' in self.listBlockExecution:

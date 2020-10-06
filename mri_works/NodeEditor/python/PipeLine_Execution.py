@@ -248,7 +248,7 @@ class execution:
                 
             elif 'P' in execution:
                 valToPrint = self.listDynamicValue[listBlock[execution][2]]
-                printProbe(listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
+                printProbe(execution, listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
 
             elif 'M' in execution:
                 self.listDynamicValueSub = {}
