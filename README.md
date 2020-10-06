@@ -18,9 +18,9 @@ Features :
 - possibility to create sub-modules
 - bricks are very easy to make.
 
-<p float="left">
-<img src="https://github.com/montigno/mri_works/blob/devpt/docs/Home/images/welcom01.png" width="600">
-<img src="https://github.com/montigno/mri_works/blob/devpt/docs/Home/images/welcom00.png" width="600">
+<p align="center">
+<img src="https://github.com/montigno/mri_works/blob/devpt/docs/Home/images/welcom01.png" width="800">
+<img src="https://github.com/montigno/mri_works/blob/devpt/docs/Home/images/welcom00.png" width="800">
 </p>
 
 # Documentation
