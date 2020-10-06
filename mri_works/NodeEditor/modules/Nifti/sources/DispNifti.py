@@ -13,7 +13,7 @@ class DispNifti():
     def __init__(self, img, pixdim=(1.0, 1.0), title='', parent=None):
         
         self.dia = QDialog()
-        self.scaleFactor = 2
+        self.scaleFactor = 3
               
         self.img = np.array(img)
         self.dim = len(self.img.shape)
@@ -81,9 +81,9 @@ class DispNifti():
         image = QImage(self.x.data, self.w , self.h, bytesPerLine, QImage.Format_Grayscale8)
         self.pixm = QPixmap.fromImage(image)
         
-        self.pixm = self.pixm.scaled(self.rx , self.ry, Qt.IgnoreAspectRatio)
+        self.pixm = self.pixm.scaled(self.rx * (self.scaleFactor - 1), self.ry * (self.scaleFactor - 1), Qt.IgnoreAspectRatio)
         self.imageLabel.setPixmap(self.pixm)
-        self.imageLabel.adjustSize()
+#         self.imageLabel.adjustSize()
 
     def indexImage(self):
         sl1 = self.a1.value()
