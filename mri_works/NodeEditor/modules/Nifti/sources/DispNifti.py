@@ -1,20 +1,19 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPixmap, QPalette
-from PyQt5.QtWidgets import QSlider, QLabel, QApplication, QSizePolicy, \
-    QLineEdit, QGroupBox, QGridLayout, QVBoxLayout, QWidget, QDialog
+from PyQt5.QtWidgets import QSlider, QLabel, QSizePolicy, \
+    QLineEdit, QGroupBox, QGridLayout, QVBoxLayout, QDialog, QWidget
 from scipy.ndimage import rotate
 
 import numpy as np
-import sys
 
 
-class DispNifti():
+class DispNifti(QDialog):
 
     def __init__(self, img, pixdim=(1.0, 1.0), title='', parent=None):
-        
-        self.dia = QDialog()
+        QDialog.__init__(self, parent)
+    
+        self.setModal(False) 
         self.scaleFactor = 3
-              
         self.img = np.array(img)
         self.dim = len(self.img.shape)
 
@@ -55,17 +54,13 @@ class DispNifti():
         self.imgqLabel()
         self.navigImage()
           
-        self.verticalLayout = QVBoxLayout(self.dia)
+        self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.addWidget(self.imageLabel)
         self.verticalLayout.addWidget(self.layoutSlide)
          
-        self.dia.setWindowTitle(title)
-        self.dia.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
-#         self.dia.resize(self.w, self.h)
-        self.dia.setLayout(self.verticalLayout)
-
-    def getDialog(self):
-        return self.dia
+        self.setWindowTitle(title)
+        self.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
+        self.setLayout(self.verticalLayout)
              
     def imgqLabel(self):
         self.imageLabel = QLabel()
@@ -180,8 +175,3 @@ class DispNifti():
      
     def changePosValue(self):
         self.navigImage()
-
-        
-app = QApplication.instance() 
-if not app:
-    app = QApplication(sys.argv)

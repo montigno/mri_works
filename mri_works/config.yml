@@ -33,6 +33,7 @@ paths:
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
   - /home/omontigon/Documents/mri_works_projects/test_print_consol.dgr
   - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
+  - /home/omontigon/Documents/mri_works_projects/read_Nifti.dgr
   modules: modules
   projects: ../data
 version: 20.09.29a
