@@ -13,7 +13,7 @@ import ast
 class analyzeLoopFor:
 
     def __init__(self, keyF, valueF, listBlock,
-                 listModul, ModulExecution, listArrowExtern, listConstants):
+                 listModul, ModulExecution, listArrowExtern, listConstants, listProbes):
 
         # valueF[0] : inputs
         # valueF[1] : outputs
@@ -305,6 +305,26 @@ class analyzeLoopFor:
             self.listModExecution[listM] = txtExc
 
 # end of analyze for loop #######################
+
+        # place list probe in listBlockExecution #############
+        if listProbes:
+            for klink, vlink in listArrowIntern.items():
+                a, b, c, d = vlink.replace("#Node#",':').split(':')
+                if 'P' in c:
+                    self.listBlockExecution.remove(c)
+                    if keyF == a:
+                        self.listBlockExecution.insert(0, c)
+                    else:
+                        indx = self.listBlockExecution.index(a)
+                        if 'ThreadOn' in self.listBlockExecution:
+                            for i in range(indx, len(self.listBlockExecution)):
+                                if self.listBlockExecution[i] == 'ThreadOn':
+                                    break
+                                elif self.listBlockExecution[i] == 'ThreadOff':
+                                    indx=i
+                                    break
+                        self.listBlockExecution.insert(indx+1, c)
+                    self.listBlock[c] = (listProbes[c][0], listProbes[c][1], a+':'+b)
 
     def getListForExecution(self):
         txtlist = str(self.listConnectIn) + '\n' + \

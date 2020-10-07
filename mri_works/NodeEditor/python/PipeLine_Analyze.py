@@ -395,7 +395,8 @@ class analyze:
                                      self.listModul,
                                      self.listModExecution,
                                      listArrow,
-                                     self.listConstantLoop)
+                                     self.listConstantLoop,
+                                     listProbe)
                 self.listBlockExecutionInLoopFor.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopFor[keyF] = tmp.getListForExecution()
 #                 print('getListForExecution : ',tmp.getListForExecution())
@@ -418,7 +419,8 @@ class analyze:
                                     self.listModul,
                                     self.listModExecution,
                                     listArrow,
-                                    self.listConstantLoop)
+                                    self.listConstantLoop,
+                                    listProbe)
                 self.listBlockExecutionInLoopIf.append(keyF + ':' + str(tmp.getListBlockExecution()))
                 self.textExecutionInLoopIf[keyF] = tmp.getListIfExecution()
 

@@ -8,7 +8,7 @@
 
 '''
 Created on 14 december 2017
-Modified on 5 oct. 2020
+Modified on 7 oct. 2020
 @author: omonti
 '''
 
@@ -1483,6 +1483,7 @@ class DiagramView(QGraphicsView):
                 self.a1 = Probes('new', 'unkn',name, True)
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
+                self.addItemLoop(self.a1.unit)
             try:
                 listItems[editor.currentTab][self.a1.unit] = self.a1
             except Exception as e:
@@ -2595,86 +2596,12 @@ class BlockCreate(QGraphicsRectItem):
 #         self.setSelected(False)
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
-    def mouseMoveEvent(self, event):
-        pos = event.scenePos()
-        if not self.preview:
-            listTypeItems = []
-            itms = editor.diagramScene[editor.currentTab].items(pos)
-
-            for elem in itms:
-                if type(elem) == ForLoopItem:
-                    listTypeItems.append(elem)
-
-            if listTypeItems:
-                if len(listTypeItems) > 1:
-                    postmp = None
-                    elemtmp = None
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-                    for lsElem in listTypeItems:
-                        if not postmp:
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-
-                        elif postmp.x() < lsElem.pos().x():
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-                else:
-                    elemtmp = listTypeItems[0]
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-
-                self.currentLoop = elemtmp
-                self.currentLoop.activeState()
-                self.caseFinal = True
-            else:
-                if self.currentLoop:
-                    ind = 0
-                    if self.currentLoop.loopIf:
-                        if self.currentLoop.elemProxy.currentText() == 'False':
-                            ind = 1
-                    self.currentLoop.normalState()
-                    self.currentLoop.IteminLoop(self.unit, False, ind)
-                    self.currentLoop = None
-                    self.caseFinal = False
-
-            event.accept()
-            self.moved = True
-        return QGraphicsRectItem.mouseMoveEvent(self, event)
+    def mouseMoveEvent(self, mouseEvent):
+        editor.loopMouseMoveEvent(self, mouseEvent)
+        return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
-        pos = event.scenePos()
-        if self.currentLoop:
-            ind = 0
-            if self.currentLoop.loopIf:
-                if self.currentLoop.elemProxy.currentText() == 'False':
-                    ind = 1
-            self.currentLoop.IteminLoop(self.unit, True, ind)
-            self.currentLoop.normalState()
-            self.currentLoop = None
-            self.caseFinal = False
-        if self.moved:
-            UpdateUndoRedo()
-            self.moved = False
-
+        editor.loopMouseReleaseEvent(self, event)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def mousePressEvent(self, event):
@@ -2926,21 +2853,22 @@ class BlockCreate(QGraphicsRectItem):
         else:
             del listSubMod[editor.currentTab][self.unit]
             listSubMod[editor.currentTab] = ReorderList(listSubMod[editor.currentTab]).getNewList()
-        for keyF, valueF in listTools[editor.currentTab].items():
-            if 'F' in keyF:
-                if self.unit in valueF:
-                    tmplistTools = valueF
-                    tmplistTools.remove(self.unit)
-                    listTools[editor.currentTab][keyF] = tmplistTools
-            elif 'I' in keyF:
-                if self.unit in valueF[0]:
-                    tmplistTools = valueF[0]
-                    tmplistTools.remove(self.unit)
-                    listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
-                if self.unit in valueF[1]:
-                    tmplistTools = valueF[1]
-                    tmplistTools.remove(self.unit)
-                    listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
+        editor.deleteItemsLoop(self)
+#         for keyF, valueF in listTools[editor.currentTab].items():
+#             if 'F' in keyF:
+#                 if self.unit in valueF:
+#                     tmplistTools = valueF
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = tmplistTools
+#             elif 'I' in keyF:
+#                 if self.unit in valueF[0]:
+#                     tmplistTools = valueF[0]
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
+#                 if self.unit in valueF[1]:
+#                     tmplistTools = valueF[1]
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
         listNodes[editor.currentTab] = ReorderList(listNodes[editor.currentTab]).getNewList()
 #         UpdateUndoRedo()
 
@@ -3330,6 +3258,10 @@ class Probes(QGraphicsPolygonItem):
         super(Probes, self).__init__(parent)
         
         self.isMod = isMod
+        self.preview = False
+        self.caseFinal = False
+        self.currentLoop = None
+        self.moved = False
         
         if isMod:        
             self.setAcceptHoverEvents(True)
@@ -3378,6 +3310,13 @@ class Probes(QGraphicsPolygonItem):
 #     def mousePressEvent(self, mouseEvent):
 #         self.setSelected(True)
 #         return QGraphicsPolygonItem.mousePressEvent(self, mouseEvent)
+    def mouseMoveEvent(self, mouseEvent):
+        editor.loopMouseMoveEvent(self, mouseEvent)
+        return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
+    
+    def mouseReleaseEvent(self, event):
+        editor.loopMouseReleaseEvent(self, event)
+        return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
         global itemStored
@@ -3406,6 +3345,7 @@ class Probes(QGraphicsPolygonItem):
 #                     del listNodes[editor.currentTab][elem.name]
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listProbes[editor.currentTab][self.unit]
+        editor.deleteItemsLoop(self)
         UpdateUndoRedo()
         
 #     def hoverEnterEvent(self, event):
@@ -3495,7 +3435,6 @@ class ConnectorItem(QGraphicsPolygonItem):
         self.label.setPos(lx1, ly1)
         self.nameConnect.setPos(lx2, ly2)
 
-
     def mouseDoubleClickEvent(self, event):
         if self.inout in 'in':
             if self.output.label.toPlainText() not in 'unkn':
@@ -3504,10 +3443,6 @@ class ConnectorItem(QGraphicsPolygonItem):
             if self.input.label.toPlainText() not in 'unkn':
                 self.changelabel()
         return QGraphicsRectItem.mouseDoubleClickEvent(self, event)
-
-#     def mousePressEvent(self, event):
-#         if event.button() == 2:
-#             self.setSelected(True)
 
     def mouseMoveEvent(self, event):
         self.moved = True
@@ -4033,86 +3968,11 @@ class Constants(QGraphicsRectItem):
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, event):
-        self.moved = True
-        event.accept()
-        pos = event.scenePos()
-        if not self.preview:
-            listTypeItems = []
-            itms = editor.diagramScene[editor.currentTab].items(pos)
-
-            for elem in itms:
-                if type(elem) == ForLoopItem:
-                    listTypeItems.append(elem)
-
-            if listTypeItems:
-                if len(listTypeItems) > 1:
-                    postmp = None
-                    elemtmp = None
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-                    for lsElem in listTypeItems:
-                        if not postmp:
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-
-                        elif postmp.x() < lsElem.pos().x():
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-                else:
-                    elemtmp = listTypeItems[0]
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-
-                self.currentLoop = elemtmp
-                self.currentLoop.activeState()
-                self.caseFinal = True
-            else:
-                if self.currentLoop:
-                    ind = 0
-                    if self.currentLoop.loopIf:
-                        if self.currentLoop.elemProxy.currentText() == 'False':
-                            ind = 1
-                    self.currentLoop.normalState()
-                    self.currentLoop.IteminLoop(self.unit, False, ind)
-                    self.currentLoop = None
-                    self.caseFinal = False
-
-            event.accept()
-            self.moved = True
+        editor.loopMouseMoveEvent(self, event)
         return QGraphicsRectItem.mouseMoveEvent(self, event)
 
     def mouseReleaseEvent(self, event):
-        pos = event.scenePos()
-        if self.currentLoop:
-            ind = 0
-            if self.currentLoop.loopIf:
-                if self.currentLoop.elemProxy.currentText() == 'False':
-                    ind = 1
-            self.currentLoop.IteminLoop(self.unit, True, ind)
-            self.currentLoop.normalState()
-            self.currentLoop = None
-            self.caseFinal = False
-        if self.moved:
-            UpdateUndoRedo()
-            self.moved = False
+        editor.loopMouseReleaseEvent(self, event)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def mousePressEvent(self, event):
@@ -4182,12 +4042,23 @@ class Constants(QGraphicsRectItem):
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listConstants[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
+        editor.deleteItemsLoop(self)
 
-        for keyF, valueF in listTools[editor.currentTab].items():
-            if self.unit in valueF:
-                tmplistTools = valueF
-                tmplistTools.remove(self.unit)
-                listTools[editor.currentTab][keyF] = tmplistTools
+#         for keyF, valueF in listTools[editor.currentTab].items():
+#             if 'F' in keyF:
+#                 if self.unit in valueF:
+#                     tmplistTools = valueF
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = tmplistTools
+#             elif 'I' in keyF:
+#                 if self.unit in valueF[0]:
+#                     tmplistTools = valueF[0]
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
+#                 if self.unit in valueF[1]:
+#                     tmplistTools = valueF[1]
+#                     tmplistTools.remove(self.unit)
+#                     listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
         UpdateUndoRedo()
 
 ###############################################################################
@@ -4519,7 +4390,8 @@ class ForLoopItem(QGraphicsRectItem):
             if (type(elemts) == BlockCreate
                 or type(elemts) == ForLoopItem
                 or type(elemts) == Constants
-                or type(elemts) == ScriptItem) \
+                or type(elemts) == ScriptItem
+                or type(elemts) == Probes) \
                             and elemts.unit in listToMove:
                 elemts.setSelected(state)
                 if type(elemts) == ForLoopItem and elemts.unit != self.unit:
@@ -5039,88 +4911,12 @@ class ScriptItem(QGraphicsRectItem):
             UpdateUndoRedo()
 #         return QGraphicsRectItem.mousePressEvent(self, event)
 
-    def mouseMoveEvent(self, event):
-        self.moved = True
-        event.accept()
-        pos = event.scenePos()
-        if not self.preview:
-            listTypeItems = []
-            itms = editor.diagramScene[editor.currentTab].items(pos)
-
-            for elem in itms:
-                if type(elem) == ForLoopItem:
-                    listTypeItems.append(elem)
-
-            if listTypeItems:
-                if len(listTypeItems) > 1:
-                    postmp = None
-                    elemtmp = None
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-                    for lsElem in listTypeItems:
-                        if not postmp:
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-
-                        elif postmp.x() < lsElem.pos().x():
-                            postmp = lsElem.pos()
-                            elemtmp = lsElem
-                else:
-                    elemtmp = listTypeItems[0]
-                    try:
-                        ind = 0
-                        if self.currentLoop.loopIf:
-                            if self.currentLoop.elemProxy.currentText() == 'False':
-                                ind = 1
-                        self.currentLoop.normalState()
-                        self.currentLoop.IteminLoop(self.unit, False, ind)
-                        self.currentLoop = None
-                        self.caseFinal = False
-                    except Exception as e:
-                        pass
-
-                self.currentLoop = elemtmp
-                self.currentLoop.activeState()
-                self.caseFinal = True
-            else:
-                if self.currentLoop:
-                    ind = 0
-                    if self.currentLoop.loopIf:
-                        if self.currentLoop.elemProxy.currentText() == 'False':
-                            ind = 1
-                    self.currentLoop.normalState()
-                    self.currentLoop.IteminLoop(self.unit, False, ind)
-                    self.currentLoop = None
-                    self.caseFinal = False
-
-            event.accept()
-            self.moved = True
-        return QGraphicsRectItem.mouseMoveEvent(self, event)
+    def mouseMoveEvent(self, mouseEvent):
+        editor.loopMouseMoveEvent(self, mouseEvent)
+        return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
-        pos = event.scenePos()
-        if self.currentLoop:
-            ind = 0
-            if self.currentLoop.loopIf:
-                if self.currentLoop.elemProxy.currentText() == 'False':
-                    ind = 1
-            self.currentLoop.IteminLoop(self.unit, True, ind)
-            self.currentLoop.normalState()
-            self.currentLoop = None
-            self.caseFinal = False
-        if self.moved:
-            UpdateUndoRedo()
-            self.moved = False
-
+        editor.loopMouseReleaseEvent(self, event)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def hoverEnterEvent(self, event):
@@ -5221,6 +5017,7 @@ class ScriptItem(QGraphicsRectItem):
         del listTools[editor.currentTab][self.unit]
         del libTools[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
+        editor.deleteItemsLoop(self)
 #         UpdateUndoRedo()
 
     def changeTitle(self):
@@ -5367,7 +5164,8 @@ class Control_IF(QComboBox):
         for item in editor.diagramView[editor.currentTab].items():
             if type(item) == BlockCreate or type(item) == ForLoopItem \
                                          or type(item) == ScriptItem \
-                                         or type(item) == Constants:
+                                         or type(item) == Constants \
+                                         or type(item) == Probes:
                 if item.unit in listTools[editor.currentTab][self.unit][0]:
                     item.setOpacity(1)
                     self.opacityLink(item.unit, 1)
@@ -5393,7 +5191,9 @@ class Control_IF(QComboBox):
     def falseCase(self):
         for item in editor.diagramView[editor.currentTab].items():
             if type(item) == BlockCreate or type(item) == ForLoopItem \
-                            or type(item) == ScriptItem or type(item) == Constants:
+                                         or type(item) == ScriptItem \
+                                         or type(item) == Constants \
+                                         or type(item) == Probes:
                 if item.unit in listTools[editor.currentTab][self.unit][0]:
                     item.setOpacity(0)
                     self.opacityLink(item.unit, 0)
@@ -6063,84 +5863,6 @@ class TreeLibrary(QTreeView):
                 for elem in previewScene.items():
                     previewScene.removeItem(elem)
 
-#     def mousePressEvent(self, event):
-#         try:
-#             idx = self.indexAt(event.pos())
-#             if idx.isValid():
-#                 model = idx.model()
-#                 idx = idx.sibling(idx.row(), 0)
-#                 sel = model.itemFromIndex(idx).text()
-#                 mimidat = model.name
-#                 name = model.itemFromIndex(idx).text()
-#                 print('sel=',sel,', mimidat=',mimidat,', name=',name)
-#
-#                 if mimidat in 'mod_SubMod':
-#                     if sel not in listCategory:
-#                         ind = 0
-#                         for i, j in enumerate(editor.getlib()):
-#                             if j[0] == name:
-#                                 ind = i
-#                                 break
-#                         b1 = BlockCreate(name, '', editor.getlib()[ind][1], 150, 80, editor.getlib()[ind][2][1], False, editor.getlib()[ind][2])
-#                         b1.preview = True
-#                         textSource = 'Source : ' + editor.getlib()[ind][1]
-#                         self.showModel(b1, textSource)
-#                     else:
-#                         for elem in previewScene.items():
-#                             previewScene.removeItem(elem)
-#
-#                 elif mimidat in 'blocks_subModules':
-#                     if sel not in listCategorySubMod:
-#                         ind = 0
-#                         for i, j in enumerate(libSubMod):
-#                             if j[0] == name:
-#                                 indMod = i
-#                                 break
-#                         bm = BlockCreate(name, '', None, 150, 80, libSubMod[indMod][1][0][1], False, libSubMod[indMod][1][0])
-#                         self.showModel(bm, '')
-#                     else:
-#                         for elem in previewScene.items():
-#                             previewScene.removeItem(elem)
-#
-#                 elif mimidat in 'structures_tools':
-# #                     name = model.itemFromIndex(idx).text()
-#                     if sel not in listCategoryTools:
-#                         if "Constant" in name:
-#                             if 'string' in name:
-#                                 val = 'your text'
-#                                 form = 'str'
-#                             elif 'integer' in name:
-#                                 val = 0
-#                                 form = 'int'
-#                             elif 'float' in name:
-#                                 val = 0.0
-#                                 form = 'float'
-#                             elif 'combobox' in name:
-#                                 form = "enumerate(('item1','item2','item3'))"
-#                                 val = 'item1'
-#                             elif 'boolean' in name:
-#                                 val = True
-#                                 form = 'bool'
-#                             elif 'path' in name:
-#                                 val = 'path'
-#                                 form = 'path'
-#                             bc = Constants('', 80, 30, val, form, '', False)
-#                         elif 'Comments' in name:
-#                             bc = CommentsItem(200, 100, 'your comments', False)
-#                         elif 'For' in name:
-#                             bc = ForLoopItem('', name, 200, 200, False)
-#                         elif 'If' in name:
-#                             bc = ForLoopItem('', name, 200, 200, False)
-#                         elif 'Script' in name:
-#                             bc = ScriptItem('', name, 200, 200, False)
-#                         self.showModel(bc, name)
-#                     else:
-#                         for elem in previewScene.items():
-#                             previewScene.removeItem(elem)
-#         except Exception as e:
-#             print('error showModel')
-#         return QTreeView.mousePressEvent(self, event)
-
     def showModel(self, item, text):
         previewScene.clear()
         previewDiagram.scene().addItem(item)
@@ -6537,10 +6259,7 @@ class NodeEdit(QWidget):
         listItems, listBlocks, listNodes, listConnects, listProbes = [], [], [], [], []
         listSubMod, listTools, listConstants, libTools = [], [], [], []
         undoredoTyping, pointTyping = [], []
-
-        self.diagramScene = []
-        self.diagramView = []
-        self.pathDiagram = []
+        self.diagramScene, self.diagramView, self.pathDiagram = [], [], []
 
         self.splitter1 = QSplitter(Qt.Vertical)
         self.splitter1.addWidget(self.tabLib)
@@ -6551,7 +6270,6 @@ class NodeEdit(QWidget):
         self.splitter2.addWidget(textEdit)
         self.splitter2.addWidget(legend)
         self.splitter2.setSizes([400, 200])
-
 
         self.splitter3 = QSplitter(Qt.Vertical)
         self.splitter3.addWidget(self.tabsDiagram)
@@ -6713,6 +6431,104 @@ class NodeEdit(QWidget):
         greenText = greenText + ('start connection : ' + port.unit + ' ' + port.name + ' ' + port.typeio + ' ' + port.format)
         greenText = greenText + ("</span>")
         textEdit.append(greenText)
+    
+    def deleteItemsLoop(self, item):
+        for keyF, valueF in listTools[editor.currentTab].items():
+            if 'F' in keyF:
+                if item.unit in valueF:
+                    tmplistTools = valueF
+                    tmplistTools.remove(item.unit)
+                    listTools[editor.currentTab][keyF] = tmplistTools
+            elif 'I' in keyF:
+                if item.unit in valueF[0]:
+                    tmplistTools = valueF[0]
+                    tmplistTools.remove(item.unit)
+                    listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
+                if item.unit in valueF[1]:
+                    tmplistTools = valueF[1]
+                    tmplistTools.remove(item.unit)
+                    listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
+        
+    def loopMouseMoveEvent(self, item, event):
+        item.moved = True
+        event.accept()
+        pos = event.scenePos()
+        if not item.preview:
+            listTypeItems = []
+            itms = editor.diagramScene[editor.currentTab].items(pos)
+
+            for elem in itms:
+                if type(elem) == ForLoopItem:
+                    listTypeItems.append(elem)
+
+            if listTypeItems:
+                if len(listTypeItems) > 1:
+                    postmp = None
+                    elemtmp = None
+                    try:
+                        ind = 0
+                        if item.currentLoop.loopIf:
+                            if item.currentLoop.elemProxy.currentText() == 'False':
+                                ind = 1
+                        item.currentLoop.normalState()
+                        item.currentLoop.IteminLoop(item.unit, False, ind)
+                        item.currentLoop = None
+                        item.caseFinal = False
+                    except Exception as e:
+                        pass
+                    for lsElem in listTypeItems:
+                        if not postmp:
+                            postmp = lsElem.pos()
+                            elemtmp = lsElem
+
+                        elif postmp.x() < lsElem.pos().x():
+                            postmp = lsElem.pos()
+                            elemtmp = lsElem
+                else:
+                    elemtmp = listTypeItems[0]
+                    try:
+                        ind = 0
+                        if item.currentLoop.loopIf:
+                            if item.currentLoop.elemProxy.currentText() == 'False':
+                                ind = 1
+                        item.currentLoop.normalState()
+                        item.currentLoop.IteminLoop(item.unit, False, ind)
+                        item.currentLoop = None
+                        item.caseFinal = False
+                    except Exception as e:
+                        pass
+
+                item.currentLoop = elemtmp
+                item.currentLoop.activeState()
+                item.caseFinal = True
+            else:
+                if item.currentLoop:
+                    ind = 0
+                    if item.currentLoop.loopIf:
+                        if item.currentLoop.elemProxy.currentText() == 'False':
+                            ind = 1
+                    item.currentLoop.normalState()
+                    item.currentLoop.IteminLoop(item.unit, False, ind)
+                    item.currentLoop = None
+                    item.caseFinal = False
+
+            event.accept()
+            item.moved = True        
+
+    def loopMouseReleaseEvent(self, item, event):
+        pos = event.scenePos()
+        if item.currentLoop:
+            ind = 0
+            if item.currentLoop.loopIf:
+                if item.currentLoop.elemProxy.currentText() == 'False':
+                    ind = 1
+            item.currentLoop.IteminLoop(item.unit, True, ind)
+            item.currentLoop.normalState()
+            item.currentLoop = None
+            item.caseFinal = False
+        if item.moved:
+            UpdateUndoRedo()
+            item.moved = False
 
     def sceneMouseMoveEvent(self, event):
         if self.startConnection:
@@ -7040,7 +6856,6 @@ class NodeEdit(QWidget):
                         linkcurrent.linkShow.setPen(QtGui.QPen(color, 2))
                         linkcurrent.linkShow.setBrush(color)
                         linkcurrent.color = color
-                        print('changeColorLink : ', linkcurrent.name)
 
                     textEdit.setStyleSheet("background-color : lightgray")
                     greenText = "<span style=\" font-size:10pt; font-weight:600; color:#003300;\" >"

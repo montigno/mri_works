@@ -15,10 +15,11 @@ class executionScript:
         code = ''
         for lst in inputsList:
             az = lst.split('=')
+            print('script : ',type(listDynamicValue[az[1]]).__name__)
             if ':' in az[1]:
                 if type(listDynamicValue[az[1]]).__name__ == 'str':
                     code += az[0]+' = "'+str(listDynamicValue[az[1]])+'"\n'
-                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list']:
+                elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list', 'range']:
                     code += az[0]+' = '+str(listDynamicValue[az[1]])+'\n'
                 elif type(listDynamicValue[az[1]]).__name__ in ['memmap']:
                     code += az[0]+' = '+str(listDynamicValue[az[1]].tolist())+'\n'

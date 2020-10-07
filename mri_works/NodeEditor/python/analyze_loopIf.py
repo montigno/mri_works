@@ -14,7 +14,7 @@ from NodeEditor.python.analyze_loopFor import analyzeLoopFor
 class analyzeLoopIf:
 
     def __init__(self, keyF, valueF, listBlock,
-                 listModul, ModulExecution, listArrowExtern, listConstants):
+                 listModul, ModulExecution, listArrowExtern, listConstants, listProbes):
 
         # valueF[0] : inputs
         # valueF[1] : outputs
@@ -65,7 +65,7 @@ class analyzeLoopIf:
                     except Exception as e:
                         pass
         tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[0]), tmpvalueF3, valueF[4][0]]
-        tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsTrue)
+        tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsTrue, listProbes)
         self.listBlockExecution[0] = tmp.getListBlockExecution()
         self.executionTrue = tmp.getListForExecution()
 
@@ -81,7 +81,7 @@ class analyzeLoopIf:
                     except Exception as e:
                         pass
         tmpValueF = [valueF[0], valueF[1], str(eval(valueF[2])[1]), tmpvalueF3, valueF[4][1]]
-        tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsFalse)
+        tmp = analyzeLoopFor(keyF, tmpValueF, listBlock, listModul, ModulExecution, listArrowExtern, listConstantsFalse, listProbes)
         self.listBlockExecution[1] = tmp.getListBlockExecution()
         self.executionFalse = tmp.getListForExecution()
 

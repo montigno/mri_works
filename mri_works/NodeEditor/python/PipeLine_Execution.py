@@ -174,7 +174,7 @@ class execution:
                 'I' not in execution and
                 'S' not in execution and
                 'P' not in execution and
-                    'Thread' not in execution):
+                'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' +

@@ -26,27 +26,18 @@ class Open_Nifti:
     def filePath(self: 'path'):
         return self.fileSource
 
-##############################################################################
+###############################################################################
 
 
 class DisplayNifti:
     def __init__(self, image='path', title=''):
         from NodeEditor.modules.Nifti.sources.DispNifti import DispNifti
-#         from PyQt5.QtWidgets import QApplication
         Niftifile = Open_Nifti(image)
         pixdim = Niftifile.pixdim()[1:4]
-#         app = QApplication.instance()
-#         print(dir(app))
-#         for wg in app.topLevelWidgets():
-#             if wg.windowTitle():
-#                 mys = wg
-#                 break
-#         print(dir(mys))
-#         self.wid = DispNifti(Niftifile.image(), pixdim, title, mys.nativeParentWidget())
         self.wid = DispNifti(Niftifile.image(), pixdim, title)
         self.wid.exec_()
 
-##############################################################################
+###############################################################################
 
 
 class DisplayImage:

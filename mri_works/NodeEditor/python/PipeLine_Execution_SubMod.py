@@ -15,6 +15,7 @@ import threading
 import numpy as np
 from NodeEditor.python.ForLoop_Info import ForLoopInfo
 from NodeEditor.python.pipeline_execution_script import executionScript
+from NodeEditor.python.classForProbe import printProbe
 
 
 class executionSubmod:
@@ -157,8 +158,11 @@ class executionSubmod:
                     [listDynamicValue.update(thread.join()) for thread in threads]
                 threadcurrent = False
             if ('M' not in execution and
-                    'Thread' not in execution and
-                    'F' not in execution and 'I' not in execution and 'S' not in execution):
+                'F' not in execution and
+                'I' not in execution and
+                'S' not in execution and
+                'P' not in execution and
+                'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' + category)
@@ -206,6 +210,10 @@ class executionSubmod:
                                 listDynamicValue[lsi] = value()
                             except Exception as e:
                                 listDynamicValue[lsi] = value
+
+            elif 'P' in execution:
+                valToPrint = listDynamicValue[listBlock[execution][2]]
+                printProbe(execution, listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
 
             elif 'M' in execution:
                 listDynamicValueSub2 = {}

@@ -11,8 +11,7 @@ class DispNifti(QDialog):
 
     def __init__(self, img, pixdim=(1.0, 1.0), title='', parent=None):
         QDialog.__init__(self, parent)
-    
-        self.setModal(False) 
+
         self.scaleFactor = 3
         self.img = np.array(img)
         self.dim = len(self.img.shape)
@@ -61,7 +60,7 @@ class DispNifti(QDialog):
         self.setWindowTitle(title)
         self.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
         self.setLayout(self.verticalLayout)
-             
+
     def imgqLabel(self):
         self.imageLabel = QLabel()
         self.imageLabel.setBackgroundRole(QPalette.Base)
