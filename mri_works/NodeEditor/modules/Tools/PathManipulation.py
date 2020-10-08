@@ -103,10 +103,10 @@ class change_extension:
         import os
         pre, ext = os.path.splitext(file_path)
         self.outPath = os.path.join(pre + new_extension)
-        
+
     def newPath(self: 'path'):
         return self.outPath
-    
+
 ###############################################################################
 
 
@@ -124,6 +124,6 @@ class add_suffixprefix_file:
             self.outPath = os.path.join(dir, name + new_str + '.'+ext)
         elif place == 'prefix':
             self.outPath = os.path.join(dir, new_str + name + '.'+ext)
-        
+
     def newPath(self: 'path'):
         return self.outPath

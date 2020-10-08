@@ -309,7 +309,7 @@ class analyzeLoopFor:
         # place list probe in listBlockExecution #############
         if listProbes:
             for klink, vlink in listArrowIntern.items():
-                a, b, c, d = vlink.replace("#Node#",':').split(':')
+                a, b, c, d = vlink.replace("#Node#", ':').split(':')
                 if 'P' in c:
                     self.listBlockExecution.remove(c)
                     if keyF == a:
@@ -321,7 +321,7 @@ class analyzeLoopFor:
                                 if self.listBlockExecution[i] == 'ThreadOn':
                                     break
                                 elif self.listBlockExecution[i] == 'ThreadOff':
-                                    indx=i
+                                    indx = i
                                     break
                         self.listBlockExecution.insert(indx+1, c)
                     self.listBlock[c] = (listProbes[c][0], listProbes[c][1], a+':'+b)

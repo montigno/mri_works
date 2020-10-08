@@ -1,6 +1,3 @@
-#####################################################################
-
-
 class index_list_float:
     def __init__(self, list_in_float=[0.0], index=0):
         self.outVal = list_in_float[index]
@@ -104,6 +101,16 @@ class concatenate_list_int_dyn():
 
 class length_list_int():
     def __init__(self, in_list=[0]):
+        self.len = len(in_list)
+
+    def length(self: 'int'):
+        return self.len
+    
+#####################################################################
+
+
+class length_list_float():
+    def __init__(self, in_list=[0.0]):
         self.len = len(in_list)
 
     def length(self: 'int'):

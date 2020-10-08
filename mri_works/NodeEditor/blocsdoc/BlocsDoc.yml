@@ -415,4 +415,4 @@ x_Not_Equal_y:
   functionality: Check if x != y
   x: (float) a float number
   y: (float) a float number
-  out: (boolean) check condition (True or False)  
+  out: (boolean) check condition (True or False)

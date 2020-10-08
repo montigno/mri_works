@@ -174,7 +174,7 @@ class execution:
                 'I' not in execution and
                 'S' not in execution and
                 'P' not in execution and
-                'Thread' not in execution):
+                    'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' +
@@ -245,10 +245,10 @@ class execution:
                                 self.listDynamicValue[lsi] = value
 
                 # print('list3 & outUnit : ', list3,' , ',outUnit)
-                
+
             elif 'P' in execution:
                 valToPrint = self.listDynamicValue[listBlock[execution][2]]
-                printProbe(execution, listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
+                printProbe(execution, listBlock[execution][2], listBlock[execution][0], listBlock[execution][1], valToPrint)
 
             elif 'M' in execution:
                 self.listDynamicValueSub = {}

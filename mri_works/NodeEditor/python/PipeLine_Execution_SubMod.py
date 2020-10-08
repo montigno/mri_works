@@ -162,7 +162,7 @@ class executionSubmod:
                 'I' not in execution and
                 'S' not in execution and
                 'P' not in execution and
-                'Thread' not in execution):
+                    'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' + category)
@@ -213,7 +213,7 @@ class executionSubmod:
 
             elif 'P' in execution:
                 valToPrint = listDynamicValue[listBlock[execution][2]]
-                printProbe(execution, listBlock[execution][2],listBlock[execution][0], listBlock[execution][1],valToPrint)
+                printProbe(execution, listBlock[execution][2], listBlock[execution][0], listBlock[execution][1], valToPrint)
 
             elif 'M' in execution:
                 listDynamicValueSub2 = {}

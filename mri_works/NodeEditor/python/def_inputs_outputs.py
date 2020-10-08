@@ -18,10 +18,10 @@ class define_inputs_outputs(QDialog):
         self.typeport = typeport
         listformat = ["int", "float", "str", "path", "bool", "dict", "tuple"]
         listdim = ["", "list", "array"]
-        self.listPorts=[]
-        
+        self.listPorts = []
+
         for prts in ports:
-            self.listPorts.append(prts.name) 
+            self.listPorts.append(prts.name)
 
         self.vbox = QVBoxLayout(self)
 

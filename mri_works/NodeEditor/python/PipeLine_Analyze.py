@@ -45,9 +45,9 @@ class analyze:
                 nameNode = 'Node(' + nameNode + ')'
                 line = line[line.index('node=') + 6:len(line) - 1]
                 listArrow[nameNode] = line
-                a, b, c, d = line.replace('#Node#',':').split(':')
+                a, b, c, d = line.replace('#Node#', ':').split(':')
                 self.listOut.append(a+':'+b)
-                if 'A' not in a :
+                if 'A' not in a:
                     if 'I' not in a and 'F' not in a:
                         listBlockStart.append(a)
                     elif 'in' not in b:
@@ -59,7 +59,7 @@ class analyze:
                             listBlockStop.append(c)
                 else:
                     listBlockStart.append(c)
- 
+
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('category') + 10:len(line)]
@@ -181,14 +181,14 @@ class analyze:
             elif line[0:6] == 'script':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 self.listScript.append(unit)
-                
+
             elif line[0:5] == 'probe':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('label=') + 7:len(line)]
                 lab = line[0:line.index(']')]
                 line = line[line.index('format=') + 8:len(line)]
                 form = line[0:line.index('] RectF')]
-                listProbe[unit] = (form, lab) 
+                listProbe[unit] = (form, lab)
 
         # sort of connectors list ##########################
 
@@ -304,7 +304,7 @@ class analyze:
             listArrowFor = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
-                a, b, c, d = valueA.replace('#Node#',':').split(':')
+                a, b, c, d = valueA.replace('#Node#', ':').split(':')
                 for keyF, valueF in self.listLoopFor.items():
                     if keyF + ':in' in a + ':' + b or \
                         keyF + ':out' in c + ':' + d or \
@@ -333,7 +333,7 @@ class analyze:
             listArrowIf = {}
             tmplistArrow = listArrow.copy()
             for keyA, valueA in tmplistArrow.items():
-                a, b, c, d = valueA.replace('#Node#',':').split(':')
+                a, b, c, d = valueA.replace('#Node#', ':').split(':')
                 for keyF, valueF in self.listLoopIf.items():
                     if (keyF + ':in' in a + ':' + b) or (
                         keyF + ':out' in c + ':' + d) or (
@@ -621,8 +621,7 @@ class analyze:
             self.listBlockExecution.append('ThreadOff')
         else:
             self.listBlockExecution.extend(tmpListBlock)
-            
-        
+
         ######################################################
 
         # replace Node() by listOut corresponding ###################################################
@@ -701,11 +700,11 @@ class analyze:
                 txtExc = txtExc.replace(li, listM + ':' + li[li.index(':') + 1:len(li)])
 
             self.listModExecution[listM] = txtExc
-            
-        # place list probe in listBlockExecution #############
+
+# place list probe in listBlockExecution #############
         if listProbe:
             for klink, vlink in listArrow.items():
-                a, b, c, d = vlink.replace("#Node#",':').split(':')
+                a, b, c, d = vlink.replace("#Node#", ':').split(':')
                 if 'P' in c:
                     indx = self.listBlockExecution.index(a)
                     if 'ThreadOn' in self.listBlockExecution:
@@ -713,7 +712,7 @@ class analyze:
                             if self.listBlockExecution[i] == 'ThreadOn':
                                 break
                             elif self.listBlockExecution[i] == 'ThreadOff':
-                                indx=i
+                                indx = i
                                 break
                     self.listBlockExecution.insert(indx+1, c)
                     self.listBlock[c] = (listProbe[c][0], listProbe[c][1], a+':'+b)

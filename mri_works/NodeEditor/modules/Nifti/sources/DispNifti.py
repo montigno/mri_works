@@ -74,7 +74,6 @@ class DispNifti(QDialog):
         bytesPerLine = int(totalBytes / self.interl)
         image = QImage(self.x.data, self.w , self.h, bytesPerLine, QImage.Format_Grayscale8)
         self.pixm = QPixmap.fromImage(image)
-        
         self.pixm = self.pixm.scaled(self.rx * (self.scaleFactor - 1), self.ry * (self.scaleFactor - 1), Qt.IgnoreAspectRatio)
         self.imageLabel.setPixmap(self.pixm)
 #         self.imageLabel.adjustSize()
