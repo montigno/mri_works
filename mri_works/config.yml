@@ -24,16 +24,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Arithmetic.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_constant_outLoopFor.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_T2Map_script.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_script_with_matlabengine.dgr
   - /home/omontigon/Documents/mri_works_projects/test_flatten.dgr
   - /home/omontigon/Documents/mri_works_projects/script_stat.dgr
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_print_consol.dgr
   - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
+  - /home/omontigon/Bureau/showview_mriworks.dgr
   - /home/omontigon/Documents/mri_works_projects/read_Nifti.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_ForLoop_probes.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_If_probes.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_probe_length.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_FoorToThree.dgr
   modules: modules
   projects: ../data
 version: 20.10.07a
