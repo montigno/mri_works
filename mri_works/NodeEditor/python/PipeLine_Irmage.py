@@ -1501,6 +1501,7 @@ class DiagramView(QGraphicsView):
                 if type(elem) == ForLoopItem and elem.unit == self.currentLoop.unit:
                     elem.normalState()
                     elem.IteminLoop(unitItem, self.caseFinal, ind)
+#                     elem.setDimension()
                     self.currentLoop = None
                     self.caseFinal = False
                     break
@@ -2378,7 +2379,7 @@ class BlockCreate(QGraphicsRectItem):
 
     def hoverLeaveEvent(self, event):
         self.setSelected(False)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, *args, **kwargs)
+        return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def contextMenuEvent(self, event):
         menu = QMenu()
@@ -4177,8 +4178,8 @@ class ForLoopItem(QGraphicsRectItem):
         self.unit = unit
         self.w = w
         self.h = h
-        self.wmin = 0.0
-        self.hmin = 0.0
+        self.wmin = 100.0
+        self.hmin = 100.0
         self.nbin, self.nbout = 0, 0
         self.moved = False
         self.isMod = isMod
@@ -4250,8 +4251,8 @@ class ForLoopItem(QGraphicsRectItem):
             self.resize.setPos(x, y)
             self.resize.posChangeCallbacks.append(self.newSize)  # Connect the callback
             self.resize.setFlag(self.resize.ItemIsSelectable, True)
-            self.resize.wmin = 20
-            self.resize.hmin = 20
+            self.resize.wmin = self.wmin
+            self.resize.hmin = self.hmin
 
         if name == 'If':
             self.elemProxy = Control_IF(self.unit, "bool", 'True')
@@ -4264,6 +4265,24 @@ class ForLoopItem(QGraphicsRectItem):
             self.inputs.append(portCondition)
             portCondition.setPos(0, 15)
 
+#     def setDimension(self):
+#         print(self.x(), self.y(), self.boundingRect().width(), self.boundingRect().height())
+#         xmin, ymin = self.x(), self.y()
+#         xmax, ymax = xmin + self.boundingRect().width(), ymin + self.boundingRect().height() 
+#         for its in listTools[editor.currentTab][self.unit]:
+#             coord = listItems[editor.currentTab][its].sceneBoundingRect()
+#             x, y, w, h = coord.x(), coord.y(), coord.width(), coord.height()
+#             print('its : ', x, y, w, h)
+#             if x < xmin : xmin = x
+#             if y < ymin : ymin = y
+#             if (x + w) > xmax : xmax = x + w
+#             if (y + h) > ymax : ymax = y + h
+#         self.wmin = xmax - xmin
+#         self.hmin = ymax - ymin
+#         self.setPos(xmin, ymin)
+#         self.updateSize()
+#         print('dimension loop : ', xmin, ymin, xmax, ymax)
+            
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
             self.deleteLoopFor()
@@ -4445,6 +4464,9 @@ class ForLoopItem(QGraphicsRectItem):
 
         factorh = 20
         hmin = factorh * len(self.inputs)
+        
+        if self.hmin < hmin:
+            self.hmin = hmin
 #         w = self.boundingRect().width()
 #         h = self.boundingRect().height()
         w = self.w
@@ -4455,8 +4477,8 @@ class ForLoopItem(QGraphicsRectItem):
         hmin = factorh * len(self.outputs)
         if h < hmin:
             h = hmin
-        if w < 100:
-            w = 100
+        if w < self.wmin:
+            w = self.wmin
         x, y = self.newSize(w, h)
         return x, y
 
@@ -6571,6 +6593,7 @@ class NodeEdit(QWidget):
                     ind = 1
             item.currentLoop.IteminLoop(item.unit, True, ind)
             item.currentLoop.normalState()
+#             item.currentLoop.setDimension()
             item.currentLoop = None
             item.caseFinal = False
         if item.moved:

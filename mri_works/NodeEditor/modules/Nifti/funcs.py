@@ -10,3 +10,5 @@ class concat_images:
 
     def header_img(self: 'str'):
         return self.header
+
+##############################################################################
