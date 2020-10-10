@@ -51,8 +51,9 @@ from . import seeCode
 from . import ConfigModuls, windowConfig
 from . import editCombobox
 from . import exportCapsul
+from . import PythonHighlighter
+
 from Config import Config
-import NodeEditor.python.syntax
 
 currentpathwork = ''
 
@@ -276,8 +277,6 @@ class Menu(QMenuBar):
 
         if tmpActText == 'Pipeline execution by Capsul':
             txt = SaveDiagram()
-#             path_tmp = os.path.dirname(os.path.realpath(__file__))
-#             path_tmp = os.path.dirname(path_tmp)
             path_tmp = os.path.expanduser("~")
             rep = str(os.path.join(path_tmp, 'tmp'))
             if not os.path.exists(rep):
@@ -1225,12 +1224,6 @@ class DiagramScene(QGraphicsScene):
         crss = QLineF(0, -10, 0, 10)
         self.addLine(crss, pen)
 
-#         self.lines = []
-#         self.draw_grid()
-#         self.set_opacity(0.3)
-#         self.set_visible(False)
-#         self.delete_grid()
-
     def draw_grid(self):
         WIDTH = 20
         HEIGHT = 15
@@ -1595,19 +1588,16 @@ class DiagramView(QGraphicsView):
         rectBounds = self.scene().itemsBoundingRect()
         self.scene().setSceneRect(rectBounds.x() - 200, rectBounds.y() - 200, rectBounds.width() + 400, rectBounds.height() + 400)
 
-#         offset_x, offset_y = self.calc_offset(event.pos().x(), event.pos().y())
-#         self.scroll(offset_x,offset_y)
-
-#     def calc_offset(self, x, y):
-#         offset_x = x - int(self.viewport().width()/2)
-#         offset_y = y - int(self.viewport().height()/2)
-#         return offset_x, offset_y
-
     def returnBlockSystem(self):
         return self.ball
 
     def keyPressEvent(self, event):
         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
+            try:
+                posRe = (self.m_originX, self.m_originY, itemStored.boundingRect().width(), itemStored.boundingRect().height() )
+            except Exception as e:
+                posRe = (0, 0, 100, 100)
+            
             if type(itemStored) == ConnectorItem:
                 if 'in' in itemStored.inout:
                     self.scene().addInputConn(self.m_originX, self.m_originY)
@@ -1617,33 +1607,20 @@ class DiagramView(QGraphicsView):
 
             if type(itemStored) == BlockCreate:
                 if itemStored.category is not None:
-                    ind = 0
-                    for i, j in enumerate(editor.getlib()):
-                        if j[0] == itemStored.name:
-                            ind = i
-                            break
-                    self.b1 = ProcessItem('newBlock', itemStored.name, itemStored.category, 150, 80, editor.getlib()[ind][2]).getBlocks()
-                    self.b1.setPos(self.m_originX, self.m_originY)
-                    self.scene().addItem(self.b1)
-                    listItems[editor.currentTab][self.b1.unit] = self.b1
+                    self.loadBlock('newBlock', itemStored.name, itemStored.category, posRe, itemStored.inout[0])
                 else:
-                    self.bm = SubProcessItem('newSubMod', itemStored.name, 150, 80, None).getSubblocks()
-                    self.bm.setPos(self.m_originX, self.m_originY)
-                    self.scene().addItem(self.bm)
-                    listItems[editor.currentTab][self.bm.unit] = self.bm
-                UpdateUndoRedo()
+                    self.loadMod('newSubMod', itemStored.name, posRe)
 
             if type(itemStored) == CommentsItem:
-                self.a1 = CommentsItem(itemStored.boundingRect().width(), itemStored.boundingRect().height(), itemStored.label.toPlainText(), True)
-                self.a1.setPos(self.m_originX, self.m_originY)
-                self.scene().addItem(self.a1)
+                self.loadComments(posRe, itemStored.label.toPlainText())
 
             if type(itemStored) == Constants:
-                self.a1 = Constants('newConstant', 80, 30, itemStored.val, itemStored.form, '', True)
-                self.a1.setPos(self.m_originX, self.m_originY)
-                self.scene().addItem(self.a1)
-                listItems[editor.currentTab][self.a1.unit] = self.a1
-
+                self.loadConstant('newConstant', posRe, itemStored.val, itemStored.form, '')
+                
+            if type(itemStored) == Probes:
+                self.loadProbe('new', itemStored.label, 'unkn', posRe)
+                
+            UpdateUndoRedo()
         return QGraphicsView.keyPressEvent(self, event)
 
 
@@ -2598,11 +2575,12 @@ class BlockCreate(QGraphicsRectItem):
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, mouseEvent):
-        editor.loopMouseMoveEvent(self, mouseEvent)
+        mouseEvent.accept()
+        editor.loopMouseMoveEvent(self, mouseEvent.scenePos())
         return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
-        editor.loopMouseReleaseEvent(self, event)
+        editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def mousePressEvent(self, event):
@@ -2696,6 +2674,10 @@ class BlockCreate(QGraphicsRectItem):
                             font-size:12pt; \
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
+                    txt +=" <img src='"+ os.path.join(path_blockdoc,
+                                                      '../blocsdoc',
+                                                      classUnit+'.png') + \
+                            "'><br>"                   
                     txt += "<span style=\" \
                             font-size:10pt; \
                             font-weight:600; \
@@ -3258,6 +3240,8 @@ class Probes(QGraphicsPolygonItem):
     def __init__(self, unit='', format='unkn', label='', isMod=True, parent=None):
         super(Probes, self).__init__(parent)
 
+        self.label = label
+
         self.isMod = isMod
         self.preview = False
         self.caseFinal = False
@@ -3287,9 +3271,9 @@ class Probes(QGraphicsPolygonItem):
         self.setPen(QtGui.QPen(ItemColor.frame_probe.value, 3))
         self.setBrush(QtGui.QBrush(QtCore.Qt.darkGray))
 
-        self.label = QGraphicsTextItem(self.unit, self)
-        self.label.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
-        self.label.setPos(75, 0)
+        lab = QGraphicsTextItem(self.unit, self)
+        lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
+        lab.setPos(75, 0)
 
         self.inputs = []
         input = Port(label, 'in', format, self.unit, True, isMod, 10, -15, self)
@@ -3308,15 +3292,13 @@ class Probes(QGraphicsPolygonItem):
             de.triggered.connect(self.deleteProbe)
             menu.exec_(event.screenPos())
 
-#     def mousePressEvent(self, mouseEvent):
-#         self.setSelected(True)
-#         return QGraphicsPolygonItem.mousePressEvent(self, mouseEvent)
     def mouseMoveEvent(self, mouseEvent):
-        editor.loopMouseMoveEvent(self, mouseEvent)
+        mouseEvent.accept()
+        editor.loopMouseMoveEvent(self, mouseEvent.scenePos())
         return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
-        editor.loopMouseReleaseEvent(self, event)
+        editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
@@ -3339,23 +3321,13 @@ class Probes(QGraphicsPolygonItem):
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
                     BlockCreate.deletelink(self, elem, self.unit)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-#                     del listNodes[editor.currentTab][elem.name]
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listProbes[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
         UpdateUndoRedo()
 
-#     def hoverEnterEvent(self, event):
-#         self.setSelected(1)
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)
-
     def hoverLeaveEvent(self, event):
         self.setSelected(0)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
 
 class ConnectorItem(QGraphicsPolygonItem):
@@ -3602,7 +3574,6 @@ class ConnectorItem(QGraphicsPolygonItem):
                         if type(newValfromModules).__name__ == 'str':
                             if 'enumerate' in newValfromModules:
                                 newValfromModules = list(eval(newValfromModules))[0][1]
-
 #                         if type(newValfromModules).__name__ == 'tuple':
 #                             newValfromModules=newValfromModules[0]
                         newList.append(newValfromModules)
@@ -3631,7 +3602,6 @@ class ConnectorItem(QGraphicsPolygonItem):
                 if type(newValfromModules).__name__ == 'str':
                     if 'enumerate' in newValfromModules:
                         newValfromModules = list(eval(newValfromModules))[0][1]
-
 #                 if type(newValfromModules).__name__ == 'tuple':
 #                     newValfromModules=newValfromModules[0]
                 newList = []
@@ -3646,11 +3616,9 @@ class ConnectorItem(QGraphicsPolygonItem):
 
     def hoverEnterEvent(self, event):
         self.setSelected(1)
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
     def hoverLeaveEvent(self, event):
         self.setSelected(0)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
 
 class CommentsItem(QGraphicsRectItem):
@@ -3663,17 +3631,12 @@ class CommentsItem(QGraphicsRectItem):
         self.isMod = isMod
         self.inputs = []
         self.outputs = []
-
         self.setPen(QtGui.QPen(ItemColor.background_comment.value, 5))
         self.setBrush(QtGui.QBrush(ItemColor.frame_comment.value))
-
         self.setZValue(-2)
         self.setOpacity(0.6)
-
         self.label = LabelGroup(self)
         self.label.setPlainText(text)
-
-#         self.setRect(0.0, 0.0, w, h)
         x, y = self.newSize(w, h)
 
         if self.isMod:
@@ -3728,7 +3691,6 @@ class LabelGroup(QGraphicsTextItem):
     def mouseDoubleClickEvent(self, event):
         self.changeComment()
         UpdateUndoRedo()
-#         return QGraphicsTextItem.mouseDoubleClickEvent(self, event)
 
     def mousePressEvent(self, event):
         if event.button() == 1:
@@ -3774,7 +3736,6 @@ class LabelGroup(QGraphicsTextItem):
             self.setPos(self.x() - 2, self.y())
         if event.key() == Qt.Key_Right:
             self.setPos(self.x() + 2, self.y())
-#         return QGraphicsTextItem.keyPressEvent(self, event)
 
 ###############################################################################
 
@@ -3836,7 +3797,6 @@ class Constants(QGraphicsRectItem):
         elif 'float' == form:
             self.elemProxy = Constants_float(self.unit, val, self.label)
             self.elemProxy.setStyleSheet("background-color: rgb(200, 100, 0);")
-#             self.elemProxy.valueChanged.connect(self.changeValue)
             color = TypeColor.float.value
         elif 'int' == form:
             self.elemProxy = Constants_int(self.unit, val, self.label)
@@ -3865,9 +3825,6 @@ class Constants(QGraphicsRectItem):
         self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
         self.lab.setFont(QFont("Times", 12, QFont.Bold))
         self.lab.setPos(0, -30)
-#         rect = self.lab.boundingRect()
-#         lw, lh = - rect.width()-10, 0
-#         self.lab.setPos(lw, lh)
         self.lab.setVisible(True)
 
         self.wmin = self.w
@@ -3886,19 +3843,6 @@ class Constants(QGraphicsRectItem):
         if form == 'str' or form == 'path':
             self.changeText()
 
-#     def changeValue(self, val):
-#         textEdit = self.elemProxy.cleanText()
-#         font = textEdit.defaultFont()
-#         fontMetrics = QFontMetrics(font)
-#         textSize = fontMetrics.size(0, textEdit.toPlainText())
-#         w = textSize.width() + 10
-#         h = 30
-#         self.elemProxy.setMinimumSize(w, h)
-#         self.elemProxy.setMaximumSize(w, h)
-#         self.elemProxy.resize(w, h)
-#         self.setRect(0.0, 0.0, w , h)
-#         self.outputs[0].setPos(w + 2, h  / 2)
-
     def changeText(self):
         self.elemProxy.setCursorWidth(1)
         textEdit = self.elemProxy
@@ -3910,11 +3854,8 @@ class Constants(QGraphicsRectItem):
         self.elemProxy.setMinimumSize(w, h)
         self.elemProxy.setMaximumSize(w, h)
         self.elemProxy.resize(w, h)
-
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
-
-#         self.nameUnit.setPos(-30,(h - 15) / 2)
 
     def changeCombo(self):
         w = self.elemProxy.size().width()
@@ -3969,11 +3910,12 @@ class Constants(QGraphicsRectItem):
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, event):
-        editor.loopMouseMoveEvent(self, event)
+        event.accept()
+        editor.loopMouseMoveEvent(self, event.scenePos())
         return QGraphicsRectItem.mouseMoveEvent(self, event)
 
     def mouseReleaseEvent(self, event):
-        editor.loopMouseReleaseEvent(self, event)
+        editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def mousePressEvent(self, event):
@@ -4887,7 +4829,7 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
-        highlight = NodeEditor.python.syntax.PythonHighlighter(self.elemProxy)
+        PythonHighlighter(self.elemProxy)
 
 #         self.elemProxy.setStyleSheet("background-color: rgb(200, 200, 200);\
 #                                                                        selection-background-color: yellow;\
@@ -4934,11 +4876,12 @@ class ScriptItem(QGraphicsRectItem):
 #         return QGraphicsRectItem.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, mouseEvent):
-        editor.loopMouseMoveEvent(self, mouseEvent)
+        mouseEvent.accept()
+        editor.loopMouseMoveEvent(self, mouseEvent.scenePos())
         return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
-        editor.loopMouseReleaseEvent(self, event)
+        editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def hoverEnterEvent(self, event):
@@ -5590,11 +5533,14 @@ class Port(QGraphicsRectItem):
 
     def addConstant(self):
         if 'U' in self.unit:
-            self.addConstantBlock()
+            it = self.addConstantBlock()
         elif 'M' in self.unit:
-            self.addConstantSubMod()
+            it = self.addConstantSubMod()
         elif 'I' in self.unit or 'S' in self.unit:
-            self.addConstantStr()
+            it = self.addConstantStr()
+            
+        editor.loopMouseMoveEvent(it, it.scenePos())
+        editor.loopMouseReleaseEvent(it)
 
     def addConstantBlock(self):
         nameClass = listItems[editor.currentTab][self.unit].name
@@ -5650,6 +5596,7 @@ class Port(QGraphicsRectItem):
         del listBlocks[editor.currentTab][self.unit]
         listBlocks[editor.currentTab][self.unit] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
         UpdateUndoRedo()
+        return a1
 
     def addConstantSubMod(self):
         nameClass = listItems[editor.currentTab][self.unit].name
@@ -5702,6 +5649,7 @@ class Port(QGraphicsRectItem):
         del listSubMod[editor.currentTab][self.unit]
         listSubMod[editor.currentTab][self.unit] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
         UpdateUndoRedo()
+        return a1
 
     def addConstantStr(self):
         if 'int' in self.format:
@@ -5728,6 +5676,7 @@ class Port(QGraphicsRectItem):
         listNodes[editor.currentTab][startConnection.link.name] = a1.unit + ':' + '#Node#' + self.unit + ':' + self.name
 
         UpdateUndoRedo()
+        return a1
 
     def addValueP(self):
         self.addProbe('Value')
@@ -5737,7 +5686,6 @@ class Port(QGraphicsRectItem):
         
     def addLengthP(self):
         self.addProbe('Length')
-
 
     def addProbe(self, name):
         b1 = Probes('new', self.format, name, True)
@@ -5762,6 +5710,8 @@ class Port(QGraphicsRectItem):
             if curI.elemProxy.currentText() == 'False':
                 ind = 1
             curI.IteminLoop(b1.unit, True, ind)
+        editor.loopMouseMoveEvent(b1, self.scenePos())
+        editor.loopMouseReleaseEvent(b1)
 
     def addPrint(self):
         if 'tuple' in self.format:
@@ -6518,10 +6468,10 @@ class NodeEdit(QWidget):
                     tmplistTools.remove(item.unit)
                     listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
 
-    def loopMouseMoveEvent(self, item, event):
+    def loopMouseMoveEvent(self, item, pos):
         item.moved = True
-        event.accept()
-        pos = event.scenePos()
+#         event.accept()
+#         pos = event.scenePos()
         if not item.preview:
             listTypeItems = []
             itms = editor.diagramScene[editor.currentTab].items(pos)
@@ -6581,11 +6531,10 @@ class NodeEdit(QWidget):
                     item.currentLoop = None
                     item.caseFinal = False
 
-            event.accept()
+#             event.accept()
             item.moved = True
 
-    def loopMouseReleaseEvent(self, item, event):
-        pos = event.scenePos()
+    def loopMouseReleaseEvent(self, item):
         if item.currentLoop:
             ind = 0
             if item.currentLoop.loopIf:

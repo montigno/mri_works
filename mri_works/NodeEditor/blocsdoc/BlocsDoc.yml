@@ -365,6 +365,13 @@ Print_type_var:
   comment: (string) your comment
   inString: (all type) your variable whatever the type
 
+pyPlot2:
+  functionality: Provides a MATLAB-like plotting framework
+  data: (array of float) array of scalar for y-coordinate
+  x: (list of float) sequence of scalar for abscissa
+  title: (str or None) the legend’s title
+  dependencies: matplotlib
+
 trigonometric:
   functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
                      y = f(x+angle)"

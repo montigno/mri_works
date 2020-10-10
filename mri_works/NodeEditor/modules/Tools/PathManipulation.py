@@ -38,7 +38,7 @@ class separatePath():
 class joinPath():
     def __init__(self, inPath='path', fileName=''):
         import os
-        self.outputFile = os.path.join(inPath, fileName)
+        self.outputFile = os.path.join(inPath, str(fileName))
 
     def outFile(self: 'path'):
         return self.outputFile
