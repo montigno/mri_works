@@ -10,8 +10,9 @@
 import importlib
 import inspect
 import sys
-from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialog, QScrollArea
-from PyQt5.QtGui import QFont
+from NodeEditor.python.syntax import PythonHighlighter
+from PyQt5.QtWidgets import QVBoxLayout, QLabel, QDialog, QScrollArea, QTextEdit
+from PyQt5.QtGui import QFont, QFontMetrics
 from PyQt5.Qt import Qt
 
 
@@ -36,15 +37,18 @@ class seeCode(QDialog):
 
         self.setWindowTitle('Source code of ' + nameClass)
         layout = QVBoxLayout()
-        font = QFont("Times", 11, QFont.Bold)
-        label = QLabel(src)
-        label.setFont(font)
-        label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        txt = QTextEdit()
+        txt.setReadOnly(True)
+        txt.setPlainText(src)
+        PythonHighlighter(txt)
+        font = txt.document().defaultFont()
+        fontMetrics = QFontMetrics(font)
+        textSize = fontMetrics.size(0, txt.toPlainText())
+        w = textSize.width() + 10
+        h = 250 
+        txt.setMinimumSize(w, h)
+        txt.resize(w, h)
 
-        scroll = QScrollArea()
-        # Set to make the inner widget resize with scroll area
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(label)
-
-        layout.addWidget(scroll)
+        layout.addWidget(txt)
         self.setLayout(layout)
+        self.setMinimumWidth(w + 50)

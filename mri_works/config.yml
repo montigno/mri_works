@@ -23,17 +23,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/omontigon/Documents/mri_works_projects/test_flatten.dgr
-  - /home/omontigon/Documents/mri_works_projects/script_stat.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
-  - /home/omontigon/Bureau/showview_mriworks.dgr
-  - /home/omontigon/Documents/mri_works_projects/read_Nifti.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_ForLoop_probes.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_If_probes.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_probe_length.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_FoorToThree.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.10.07a
