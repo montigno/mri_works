@@ -2837,21 +2837,6 @@ class BlockCreate(QGraphicsRectItem):
             del listSubMod[editor.currentTab][self.unit]
             listSubMod[editor.currentTab] = ReorderList(listSubMod[editor.currentTab]).getNewList()
         editor.deleteItemsLoop(self)
-#         for keyF, valueF in listTools[editor.currentTab].items():
-#             if 'F' in keyF:
-#                 if self.unit in valueF:
-#                     tmplistTools = valueF
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = tmplistTools
-#             elif 'I' in keyF:
-#                 if self.unit in valueF[0]:
-#                     tmplistTools = valueF[0]
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
-#                 if self.unit in valueF[1]:
-#                     tmplistTools = valueF[1]
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
         listNodes[editor.currentTab] = ReorderList(listNodes[editor.currentTab]).getNewList()
 #         UpdateUndoRedo()
 
@@ -3986,22 +3971,6 @@ class Constants(QGraphicsRectItem):
         del listConstants[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-
-#         for keyF, valueF in listTools[editor.currentTab].items():
-#             if 'F' in keyF:
-#                 if self.unit in valueF:
-#                     tmplistTools = valueF
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = tmplistTools
-#             elif 'I' in keyF:
-#                 if self.unit in valueF[0]:
-#                     tmplistTools = valueF[0]
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = [tmplistTools, valueF[1]]
-#                 if self.unit in valueF[1]:
-#                     tmplistTools = valueF[1]
-#                     tmplistTools.remove(self.unit)
-#                     listTools[editor.currentTab][keyF] = [valueF[0], tmplistTools]
         UpdateUndoRedo()
 
 ###############################################################################
@@ -4358,14 +4327,6 @@ class ForLoopItem(QGraphicsRectItem):
                 if type(elemts) == ForLoopItem and elemts.unit != self.unit:
                     self.selectItemsInside(elemts.unit, state)
 
-#         for elem in listTools[editor.currentTab][unit]:
-#             for elemts in self.scene().items():
-#                 if (type(elemts) == BlockCreate or type(elemts) == ForLoopItem or type(elemts) == Constants)\
-#                                         and elem == elemts.unit :
-#                     elemts.setSelected(state)
-#                     if type(elemts) == ForLoopItem and elemts.unit != self.unit:
-#                         self.selectItemsInside(elemts.unit, state)
-
     def hoverEnterEvent(self, event):
         self.setSelected(True)
         return QGraphicsRectItem.hoverEnterEvent(self, event)
@@ -4409,8 +4370,6 @@ class ForLoopItem(QGraphicsRectItem):
         
         if self.hmin < hmin:
             self.hmin = hmin
-#         w = self.boundingRect().width()
-#         h = self.boundingRect().height()
         w = self.w
         h = self.h
 
@@ -4468,9 +4427,6 @@ class ForLoopItem(QGraphicsRectItem):
         portOut = Port(name, 'out', 'unkn', self.unit, False, True, 4, -12, self)
         self.inputs.append(portIn)
         self.outputs.append(portOut)
-#         self.scene().addItem(portIn)
-#         self.scene().addItem(portOut)
-
         self.inputs.sort(key=lambda x: x.name)
         self.outputs.sort(key=lambda x: x.name)
 
@@ -4515,11 +4471,6 @@ class ForLoopItem(QGraphicsRectItem):
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
-#             self.scene().removeItem(portIn)
-#             self.scene().removeItem(portOut)
-#             self.inputs = self.inputs[:-1]
-#             self.outputs = self.outputs[:-1]
-#             self.nbin -= 1
 
     def addTunnelOutput(self):
         self.nbout += 1
@@ -4584,11 +4535,6 @@ class ForLoopItem(QGraphicsRectItem):
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
-#             self.scene().removeItem(portIn)
-#             self.scene().removeItem(portOut)
-#             self.inputs = self.inputs[:-1]
-#             self.outputs = self.outputs[:-1]
-#             self.nbout -= 1
 
     def updateTunnelInput(self, inp):
         self.nbin += 1
@@ -4667,12 +4613,6 @@ class ForLoopItem(QGraphicsRectItem):
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':' + name) != -1:
                     BlockCreate.deletelink(self, elem, self.unit)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-#                     del listNodes[editor.currentTab][elem.name]
-
         x, y = self.updateSize()
         self.resize.setPos(x, y)
 
@@ -4830,10 +4770,6 @@ class ScriptItem(QGraphicsRectItem):
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
         PythonHighlighter(self.elemProxy)
-
-#         self.elemProxy.setStyleSheet("background-color: rgb(200, 200, 200);\
-#                                                                        selection-background-color: yellow;\
-#                                                                        color: blue")
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
         self.proxyWidget.setWidget(self.elemProxy)
@@ -4974,11 +4910,6 @@ class ScriptItem(QGraphicsRectItem):
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
                     BlockCreate.deletelink(self, elem, self.unit)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-#                     del listNodes[editor.currentTab][elem.name]
         del listTools[editor.currentTab][self.unit]
         del libTools[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
@@ -5065,11 +4996,6 @@ class ScriptItem(QGraphicsRectItem):
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':' + name) != -1:
                     BlockCreate.deletelink(self, elem, self.unit)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem)
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-#                     editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-#                     del listNodes[editor.currentTab][elem.name]
 
         x, y = self.updateSize()
 
@@ -5552,11 +5478,6 @@ class Port(QGraphicsRectItem):
         listEnter = listBlocks[editor.currentTab][self.unit][2][0]
         indx = listEnter.index(self.name)
         val = listBlocks[editor.currentTab][self.unit][2][1][indx]
-
-#         if 'int' in self.format:
-#             val = 0
-#         elif 'float' in self.format:
-#             val = 0.0
         if 'enumerate' in self.format:
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
@@ -5565,12 +5486,6 @@ class Port(QGraphicsRectItem):
                     except Exception as e:
                         self.format = self.getEnumerateFromYml()
             val = self.format[11:self.format.index(',')]
-#         elif 'str' in self.format:
-#             val = 'your text'
-#         elif 'path' in self.format:
-#             val = 'path'
-#         elif 'bool' in self.format:
-#             val = True
         a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
@@ -5608,22 +5523,11 @@ class Port(QGraphicsRectItem):
         listEnter = listSubMod[editor.currentTab][self.unit][1][0]
         indx = listEnter.index(self.name)
         val = listSubMod[editor.currentTab][self.unit][1][1][indx]
-
-#         if 'int' in self.format:
-#             val = 0
-#         elif 'float' in self.format:
-#             val = 0.0
         if 'enumerate' in self.format:
             for lst in range(len(listEnter)):
                 if listEnter[lst] == self.name:
                     self.format = libSubMod[ind][1][0][1][lst]
             val = self.format[11:self.format.index(',')]
-#         elif 'str' in self.format:
-#             val = 'your text'
-#         elif 'path' in self.format:
-#             val = 'path'
-#         elif 'bool' in self.format:
-#             val = True
         a1 = Constants('newConstant', 80, 30, val, self.format, self.name, True)
         a1.setPos(self.mapToScene(self.boundingRect().x() - 100, self.boundingRect().y()))
         editor.diagramScene[editor.currentTab].addItem(a1)
@@ -6110,11 +6014,6 @@ class NodeEdit(QWidget):
 
 # add separator
         self.tabLib.addTab(TreeLibrary(), ' ')
-#         listImport = set(listImport)
-#         print('listImport : ',listImport)
-
-# library of Structures
-#         self.libBrowser.append(TreeLibrary())
 
         libTools = []
         listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'Script', 'Probes']
@@ -6131,10 +6030,6 @@ class NodeEdit(QWidget):
         self.stdItem1.setEditable(False)
         self.libMod1.appendRow(self.stdItem1)
         branch1.appendRow([QStandardItem(self.stdItem1), None])
-#         self.stdItem1 = QStandardItem(QIcon(self.icon1), 'While')
-#         self.stdItem1.setEditable(False)
-#         self.libMod1.appendRow(self.stdItem1)
-#         branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
 
         branch1 = QStandardItem(listCategoryTools[1])
@@ -6530,7 +6425,6 @@ class NodeEdit(QWidget):
                     item.currentLoop.IteminLoop(item.unit, False, ind)
                     item.currentLoop = None
                     item.caseFinal = False
-
 #             event.accept()
             item.moved = True
 
