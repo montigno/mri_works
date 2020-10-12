@@ -9,7 +9,6 @@ class Save_NiiGz:
         root.withdraw()
         if type(image).__name__ == 'list':
             image = np.array(image) 
-
         if filepath == 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:
@@ -38,6 +37,8 @@ class Save_NiiGz_header:
         from tkinter import filedialog
         root = tk.Tk()
         root.withdraw()
+        if type(image).__name__ == 'list':
+            image = np.array(image) 
         if filepath == 'path':
             self.fileSaved = filedialog.asksaveasfile(**options).name
         else:

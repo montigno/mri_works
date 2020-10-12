@@ -3481,123 +3481,11 @@ class ConnectorItem(QGraphicsPolygonItem):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.connct + ':') != -1:
-                    self.deletelink(elem, self.connct)
-                    editor.diagramScene[editor.currentTab].removeItem(elem)
-                    editor.diagramScene[editor.currentTab].removeItem(elem.getlinkTxt())
-                    editor.diagramScene[editor.currentTab].removeItem(elem.getlinkShow())
-                    editor.diagramScene[editor.currentTab].removeItem(elem.getBislink())
-                    del listNodes[editor.currentTab][elem.name]
+                    BlockCreate.deletelink(self, elem, self.connct)
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listConnects[editor.currentTab][self.connct]
         listConnects[editor.currentTab] = ReorderList(listConnects[editor.currentTab]).getNewList()
         UpdateUndoRedo()
-
-    def deletelink(self, linkEle, unt):
-        nameItem = listNodes[editor.currentTab][linkEle.name]
-        nameItemTmp = nameItem[0:nameItem.index('#Node#')]
-        unitTmp = nameItemTmp[0:nameItemTmp.index(':')]
-
-        if unitTmp == unt:
-
-            nameItemTmp = nameItem[nameItem.index('#Node#') + 6:len(nameItem)]
-            unitTmp = nameItemTmp[0:nameItemTmp.index(':')]
-            nameItemTmp = nameItemTmp[nameItemTmp.index(':') + 1:len(nameItemTmp)]
-
-            if 'U' in unitTmp:
-
-                listVal = listBlocks[editor.currentTab][unitTmp]
-                mod = listVal[0]
-
-                for i, j in enumerate(editor.getlib()):
-                    if j[0] == mod:
-                        indMod = i
-                        break
-
-                ############################################################
-                category = listVal[1]
-                cat = category.split('.')
-                listEnter = editor.getlib()[indMod][2][0]
-                listValDefault = editor.getlib()[indMod][2][1]
-                if len(listEnter) != len(listVal[2][1]):
-                    if '_dyn' in mod:
-                        listEnter = listVal[2][0]
-                        tmplistVal = listVal[2][1]
-                        tmpList = []
-                        for indDef in listValDefault:
-                            tmpList.append(indDef)
-                        for i in range(len(listValDefault), len(tmplistVal)):
-                            tmpList.append(tmpList[-1])
-                        listValDefault = tmpList
-                    else:
-                        pathYml = os.path.dirname(os.path.realpath(__file__))
-                        pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
-                        if os.path.exists(pathYml):
-                            with open(pathYml, 'r') as stream:
-                                self.dicts = yaml.load(stream, yaml.FullLoader)
-                                for el in self.dicts[mod]:
-                                    if el in listVal[2][0]:
-                                        listEnter = (*listEnter, el)
-                                        if type(self.dicts[mod][el]).__name__ == 'str':
-                                            if 'enumerate' in self.dicts[mod][el]:
-                                                listValDefault = (*listValDefault, self.dicts[mod][el])
-                                            else:
-                                                try:
-                                                    listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                                except Exception as e:
-                                                    listValDefault = (*listValDefault, self.dicts[mod][el])
-                                        else:
-                                            try:
-                                                listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
-                                            except Exception as e:
-                                                listValDefault = (*listValDefault, self.dicts[mod][el])
-                ############################################################
-                newList = []
-                for i in range(len(listEnter)):
-                    if listEnter[i] == nameItemTmp:
-                        newValfromModules = listValDefault[i]
-
-                        if type(newValfromModules).__name__ == 'str':
-                            if 'enumerate' in newValfromModules:
-                                newValfromModules = list(eval(newValfromModules))[0][1]
-#                         if type(newValfromModules).__name__ == 'tuple':
-#                             newValfromModules=newValfromModules[0]
-                        newList.append(newValfromModules)
-                    else:
-                        newList.append(listVal[2][1][i])
-                ############################################################
-
-                del listBlocks[editor.currentTab][unitTmp]
-                listBlocks[editor.currentTab][unitTmp] = (listVal[0],
-                                                          listVal[1],
-                                                          (listVal[2][0],
-                                                           newList,
-                                                           listVal[2][2],
-                                                           listVal[2][3]))
-
-            elif 'M' in unitTmp:
-                listVal = listSubMod[editor.currentTab][unitTmp]
-                mod = listVal[0]
-
-                for i, j in enumerate(libSubMod):
-                    if j[0] == mod:
-                        indMod = i
-                        break
-                ind = listVal[1][0].index(nameItemTmp)
-                newValfromModules = libSubMod[indMod][1][0][1][ind]
-                if type(newValfromModules).__name__ == 'str':
-                    if 'enumerate' in newValfromModules:
-                        newValfromModules = list(eval(newValfromModules))[0][1]
-#                 if type(newValfromModules).__name__ == 'tuple':
-#                     newValfromModules=newValfromModules[0]
-                newList = []
-                for i in range(len(listVal[1][1])):
-                    if i == ind:
-                        newList.append(newValfromModules)
-                    else:
-                        newList.append(listVal[1][1][i])
-
-                del listSubMod[editor.currentTab][unitTmp]
-                listSubMod[editor.currentTab][unitTmp] = (listVal[0], (listVal[1][0], newList, listVal[1][2], listVal[1][3]))
 
     def hoverEnterEvent(self, event):
         self.setSelected(1)
@@ -5192,7 +5080,7 @@ class DimLink(Enum):
 
 
 class ItemColor(Enum):
-    backGround = QColor(50, 50, 50, 255)
+    backGround = QColor(40, 40, 40, 255)
     process = QColor(100, 100, 100, 255)
     frame_process = QColor(200, 200, 200, 255)
     subprocess = QColor(200, 50, 0, 255)

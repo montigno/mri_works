@@ -2,8 +2,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QImage, QPixmap, QPalette
 from PyQt5.QtWidgets import QSlider, QLabel, QSizePolicy, \
     QLineEdit, QGroupBox, QGridLayout, QVBoxLayout, QDialog, QWidget
-from scipy.ndimage import rotate
 
+from scipy.ndimage import rotate
 import numpy as np
 
 
@@ -11,6 +11,8 @@ class DispNifti(QDialog):
 
     def __init__(self, img, pixdim=(1.0, 1.0), title='', parent=None):
         QDialog.__init__(self, parent)
+        
+        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
 
         self.scaleFactor = 3
         self.img = np.array(img)
@@ -58,13 +60,13 @@ class DispNifti(QDialog):
         self.verticalLayout.addWidget(self.layoutSlide)
          
         self.setWindowTitle(title)
-        self.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
+#         self.resize((10 + self.rx) * self.scaleFactor, (50 + self.ry) * self.scaleFactor)
         self.setLayout(self.verticalLayout)
 
     def imgqLabel(self):
         self.imageLabel = QLabel()
         self.imageLabel.setBackgroundRole(QPalette.Base)
-        self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+#         self.imageLabel.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
         self.imageLabel.setAlignment(Qt.AlignCenter)
         
     def navigImage(self):
@@ -74,7 +76,9 @@ class DispNifti(QDialog):
         bytesPerLine = int(totalBytes / self.interl)
         image = QImage(self.x.data, self.w , self.h, bytesPerLine, QImage.Format_Grayscale8)
         self.pixm = QPixmap.fromImage(image)
-        self.pixm = self.pixm.scaled(self.rx * (self.scaleFactor - 1), self.ry * (self.scaleFactor - 1), Qt.IgnoreAspectRatio)
+        self.pixm = self.pixm.scaled(self.rx * (self.scaleFactor - 1),
+                                     self.ry * (self.scaleFactor - 1),
+                                     Qt.IgnoreAspectRatio)
         self.imageLabel.setPixmap(self.pixm)
 #         self.imageLabel.adjustSize()
 
@@ -102,7 +106,7 @@ class DispNifti(QDialog):
             self.a1.setMaximum(self.img.shape[2] - 1)
             self.a2.setMaximum(self.img.shape[3] - 1)
             self.a3.setMaximum(self.img.shape[4] - 1)
-        x = rotate(x, -90, reshape = True)
+        x = rotate(x, -90, reshape=True)
         x = np.uint8((x - x.min()) / x.ptp() * 255.0)
         self.x = x
         
@@ -112,9 +116,9 @@ class DispNifti(QDialog):
         self.txta3.setText(str(self.a3.value() + 1) + ' / ' + str(self.a3.maximum() + 1))
 
     def boxSliders(self):
-        self.k1 = QLabel('Slider 1    ')
-        self.k2 = QLabel('Slider 2')
-        self.k3 = QLabel('Slider 3')
+        self.k1 = QLabel('Sl 1    ')
+        self.k2 = QLabel('Sl 2')
+        self.k3 = QLabel('Sl 3')
  
         self.a1 = self.createSlider(0, 0, 0)
         self.a2 = self.createSlider(0, 0, 0)
@@ -167,7 +171,7 @@ class DispNifti(QDialog):
     def createFieldValue(self):
         fieldValue = QLineEdit()
         fieldValue.setEnabled(False)
-        fieldValue.setFixedWidth(80)
+        fieldValue.setFixedWidth(60)
         fieldValue.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         return fieldValue
      
