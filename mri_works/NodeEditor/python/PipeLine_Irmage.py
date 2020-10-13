@@ -2677,7 +2677,7 @@ class BlockCreate(QGraphicsRectItem):
                     txt +=" <img src='"+ os.path.join(path_blockdoc,
                                                       '../blocsdoc',
                                                       classUnit+'.png') + \
-                            "'><br>"                   
+                            "'><br><br>"                   
                     txt += "<span style=\" \
                             font-size:10pt; \
                             font-weight:600; \
