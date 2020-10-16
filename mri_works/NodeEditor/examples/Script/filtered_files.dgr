@@ -1,21 +1,21 @@
 [diagram]
-constant=[A2] value=['list of sequences with multiple Inversion times : '] format=[str] label=[A2] RectF=[(407.4781116475068, 189.6669889049956, 350.0, 33.0)]
-constant=[A1] value=['list of sequences with multiple Repetition times : '] format=[str] label=[A1] RectF=[(394.97077448033747, 65.91364574526038, 360.0, 33.0)]
-constant=[A0] value=['list of sequences with multiple Echo times : '] format=[str] label=[comment] RectF=[(404.03886510584607, -105.76314788895812, 321.0, 33.0)]
-link=[N6] node=[A2:#Node#U3:comment]
-link=[N5] node=[A1:#Node#U2:comment]
-link=[N4] node=[A0:#Node#U1:comment]
-link=[N3] node=[S0:TI_files#Node#U3:in_list_Path]
-link=[N2] node=[S0:TR_files#Node#U2:in_list_Path]
-link=[N1] node=[S0:TE_files#Node#U1:in_list_Path]
+constant=[A0] value=['list of sequences with multiple Echo times : '] format=[str] label=[comment] RectF=[(402.5491095830396, -74.4782819100241, 321.0, 33.0)]
+constant=[A1] value=['list of sequences with multiple Repetition times : '] format=[str] label=[A1] RectF=[(394.97077448033735, 124.01411113470922, 360.0, 33.0)]
+constant=[A2] value=['list of sequences with multiple Inversion times : '] format=[str] label=[A2] RectF=[(401.5190895562814, 286.50109788741037, 350.0, 33.0)]
 link=[N0] node=[U0:filesPath#Node#S0:list_files]
-block=[U3] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N6)', 'Node(N3)'], [], [])] RectF=[(817.5342183903399, 253.8998119994124, 150.0, 80.0)]
-block=[U2] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N5)', 'Node(N2)'], [], [])] RectF=[(805.8091126331198, 84.33914744194308, 150.0, 80.0)]
-block=[U1] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N4)', 'Node(N1)'], [], [])] RectF=[(810.5216673723226, -88.28235691626196, 150.0, 80.0)]
-block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Choose Nifti files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-374.19891588618026, 114.62369289374168, 206.59375, 80.0)]
-script=[S0] title=[Script_editor] inputs=[['list_files', 'in', 'list_path']] outputs=[['TE_files', 'out', 'list_path'], ['TR_files', 'out', 'list_path'], ['TI_files', 'out', 'list_path']] code=[your code] RectF=[(-70.08084366633612, -61.12211384344104, 389.17422656410963, 402.7109198588189)]
-comments=[] RectF=[(-743.934770528561, -38.451726745478695, 570.2980824317729, 10.0)] text=['1 - run Pipeline (Ctrl + t)\n2 - choose multiple Nifti files, and click ok\n3 - go to the terminal, you will see selected files']
-comments=[] RectF=[(-98.85735930303446, -104.9685162210148, 438.4253928008016, 468.2077061438929)] text=['This script selects \nthe sequences which\nhave multiple echo times.']
+link=[N1] node=[S0:TE_files#Node#U1:in_list_Path]
+link=[N2] node=[S0:TR_files#Node#U2:in_list_Path]
+link=[N3] node=[S0:TI_files#Node#U3:in_list_Path]
+link=[N4] node=[A0:#Node#U1:comment]
+link=[N5] node=[A1:#Node#U2:comment]
+link=[N6] node=[A2:#Node#U3:comment]
+script=[S0] title=[Script_editor] inputs=[['list_files', 'in', 'list_path']] outputs=[['TE_files', 'out', 'list_path'], ['TR_files', 'out', 'list_path'], ['TI_files', 'out', 'list_path']] code=[your code] RectF=[(-74.55011023475532, -70.06064698027933, 412.3855256750144, 561.1499274578364)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Choose Nifti files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-371.9298771751528, 182.80839267465655, 206.59375, 80.0)]
+block=[U1] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N4)', 'Node(N1)'], [], [])] RectF=[(820.9499560319674, -67.42577959697263, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N5)', 'Node(N2)'], [], [])] RectF=[(831.1349565208282, 152.86790149103652, 150.0, 80.0)]
+block=[U3] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['Node(N6)', 'Node(N3)'], [], [])] RectF=[(835.4112846640164, 373.0802538239229, 150.0, 80.0)]
+comments=[] RectF=[(-98.85735930303446, -104.9685162210148, 467.19830835411625, 624.1921248788387)] text=['This script selects \nthe sequences which\nhave multiple echo times.']
+comments=[] RectF=[(-729.0372153004971, 117.97260314919127, 570.2980824317729, 10.0)] text=['1 - run Pipeline (Ctrl + t)\n2 - choose multiple Nifti files, and click ok\n3 - go to the terminal, you will see selected files']
 [source S0]
 ['list_files=U0:filesPath']
 import os
@@ -27,26 +27,35 @@ TE_files, TR_files, TI_files = [], [], []
 for fs in list_files:
     tmp = fs.replace('.nii','.json')
     if os.path.exists(tmp):
-        with open(tmp) as f:
-            data = json.load(f)["EchoTime"]['value']
-            if len(data) > 2:
-                TE_files.append(fs)
-        with open(tmp) as f:
-            data = json.load(f)["RepetitionTime"]['value']
-            if len(data) > 2:
-                TR_files.append(fs)
-        with open(tmp) as f:
-            data = json.load(f)["InversionTime"]['value']
-            if len(data) > 2:
-                TI_files.append(fs)
+        try:
+            with open(tmp) as f0:
+                data = json.load(f0)["EchoTime"]['value']
+                if len(data) > 2:
+                    TE_files.append(fs)
+        except:
+            pass
+        try:
+            with open(tmp) as f1:
+                data = json.load(f1)["RepetitionTime"]['value']
+                if len(data) > 2:
+                    TR_files.append(fs)
+        except:
+            pass
+        try:
+            with open(tmp) as f2:
+                data = json.load(f2)["InversionTime"]['value']
+                if len(data) > 2:
+                    TI_files.append(fs)
+        except:
+            pass
 
 ['S0:TE_files', 'S0:TR_files', 'S0:TI_files']
 [/source S0]
 
 [execution]
 []
-['U0', 'S0', 'ThreadOn', 'U1', 'U3', 'U2', 'ThreadOff']
-{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Choose Nifti files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U1': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Echo times : ', 'S0:TE_files'], [], [])"), 'U2': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Repetition times : ', 'S0:TR_files'], [], [])"), 'U3': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Inversion times : ', 'S0:TI_files'], [], [])")}
-['U0:filesPath', 'S0:TE_files', 'S0:TR_files', 'S0:TI_files', 'A0:', 'A1:', 'A2:']
+['U0', 'S0', 'ThreadOn', 'U3', 'U1', 'U2', 'ThreadOff']
+{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*.nii', 'Choose Nifti files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U3': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Inversion times : ', 'S0:TI_files'], [], [])"), 'U2': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Repetition times : ', 'S0:TR_files'], [], [])"), 'U1': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['list of sequences with multiple Echo times : ', 'S0:TE_files'], [], [])")}
+['A2:', 'A1:', 'A0:', 'S0:TI_files', 'S0:TR_files', 'S0:TE_files', 'U0:filesPath']
 {}
 []
