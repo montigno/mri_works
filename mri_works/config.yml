@@ -23,7 +23,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/omontigon/Documents/mri_works_projects/test_unitaire_BrukerNifti.dgr
   modules: modules
   projects: ../data
 version: 20.10.07a

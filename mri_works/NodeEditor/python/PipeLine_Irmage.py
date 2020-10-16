@@ -22,18 +22,18 @@ from collections import deque
 
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QByteArray, Qt, QStringListModel, QLineF, QPointF, \
-    QRectF, QSize, QPoint, QDir, QRect
+    QRectF, QDir, QRect
 from PyQt5.QtGui import QStandardItemModel, QPixmap, QPainterPath, \
-    QCursor, QBrush, QStandardItem, QPen, QPainter, QPaintDevice, \
+    QCursor, QBrush, QStandardItem, QPen, QPainter, \
     QImage, QTransform, QColor, QFont, QPolygonF, QLinearGradient, \
-    QKeySequence, QTextCursor, QIcon, QFontMetrics, QFocusEvent
+    QKeySequence, QIcon, QFontMetrics
 from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QGraphicsView, QGraphicsPathItem, QGraphicsPolygonItem, \
     QGraphicsRectItem, QDialog, QSpinBox, QDoubleSpinBox, QComboBox, \
     QTreeView, QWidget, QVBoxLayout, QTabBar, QTabWidget, QSplitter, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
-    QPushButton, QScrollBar, QGraphicsProxyWidget, QGraphicsTextItem, QToolTip
+    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem
 
 from . import analyze
 from . import execution
@@ -264,6 +264,7 @@ class Menu(QMenuBar):
                                  sceneRect(),
                                  QtCore.Qt.KeepAspectRatio)
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
+                editor.diagramView[editor.currentTab].scene().clearSelection()
                 self.saveHistories(fileDiagram[0])
                 UpdateUndoRedo()
 
@@ -2674,10 +2675,10 @@ class BlockCreate(QGraphicsRectItem):
                             font-size:12pt; \
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
-                    txt +=" <img src='"+ os.path.join(path_blockdoc,
+                    txt += " <img src='"+ os.path.join(path_blockdoc,
                                                       '../blocsdoc',
                                                       classUnit+'.png') + \
-                            "'><br>"                   
+                           "'><br>"
                     txt += "<span style=\" \
                             font-size:10pt; \
                             font-weight:600; \
@@ -3773,8 +3774,8 @@ class Constants(QGraphicsRectItem):
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def hoverEnterEvent(self, event):
-        global itemStored
-        itemStored = None
+#         global itemStored
+#         itemStored = None
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
@@ -3803,6 +3804,8 @@ class Constants(QGraphicsRectItem):
 #             editor.blockSelection(self)
 
     def mouseDoubleClickEvent(self, event):
+        global itemStored
+        itemStored = None
         if self.isMod:
             if type(self.elemProxy) == Constants_Combo and self.form != 'bool':
                 AllItems = [self.elemProxy.itemText(i) for i in range(self.elemProxy.count())]
@@ -3831,7 +3834,7 @@ class Constants(QGraphicsRectItem):
                                                      QFileDialog.DontUseNativeDialog)
                 if fileCh[0]:
                     self.elemProxy.setPlainText(fileCh[0])
-
+            UpdateUndoRedo()
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 
     def keyPressEvent(self, event):
@@ -3877,7 +3880,6 @@ class Constants_int(QSpinBox):
         self.lab = lab
 
     def focusOutEvent(self, event):
-        UpdateUndoRedo()
         self.lineEdit().deselect()
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('int', self.value(), self.lab)
@@ -3902,7 +3904,6 @@ class Constants_float(QDoubleSpinBox):
         self.lab = lab
 
     def focusOutEvent(self, event):
-        UpdateUndoRedo()
         self.lineEdit().deselect()
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('float', self.value(), self.lab)
@@ -3933,14 +3934,12 @@ class Constants_text(QTextEdit):
 #         event.accept()
 
     def focusOutEvent(self, event):
-        UpdateUndoRedo()
         self.setCursorWidth(0)
         tmpTxt = repr(self.toPlainText())
         tmpTxt = tmpTxt.replace('\\n', '')
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
 
-#         print('new value string : ', self.toPlainText())
 ###############################################################################
 
 
@@ -3961,9 +3960,7 @@ class Constants_Combo(QComboBox):
     def newValue(self):
         del listConstants[editor.currentTab][self.unit]
         listConstants[editor.currentTab][self.unit] = (self.txt, self.currentText(), self.lab)
-        UpdateUndoRedo()
 
-#         return QComboBox.mouseDoubleClickEvent(self, event)
 ###############################################################################
 
 
@@ -4067,7 +4064,7 @@ class ForLoopItem(QGraphicsRectItem):
 #     def setDimension(self):
 #         print(self.x(), self.y(), self.boundingRect().width(), self.boundingRect().height())
 #         xmin, ymin = self.x(), self.y()
-#         xmax, ymax = xmin + self.boundingRect().width(), ymin + self.boundingRect().height() 
+#         xmax, ymax = xmin + self.boundingRect().width(), ymin + self.boundingRect().height()
 #         for its in listTools[editor.currentTab][self.unit]:
 #             coord = listItems[editor.currentTab][its].sceneBoundingRect()
 #             x, y, w, h = coord.x(), coord.y(), coord.width(), coord.height()
@@ -4081,7 +4078,7 @@ class ForLoopItem(QGraphicsRectItem):
 #         self.setPos(xmin, ymin)
 #         self.updateSize()
 #         print('dimension loop : ', xmin, ymin, xmax, ymax)
-            
+
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
             self.deleteLoopFor()
@@ -4255,7 +4252,7 @@ class ForLoopItem(QGraphicsRectItem):
 
         factorh = 20
         hmin = factorh * len(self.inputs)
-        
+
         if self.hmin < hmin:
             self.hmin = hmin
         w = self.w
@@ -5312,14 +5309,15 @@ class Port(QGraphicsRectItem):
                 ac = menu.addAction('Delete this port')
                 ac.triggered.connect(self.deletePort)
             if self.typeio == 'out' and 'A' not in self.unit:
-#                 cp = menu.addAction('add Print block')
-#                 cp.triggered.connect(self.addPrint)
                 cp = menu.addAction('add Value Probe')
                 cp.triggered.connect(self.addValueP)
                 cp = menu.addAction('add Type Probe')
                 cp.triggered.connect(self.addTypeP)
                 cp = menu.addAction('add Length Probe')
                 cp.triggered.connect(self.addLengthP)
+                menu.addSeparator()
+                cp = menu.addAction('add Print block')
+                cp.triggered.connect(self.addPrint)
             elif 'list' not in self.format and \
                  'array' not in self.format and \
                  'dict' not in self.format and \
@@ -5352,7 +5350,7 @@ class Port(QGraphicsRectItem):
             it = self.addConstantSubMod()
         elif 'I' in self.unit or 'S' in self.unit:
             it = self.addConstantStr()
-            
+
         editor.loopMouseMoveEvent(it, it.scenePos())
         editor.loopMouseReleaseEvent(it)
 
@@ -5472,10 +5470,10 @@ class Port(QGraphicsRectItem):
 
     def addValueP(self):
         self.addProbe('Value')
-            
+
     def addTypeP(self):
         self.addProbe('Type')
-        
+
     def addLengthP(self):
         self.addProbe('Length')
 
@@ -5493,7 +5491,7 @@ class Port(QGraphicsRectItem):
         startConnection.setToPort(toPort)
         listNodes[editor.currentTab][startConnection.link.name] = self.unit + ':' + self.name + '#Node#' + b1.unit + ':' + toPort.name
 
-        if 'F' in  self.unit and 'in' in self.name:
+        if 'F' in self.unit and 'in' in self.name:
             curF = listItems[editor.currentTab][self.unit]
             curF.IteminLoop(b1.unit, True, 0)
         elif 'I' in self.unit and 'in' in self.name:
@@ -6173,6 +6171,7 @@ class NodeEdit(QWidget):
             return 'no'
 
     def tabSelected(self, arg=None):
+        global textInf
         editor.currentTab = arg
         textInf.setText(editor.pathDiagram[editor.currentTab])
 

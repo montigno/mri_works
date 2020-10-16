@@ -1,15 +1,19 @@
 class printProbe():
     def __init__(self, unit, lab, format, label, val):
         if 'int' in format:
-            col = '\033[0;94m'
+            col = '\33[38;5;33m'
         elif 'float' in format:
-            col = '\033[0;93m'
+            col = '\33[38;5;208m'
         elif 'str' in format:
-            col = '\033[0;35m'
+            col = '\33[38;5;201m'
         elif 'bool' in format:
-            col = '\033[0;92m'
+            col = '\33[38;5;46m'
         elif 'path' in format:
-            col = '\033[0;33m'
+            col = '\33[38;5;210m'
+        elif 'tuple' in format:
+            col = '\33[38;5;245m'
+        elif 'dict' in format:
+            col = '\33[38;5;226m'
         if label == 'Type':
             val = type(val)
         elif label == 'Length':
@@ -29,3 +33,4 @@ class printProbe():
                 tmptxt = '1'
             val = tmptxt
         print(col+unit+'('+lab+')', ' : ', label+' = ', val)
+        print('\033[0m')

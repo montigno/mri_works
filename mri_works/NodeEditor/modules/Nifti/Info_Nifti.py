@@ -17,13 +17,13 @@ class Nifti_affine_quaternion():
         import nibabel as nib
         img = nib.load(nii_image)
         hdr = img.header
-        self.affine = hdr.get_sform(coded=True)
-        self.quaternions = hdr.get_qform_quaternion()
+        self.affine = hdr.get_sform(coded=True)[0].tolist()
+        self.quaternions = hdr.get_qform_quaternion().tolist()
 
-    def nii_affine(self: 'str'):
+    def nii_affine(self: 'array_float'):
         return self.affine
 
-    def nii_quaternions(self: 'str'):
+    def nii_quaternions(self: 'list_float'):
         return self.quaternions
 
 ##############################################################################

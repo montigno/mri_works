@@ -39,3 +39,14 @@ class numpy_std():
 
     def rms(self: 'float'):
         return self.std
+    
+##############################################################################
+
+
+class numpy_mean_array():
+    def __init__(self, y=[[0.0]]):
+        import numpy as np
+        self.mean = np.mean(y)
+
+    def rms(self: 'float'):
+        return self.mean

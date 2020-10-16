@@ -27,6 +27,7 @@ class Choose_multi_files:
         import os.path
         from PyQt5.QtWidgets import QFileDialog
         self.filesSource = filesDefault
+        filesExists = False
         for lf in filesDefault:
             if os.path.exists(lf):
                 filesExists = True
@@ -64,3 +65,20 @@ class Choose_directory:
 
     def filePath(self: 'path'):
         return self.repChosen
+    
+##############################################################################
+
+
+class list_files_in_directory:
+    def __init__(self, RepDefault='path', title='Select a directory', filter="*", recursive=False):
+        import os.path
+        import glob
+        from PyQt5.QtWidgets import QFileDialog
+        repChosen = RepDefault
+        if RepDefault == 'path' or not os.path.isdir(RepDefault):
+            repChosen = QFileDialog.getExistingDirectory(None, title, filter)
+        self.lstfiles = [f for f in glob.glob(repChosen + "/**/"+filter, recursive=recursive)]
+
+
+    def listFiles(self: 'list_path'):
+        return self.lstfiles

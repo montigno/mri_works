@@ -127,3 +127,13 @@ class add_suffixprefix_file:
 
     def newPath(self: 'path'):
         return self.outPath
+    
+###############################################################################
+
+
+class order_name_files:
+    def __init__(self, files_list=['path'], reverse=False):
+        self.out_list = sorted(files_list, reverse=reverse)
+        
+    def list_out(self:'list_path'):
+        return self.out_list

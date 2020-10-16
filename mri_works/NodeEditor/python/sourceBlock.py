@@ -45,7 +45,7 @@ class seeCode(QDialog):
         fontMetrics = QFontMetrics(font)
         textSize = fontMetrics.size(0, txt.toPlainText())
         w = textSize.width() + 10
-        h = 250 
+        h = 250
         txt.setMinimumSize(w, h)
         txt.resize(w, h)
 

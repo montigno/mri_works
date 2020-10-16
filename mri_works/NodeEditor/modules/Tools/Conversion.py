@@ -368,6 +368,21 @@ class StringToDict():
 
     def outInt(self: 'dict'):
         return self.outval
+    
+###############################################################################
+
+
+class StringToTuple():
+    def __init__(self, inString=''):
+        from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
+        typ, val = DefineTypeVariable(inString).returntype()
+        if 'tuple' in typ:
+            self.outval = val
+        else:
+            self.outval = None
+
+    def outInt(self: 'tuple'):
+        return self.outval
 
 ###############################################################################
 
