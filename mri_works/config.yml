@@ -24,16 +24,15 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Documents/mri_works_projects/test_probe_length.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_FoorToThree.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_unitaire_BrukerNifti.dgr
   - /home/omontigon/Documents/mri_works_projects/test_listFiles_in_directory.dgr
   - /home/omontigon/Documents/mri_works_projects/compare_two_Nifti.dgr
   - /home/omontigon/Documents/mri_works_projects/color_print.dgr
   - /home/omontigon/Documents/mri_works_projects/test_list_files.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_unit_Bruker.dgr
   - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Brain_Mask_PCNN3D.dgr
   - /home/omontigon/Documents/mri_works_projects/test_unit_Bruker_br.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_unit_Philips_br.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_unit_mriconv.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
   modules: modules
   projects: ../data
 version: 20.10.07a
