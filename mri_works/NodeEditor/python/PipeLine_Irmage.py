@@ -2996,7 +2996,7 @@ class BlockCreate(QGraphicsRectItem):
         f.close()
 
         edit = DiagramView(editor.diagramScene[editor.currentTab])
-
+        listNd = {}
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc, listPr = {}, {}, {}, {}
         listCode = {}
@@ -3137,20 +3137,18 @@ class BlockCreate(QGraphicsRectItem):
                     line += '\n'
                 tmpValScript += line
 
-        listNd = {}
-        for line in txt:
-            if line[0:4] == 'link':
+            elif line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('node=') + 6:len(line)]
                 line = line[0:line.index(']')]
                 listNodes[editor.currentTab][nameNode] = line
-                blockStart = line[0:line.index('#Node#')]
-                line = line[line.index('#Node#') + 6:len(line)]
-                blockEnd = line[0:len(line)]
-                unitStart = blockStart[0:blockStart.index(':')]
-                namePortStart = blockStart[blockStart.index(':') + 1:len(blockStart)]
-                unitEnd = blockEnd[0:blockEnd.index(':')]
-                namePortEnd = blockEnd[blockEnd.index(':') + 1:len(blockEnd)]
+                listNd[nameNode] = line.replace('#Node#', ':').split(':')
+
+        for lk, lv in listNd.items():
+                unitStart = lv[0]
+                namePortStart = lv[1]
+                unitEnd = lv[2]
+                namePortEnd = lv[3]
 
                 fromPort = None
                 toPort = None
@@ -3215,7 +3213,7 @@ class BlockCreate(QGraphicsRectItem):
                             toPort = lout
                             break
 
-                startConnection = Connection(nameNode, fromPort, toPort, fromPort.format)
+                startConnection = Connection(lk, fromPort, toPort, fromPort.format)
                 startConnection.setEndPos(toPort.scenePos())
                 startConnection.setToPort(toPort)
 
