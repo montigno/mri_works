@@ -2998,7 +2998,7 @@ class BlockCreate(QGraphicsRectItem):
         edit = DiagramView(editor.diagramScene[editor.currentTab])
 
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
-        listSm, listCt, listSc = {}, {}, {}
+        listSm, listCt, listSc, listPr = {}, {}, {}, {}
         listCode = {}
         insource = False
         tmpKeyScript = ''
@@ -3032,6 +3032,16 @@ class BlockCreate(QGraphicsRectItem):
                 cmt = cmt.replace("'", '')
                 cmt = cmt.replace('"', '')
                 edit.loadComments(pos, cmt)
+            elif line[0:5] == 'probe':
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('label=') + 7:len(line)]
+                label = line[0:line.index(']')]
+                line = line[line.index('format=') + 8:len(line)]
+                form = line[0:line.index('] RectF')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
+                edit.loadProbe(unit, label, form, pos)
+                listPr[unit] = edit.returnBlockSystem()
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('category') + 10:len(line)]
@@ -3187,6 +3197,8 @@ class BlockCreate(QGraphicsRectItem):
                             break
                 elif 'C' in unitEnd:
                     toPort = listCn[unitEnd].input
+                elif 'P' in unitEnd:
+                    toPort = listPr[unitEnd].inputs[0]
                 elif 'F' in unitEnd:
                     for lout in listFo[unitEnd].inputs:
                         if type(lout) == Port and lout.name == namePortEnd:
