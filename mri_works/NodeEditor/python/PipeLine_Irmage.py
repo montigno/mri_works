@@ -637,7 +637,7 @@ class LoadDiagram:
 
         edit = DiagramView(editor.diagramScene[editor.currentTab])
         listItems[editor.currentTab] = {}
-
+        listNd = {}
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc, listPr = {}, {}, {}, {}
         listCode = {}
@@ -788,23 +788,19 @@ class LoadDiagram:
                 if '\n' not in line:
                     line += '\n'
                 tmpValScript += line
-
-        listNd = {}
-        for line in txt:
-            if line[0:4] == 'link':
+            
+            elif line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('node=') + 6:len(line)]
                 line = line[0:line.index(']')]
                 listNodes[editor.currentTab][nameNode] = line
-                blockStart = line[0:line.index('#Node#')]
-                line = line[line.index('#Node#') + 6:len(line)]
-                blockEnd = line[0:len(line)]
-                unitStart = blockStart[0:blockStart.index(':')]
-                namePortStart = blockStart[blockStart.index(':') + 1:
-                                           len(blockStart)]
-                unitEnd = blockEnd[0:blockEnd.index(':')]
-                namePortEnd = blockEnd[blockEnd.index(':') + 1:
-                                       len(blockEnd)]
+                listNd[nameNode] = line.replace('#Node#', ':').split(':')
+
+        for lk, lv in listNd.items():
+                unitStart = lv[0]
+                namePortStart = lv[1]
+                unitEnd = lv[2]
+                namePortEnd = lv[3]
 
                 fromPort = None
                 toPort = None
@@ -869,7 +865,7 @@ class LoadDiagram:
                             toPort = lout
                             break
 
-                startConnection = Connection(nameNode,
+                startConnection = Connection(lk,
                                              fromPort,
                                              toPort,
                                              fromPort.format)
@@ -1201,6 +1197,7 @@ class UpdateList:
 class UpdateUndoRedo:
 
     def __init__(self):
+        print('undoredo')
         for i in range(pointTyping[editor.currentTab] + 1, len(undoredoTyping[editor.currentTab])):
             del undoredoTyping[editor.currentTab][i]
         pointTyping[editor.currentTab] += 1
@@ -1294,7 +1291,7 @@ class DiagramScene(QGraphicsScene):
                     self.prevItem.append(item)
         editor.sceneMouseReleaseEvent(mouseEvent)
         super(DiagramScene, self).mouseReleaseEvent(mouseEvent)
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
     def mousePressEvent(self, mouseEvent):
 
@@ -1595,10 +1592,10 @@ class DiagramView(QGraphicsView):
     def keyPressEvent(self, event):
         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
             try:
-                posRe = (self.m_originX, self.m_originY, itemStored.boundingRect().width(), itemStored.boundingRect().height() )
+                posRe = (self.m_originX, self.m_originY, itemStored.boundingRect().width(), itemStored.boundingRect().height())
             except Exception as e:
                 posRe = (0, 0, 100, 100)
-            
+
             if type(itemStored) == ConnectorItem:
                 if 'in' in itemStored.inout:
                     self.scene().addInputConn(self.m_originX, self.m_originY)
@@ -1617,10 +1614,10 @@ class DiagramView(QGraphicsView):
 
             if type(itemStored) == Constants:
                 self.loadConstant('newConstant', posRe, itemStored.val, itemStored.form, '')
-                
+
             if type(itemStored) == Probes:
                 self.loadProbe('new', itemStored.label, 'unkn', posRe)
-                
+
             UpdateUndoRedo()
         return QGraphicsView.keyPressEvent(self, event)
 
@@ -2676,8 +2673,8 @@ class BlockCreate(QGraphicsRectItem):
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
                     txt += " <img src='"+ os.path.join(path_blockdoc,
-                                                      '../blocsdoc',
-                                                      classUnit+'.png') + \
+                                                       '../blocsdoc',
+                                                       classUnit+'.png') + \
                            "'><br>"
                     txt += "<span style=\" \
                             font-size:10pt; \
@@ -3774,8 +3771,8 @@ class Constants(QGraphicsRectItem):
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def hoverEnterEvent(self, event):
-#         global itemStored
-#         itemStored = None
+        # global itemStored
+        # itemStored = None
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
