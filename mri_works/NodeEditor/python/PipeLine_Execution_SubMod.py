@@ -255,16 +255,32 @@ class executionSubmod:
                 for indif in txtCurrentIf:
                     if execution + ':val' in indif:
                         tmpVal = indif[indif.index('=') + 1:]
+                        try:
+                            tmpVal = eval(tmpVal)
+                        except Exception as e:
+                            pass
                         txtCurrentIf.remove(indif)
                 for li in txtCurrentIf:
                     st = li[0:li.index('=')]
                     ed = li[li.index('=') + 1:len(li)]
-                    self.listDynamicValueIf[st] = listDynamicValue[ed]
+                    if ':' in ed and '\\' not in ed:
+                        self.listDynamicValueIf[st] = listDynamicValue[ed]
+                    else:
+                        try:
+                            self.listDynamicValueIf[st] = eval(ed)
+                        except Exception as e:
+                            self.listDynamicValueIf[st] = ed
+                
+                try:
+                    if not tmpVal:
+                        txtIf = listIfExecution[execution + '-false']
+                except Exception as e:
+                    pass
                 try:
                     if not listDynamicValue[tmpVal]:
                         txtIf = listIfExecution[execution + '-false']
                 except Exception as e:
-                    pass
+                    pass                
 
                 tmpMod = eval(txtIf.split('\n')[4]).keys()
                 for mod in tmpMod:
@@ -325,8 +341,8 @@ class executionSubmod:
 
                         listDynamicValueSub = listDynamicValueFor.copy()
                         tmp = []
-                        lengthEnter = len(listDynamicValueFor[firstIndex])
-                        for ele in range(lengthEnter):
+                        lengthEnter = range(len(listDynamicValueFor[firstIndex]))
+                        for ele in lengthEnter:
                             for keyDyn, valDyn in listDynamicValueFor.items():
                                 if 'F' in keyDyn[0:keyDyn.index(':')]:
                                     listDynamicValueSub[keyDyn] = valDyn[ele]

@@ -107,4 +107,7 @@ if __name__ == '__main__':
     imageViewer.show()
     app.setWindowIcon(QIcon('mri_works.png'))
     if imageViewer.state:
-        sys.exit(app.exec_())
+        try:
+            sys.exit(app.exec_())
+        except Exception as e:
+            print(e)

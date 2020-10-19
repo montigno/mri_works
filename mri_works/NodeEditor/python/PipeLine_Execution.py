@@ -29,9 +29,6 @@ class execution:
 
     def __init__(self, txt, textEditor):
 
-        # print('txt')
-        # print(txt)
-
         self.progress = QProgressDialog("Please wait while \
                                         the pipeline is being run...",
                                         None,
@@ -177,8 +174,7 @@ class execution:
                     'Thread' not in execution):
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
-                module = importlib.import_module('NodeEditor.modules.' +
-                                                 category)
+                module = importlib.import_module('NodeEditor.modules.' + category)
                 MyClass = getattr(module, classes)
                 tmp = eval(listBlock[execution][2])
                 Enters = tmp[0]
@@ -244,8 +240,6 @@ class execution:
                             except Exception as e:
                                 self.listDynamicValue[lsi] = value
 
-                # print('list3 & outUnit : ', list3,' , ',outUnit)
-
             elif 'P' in execution:
                 valToPrint = self.listDynamicValue[listBlock[execution][2]]
                 printProbe(execution, listBlock[execution][2], listBlock[execution][0], listBlock[execution][1], valToPrint)
@@ -309,6 +303,7 @@ class execution:
                 for li in txtCurrentFor.split("\', \'"):
                     st = li[0:li.index('=')]
                     ed = li[li.index('=') + 1:len(li)]
+#                     if ':' not in ed and '\\' not in ed:
                     if ':' in ed and '\\' not in ed:
                         self.listDynamicValueFor[st] = self.listDynamicValue[ed]
                     else:
@@ -377,6 +372,7 @@ class execution:
                 for li in txtCurrentIf:
                     st = li[0:li.index('=')]
                     ed = li[li.index('=') + 1:len(li)]
+                    print('st & ed = ',st,' , ', ed)
                     if ':' in ed and '\\' not in ed:
                         self.listDynamicValueIf[st] = self.listDynamicValue[ed]
                     else:

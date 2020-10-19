@@ -250,3 +250,7 @@ class chOptions(QDialog):
         for aze in self.listCh:
             if aze.isEnabled():
                 aze.setChecked(False)
+
+    def closeEvent(self, closeEvent):
+        self.answer = "cancel"
+        self.close()

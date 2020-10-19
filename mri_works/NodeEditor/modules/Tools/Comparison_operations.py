@@ -70,7 +70,6 @@ class x_is_None:
 
 
 class x_Equal_y_dyn:
-
     def __init__(self, x=0.0, y=0.0, **dynamicsInputs):
         self.res = x == y
         for di in dynamicsInputs:
@@ -80,3 +79,21 @@ class x_Equal_y_dyn:
         return self.res
 
 ###############################################################################
+
+
+class all_iterable:
+    def __init__(self, list_bool=[True]):
+        self.res = all(list_bool)
+        
+    def out(self: 'bool'):
+        return self.res
+    
+###############################################################################
+
+
+class any_iterable:
+    def __init__(self, list_bool=[True]):
+        self.res = any(list_bool)
+        
+    def out(self: 'bool'):
+        return self.res

@@ -26,7 +26,7 @@ from PyQt5.QtCore import QByteArray, Qt, QStringListModel, QLineF, QPointF, \
 from PyQt5.QtGui import QStandardItemModel, QPixmap, QPainterPath, \
     QCursor, QBrush, QStandardItem, QPen, QPainter, \
     QImage, QTransform, QColor, QFont, QPolygonF, QLinearGradient, \
-    QKeySequence, QIcon, QFontMetrics
+    QKeySequence, QIcon, QFontMetrics, QTextCursor
 from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QGraphicsView, QGraphicsPathItem, QGraphicsPolygonItem, \
     QGraphicsRectItem, QDialog, QSpinBox, QDoubleSpinBox, QComboBox, \
@@ -1197,7 +1197,6 @@ class UpdateList:
 class UpdateUndoRedo:
 
     def __init__(self):
-        print('undoredo')
         for i in range(pointTyping[editor.currentTab] + 1, len(undoredoTyping[editor.currentTab])):
             del undoredoTyping[editor.currentTab][i]
         pointTyping[editor.currentTab] += 1
@@ -2346,7 +2345,7 @@ class BlockCreate(QGraphicsRectItem):
         return w, h
 
     def hoverEnterEvent(self, event):
-        self.setFocus(True)
+#         self.setFocus(True)
         pos = event.screenPos()
         self.showToolTip(self.name, pos)
         event.accept()
@@ -2637,7 +2636,6 @@ class BlockCreate(QGraphicsRectItem):
         global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteBlocks()
-            UpdateUndoRedo()
         elif event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         elif event.key() == QtCore.Qt.Key_Down:
@@ -2836,7 +2834,7 @@ class BlockCreate(QGraphicsRectItem):
             listSubMod[editor.currentTab] = ReorderList(listSubMod[editor.currentTab]).getNewList()
         editor.deleteItemsLoop(self)
         listNodes[editor.currentTab] = ReorderList(listNodes[editor.currentTab]).getNewList()
-#         UpdateUndoRedo()
+        UpdateUndoRedo()
 
     def deletelink(self, linkEle, unt):
         nameItem = listNodes[editor.currentTab][linkEle.name]
@@ -3728,6 +3726,7 @@ class Constants(QGraphicsRectItem):
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
 
+        
     def changeCombo(self):
         w = self.elemProxy.size().width()
         h = self.elemProxy.size().height()
@@ -3771,8 +3770,8 @@ class Constants(QGraphicsRectItem):
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def hoverEnterEvent(self, event):
-        # global itemStored
-        # itemStored = None
+        global itemStored
+        itemStored = None
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
