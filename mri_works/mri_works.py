@@ -12,11 +12,10 @@ Created on 11 jan. 2018
 
 '''
 
-import subprocess
 import sys
 
 from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
-    QAction, qApp, QLineEdit, QMainWindow, QMessageBox, QPushButton
+    QAction, qApp, QLineEdit, QMainWindow, QMessageBox
 
 from Config import Config
 from About import AboutSoft
