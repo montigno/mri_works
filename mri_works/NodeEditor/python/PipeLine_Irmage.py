@@ -550,7 +550,12 @@ class ShowLegend:
                     pos1X = pos1X + 80
                     pos2X = pos1X + 60
 
-                textRow = QGraphicsTextItem(types.name, parent=None)
+                if types.name != 'float':
+                    txtLab = types.name
+                else:
+                    txtLab = types.name+' (or ndarray)'
+                
+                textRow = QGraphicsTextItem(txtLab, parent=None)
                 textRow.setDefaultTextColor(QtGui.QColor(color))
                 textRow.setFont(QFont("Times", 12, QFont.Bold))
                 textRow.setPos(pos1X, pos1Y - 15)
