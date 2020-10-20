@@ -93,7 +93,7 @@ class CreateTabs(QWidget):
         self.textInfo.setText('Welcome to Irmage')
 
         self.tabs.addTab(NodeEdit(self.textInfo), "PipeLine Manager")
-        self.tabs.setCurrentIndex(1)
+        self.tabs.setCurrentIndex(0)
 
         self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.addWidget(self.tabs)
@@ -107,7 +107,4 @@ if __name__ == '__main__':
     imageViewer.show()
     app.setWindowIcon(QIcon('mri_works.png'))
     if imageViewer.state:
-        try:
-            sys.exit(app.exec_())
-        except Exception as e:
-            print(e)
+        sys.exit(app.exec_())

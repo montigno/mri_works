@@ -8,6 +8,15 @@
 
 import cProfile
 import re
-from main import Project_Irmage
+import sys
+from mri_works import Project_Irmage
+from PyQt5.QtWidgets import QApplication
 
-cProfile.run(Project_Irmage())
+
+
+if __name__ == '__main__':
+
+    app = QApplication(sys.argv)
+    cProfile.run(Project_Irmage())
+    if imageViewer.state:
+        sys.exit(app.exec_())

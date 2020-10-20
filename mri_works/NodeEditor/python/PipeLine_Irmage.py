@@ -636,7 +636,7 @@ class LoadDiagram:
     def __init__(self, txt):
 
         edit = DiagramView(editor.diagramScene[editor.currentTab])
-        listItems[editor.currentTab] = {}
+#         listItems[editor.currentTab] = {}
         listNd = {}
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc, listPr = {}, {}, {}, {}
@@ -668,7 +668,7 @@ class LoadDiagram:
                 edit.loadConn(unit, name, pos, str(typ), form, Vinput)
                 listCn[unit] = edit.returnBlockSystem()
 
-            if line[0:5] == 'probe':
+            elif line[0:5] == 'probe':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('label=') + 7:len(line)]
                 label = line[0:line.index(']')]
@@ -2990,241 +2990,11 @@ class BlockCreate(QGraphicsRectItem):
         file = os.path.join(path_submod, '../submodules', self.name + '.mod')
         editor.pathDiagram[editor.currentTab] = file
         textInf.setText(file)
-
         f = open(file, 'r')
         txt = f.readlines()
         f.close()
-
-        edit = DiagramView(editor.diagramScene[editor.currentTab])
-        listNd = {}
-        listCn, listBl, listFo, listIf = {}, {}, {}, {}
-        listSm, listCt, listSc, listPr = {}, {}, {}, {}
-        listCode = {}
-        insource = False
-        tmpKeyScript = ''
-        tmpValScript = ''
-
-        for line in txt:
-            if line[0:5] == 'connt':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('name=') + 6:len(line)]
-                name = line[0:line.index(']')]
-                line = line[line.index('type=') + 6:len(line)]
-                typ = line[0:line.index(']')]
-                line = line[line.index('format=') + 8:len(line)]
-                form = line[0:line.index(']')]
-                Vinput = ''
-                try:
-                    line = line[line.index('valOut=') + 8:len(line)]
-                    Vinput = line[0:line.index('] RectF=')]
-                except Exception as e:
-                    pass
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadConn(unit, name, pos, str(typ), form, Vinput)
-                listCn[unit] = edit.returnBlockSystem()
-            elif line[0:8] == 'comments':
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                line = line[line.index('text=') + 6:len(line)]
-                cmt = line[0:line.index(']')]
-                cmt = cmt.replace("\\n", '\n')
-                cmt = cmt.replace("'", '')
-                cmt = cmt.replace('"', '')
-                edit.loadComments(pos, cmt)
-            elif line[0:5] == 'probe':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('label=') + 7:len(line)]
-                label = line[0:line.index(']')]
-                line = line[line.index('format=') + 8:len(line)]
-                form = line[0:line.index('] RectF')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadProbe(unit, label, form, pos)
-                listPr[unit] = edit.returnBlockSystem()
-            elif line[0:5] == 'block':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('category') + 10:len(line)]
-                cat = line[0:line.index(']')]
-                line = line[line.index('class=') + 7:len(line)]
-                classs = line[0:line.index(']')]
-                line = line[line.index('valInputs=') + 11:len(line)]
-                Vinput = line[0:line.index('] RectF')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadBlock(unit, classs, cat, pos, eval(Vinput))
-                listBl[unit] = edit.returnBlockSystem()
-            elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
-                line = line[line.index('inputs=') + 8:len(line)]
-                inp = line[0:line.index('] outputs')]
-                line = line[line.index('outputs=') + 9:len(line)]
-                outp = line[0:line.index('] listItems=')]
-                line = line[line.index('listItems=') + 11:len(line)]
-                listIt = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
-                listFo[unit] = edit.returnBlockSystem()
-                listTools[editor.currentTab][unit] = eval(listIt)
-            elif line[0:6] == 'loopIf':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('inputs=') + 8:len(line)]
-                inp = line[0:line.index('] outputs')]
-                line = line[line.index('outputs=') + 9:len(line)]
-                outp = line[0:line.index('] listItems=')]
-                line = line[line.index('listItems=') + 11:len(line)]
-                listIt = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
-                listIf[unit] = edit.returnBlockSystem()
-                listTools[editor.currentTab][unit] = eval(listIt)
-            elif line[0:6] == 'script':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('title=') + 7:len(line)]
-                tit = line[0:line.index('] inputs')]
-                line = line[line.index('inputs=') + 7:len(line)]
-                inp = line[0:line.index(' outputs')]
-                line = line[line.index('outputs=') + 8:len(line)]
-                outp = line[0:line.index(' code=')]
-                line = line[line.index('code=') + 6:len(line)]
-                code = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadScriptItem(unit, tit, pos, eval(inp), eval(outp))
-                listSc[unit] = edit.returnBlockSystem()
-                listTools[editor.currentTab][unit] = code
-            elif line[0:6] == 'submod':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('nameMod=') + 9:len(line)]
-                nameMod = line[0:line.index(']')]
-                line = line[line.index('valInputs=') + 11:len(line)]
-                Vinput = line[0:line.index('] RectF')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                edit.loadMod(unit, nameMod, pos, eval(Vinput))
-                listSm[unit] = edit.returnBlockSystem()
-            elif line[0:8] == 'constant':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index('] format')]
-                line = line[line.index('format=') + 8:len(line)]
-                fort = line[0:line.index('] label')]
-                if not fort:
-                    fort = ''
-                line = line[line.index('label=') + 7:len(line)]
-                lab = line[0:line.index(']')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                try:
-                    edit.loadConstant(unit, pos, eval(vout), fort, lab)
-                except Exception as e:
-                    edit.loadConstant(unit, pos, vout, fort, lab)
-                listCt[unit] = edit.returnBlockSystem()
-
-            elif line[0:8] == '[source ':
-                insource = True
-                tmpKeyScript = line[line.index('[source ') + 8:]
-                tmpKeyScript = tmpKeyScript[0:tmpKeyScript.index(']')]
-            elif line[0:9] == '[/source ':
-                tmpValScript = '\n'.join(tmpValScript.splitlines()[1:-1])
-                listCode[tmpKeyScript] = tmpValScript
-                insource = False
-                tmpValScript = ''
-            elif insource:
-                if '\n' not in line:
-                    line += '\n'
-                tmpValScript += line
-
-            elif line[0:4] == 'link':
-                nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('node=') + 6:len(line)]
-                line = line[0:line.index(']')]
-                listNodes[editor.currentTab][nameNode] = line
-                listNd[nameNode] = line.replace('#Node#', ':').split(':')
-
-        for lk, lv in listNd.items():
-                unitStart = lv[0]
-                namePortStart = lv[1]
-                unitEnd = lv[2]
-                namePortEnd = lv[3]
-
-                fromPort = None
-                toPort = None
-
-                if 'U' in unitStart:
-                    for lin in listBl[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'M' in unitStart:
-                    for lin in listSm[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'C' in unitStart:
-                    fromPort = listCn[unitStart].output
-                elif 'F' in unitStart:
-                    for lin in listFo[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'I' in unitStart:
-                    for lin in listIf[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'S' in unitStart:
-                    for lin in listSc[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'A' in unitStart:
-                    fromPort = listCt[unitStart].outputs[0]
-
-                if 'U' in unitEnd:
-                    for lout in listBl[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'M' in unitEnd:
-                    for lout in listSm[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'C' in unitEnd:
-                    toPort = listCn[unitEnd].input
-                elif 'P' in unitEnd:
-                    toPort = listPr[unitEnd].inputs[0]
-                elif 'F' in unitEnd:
-                    for lout in listFo[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'I' in unitEnd:
-                    for lout in listIf[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'S' in unitEnd:
-                    for lout in listSc[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-
-                startConnection = Connection(lk, fromPort, toPort, fromPort.format)
-                startConnection.setEndPos(toPort.scenePos())
-                startConnection.setToPort(toPort)
-
-        if listSc:
-            for elem in editor.diagramView[editor.currentTab].items():
-                if type(elem) == ScriptItem:
-                    elem.elemProxy.setPlainText(listCode[elem.unit])
-
-        ValueZ2()
+        LoadDiagram(txt)
         editor.diagramView[editor.currentTab].fitInView(editor.diagramScene[editor.currentTab].sceneRect(), QtCore.Qt.KeepAspectRatio)
-        UpdateUndoRedo()
 
 
 class Probes(QGraphicsPolygonItem):
@@ -3232,7 +3002,6 @@ class Probes(QGraphicsPolygonItem):
         super(Probes, self).__init__(parent)
 
         self.label = label
-
         self.isMod = isMod
         self.preview = False
         self.caseFinal = False
