@@ -3772,7 +3772,9 @@ class ForLoopItem(QGraphicsRectItem):
             ForLoopExist = True
             inc = 0
             while ForLoopExist:
-                if 'F' + str(inc) in listTools[editor.currentTab] or 'F' + str(inc) + "m" in listTools[editor.currentTab]:
+                if  'F' + str(inc) in listTools[editor.currentTab] or \
+                    'F' + str(inc) + "m" in listTools[editor.currentTab] or \
+                    'F' + str(inc) + "m*" in listTools[editor.currentTab]:
                     inc += 1
                 else:
                     ForLoopExist = False
@@ -4365,6 +4367,8 @@ class ForLoopItem(QGraphicsRectItem):
         for keyN, valN in listNodes[editor.currentTab].items():
             if oldUnit in valN:
                 listNodes[editor.currentTab][keyN] = valN.replace(oldUnit, newUnit)
+        listItems[editor.currentTab][newUnit] = listItems[editor.currentTab][oldUnit]
+        del listItems[editor.currentTab][oldUnit]    
 
 ##############################################################################
 
