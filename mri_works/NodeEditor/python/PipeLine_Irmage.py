@@ -4077,6 +4077,7 @@ class ForLoopItem(QGraphicsRectItem):
         del listTools[editor.currentTab][self.unit]
         del libTools[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
+        editor.deleteItemsLoop(self)
 
     def addTunnelInput(self):
         self.nbin += 1
