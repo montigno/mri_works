@@ -270,7 +270,7 @@ class executionSubmod:
                             self.listDynamicValueIf[st] = eval(ed)
                         except Exception as e:
                             self.listDynamicValueIf[st] = ed
-                
+
                 try:
                     if not tmpVal:
                         txtIf = listIfExecution[execution + '-false']
@@ -280,7 +280,7 @@ class executionSubmod:
                     if not listDynamicValue[tmpVal]:
                         txtIf = listIfExecution[execution + '-false']
                 except Exception as e:
-                    pass                
+                    pass
 
                 tmpMod = eval(txtIf.split('\n')[4]).keys()
                 for mod in tmpMod:

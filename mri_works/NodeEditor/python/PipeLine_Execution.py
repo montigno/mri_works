@@ -175,7 +175,18 @@ class execution:
                 category = listBlock[execution][0]
                 classes = listBlock[execution][1]
                 module = importlib.import_module('NodeEditor.modules.' + category)
-                MyClass = getattr(module, classes)
+                try:
+                    MyClass = getattr(module, classes)
+                except Exception as e:
+                    textEditor.append("<span style=\" \
+                                      font-size:8pt; \
+                                      font-weight:600; \
+                                      color:#cc0000;\" \
+                                      > Pipeline Execution \
+                                      stopped <br>" +
+                                      execution + ' : ' + str(e) +
+                                      "</span>")
+                    return
                 tmp = eval(listBlock[execution][2])
                 Enters = tmp[0]
                 outUnit = []
@@ -372,7 +383,6 @@ class execution:
                 for li in txtCurrentIf:
                     st = li[0:li.index('=')]
                     ed = li[li.index('=') + 1:len(li)]
-                    print('st & ed = ',st,' , ', ed)
                     if ':' in ed and '\\' not in ed:
                         self.listDynamicValueIf[st] = self.listDynamicValue[ed]
                     else:

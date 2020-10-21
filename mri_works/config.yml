@@ -14,6 +14,7 @@ packages:
   pandas: pip3 install pandas
   pyqt5: pip3 install pyqt5
   pytest: pip3 install -U pytest
+  ray: pip3 install ray
   scikit-image: pip3 install scikit-image
   scikit-learn: pip3 install -U scikit-learn==0.20.4
   scipy: pip3 install scipy
@@ -22,7 +23,17 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Brain_Mask_PCNN3D.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_unit_Bruker_br.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_unit_Philips_br.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_unit_mriconv.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_str_IF.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_if_submod.dgr
+  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Brain_FSL_FLIRT.dgr
+  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
+  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_rat.dgr
   modules: modules
   projects: ../data
-version: 20.09.09a
+version: 20.10.07a

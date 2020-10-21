@@ -8,7 +8,7 @@
 
 '''
 Created on 14 december 2017
-Modified on 7 oct. 2020
+Modified on 21 oct. 2020
 @author: omonti
 '''
 
@@ -266,7 +266,7 @@ class Menu(QMenuBar):
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
                 editor.diagramView[editor.currentTab].scene().clearSelection()
                 self.saveHistories(fileDiagram[0])
-                UpdateUndoRedo()
+#                 UpdateUndoRedo()
 
         if tmpActText == 'Close Diagram':
             editor.closeTab(editor.currentTab)
@@ -554,7 +554,7 @@ class ShowLegend:
                     txtLab = types.name
                 else:
                     txtLab = types.name+' (or ndarray)'
-                
+
                 textRow = QGraphicsTextItem(txtLab, parent=None)
                 textRow.setDefaultTextColor(QtGui.QColor(color))
                 textRow.setFont(QFont("Times", 12, QFont.Bold))
@@ -793,7 +793,7 @@ class LoadDiagram:
                 if '\n' not in line:
                     line += '\n'
                 tmpValScript += line
-            
+
             elif line[0:4] == 'link':
                 nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('node=') + 6:len(line)]
@@ -802,80 +802,77 @@ class LoadDiagram:
                 listNd[nameNode] = line.replace('#Node#', ':').split(':')
 
         for lk, lv in listNd.items():
-                unitStart = lv[0]
-                namePortStart = lv[1]
-                unitEnd = lv[2]
-                namePortEnd = lv[3]
+            unitStart = lv[0]
+            namePortStart = lv[1]
+            unitEnd = lv[2]
+            namePortEnd = lv[3]
 
-                fromPort = None
-                toPort = None
+            fromPort = None
+            toPort = None
 
-                if 'U' in unitStart:
-                    for lin in listBl[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'M' in unitStart:
-                    for lin in listSm[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'C' in unitStart:
-                    fromPort = listCn[unitStart].output
-                elif 'F' in unitStart:
-                    for lin in listFo[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'I' in unitStart:
-                    for lin in listIf[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'S' in unitStart:
-                    for lin in listSc[unitStart].outputs:
-                        if type(lin) == Port and lin.name == namePortStart:
-                            fromPort = lin
-                            break
-                elif 'A' in unitStart:
-                    fromPort = listCt[unitStart].outputs[0]
+            if 'U' in unitStart:
+                for lin in listBl[unitStart].outputs:
+                    if type(lin) == Port and lin.name == namePortStart:
+                        fromPort = lin
+                        break
+            elif 'M' in unitStart:
+                for lin in listSm[unitStart].outputs:
+                    if type(lin) == Port and lin.name == namePortStart:
+                        fromPort = lin
+                        break
+            elif 'C' in unitStart:
+                fromPort = listCn[unitStart].output
+            elif 'F' in unitStart:
+                for lin in listFo[unitStart].outputs:
+                    if type(lin) == Port and lin.name == namePortStart:
+                        fromPort = lin
+                        break
+            elif 'I' in unitStart:
+                for lin in listIf[unitStart].outputs:
+                    if type(lin) == Port and lin.name == namePortStart:
+                        fromPort = lin
+                        break
+            elif 'S' in unitStart:
+                for lin in listSc[unitStart].outputs:
+                    if type(lin) == Port and lin.name == namePortStart:
+                        fromPort = lin
+                        break
+            elif 'A' in unitStart:
+                fromPort = listCt[unitStart].outputs[0]
 
-                if 'U' in unitEnd:
-                    for lout in listBl[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'M' in unitEnd:
-                    for lout in listSm[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'C' in unitEnd:
-                    toPort = listCn[unitEnd].input
-                elif 'P' in unitEnd:
-                    toPort = listPr[unitEnd].inputs[0]
-                elif 'F' in unitEnd:
-                    for lout in listFo[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'I' in unitEnd:
-                    for lout in listIf[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
-                elif 'S' in unitEnd:
-                    for lout in listSc[unitEnd].inputs:
-                        if type(lout) == Port and lout.name == namePortEnd:
-                            toPort = lout
-                            break
+            if 'U' in unitEnd:
+                for lout in listBl[unitEnd].inputs:
+                    if type(lout) == Port and lout.name == namePortEnd:
+                        toPort = lout
+                        break
+            elif 'M' in unitEnd:
+                for lout in listSm[unitEnd].inputs:
+                    if type(lout) == Port and lout.name == namePortEnd:
+                        toPort = lout
+                        break
+            elif 'C' in unitEnd:
+                toPort = listCn[unitEnd].input
+            elif 'P' in unitEnd:
+                toPort = listPr[unitEnd].inputs[0]
+            elif 'F' in unitEnd:
+                for lout in listFo[unitEnd].inputs:
+                    if type(lout) == Port and lout.name == namePortEnd:
+                        toPort = lout
+                        break
+            elif 'I' in unitEnd:
+                for lout in listIf[unitEnd].inputs:
+                    if type(lout) == Port and lout.name == namePortEnd:
+                        toPort = lout
+                        break
+            elif 'S' in unitEnd:
+                for lout in listSc[unitEnd].inputs:
+                    if type(lout) == Port and lout.name == namePortEnd:
+                        toPort = lout
+                        break
 
-                startConnection = Connection(lk,
-                                             fromPort,
-                                             toPort,
-                                             fromPort.format)
-                startConnection.setEndPos(toPort.scenePos())
-                startConnection.setToPort(toPort)
+            startConnection = Connection(lk, fromPort, toPort, fromPort.format)
+            startConnection.setEndPos(toPort.scenePos())
+            startConnection.setToPort(toPort)
 
         if listSc:
             for elem in editor.diagramView[editor.currentTab].items():
@@ -883,6 +880,8 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
+
+        UpdateUndoRedo()
 
 
 class ValueZ:
@@ -2350,7 +2349,7 @@ class BlockCreate(QGraphicsRectItem):
         return w, h
 
     def hoverEnterEvent(self, event):
-#         self.setFocus(True)
+        # self.setFocus(True)
         pos = event.screenPos()
         self.showToolTip(self.name, pos)
         event.accept()
@@ -2675,7 +2674,7 @@ class BlockCreate(QGraphicsRectItem):
                             font-size:12pt; \
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
-                    txt += " <img src='"+ os.path.join(path_blockdoc,
+                    txt += " <img src='" + os.path.join(path_blockdoc,
                                                        '../blocsdoc',
                                                        classUnit+'.png') + \
                            "'><br>"
@@ -3510,7 +3509,6 @@ class Constants(QGraphicsRectItem):
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
 
-        
     def changeCombo(self):
         w = self.elemProxy.size().width()
         h = self.elemProxy.size().height()
@@ -3714,6 +3712,7 @@ class Constants_text(QTextEdit):
 #         event.accept()
 
     def focusOutEvent(self, event):
+        self.setPlainText(self.toPlainText())
         self.setCursorWidth(0)
         tmpTxt = repr(self.toPlainText())
         tmpTxt = tmpTxt.replace('\\n', '')
