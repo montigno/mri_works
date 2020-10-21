@@ -2719,6 +2719,7 @@ class BlockCreate(QGraphicsRectItem):
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
+            
             try:
                 c = chOptions(pathYml, self.name, lvl[2])
                 c.exec_()

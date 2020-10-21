@@ -15,12 +15,14 @@ from PyQt5.QtCore import QDir
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.Qt import QScrollBar
 from PyQt5.QtGui import QFontMetrics
-
+import time
 
 class chOptions(QDialog):
 
     def __init__(self, pathYaml, nameclass, ports, parent=None):
         super(chOptions, self).__init__(parent)
+        
+        start = time.time()
 
         doc = "No description"
         try:
@@ -39,8 +41,10 @@ class chOptions(QDialog):
             exec(TxtToImport)
             doc = eval(TxtToExecute)
             doc = doc[doc.index('[Optional]') + 11:doc.index('Outputs')]
+
         except Exception as e:
             doc = "No description"
+        
 
         self.nameclass = nameclass
         self.poqs = ports
