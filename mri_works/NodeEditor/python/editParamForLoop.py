@@ -59,12 +59,15 @@ class editParamLoopFor(QDialog):
 
         buttonOk.clicked.connect(self.OK)
         buttonCancel.clicked.connect(self.CANCEL)
+        
+        self.answ = 'cancel'
 
     def CANCEL(self):
         self.close()
 
     def OK(self):
+        self.answ = 'ok'
         self.close()
 
     def getNewValues(self):
-        return self.multiproc.isChecked()
+        return self.multiproc.isChecked(), self.answ

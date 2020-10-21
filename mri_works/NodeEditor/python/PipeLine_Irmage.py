@@ -4345,19 +4345,22 @@ class ForLoopItem(QGraphicsRectItem):
     def editParameters(self):
         c = editParamLoopFor('For Loop', self.nameUnit.toPlainText())
         c.exec_()
-        if c.getNewValues():
-            if '*' not in self.unit:
-                tmp = self.unit + '*'
-            self.updateListNodeTools(self.unit, tmp)
-            self.nameUnit.setPlainText(tmp)
-            self.unit = tmp
-            UpdateUndoRedo()
-        else:
-            tmp = self.unit.replace('*', '')
-            self.updateListNodeTools(self.unit, tmp)
-            self.nameUnit.setPlainText(tmp)
-            self.unit = tmp
-            UpdateUndoRedo()
+        tmp = self.unit
+        check, answ = c.getNewValues()
+        if answ == 'ok':
+            if check:
+                if '*' not in self.unit:
+                    tmp += '*'
+                    self.updateListNodeTools(self.unit, tmp)
+                    self.nameUnit.setPlainText(tmp)
+                    self.unit = tmp
+                    UpdateUndoRedo()
+            else:
+                tmp = self.unit.replace('*', '')
+                self.updateListNodeTools(self.unit, tmp)
+                self.nameUnit.setPlainText(tmp)
+                self.unit = tmp
+                UpdateUndoRedo()
 
     def updateListNodeTools(self, oldUnit, newUnit):
         libTools[editor.currentTab][newUnit] = libTools[editor.currentTab][oldUnit]
