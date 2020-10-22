@@ -4357,11 +4357,12 @@ class ForLoopItem(QGraphicsRectItem):
                     self.unit = tmp
                     UpdateUndoRedo()
             else:
-                tmp = self.unit.replace('*', '')
-                self.updateListNodeTools(self.unit, tmp)
-                self.nameUnit.setPlainText(tmp)
-                self.unit = tmp
-                UpdateUndoRedo()
+                if '*' in self.unit:
+                    tmp = self.unit.replace('*', '')
+                    self.updateListNodeTools(self.unit, tmp)
+                    self.nameUnit.setPlainText(tmp)
+                    self.unit = tmp
+                    UpdateUndoRedo()
 
     def updateListNodeTools(self, oldUnit, newUnit):
         libTools[editor.currentTab][newUnit] = libTools[editor.currentTab][oldUnit]
