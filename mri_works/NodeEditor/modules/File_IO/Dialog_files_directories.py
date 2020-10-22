@@ -82,3 +82,20 @@ class list_files_in_directory:
 
     def listFiles(self: 'list_path'):
         return self.lstfiles
+    
+##############################################################################
+
+
+class list_directories_in_directory:
+    def __init__(self, RepDefault='path', title='Select a directory'):
+        import os.path
+        import glob
+        from PyQt5.QtWidgets import QFileDialog
+        repChosen = RepDefault
+        if RepDefault == 'path' or not os.path.isdir(RepDefault):
+            repChosen = QFileDialog.getExistingDirectory(None, title, '*')
+        self.lstdir = [f for f in glob.glob(repChosen + "/*")]
+
+
+    def listDirectories(self: 'list_path'):
+        return self.lstdir

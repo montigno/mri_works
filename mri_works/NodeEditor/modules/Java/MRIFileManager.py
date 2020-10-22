@@ -46,6 +46,8 @@ class PhilipsToNifti:
 #         from NodeEditor.python.configStandalone import ConfigModuls
         listPhilips = ''
         for ls in Philips_files:
+            if ls[-1] !='/':
+                ls +='/'
             listPhilips += ls + ";"
         listPhilips = listPhilips[0:-1]
         options_export = "00000"
