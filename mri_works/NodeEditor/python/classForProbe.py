@@ -1,5 +1,6 @@
 class printProbe():
     def __init__(self, unit, lab, format, label, val):
+        
         if 'int' in format:
             col = '\33[38;5;33m'
         elif 'float' in format:
@@ -14,8 +15,29 @@ class printProbe():
             col = '\33[38;5;245m'
         elif 'dict' in format:
             col = '\33[38;5;226m'
+            
         if label == 'Type':
-            val = type(val)
+#             if type(val).__name__ == 'list':
+#                 val = 'list of '+type(val[0]).__name__
+#             else:
+#                 val = type(val)
+            tmpval = val
+            continued = True
+            if isinstance(tmpval, list):
+                tmpval = val[0]
+                if isinstance(tmpval, list):
+                    while continued:
+                        if isinstance(tmpval, list):
+                            tmpval = tmpval[0]
+                        else:
+                            val = 'array of '+ type(tmpval).__name__
+                            continued = False
+                else:
+                    val = 'list of '+ type(tmpval).__name__
+                    
+            else:
+                val = type(tmpval).__name__
+                
         elif label == 'Length':
             tmptxt = '('
             tmpval = val

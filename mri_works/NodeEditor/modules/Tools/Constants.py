@@ -37,6 +37,16 @@ class Constant_string_simple():
 
     def outString(self: 'str'):
         return self.inString
+    
+##########################################################################
+
+
+class Constant_boolean_simple():
+    def __init__(self, inBool=True):
+        self.inBool = inBool
+
+    def outBool(self: 'bool'):
+        return self.inBool
 
 ##########################################################################
 
@@ -67,6 +77,16 @@ class Constant_string_list():
 
     def outListString(self: 'list_str'):
         return self.listString
+    
+##########################################################################
+
+
+class Constant_boolean_list():
+    def __init__(self, listBool=[True]):
+        self.listBool = listBool
+
+    def outListBool(self: 'list_bool'):
+        return self.listBool
 
 ##########################################################################
 
@@ -97,16 +117,16 @@ class Constant_string_array():
 
     def outArrayString(self: 'array_str'):
         return self.arrayString
-
+    
 ##########################################################################
 
 
-class Constant_boolean_simple():
-    def __init__(self, in_bool=True):
-        self.outputBool = in_bool
+class Constant_boolean_array():
+    def __init__(self, arrayBool=[[True]]):
+        self.arrayBool = arrayBool
 
-    def out_path(self: 'bool'):
-        return self.outputBool
+    def outArrayBool(self: 'array_bool'):
+        return self.arrayBool
 
 ##########################################################################
 
