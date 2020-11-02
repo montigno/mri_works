@@ -59,7 +59,7 @@ class editParamLoopFor(QDialog):
 
         buttonOk.clicked.connect(self.OK)
         buttonCancel.clicked.connect(self.CANCEL)
-        
+
         self.answ = 'cancel'
 
     def CANCEL(self):

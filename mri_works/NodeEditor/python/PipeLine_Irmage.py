@@ -1495,7 +1495,7 @@ class DiagramView(QGraphicsView):
                 if type(elem) == ForLoopItem and elem.unit == self.currentLoop.unit:
                     elem.normalState()
                     elem.IteminLoop(unitItem, self.caseFinal, ind)
-#                     elem.setDimension()
+#                     elem.setDimensionLoop()
                     self.currentLoop = None
                     self.caseFinal = False
                     break
@@ -2675,8 +2675,8 @@ class BlockCreate(QGraphicsRectItem):
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
                     txt += " <img src='" + os.path.join(path_blockdoc,
-                                                       '../blocsdoc',
-                                                       classUnit+'.png') + \
+                                                        '../blocsdoc',
+                                                        classUnit+'.png') + \
                            "'><br>"
                     txt += "<span style=\" \
                             font-size:10pt; \
@@ -2719,7 +2719,7 @@ class BlockCreate(QGraphicsRectItem):
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
-            
+
             try:
                 c = chOptions(pathYml, self.name, lvl[2])
                 c.exec_()
@@ -3772,9 +3772,9 @@ class ForLoopItem(QGraphicsRectItem):
             ForLoopExist = True
             inc = 0
             while ForLoopExist:
-                if  'F' + str(inc) in listTools[editor.currentTab] or \
-                    'F' + str(inc) + "m" in listTools[editor.currentTab] or \
-                    'F' + str(inc) + "m*" in listTools[editor.currentTab]:
+                if 'F' + str(inc) in listTools[editor.currentTab] or \
+                   'F' + str(inc) + "m" in listTools[editor.currentTab] or \
+                   'F' + str(inc) + "m*" in listTools[editor.currentTab]:
                     inc += 1
                 else:
                     ForLoopExist = False
@@ -3843,23 +3843,31 @@ class ForLoopItem(QGraphicsRectItem):
             self.inputs.append(portCondition)
             portCondition.setPos(0, 15)
 
-#     def setDimension(self):
+#     def setDimensionLoop(self):
 #         print(self.x(), self.y(), self.boundingRect().width(), self.boundingRect().height())
 #         xmin, ymin = self.x(), self.y()
 #         xmax, ymax = xmin + self.boundingRect().width(), ymin + self.boundingRect().height()
+#         newDim = False
 #         for its in listTools[editor.currentTab][self.unit]:
 #             coord = listItems[editor.currentTab][its].sceneBoundingRect()
 #             x, y, w, h = coord.x(), coord.y(), coord.width(), coord.height()
 #             print('its : ', x, y, w, h)
 #             if x < xmin : xmin = x
 #             if y < ymin : ymin = y
-#             if (x + w) > xmax : xmax = x + w
-#             if (y + h) > ymax : ymax = y + h
-#         self.wmin = xmax - xmin
-#         self.hmin = ymax - ymin
-#         self.setPos(xmin, ymin)
-#         self.updateSize()
-#         print('dimension loop : ', xmin, ymin, xmax, ymax)
+#             if (x + w) > xmax :
+#                 xmax = x + w + 20
+#                 newDim = True
+#             if (y + h) > ymax :
+#                 ymax = y + h + 20
+#                 newDim = True
+#         if newDim:
+#             self.wmin = xmax - xmin
+#             self.hmin = ymax - ymin
+#             self.setPos(xmin, ymin)
+#             x, y = self.updateSize()
+#             self.resize.setPos(x, y)
+#
+#             print('dimension loop : ', xmin, ymin, xmax, ymax)
 
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
@@ -4034,12 +4042,10 @@ class ForLoopItem(QGraphicsRectItem):
 
         factorh = 20
         hmin = factorh * len(self.inputs)
-
         if self.hmin < hmin:
             self.hmin = hmin
         w = self.w
         h = self.h
-
         if h < hmin:
             h = hmin
         hmin = factorh * len(self.outputs)
@@ -4373,7 +4379,7 @@ class ForLoopItem(QGraphicsRectItem):
             if oldUnit in valN:
                 listNodes[editor.currentTab][keyN] = valN.replace(oldUnit, newUnit)
         listItems[editor.currentTab][newUnit] = listItems[editor.currentTab][oldUnit]
-        del listItems[editor.currentTab][oldUnit]    
+        del listItems[editor.currentTab][oldUnit]
 
 ##############################################################################
 
@@ -6112,7 +6118,7 @@ class NodeEdit(QWidget):
                     ind = 1
             item.currentLoop.IteminLoop(item.unit, True, ind)
             item.currentLoop.normalState()
-#             item.currentLoop.setDimension()
+#             item.currentLoop.setDimensionLoop()
             item.currentLoop = None
             item.caseFinal = False
         if item.moved:

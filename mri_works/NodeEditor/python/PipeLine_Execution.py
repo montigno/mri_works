@@ -252,7 +252,10 @@ class execution:
                                 self.listDynamicValue[lsi] = value
 
             elif 'P' in execution:
-                valToPrint = self.listDynamicValue[listBlock[execution][2]]
+                try:
+                    valToPrint = self.listDynamicValue[listBlock[execution][2]]
+                except Exception as e:
+                    valToPrint = 'unknown'
                 printProbe(execution, listBlock[execution][2], listBlock[execution][0], listBlock[execution][1], valToPrint)
 
             elif 'M' in execution:
