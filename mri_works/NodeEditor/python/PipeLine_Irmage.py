@@ -1445,7 +1445,7 @@ class DiagramView(QGraphicsView):
                 self.a1 = CommentsItem(200, 150, 'Comments', True)
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
-            elif "Constant" in name:
+            elif "Constant_" in name:
                 if 'string' in name:
                     val = 'your text'
                     form = 'str'
@@ -1468,7 +1468,7 @@ class DiagramView(QGraphicsView):
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
-            elif "Script" in name:
+            elif "Script_editor" in name:
                 self.a1 = ScriptItem('newScript', name, 200.0, 200.0, True)
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)

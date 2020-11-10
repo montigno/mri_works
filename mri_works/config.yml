@@ -14,7 +14,6 @@ packages:
   pandas: pip3 install pandas
   pyqt5: pip3 install pyqt5
   pytest: pip3 install -U pytest
-  ray: pip3 install ray
   scikit-image: pip3 install scikit-image
   scikit-learn: pip3 install -U scikit-learn==0.20.4
   scipy: pip3 install scipy
@@ -24,16 +23,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Documents/mri_works_projects/test_unit_Bruker_br.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_unit_Philips_br.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_unit_mriconv.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_probes.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_str_IF.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_if_submod.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_Brain_FSL_FLIRT.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_mouse.dgr
-  - /home/omontigon/Documents/mri_works_projects/Matlab_MP3_segmentation_rat.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_resize_Nifti.dgr
+  - /home/domicile-xubuntu/Documents/projects_mriworks/test_T2map_flatten_simple.dgr
+  - /home/domicile-xubuntu/Documents/projects_mriworks/pb_forloop_save_nifti.dgr
+  - /home/domicile-xubuntu/Documents/projects_mriworks/loopfor_recursif_2.dgr
+  - /home/domicile-xubuntu/Documents/projects_mriworks/loopfor_recursif.dgr
+  - /home/domicile-xubuntu/Apps/python_env/mri_works/NodeEditor/examples/MRIFileManager/PhilipsToNifti.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/1_N4Bias_Nipype.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/2_Segmentation_Matlab_PCNN3D.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/3_register_Atlas.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/ImageJ_profile_TI.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/read_label_Atlas_rat.dgr
   modules: modules
   projects: ../data
-version: 20.10.21a
+version: 20.09.09a
