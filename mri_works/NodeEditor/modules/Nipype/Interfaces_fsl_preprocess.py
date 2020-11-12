@@ -105,11 +105,11 @@ class fsl_FLIRT:
 
 class fsl_FNIRT:
 
-    def __init__(self, in_file='path', reference='path', **options):
+    def __init__(self, in_file='path', ref_file='path', **options):
         from nipype.interfaces import fsl
         fnt = fsl.FNIRT()
         fnt.inputs.in_file = in_file
-        fnt.inputs.reference = reference
+        fnt.inputs.ref_file = ref_file
         for ef in options:
             setattr(fnt.inputs, ef, options[ef])
         self.res = fnt.run()

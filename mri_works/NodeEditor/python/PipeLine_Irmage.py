@@ -266,7 +266,7 @@ class Menu(QMenuBar):
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
                 editor.diagramView[editor.currentTab].scene().clearSelection()
                 self.saveHistories(fileDiagram[0])
-#                 UpdateUndoRedo()
+
 
         if tmpActText == 'Close Diagram':
             editor.closeTab(editor.currentTab)
@@ -881,7 +881,7 @@ class LoadDiagram:
 
         ValueZ2()
 
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
 
 class ValueZ:
@@ -2796,7 +2796,10 @@ class BlockCreate(QGraphicsRectItem):
         try:
             diagram = undoredoTyping[editor.currentTab][len(undoredoTyping[editor.currentTab]) - 1]
         except Exception as e:
-            diagram = undoredoTyping[editor.currentTab][0]
+            try:
+                diagram = undoredoTyping[editor.currentTab][0]
+            except Exception as e:
+                diagram = SaveDiagram().toPlainText()
 
         unddiagram = diagram[diagram.index("block=[" + self.unit + "]"):]
 

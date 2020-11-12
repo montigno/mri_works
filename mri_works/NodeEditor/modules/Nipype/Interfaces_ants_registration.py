@@ -30,7 +30,8 @@ class ants_Registration():
     def __init__(self,
                  moving_image=['path'],
                  fixed_image=['path'],
-                 metric=['CC', 'MeanSquares', 'Demons'], metric_weight=[1.0],
+                 metric=['CC', 'MeanSquares', 'Demons'],
+                 metric_weight=[1.0],
                  transforms=['Affine', 'BSplineSyN'],
                  shrink_factors=[[2, 1], [3, 2, 1]],
                  smoothing_sigmas=[[1, 0], [2, 1, 0]], **options):
