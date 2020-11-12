@@ -22,17 +22,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/domicile-xubuntu/Documents/projects_mriworks/test_T2map_flatten_simple.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/pb_forloop_save_nifti.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/loopfor_recursif_2.dgr
-  - /home/domicile-xubuntu/Documents/projects_mriworks/loopfor_recursif.dgr
-  - /home/domicile-xubuntu/Apps/python_env/mri_works/NodeEditor/examples/MRIFileManager/PhilipsToNifti.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/1_N4Bias_Nipype.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/2_Segmentation_Matlab_PCNN3D.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/3_register_Atlas.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/ImageJ_profile_TI.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/read_label_Atlas_rat.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.09.09a

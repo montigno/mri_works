@@ -1,4 +1,4 @@
-class MP3_Atals_ANTS():
+class MP3_Atlas_ANTS():
     def __init__(self,
                  mat_eng='',
                  Nifti_in='path',
