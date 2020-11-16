@@ -7,9 +7,12 @@ class MP3_Atlas_ANTS():
                  file_out2='path',
                  **options):
         import matlab.engine
+        import os
         files_in, files_out = {}, {}
         options['flag_test'] = 0
-        options['Table_in'] = []
+        options['Table_in'] = {}
+        base = os.path.basename(Nifti_in)
+        options['Table_in']['Filename'] = os.path.splitext(base)[0]
         files_in['In1'] = [Nifti_in]
         files_in['In2'] = [Ref_in]
         files_out['In1'] = [file_out1]
