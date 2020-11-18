@@ -1,7 +1,7 @@
 import yaml
 import inspect
 
-interf = 'fsl'
+interf = 'mrtrix3'
 
 exec('from nipype.interfaces import ' + interf)
 lis = inspect.getmembers(eval(interf), lambda a: not(inspect.isroutine(a)))

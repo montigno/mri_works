@@ -19,3 +19,15 @@ class sub_tuple:
         
     def sub_tuple(self: 'tuple'):
         return self.sub
+    
+#####################################################################
+
+
+class tuple_list_dyn:
+    def __init__(self, tupleIn=(0,), **dynamicsInputs):
+        self.tupleList = [tupleIn]
+        for di in dynamicsInputs:
+            self.tupleList.append(dynamicsInputs[di])
+        
+    def tuple_list(self: 'list_tuple'):
+        return self.tupleList

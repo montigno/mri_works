@@ -30,7 +30,7 @@ class ants_registration():
         mytx = ants.registration(fixed=fi, moving=mi, type_of_transform = transform )
         print('type = ', mytx.items())
         mywarpedimage = ants.apply_transforms( fixed=fi, moving=mi,
-                                           transformlist=mytx['invtransforms'] )
+                                           transformlist=mytx['fwdtransforms'] )
         img = mywarpedimage.to_nibabel()
         self.img = img.get_fdata()
         

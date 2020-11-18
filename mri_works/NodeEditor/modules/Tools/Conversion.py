@@ -353,6 +353,24 @@ class StringToArrayPath():
 
     def outPath(self: 'array_path'):
         return self.outval
+    
+###############################################################################
+
+
+class ListStringToListInt():
+    def __init__(self, ListString=['']):
+        from NodeEditor.modules.sources.DefineTypeVariable import DefineTypeVariable
+        typ, val = DefineTypeVariable(ListString).returntype()
+        print(typ,val)
+        if typ == 'liststr':
+            self.outval=[]
+            for el in ListString:
+                self.outval.append(int(el))
+        else:
+            self.outval = None
+
+    def outPath(self: 'list_int'):
+        return self.outval
 
 ###############################################################################
 

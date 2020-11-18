@@ -28,8 +28,9 @@ class resize_Nifti:
                                          range(new_size[1]),
                                          range(new_size[2])):
             new_data[x][y][z] = img[int(x*delta_x)][int(y*delta_y)][int(z*delta_z)]
-        self.img = nib.Nifti1Image(new_data, np.eye(4))
-        self.img.to_filename(file_out_name)
+        img = nib.Nifti1Image(new_data, np.eye(4))
+        img.to_filename(file_out_name)
+        self.img = file_out_name
         
         
     def out_file(self:'path'):

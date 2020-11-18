@@ -47,7 +47,7 @@ ants_Registration:
   sampling_strategy_stage_trait: enumerate(('None', 'Regular', 'Random'))
   save_state: 'path'
   sigma_units: ['vox', 'mm']
-  transform_parameters: [(2.0,), (0.25, 26, 0, 3)]
+  transform_parameters: [(2.0, 0.0), (0.25, 3.0, 0.0)]
   use_estimate_learning_rate_once: [True, True]
   use_histogram_matching: [True, True]
   verbose: False
