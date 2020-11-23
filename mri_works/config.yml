@@ -14,6 +14,7 @@ packages:
   pandas: pip3 install pandas
   pyqt5: pip3 install pyqt5
   pytest: pip3 install -U pytest
+  ray: pip3 install ray
   scikit-image: pip3 install scikit-image
   scikit-learn: pip3 install -U scikit-learn==0.20.4
   scipy: pip3 install scipy
@@ -22,7 +23,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories: []
+  histories:
+  - /home/omontigon/Documents/mri_works_projects/test_Atlas_imagej.dgr
   modules: modules
   projects: ../data
-version: 20.09.09a
+version: 20.11.19a
