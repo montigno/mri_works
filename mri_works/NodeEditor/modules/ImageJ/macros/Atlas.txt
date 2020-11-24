@@ -18,14 +18,20 @@
               if (flags&ctrl!=0) s = s + "<ctrl> ";
               if (flags&alt!=0) s = s + "<alt>";
               //print(x+" "+y+" "+z+" "+px+" "+flags + "" + s);
-              if (s != " ") {
+              //if (s != " ") {
                   for (i=0;i<lines.length;i++) {
                       items=split(lines[i], ",\t");
                       if (""+px == items[0]){
                           print(px+" : "+items[7]);
+                          doWand(x, y, 0.0, "Legacy");
+                          for (i = 1; i <=nImages; i++) { 
+			       selectImage(i);
+                              run("Restore Selection");
+                          }
+                          break;
                       }
                   }
-              }
+              //}
               logOpened = true;
               startTime = getTime();
           }

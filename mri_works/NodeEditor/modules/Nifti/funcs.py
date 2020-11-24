@@ -13,7 +13,6 @@ class concat_Nifti:
 
 ##############################################################################
 
-
 class resize_Nifti:
     def __init__(self, file_in='path', file_out_name= 'path', new_size=[128,128,9]):
         import numpy as np
@@ -35,3 +34,24 @@ class resize_Nifti:
         
     def out_file(self:'path'):
         return self.img
+    
+##############################################################################
+
+class four_to_three:
+    def __init__(self, image_nii_4D='path', out_directory='path'):
+        import nibabel as nib
+        import os
+        imgs = nib.four_to_three(nib.load(image_nii_4D))
+        tmp = os.path.basename(image_nii_4D)
+        froot = ('.').join(tmp.split('.')[:-1])
+        self.listimg=[]
+        for i, img3d in enumerate(imgs):
+            fname3d = '%s_%04d.nii' % (froot, i)
+            nib.save(img3d, os.path.join(out_directory,fname3d))
+            self.listimg.append(os.path.join(out_directory,fname3d))
+            
+        
+    def list_3D_images(self:'list_path'):
+        return self.listimg
+
+

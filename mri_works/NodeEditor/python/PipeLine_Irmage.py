@@ -5119,6 +5119,7 @@ class Port(QGraphicsRectItem):
             elif 'list' not in self.format and \
                  'array' not in self.format and \
                  'dict' not in self.format and \
+                 'tuple' not in self.format and \
                  'A' not in self.unit:
                 yet = False
                 for key, val in listNodes[editor.currentTab].items():

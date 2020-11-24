@@ -25,6 +25,8 @@ paths:
   data: /tmp/
   histories:
   - /home/omontigon/Documents/mri_works_projects/test_Atlas_imagej.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_Antspy.dgr
+  - /home/omontigon/Bureau/test_save_nifti.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a
