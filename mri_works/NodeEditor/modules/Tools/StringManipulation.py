@@ -124,3 +124,13 @@ class string_index_sublist:
 
     def out_subarray(self: 'list_str'):
         return self.res
+    
+###############################################################################
+
+
+class string_index_list:
+    def __init__(self, in_string_list=[''], index=0):
+        self.res = in_string_list[index]
+
+    def out_element(self: 'str'):
+        return self.res
