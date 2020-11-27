@@ -30,7 +30,25 @@ class ants_kelly_kapowski():
         
     def ants_kk(self:'array_float'):
         return self.ants_kk
+
+##############################################################################
+
+class ants_atropos():
+    def __init__(self,
+                 ants_image=[[0.0]],
+                 mask_ants=[[0.0]],
+                 **options):
+        import ants
+        self.atropos = ants.atropos(a = ants_image,
+                                    x = mask_ants,
+                                    **options)
         
-        
-        
+    def ants_atropos_seg(self:'array_float'):
+        return self.atropos['segmentation']
+    
+    def ants_atropos_probabilities(self:'array_float'):
+        return self.atropos['probabilityimages']
+
+##############################################################################
+
         

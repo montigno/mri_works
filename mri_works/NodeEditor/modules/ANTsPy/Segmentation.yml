@@ -1,3 +1,8 @@
 ants_kmeans_segmentation:
   kmask: [[0.0]]
   mrf: 0.1
+ants_atropos:
+  i: 'Kmeans[3]'
+  m: '[0.2, 1x1]'
+  c: '[5, 0]'
+  priorweight: 0.25

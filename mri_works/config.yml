@@ -29,6 +29,7 @@ paths:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-N4bias_segmentation.dgr
   - /home/domicile-xubuntu/Desktop/test_antspy_kseg.dgr
   - /home/domicile-xubuntu/Desktop/test_BET_fsl.dgr
+  - /home/domicile-xubuntu/Desktop/test_antspy_kseg_2.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a
