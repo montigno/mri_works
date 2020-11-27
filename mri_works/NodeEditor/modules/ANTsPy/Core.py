@@ -9,10 +9,10 @@ class ants_image_read():
 ##############################################################################
 
 class ants_image_write():
-    def __init__(self, ants_image=[[0.0]], filename='path'):
+    def __init__(self, ants_image=[[0.0]], filename='path', **options):
         import ants
         self.img = filename
-        ants.image_write(ants_image, filename)
+        ants.image_write(ants_image, filename, **options)
         
     def outfile_image(self:'path'):
         return self.img

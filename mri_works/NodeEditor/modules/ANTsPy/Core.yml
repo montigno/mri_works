@@ -2,9 +2,5 @@ ants_image_read:
   dimension: 2
   pixeltype: enumerate(('unsigned char', 'unsigned int', 'float', 'double'))
   reorient: ''
-  
 ants_image_write:
   ri: False
-  
-ants_set_spacing:
-  dim: 2

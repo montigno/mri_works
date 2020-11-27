@@ -1,0 +1,3 @@
+ants_kmeans_segmentation:
+  kmask: [[0.0]]
+  mrf: 0.1

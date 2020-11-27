@@ -1,0 +1,19 @@
+ants_registration:
+  initial_transform: [['']]
+  outprefix: 'prefix'
+  mask: [[0.0]]
+  grad_step: 0.0
+  flow_sigma: 0.0
+  total_sigma: 0.0
+  aff_metric: enumerate(('GC', 'mattes', 'meansquares'))
+  aff_sampling: 0.0
+  syn_metric: enumerate(('CC', 'mattes', 'meansquares', 'demons'))
+  syn_sampling: 0.0
+  reg_iterations: [0]
+  verbose: False
+ants_apply_transform:
+  interpolator: enumerate(('linear', 'nearestNeighbor', 'multiLabel', 'genericlabel', 'gaussian', 'bSpline', 'cosineWindowedSinc', 'welchWindowedSinc', 'hammingWindowedSinc', 'lanczosWindowedSinc'))
+  imagetype: 0
+  whichtoinvert: [False]
+  compose: ''
+  verbose: False

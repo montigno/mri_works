@@ -133,7 +133,7 @@ class chOptions(QDialog):
                     b.setEnabled(enableTo)
                     self.listCh.append(b)
                     vbox2.addWidget(self.listCh[-1])
-            except yaml.YAMLError as exc:
+            except Exception as exc:
                 print('yamlerror', exc)
                 return
 

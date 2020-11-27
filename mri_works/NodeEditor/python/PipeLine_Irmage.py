@@ -1608,7 +1608,12 @@ class DiagramView(QGraphicsView):
 
             if type(itemStored) == BlockCreate:
                 if itemStored.category is not None:
-                    self.loadBlock('newBlock', itemStored.name, itemStored.category, posRe, itemStored.inout[0])
+                    ind = 0
+                    for i, j in enumerate(editor.getlib()):
+                        if j[0] == itemStored.name:
+                            ind = i
+                            break
+                    self.loadBlock('newBlock', itemStored.name, itemStored.category, posRe, editor.getlib()[ind][2])
                 else:
                     self.loadMod('newSubMod', itemStored.name, posRe)
 
@@ -2500,22 +2505,24 @@ class BlockCreate(QGraphicsRectItem):
             if os.path.exists(pathYml):
                 with open(pathYml, 'r') as stream:
                     self.dicts = yaml.load(stream, yaml.FullLoader)
-                    for el in self.dicts[self.name]:
-                        if el in listBlocks[editor.currentTab][self.unit][2][0]:
-                            if type(self.dicts[self.name][el]).__name__ == 'str':
-                                if 'enumerate' in self.dicts[self.name][el]:
-                                    listValDefault = (*listValDefault, self.dicts[self.name][el])
+                    try:
+                        for el in self.dicts[self.name]:
+                            if el in listBlocks[editor.currentTab][self.unit][2][0]:
+                                if type(self.dicts[self.name][el]).__name__ == 'str':
+                                    if 'enumerate' in self.dicts[self.name][el]:
+                                        listValDefault = (*listValDefault, self.dicts[self.name][el])
+                                    else:
+                                        try:
+                                            listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
+                                        except Exception as e:
+                                            listValDefault = (*listValDefault, self.dicts[self.name][el])
                                 else:
                                     try:
                                         listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
                                     except Exception as e:
                                         listValDefault = (*listValDefault, self.dicts[self.name][el])
-                            else:
-                                try:
-                                    listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
-                                except Exception as e:
-                                    listValDefault = (*listValDefault, self.dicts[self.name][el])
-
+                    except Exception as e:
+                        pass                    
         c = editParam(self.name, self.unit, listBlocks[editor.currentTab][self.unit][2], listValDefault)
         c.exec_()
         listVal = listBlocks[editor.currentTab][self.unit]
@@ -2719,8 +2726,10 @@ class BlockCreate(QGraphicsRectItem):
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
-
+            with open(pathYml, 'r') as stream:
+                dicts = yaml.load(stream, yaml.FullLoader)
             try:
+                dicts[self.name]
                 c = chOptions(pathYml, self.name, lvl[2])
                 c.exec_()
                 if c.getAnswer() == "cancel":
@@ -2728,7 +2737,7 @@ class BlockCreate(QGraphicsRectItem):
                 asq = (c.getNewValues()[0],)
                 self.updateBlock(asq)
 
-            except OSError as err:
+            except (OSError, KeyError) as err:
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + (' No options available ')
                 greenText = greenText + ("</span>")

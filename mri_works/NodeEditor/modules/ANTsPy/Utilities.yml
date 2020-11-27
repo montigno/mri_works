@@ -1,0 +1,6 @@
+ants_get_mask:
+  low_thresh: 0.0
+  high_thresh: 0.0
+  cleanup: 1
+ants_mask_image:
+  binarize: False
