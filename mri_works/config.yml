@@ -30,6 +30,10 @@ paths:
   - /home/domicile-xubuntu/Desktop/test_antspy_kseg.dgr
   - /home/domicile-xubuntu/Desktop/test_BET_fsl.dgr
   - /home/domicile-xubuntu/Desktop/test_antspy_kseg_2.dgr
+  - /home/domicile-xubuntu/Desktop/test_convolve3D.dgr
+  - /home/domicile-xubuntu/Desktop/test_threshold.dgr
+  - /home/domicile-xubuntu/Desktop/test_convolve3D_maxpool.dgr
+  - /home/domicile-xubuntu/Desktop/gauss_optimisation.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a

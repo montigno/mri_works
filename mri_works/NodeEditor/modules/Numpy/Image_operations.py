@@ -1,3 +1,4 @@
+from grpc.framework.foundation.logging_pool import pool
 class addImage_dyn():
     def __init__(self, image1=[[0.0]], image2=[[0.0]], **dynamicsInputs):
         import numpy as np
@@ -60,7 +61,6 @@ class DivideImage_dyn:
 
 ###############################################################
 
-
 class AbsImage:
     def __init__(self, image=[[0.0]]):
         import numpy as np
@@ -68,3 +68,35 @@ class AbsImage:
 
     def abs_image(self: 'array_float'):
         return self.imageAbs
+    
+###############################################################
+
+class Invert_image:
+    def __init__(self, image=[[0.0]]):
+        import numpy as np
+        self.imageInv = -np.array(image)
+
+    def inv_image(self: 'array_float'):
+        return self.imageInv
+    
+###############################################################
+
+class MaxPool3D:
+    def __init__(self, image=[[0.0]], size_filter=1, stride=1):
+        import numpy as np
+        img = np.array(image)
+        print('img shape = ', img.shape)
+        image_height, image_width, image_depth = img.shape
+        output_height = (image_height - size_filter) // stride + 1
+        output_width = (image_width - size_filter) // stride + 1
+        pool = np.zeros((output_height, output_width, image_depth))
+        for i in range(output_height):
+            for j in range(output_width):
+                pool[i, j, :] = np.max(img[i*stride:i*stride+size_filter, j*stride:j*stride+size_filter, :])
+        self.img_pool = pool
+        
+    def image_pool(self:'array_float'):
+        return self.img_pool
+
+
+

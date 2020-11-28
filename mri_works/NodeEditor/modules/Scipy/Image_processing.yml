@@ -1,0 +1,17 @@
+binary_opening:
+  structure: [[0]]
+  iterations: 1
+  output: [[0]]
+  origin: 0
+  mask: [[0]]
+  border_value: 0
+  brute_force: False
+binary_closing:
+  structure: [[0]]
+  iterations: 1
+  output: [[0]]
+  origin: 0
+  mask: [[0]]
+  border_value: 0
+  brute_force: False
+  
