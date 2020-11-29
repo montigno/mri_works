@@ -39,6 +39,17 @@ class skimage_erosion:
         
     def sk_erosion(self:'array_float'):
         return self.eroded
+    
+###########################################################
+
+class skimage_dilation:
+    def __init__(self, image=[[0.0]], **options):
+        from skimage.morphology import dilation
+        import numpy as np
+        self.dilated = dilation(np.array(image), **options)
+        
+    def sk_dilation(self:'array_float'):
+        return self.dilated
         
 ###########################################################
 

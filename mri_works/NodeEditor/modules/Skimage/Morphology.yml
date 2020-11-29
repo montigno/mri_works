@@ -3,6 +3,11 @@ skimage_erosion:
   out: [[0.0]]
   shift_x: False
   shift_y: False
+skimage_dilation:
+  selem: [[0.0]]
+  out: [[0.0]]
+  shift_x: False
+  shift_y: False
 skimage_white_tophat:
   selem: [[0.0]]
   out: [[0.0]]
