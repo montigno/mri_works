@@ -25,7 +25,7 @@ class FloatToInt_array():
         self.outarrayint = self.outarrayint.astype(int)
 
     def outArrayInt(self: 'array_int'):
-        return self.outarrayint
+        return self.outarrayint.tolist()
 
 ###############################################################################
 
@@ -57,7 +57,7 @@ class IntToFloat_array():
         self.outarrayfloat = self.outarrayfloat.astype(float)
 
     def outArrayFloat(self: 'array_float'):
-        return self.outarrayfloat
+        return self.outarrayfloat.tolist()
 
 ###############################################################################
 

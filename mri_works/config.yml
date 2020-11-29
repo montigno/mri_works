@@ -24,8 +24,6 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/4-reg_diffusion_T1flash.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/test_Atlas_imagej.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-N4bias_segmentation.dgr
   - /home/domicile-xubuntu/Desktop/test_antspy_kseg.dgr
   - /home/domicile-xubuntu/Desktop/test_BET_fsl.dgr
@@ -34,6 +32,8 @@ paths:
   - /home/domicile-xubuntu/Desktop/test_threshold.dgr
   - /home/domicile-xubuntu/Desktop/test_convolve3D_maxpool.dgr
   - /home/domicile-xubuntu/Desktop/gauss_optimisation.dgr
+  - /home/domicile-xubuntu/Desktop/test_convolve3D_erosion.dgr
+  - /home/domicile-xubuntu/Desktop/pb_script_array.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a
