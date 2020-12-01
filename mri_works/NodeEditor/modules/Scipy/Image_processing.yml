@@ -14,4 +14,13 @@ binary_closing:
   mask: [[0]]
   border_value: 0
   brute_force: False
-  
+binary_propagation:
+  structure: [[0]]
+  mask: [[0]]
+  output: [[0]]
+  border_value: 0
+  origin: 0
+binary_fill_holes:
+  structure: [[0]]
+  output: [[0]]
+  origin: 0
