@@ -44,7 +44,7 @@ class Convolve3d():
     
         self.img = out
     
-    def Convol2d(self: 'array_float'):
+    def Convol3d(self: 'array_float'):
         return self.img
     
     

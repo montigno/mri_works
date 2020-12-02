@@ -24,16 +24,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-N4bias_segmentation.dgr
-  - /home/domicile-xubuntu/Desktop/test_antspy_kseg.dgr
-  - /home/domicile-xubuntu/Desktop/test_BET_fsl.dgr
-  - /home/domicile-xubuntu/Desktop/test_antspy_kseg_2.dgr
-  - /home/domicile-xubuntu/Desktop/test_convolve3D.dgr
-  - /home/domicile-xubuntu/Desktop/test_threshold.dgr
-  - /home/domicile-xubuntu/Desktop/test_convolve3D_maxpool.dgr
-  - /home/domicile-xubuntu/Desktop/gauss_optimisation.dgr
-  - /home/domicile-xubuntu/Desktop/test_convolve3D_erosion.dgr
   - /home/domicile-xubuntu/Desktop/pb_script_array.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-2-segmentation_convolve3D.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-N4bias_segmentation.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/0-1-N4bias_segmentation.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/2-fsl_FLIRT.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/test_seg_conv3D.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/full_2.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/test_antspy_registration.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/full.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/pb_reg_NoLinear.dgr
   modules: modules
   projects: ../data
-version: 20.12.01a
+version: 20.11.19a
