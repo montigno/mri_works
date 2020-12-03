@@ -27,6 +27,7 @@ class threshold_low_high():
                  threshold_high=5.0,
                  output_file='path'):
         import nibabel
+        import numpy as np
         self.outFile=output_file
         localizer_img = nibabel.load(image)
         localizer =  localizer_img.get_fdata()
@@ -34,7 +35,13 @@ class threshold_low_high():
         localizer[localizer < threshold_low] = 0.0
         localizer[localizer == threshold_high] = 1.0
         localizer[localizer == threshold_low] = 1.0
-        locmask = nibabel.Nifti1Image(localizer, localizer_img.get_affine())
+        new_data = np.copy(localizer)
+        hd = localizer_img.header
+        new_data = np.nan_to_num(new_data)
+        new_dtype = np.int8
+        new_data = new_data.astype(new_dtype)
+        #locmask = nibabel.Nifti1Image(localizer, localizer_img.get_affine())
+        locmask = nibabel.Nifti1Image(new_data, localizer_img.get_affine(), header=hd)
         nibabel.save(locmask, output_file)
         
     def outfile(self:'path'):

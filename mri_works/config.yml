@@ -24,16 +24,7 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Desktop/pb_script_array.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-2-segmentation_convolve3D.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/1-N4bias_segmentation.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/0-1-N4bias_segmentation.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/2-fsl_FLIRT.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/test_seg_conv3D.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/full_2.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/test_antspy_registration.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Isa_Gui/full.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Pipeline_segm_regist/pb_reg_NoLinear.dgr
+  - /home/omontigon/Documents/mri_works_projects/Pipeline_segm_regist/full_2.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a

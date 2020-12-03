@@ -274,7 +274,10 @@ class Menu(QMenuBar):
         if tmpActText == 'Export pipeline for Capsul':
             txt = SaveDiagram()
             rep = QFileDialog.getExistingDirectory(self, 'Select directory')
-            exportCapsul(txt.toPlainText(), rep, False, textEdit)
+            try:
+                exportCapsul(txt.toPlainText(), rep, False, textEdit)
+            except Exception as err:
+                print('Error export to Capsul : ', err)
 
         if tmpActText == 'Pipeline execution by Capsul':
             txt = SaveDiagram()
