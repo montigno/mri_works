@@ -46,8 +46,10 @@ class Non_linear_registration_for_Atlases:
         imagetransformed = ants.apply_transforms(fixed=warpedmoveout['warpedmovout'], moving=atlas_lab_mo,
                                            transformlist = warpedmoveout['fwdtransforms'],
                                            interpolator=interpolator)
-        self.temp_reg = ants.image_write(warpedmoveout['warpedmovout'], output_template_name)
-        self.lab_reg = ants.image_write(imagetransformed, output_label_name)
+        ants.image_write(warpedmoveout['warpedmovout'], output_template_name)
+        ants.image_write(imagetransformed, output_label_name)
+        self.temp_reg = output_template_name
+        self.lab_reg = output_label_name
         
     def out_template_registred(self:'path'):
         return self.temp_reg

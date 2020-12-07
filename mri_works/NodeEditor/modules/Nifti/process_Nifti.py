@@ -40,7 +40,6 @@ class threshold_low_high():
         new_data = np.nan_to_num(new_data)
         new_dtype = np.int8
         new_data = new_data.astype(new_dtype)
-        #locmask = nibabel.Nifti1Image(localizer, localizer_img.get_affine())
         locmask = nibabel.Nifti1Image(new_data, localizer_img.get_affine(), header=hd)
         nibabel.save(locmask, output_file)
         

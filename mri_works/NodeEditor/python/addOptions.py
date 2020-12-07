@@ -9,11 +9,9 @@
 import yaml
 import re
 from PyQt5.QtWidgets import QDialog, QCheckBox, QVBoxLayout, QHBoxLayout, \
-     QLabel, QPushButton, QScrollArea, QWidget, QMenuBar, QAction, \
-     QTextEdit, QPlainTextEdit
-from PyQt5.QtCore import QDir
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.Qt import QScrollBar
+     QPushButton, QScrollArea, QWidget, QMenuBar, QAction, \
+     QTextEdit
+from PyQt5 import QtCore
 from PyQt5.QtGui import QFontMetrics
 import time
 
@@ -22,8 +20,6 @@ class chOptions(QDialog):
 
     def __init__(self, pathYaml, nameclass, ports, parent=None):
         super(chOptions, self).__init__(parent)
-
-        start = time.time()
 
         doc = "No description"
         try:

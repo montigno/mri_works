@@ -137,3 +137,14 @@ class order_name_files:
         
     def list_out(self:'list_path'):
         return self.out_list
+    
+###############################################################################
+
+class concat_list_path_dyn:
+    def __init__(self, list_files=['path'], list_files_0=['path'], **dynamicsInputs):
+        self.pathList = list_files + list_files_0
+        for di in dynamicsInputs:
+            self.pathList += di
+
+    def path_list(self: 'list_path'):
+        return self.pathList
