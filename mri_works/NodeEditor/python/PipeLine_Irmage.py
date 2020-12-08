@@ -57,6 +57,10 @@ from Config import Config
 
 currentpathwork = ''
 
+class getPathWork():
+    global currentpathwork
+    def pathWork(self):
+        return currentpathwork
 
 class Menu(QMenuBar):
 
