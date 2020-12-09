@@ -23,8 +23,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories:
-  - /home/omontigon/Bureau/test_current_path.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.12.08a

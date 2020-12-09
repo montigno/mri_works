@@ -15,7 +15,7 @@ class Seg_conv3D:
         kern=[1.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, 1.0]
         img = Convolve3d(image, kern).Convol3d()
         img = -img
-        img = Image_threshold(img, 1.0, 'high').img_threshold()
+        img = Image_threshold(img, threshold, 'high').img_threshold()
         selem = ball(radius)
         img = erosion(img, selem)
         img = dilation(img, selem)

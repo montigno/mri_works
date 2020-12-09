@@ -470,6 +470,7 @@ class Menu(QMenuBar):
 
         if os.path.splitext(tmpActText)[1] == '.dgr':
             editor.addTab(os.path.basename(tmpActText))
+            currentpathwork = tmpActText
             if not os.path.exists(tmpActText):
                 tmpActText = os.path.join(self.Dictexamples[tmpActText],
                                           tmpActText)
@@ -2267,12 +2268,11 @@ class BlockCreate(QGraphicsRectItem):
         if self.listValIn:
             for i, j in enumerate(self.listValIn):
                 typ = 'str'
-                if type(j).__name__ not in 'str' or j == 'path' or 'enumerate' in j:
+                if type(j).__name__ not in 'str' or type(j).__name__ not in 'tuple' or j == 'path' or 'enumerate' in j:
                     try:
                         typ = DefinitType(eval(j)).returntype()
                     except Exception as e:
                         typ = DefinitType(j).returntype()
-
                 portIn = Port(self.inout[0][0][i], 'in', typ, self.unit, True, self.isMod, 4, -16, self)
                 self.inputs.append(portIn)
                 if wminIn < portIn.label.boundingRect().width():
@@ -3253,8 +3253,9 @@ class ConnectorItem(QGraphicsPolygonItem):
             if self.inout in 'in':
                 listConnects[editor.currentTab][self.connct] = (listVal[0], c.getNewLabel(), listVal[2], listVal[3])
                 self.output.label.setPlainText(c.getNewLabel())
-                for ln in listNodes[editor.currentTab]:
-                    tmp = listNodes[editor.currentTab][ln]
+                tmplistNodes = listNodes[editor.currentTab].copy()
+                for ln in tmplistNodes:
+                    tmp = tmplistNodes[ln]
                     tmp2 = tmp[0:tmp.index(':')]
                     if self.connct == tmp2:
                         tmp = (self.connct + ':' + c.getNewLabel()) + tmp[tmp.index("#Node#"):]
@@ -3264,8 +3265,9 @@ class ConnectorItem(QGraphicsPolygonItem):
             else:
                 listConnects[editor.currentTab][self.connct] = (listVal[0], c.getNewLabel(), listVal[2])
                 self.input.label.setPlainText(c.getNewLabel())
-                for ln in listNodes[editor.currentTab]:
-                    tmp = listNodes[editor.currentTab][ln]
+                tmplistNodes = listNodes[editor.currentTab].copy()
+                for ln in tmplistNodes:
+                    tmp = tmplistNodes[ln]
                     tmp2 = tmp[tmp.index('#Node#') + 6:]
                     tmp2 = tmp2[0:tmp2.index(':')]
                     if self.connct == tmp2:
@@ -6243,8 +6245,8 @@ class NodeEdit(QWidget):
                             break
 
                 if not inAlready:
-                    # print(a+':'+b+'#Node#'+c+':'+d)
-                    # print(self.fromPort.format,' , ',tmpformat)
+#                     print(a+':'+b+'#Node#'+c+':'+d)
+#                     print(self.fromPort.format,' , ',tmpformat)
                     if 'U' in c:
                         listVal = listBlocks[editor.currentTab][c]
                         ###################################################
@@ -6367,6 +6369,9 @@ class NodeEdit(QWidget):
                     for types in TypeColor:
                         if types.name in self.fromPort.format:
                             color2 = types.value
+                            
+                    if 'C' in a and b!= 'unkn' :
+                        b = listConnects[editor.currentTab][a][1]
 
                     if 'C' in a and b == 'unkn':
                         b = d
