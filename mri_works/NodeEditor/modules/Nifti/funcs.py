@@ -53,5 +53,3 @@ class four_to_three:
         
     def list_3D_images(self:'list_path'):
         return self.listimg
-
-

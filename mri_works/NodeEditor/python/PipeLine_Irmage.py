@@ -1360,7 +1360,24 @@ class DiagramScene(QGraphicsScene):
         editor.diagramView[editor.currentTab]\
             .fitInView(self.sceneRect(), QtCore.Qt.KeepAspectRatio)
         editor.diagramView[editor.currentTab].scale(0.8, 0.8)
-
+        
+#     def keyPressEvent(self, event):
+#         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+#             for elit, itm in listItems[editor.currentTab].items():
+#                 if itm.isSelected():
+#                     listItemStored[elit] = itm
+#             for elnd, nod in listNodes[editor.currentTab].items():
+#                 a, b, c, d = nod.replace('#Node#', ':').split(':')
+#                 if a in listItemStored.keys() and c in listItemStored.keys():
+#                     listItemStored[elnd] = nod
+#         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
+#             self.pastItems(listItemStored)
+#         return QGraphicsScene.keyPressEvent(self, event)
+#     
+#     def pastItems(self, listItems):
+#         changeNodeName = {}
+#         for it, ins in listItems.items():
+#             print(it, ins)
 
 class DiagramView(QGraphicsView):
 
@@ -5587,7 +5604,7 @@ class NodeEdit(QWidget):
         global previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, listProbes
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
-        global undoredoTyping, pointTyping, itemStored
+        global undoredoTyping, pointTyping, itemStored, listItemStored
         global listConfigModul, currentpathwork
 
         editor = self
@@ -5595,6 +5612,7 @@ class NodeEdit(QWidget):
         itemStored = None
         listStand = []
         listImport = []
+        listItemStored = {}
 
         currentpathwork = os.path.dirname(os.path.realpath(__file__))
         currentpathwork = str(os.path.join(currentpathwork, '../examples'))

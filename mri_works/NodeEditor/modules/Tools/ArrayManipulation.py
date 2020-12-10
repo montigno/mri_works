@@ -34,6 +34,23 @@ class arrayIndex2():
 
 #############################################################################
 
+class array_getColumn():
+    def __init__(self, inArray=[[0.0]], column=0):
+        self.out = [row[column] for row in inArray]
+        
+    def outColumn(self:'list_float'):
+        return self.out
+    
+#############################################################################
+
+class array_getSubarray():
+    def __init__(self, inArray=[[0.0]], row=(0,1), column=(0,1)):
+        self.out = [i[column[0]:column[1]] for i in inArray[row[0]:row[1]]]
+        
+    def out_subarray(self:'array_float'):
+        return self.out
+
+#############################################################################
 
 class createListString():
     def __init__(self, elem1='', elem2=''):
@@ -113,3 +130,5 @@ class build_array_float_dyn():
 
     def array(self: 'array_float'):
         return self.out
+    
+
