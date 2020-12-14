@@ -10,13 +10,16 @@ class Plot_profil():
 ##############################################################################
 
 class Atlas_reg():
-    def __init__(self, file_in='path', atlas_template='path', atlas_label='path', label_txt='path'):
+    def __init__(self, file_in='path', atlas_template='path', atlas_label='path', label_txt='path', other_files=['path']):
         import subprocess
         from subprocess import Popen
         import os
         scriptfile = 'open("' + file_in + '");run(\"Enhance Contrast\", \"saturated=0.35\");\n'\
                      'open("' + atlas_label + '");run(\"Enhance Contrast\", \"saturated=0.35\");\n'\
                      'open("' + atlas_template + '");run(\"Enhance Contrast\", \"saturated=0.35\");\n'
+        if other_files[0] != 'path':
+            for fs in other_files:
+                scriptfile += 'open("' + fs + '");run(\"Enhance Contrast\", \"saturated=0.35\");\n'
         script = 'var lines=split(File.openAsString("' + label_txt + '"), "\\n");\n ij.run("Synchronize Windows"); \n'
         filemacro = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'macros', 'Atlas.txt')
         scriptmacro = open(filemacro, 'r').read()
