@@ -289,7 +289,10 @@ class Menu(QMenuBar):
             rep = str(os.path.join(path_tmp, 'tmp'))
             if not os.path.exists(rep):
                 os.makedirs(rep)
-            exportCapsul(txt.toPlainText(), rep, True, textEdit)
+            try:
+                exportCapsul(txt.toPlainText(), rep, True, textEdit)
+            except Exception as err:
+                print('error Capsul execution : ', err)
 
         if (tmpActText == 'Run Pipeline' or
                 tmpActText == 'Run Pipeline with Thread'):
