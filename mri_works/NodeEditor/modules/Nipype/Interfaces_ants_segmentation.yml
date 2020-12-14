@@ -57,3 +57,6 @@ ants_N4BiasFieldCorrection:
   num_threads: 1
   args: ''
   environ: {}
+  histogram_sharpening: (0.0, 0.0, 0)
+  rescale_intensities: False
+  

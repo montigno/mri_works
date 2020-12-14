@@ -5,6 +5,7 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
+from PyQt5.Qt import QPoint
 
 '''
 Created on 14 december 2017
@@ -1392,6 +1393,7 @@ class DiagramView(QGraphicsView):
         self.setDragMode(QGraphicsView.RubberBandDrag)
         self.setRubberBandSelectionMode(QtCore.Qt.IntersectsItemShape)
         self.setContentsMargins(0, 0, 0, 0)
+        self.setMouseTracking(True)
 
         self.caseFinal = False
         self.currentLoop = None
@@ -3547,6 +3549,7 @@ class Constants(QGraphicsRectItem):
         self.elemProxy.resize(w, h)
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
+        self.setPos(-(w+15+10), self.pos().y())
 
     def changeCombo(self):
         w = self.elemProxy.size().width()
@@ -5889,6 +5892,7 @@ class NodeEdit(QWidget):
                             ''')
         self.tabsDiagram.setTabsClosable(True)
         self.tabsDiagram.tabCloseRequested.connect(self.closeTab)
+#         self.tabsDiagram.setMovable(True)
         self.tabsDiagram.currentChanged.connect(self.tabSelected)
 
         listItems, listBlocks, listNodes, listConnects, listProbes = [], [], [], [], []
@@ -6009,6 +6013,9 @@ class NodeEdit(QWidget):
         global textInf
         editor.currentTab = arg
         textInf.setText(editor.pathDiagram[editor.currentTab])
+        
+    def tabMoved(self):
+        print('tab moved')
 
     def blockSelection(self, blockSelected):
         for dd in editor.diagramScene[editor.currentTab].items():
@@ -6169,6 +6176,7 @@ class NodeEdit(QWidget):
         if self.startConnection:
             pos = event.scenePos()
             self.startConnection.setEndPos(pos)
+            valH = self.diagramView[editor.currentTab].horizontalScrollBar().value()
 
     def sceneMouseReleaseEvent(self, event):
         self.touchF = (int(event.modifiers()) == (Qt.ControlModifier))

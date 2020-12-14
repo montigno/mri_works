@@ -12,3 +12,10 @@ afni_Seg:
   mixfrac: ''
   prefix: ''
   terminal_output: enumerate(('stream','allatonce','file','none'))
+afni_SkullStrip:
+  args: ''
+  environ: {}
+  ignore_exception: False
+  out_file: 'path'
+  outputtype: enumerate(('NIFTI_GZ', 'AFNI', 'NIFTI'))
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')

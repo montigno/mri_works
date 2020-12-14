@@ -10,3 +10,17 @@ class afni_Seg():
 
     def out_file(self: 'path'):
         return self.res.outputs.out_file
+
+##############################################################################
+
+class afni_SkullStrip():
+    def __init__(self, in_file='path', **options):
+        from nipype.interfaces import afni as afni
+        skullstrip = afni.SkullStrip()
+        skullstrip.inputs.in_file = in_file
+        for ef in options:
+            setattr(skullstrip.inputs, ef, options[ef])
+        self.res = skullstrip.run()
+        
+    def out_file(self: 'path'):
+        return self.res.outputs.out_file

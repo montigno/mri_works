@@ -15,3 +15,17 @@ class ants_mask_image():
         
     def ants_masked(self:'array_float'):
         return self.masking
+    
+##############################################################################
+
+class ants_n4_bias_field_correction():
+    def __init__(self, ants_image=[[0.0]], **options):
+        import ants
+        self.n4bias = ants.n4_bias_field_correction(ants_image, **options)
+
+    def ants_n4_correction(self:'array_float'):
+        return self.n4bias
+    
+    
+    
+    
