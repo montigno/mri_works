@@ -23,8 +23,8 @@ def install(command):
 
 
 if __name__ == '__main__':
-    install('python3 -m pip install --upgrade pip')
-    install('pip install --upgrade pip')
+    # install('python3 -m pip install --upgrade pip')
+    # install('pip install --upgrade pip')
     install('pip3 install --ignore-installed PyYAML')
     from Config import Config
     pack = Config().getPathLibraries()

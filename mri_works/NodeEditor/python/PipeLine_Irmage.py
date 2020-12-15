@@ -3552,7 +3552,7 @@ class Constants(QGraphicsRectItem):
         self.elemProxy.resize(w, h)
         self.setRect(0.0, 0.0, w + 15, h + 6)
         self.outputs[0].setPos(w + 15 + 2, (h + 6) / 2)
-        self.setPos(-(w+15+10), self.pos().y())
+#         self.setPos(-(w+15+10), self.pos().y())
 
     def changeCombo(self):
         w = self.elemProxy.size().width()

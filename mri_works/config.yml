@@ -2,6 +2,7 @@ packages:
   attrs: pip3 install attrs
   capsul: pip3 install capsul
   cython: pip3 install Cython
+  h5py: pip3 install h5py
   list_imports: pip3 install list-imports
   lmfit: pip3 install lmfit
   matplotlib: pip3 install matplotlib
@@ -13,10 +14,10 @@ packages:
   numpy: pip3 install numpy==1.16.6
   pandas: pip3 install pandas
   pyqt5: pip3 install pyqt5
-  pytest: pip3 install -U pytest
+  pytest: pip3 install pytest
   ray: pip3 install ray
   scikit-image: pip3 install scikit-image
-  scikit-learn: pip3 install -U scikit-learn==0.20.4
+  scikit-learn: pip3 install scikit-learn==0.20.4
   scipy: pip3 install scipy
   sip: pip3 install sip
   sympy: pip3 install sympy
@@ -35,4 +36,4 @@ paths:
   - /home/domicile-xubuntu/Desktop/test_antspy_n4.dgr
   modules: modules
   projects: ../data
-version: 20.11.19a
+version: 20.12.15a

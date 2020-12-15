@@ -35,21 +35,24 @@ class printProbe():
                 val = type(tmpval).__name__
 
         elif label == 'Length':
-            if val:
-                tmptxt = '('
-                tmpval = val
-                continued = True
-                if isinstance(tmpval, list):
-                    while continued:
-                        if isinstance(tmpval, list):
-                            tmptxt += str(len(tmpval))
-                            tmpval = tmpval[0]
-                            tmptxt += ', '
-                        else:
-                            continued = False
-                            tmptxt = tmptxt[0:-2]+')'
-                else:
-                    tmptxt = '1'
-                val = tmptxt
+            if isinstance(val, list):
+                if val:
+                    tmptxt = '('
+                    tmpval = val
+                    continued = True
+                    if isinstance(tmpval, list):
+                        while continued:
+                            if isinstance(tmpval, list):
+                                tmptxt += str(len(tmpval))
+                                tmpval = tmpval[0]
+                                tmptxt += ', '
+                            else:
+                                continued = False
+                                tmptxt = tmptxt[0:-2]+')'
+                    else:
+                        tmptxt = '1'
+                    val = tmptxt
+            else:
+                val = '1'
         print(col+unit+'('+lab+')', ' : ', label+' = ', val)
         print('\033[0m')
