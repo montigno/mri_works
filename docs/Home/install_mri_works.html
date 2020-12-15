@@ -23,7 +23,8 @@
 		<a class="style1" href="#config"> 4 - Configuration </a><br>
 		<a class="style1" href="#launch"> 5 - Launch mri_works </a><br>
 		<a class="style1" href="#leave"> 6 - To leave the virtual environment </a><br>
-		<a class="style1" href="#mat_eng"> 7 - About Matlab engine </a><br>
+		<a class="style1" href="#modules"> 7 - To install other Python modules </a><br>
+		<a class="style1" href="#mat_eng"> 8 - About Matlab engine </a><br>
 		<hr>
 		
 		<h2 id="venv"><font color="blue">1 - Creation of virtuel environment </font></h2>
@@ -45,6 +46,7 @@
 			<div> 
 			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ~/Apps/python_env/</pre></td><td>(go to the new virtual directory)</td></tr></tbody></table>
 			<table><tbody><tr><td><pre class="console" style="width:500px;">source bin/activate</pre></td><td>(activate the virtual machine)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">pip install --upgrade pip</pre></td><td>(sometimes it is necessary to update pip)</td></tr></tbody></table>	
 			<table><tbody><tr><td><pre class="console" style="width:500px;">cd mri_works</pre></td><td>(go to the mri_works directory)</td></tr></tbody></table>
 			<table><tbody><tr><td><pre class="console" style="width:500px;">python3 setup.py</pre></td><td>(install all necessary packages)</td></tr></tbody></table>
 			</div><hr>
@@ -72,7 +74,16 @@
        		<pre class="console" style="width:500px;">deactivate</pre>
 			</div><hr>
 		
-		<h2 id="mat_eng"><font color="blue">7 - About Matlab engine</font></h2>
+		<h2 id="modules"><font color="blue">7 - To install other Python modules</font></h2>
+			<div>
+			The installation of Python modules must be done in the virtual environment.
+			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ~/Apps/python_env</pre></td><td>(go to the new virtual directory)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">source bin/activate</pre></td><td>(activate the virtual machine)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">pip3 install <i> your package </i></pre></td><td>(install your package/module)</td></tr></tbody></table>
+			<table><tbody><tr><td><pre class="console" style="width:500px;">deactivate</pre></td><td>(leave the virtual environnement)</td></tr></tbody></table>
+			</div><hr>		
+		
+		<h2 id="mat_eng"><font color="blue">8 - About Matlab engine</font></h2>
 			<div>
 			- the Matlab engine install must be done in the virtual environment :
        		<pre class="console" style="width:500px;">cd ~/Apps/python_env</pre>
