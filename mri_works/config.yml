@@ -25,15 +25,16 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias_ants.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Seg_convolve3D.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-RegistrationLinear_fsl_FLIRT.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/4-RegistrationNoLinear_ants.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/5-Diff_RegistrationLinear_fsl_FLIRT.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/6-Diff_registrationNoLinear_ants.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Synchr_Atlas_Image.dgr
-  - /home/domicile-xubuntu/Desktop/test_antspy_n4.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/4-Registration_diffusion.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Synchr_Atlas_Image.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment_mod.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Extr_Reg_treatment.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/test_calculs.dgr
+  - /home/omontigon/Bureau/pb_probe.dgr
+  - /home/omontigon/Documents/mri_works_projects/Profil_RelaxationTime.dgr
+  - /home/omontigon/Bureau/test_registration_diffusion_2.dgr
   modules: modules
   projects: ../data
 version: 20.12.15a
