@@ -102,23 +102,26 @@ class analyzeLoopFor:
 
             if keyF not in de and \
                keyF not in df and \
-               (de in self.listBlock.keys() or
+               ((de in self.listBlock.keys() or
                 de in self.listModul.keys()) and \
-               (df in self.listBlock.keys() or df in self.listModul.keys()):
+               (df in self.listBlock.keys() or df in self.listModul.keys()) or \
+               (de in listBlockIntern and df in listBlockIntern)):
                 listBlockStart.append(de)
                 listBlockStop.append(df)
                 tmplistArrowIntern[keyAi] = valueAi
+                        
 
-        # print(self)
-        # print('listBlockStart LoopFor',listBlockStart)
-        # print('listBlockRemaining LoppFor',listBlockRemaining)
-        # print('listBlockStop LoopFor',listBlockStop)
-        # print('tmplistArrowIntern',tmplistArrowIntern)
-        # print('listArrowIntern',listArrowIntern)
+#         print(self)
+#         print('listBlockStart LoopFor',listBlockStart)
+#         print('listBlockRemaining LoppFor',listBlockRemaining)
+#         print('listBlockStop LoopFor',listBlockStop)
+#         print('tmplistArrowIntern',tmplistArrowIntern)
+#         print('listArrowIntern',listArrowIntern)
 
         tmp = (list(set(listBlockIntern) -
                     set(listBlockStart) -
                     set(listBlockStop)))
+       
         for lb in tmp:
             listBlockStart.append(lb)
 
