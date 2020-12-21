@@ -134,6 +134,14 @@ class Print_dict:
     def __init__(self, comment='', in_dict={}):
         print('\33[38;5;226m' + comment, '\n', in_dict)
         print('\33[0m')
+        
+##############################################################################
+
+
+class Print_list_dict:
+    def __init__(self, comment='', in_list_dict=[{}]):
+        print('\33[38;5;226m' + comment, '\n', in_list_dict)
+        print('\33[0m')
 
 ##############################################################################
 
