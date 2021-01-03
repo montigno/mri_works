@@ -13,4 +13,10 @@ skimage_white_tophat:
   out: [[0.0]]
 skimage_black_tophat:
   selem: [[0.0]]
-  out: [[0.0]] 
+  out: [[0.0]]
+skimage_opening:
+  selem: [[0.0]]
+  out: [[0.0]]
+skimage_closing:
+  selem: [[0.0]]
+  out: [[0.0]]

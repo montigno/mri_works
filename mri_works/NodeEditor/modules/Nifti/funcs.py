@@ -31,11 +31,29 @@ class resize_Nifti:
         img.to_filename(file_out_name)
         self.img = file_out_name
         
-        
     def out_file(self:'path'):
         return self.img
     
 ##############################################################################
+
+class resample_nifti:
+    def __init__(self, file_in='path', file_out_name= 'path', voxel_size=[2,2,2]):
+        import nibabel
+        import nibabel.processing
+
+        input_path = r'/input/path/input_img.nii.gz'
+        output_path = r'/output/path/output_img.nii.gz'
+
+        input_img = nibabel.load(file_in)
+        resampled_img = nibabel.processing.resample_to_output(input_img, voxel_size)
+        nibabel.save(resampled_img, file_out_name)
+        self.img = file_out_name
+        
+    def out_file(self:'path'):
+        return self.img
+
+##############################################################################
+
 
 class four_to_three:
     def __init__(self, image_nii_4D='path', out_directory='path'):

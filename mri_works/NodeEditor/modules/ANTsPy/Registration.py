@@ -56,3 +56,15 @@ class ants_apply_transform():
 
     def img_transformed(self:'array_float'):
         return self.trans_img
+
+##############################################################################
+
+class ants_affine_initializer():
+    def __init__(self, ants_image_fixed=[[0.0]], ants_image_moving=[[0.0]], **options):
+        import ants
+        self.txfile = ants.affine_initializer(ants_image_fixed, ants_image_moving, **options)
+        
+    def file_transf(self:'path'):
+        return self.txfile
+        
+        

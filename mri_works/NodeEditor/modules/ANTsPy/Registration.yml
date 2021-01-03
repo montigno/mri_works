@@ -17,3 +17,10 @@ ants_apply_transform:
   whichtoinvert: [False]
   compose: ''
   verbose: False
+ants_affine_initializer:
+  search_factor: 0.0
+  radian_fraction: 0.0
+  use_principal_axis: False
+  local_search_iterations: 0.0
+  mask: [[0.0]]
+  txfn: 'path'

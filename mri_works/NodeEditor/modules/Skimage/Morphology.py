@@ -71,5 +71,29 @@ class skimage_black_tophat:
         self.bt = black_tophat(np.array(image), **options)
         
     def sk_black_tophat(self:'array_float'):
-        return self.bt        
+        return self.bt
+
+###########################################################
+
+class skimage_opening:
+    def __init__(self, image=[[0.0]], **options):
+        from skimage.morphology import opening
+        import numpy as np
+        self.op = opening(np.array(image), **options)
+        
+    def sk_opening(self:'array_float'):
+        return self.op
+
+###########################################################
+
+class skimage_closing:
+    def __init__(self, image=[[0.0]], **options):
+        from skimage.morphology import closing
+        import numpy as np
+        self.cl = closing(np.array(image), **options)
+        
+    def sk_closing(self:'array_float'):
+        return self.cl
+
+
         

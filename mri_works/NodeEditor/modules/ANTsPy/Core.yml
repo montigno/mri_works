@@ -4,3 +4,6 @@ ants_image_read:
   reorient: ''
 ants_image_write:
   ri: False
+ants_read_transform:
+  dimension: 2
+  precision: 'float'

@@ -27,3 +27,24 @@ class ants_set_spacing():
 
     def ants_image_spacing(self:'array_float'):
         return self.antsimg
+
+##############################################################################
+    
+class ants_read_transform:
+    def __init__(self, filename='path', **options):
+        import ants
+        self.tx = ants.read_transform(filename, **options)
+        
+    def ants_transform(self:'array_float'):
+        return self.tx
+
+##############################################################################
+
+class ants_write_transform:
+    def __init__(self, ants_transform=[[0.0]], filename='path'):
+        import ants
+        ants.write_transform(ants_transform, filename)
+        self.tx = filename
+        
+    def ants_file_transf(self:'path'):
+        return self.tx
