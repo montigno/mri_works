@@ -1,0 +1,12 @@
+MP3_SPM_reorient:
+  output_filename_ext: '_Reoriented'
+  right: 0
+  forward: 0
+  up: 0
+  pitch: 0
+  roll: 0
+  yall: 0
+  resize_x: 0
+  resize_y: 0
+  resize_z: 0
+ 

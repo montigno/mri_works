@@ -5,7 +5,6 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
-from PyQt5.Qt import QPoint
 
 '''
 Created on 14 december 2017
@@ -380,6 +379,7 @@ class Menu(QMenuBar):
             for item in editor.diagramView[editor.currentTab].items():
                 if type(item) == ConnectorItem:
                     connectPresent = True
+                    break
 
             if connectPresent:
                 txt = SaveDiagram()
@@ -4558,8 +4558,12 @@ class ScriptItem(QGraphicsRectItem):
         # Limit the block size:
         if h < self.hmin:
             h = self.hmin
-        if w < self.wmin:
+        if h < 10:
+            h = 10
+        if w < self.wmin or w < 10:
             w = self.wmin
+        if w < 10:
+            w = 10
 
         self.setRect(0.0, 0.0, w, h)
         self.elemProxy.setMinimumSize(w - 10, h - 10)

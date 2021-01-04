@@ -14,6 +14,14 @@ ants_AntsJointFusion:
 ants_BrainExtraction:
   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
   dependencies: Nipype, ANTs
+  
+ants_image_read:
+  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  dependencies: ANTsPy
+  
+ants_image_write:
+  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  dependencies: ANTsPy
 
 ants_JointFusion:
   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
@@ -30,6 +38,10 @@ ants_N4BiasFieldCorrection:
 ants_Registration:
   functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html
   dependencies: Nipype, ANTs
+  
+ants_set_spacing:
+  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  dependencies: ANTsPy
 
 Array_3D_random:
   functionality: Generate a random image 3D (row, column and slice)
