@@ -28,7 +28,7 @@ ants_JointFusion:
   dependencies: Nipype, ANTs
 
 ants_MeasureImageSimilarity:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
   dependencies: Nipype, ANTs
 
 ants_N4BiasFieldCorrection:
@@ -36,7 +36,7 @@ ants_N4BiasFieldCorrection:
   dependencies: Nipype, ANTs
 
 ants_Registration:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html
+  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
   dependencies: Nipype, ANTs
   
 ants_set_spacing:
@@ -237,6 +237,10 @@ MP3_T2map:
   file_in: (path) path of your Nifti file (with JSON)
   file_out: (path) recording Nifti file path (a JSON file with the same name will also be created)
   dependencies: Matlab engine
+  
+mrtrix3_DWIExtract:
+  functionality: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
+  dependencies: Nipype, MRtrix3
 
 NlargestInArray:
   functionality: Check the n largest value in array input.

@@ -1,0 +1,13 @@
+mrtrix3_DWIExtract:
+  bzero: False
+  nobzero: False
+  singleshell: False
+  shell: [0.0]
+  nthreads: 0
+  grad_file: 'path'
+  grad_fsl: ('bvecs', 'bvals')
+  bval_scale: enumerate(('yes', 'no'))
+  in_bvec: 'path'
+  in_bval: 'path'
+  args: ''
+  environ: {}

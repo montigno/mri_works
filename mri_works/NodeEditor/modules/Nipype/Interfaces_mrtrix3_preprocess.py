@@ -12,3 +12,5 @@ class mrtrix3_DWIDenoise():
     
     def out_file(self:'path'):
         return self.res.outputs.out_file
+    
+##############################################################################
