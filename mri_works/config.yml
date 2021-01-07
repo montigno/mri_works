@@ -1,5 +1,5 @@
 packages:
-  antspy: pip3 install antspy
+  antspy: pip3 install antspyx
   attrs: pip3 install attrs
   capsul: pip3 install capsul
   cython: pip3 install Cython
