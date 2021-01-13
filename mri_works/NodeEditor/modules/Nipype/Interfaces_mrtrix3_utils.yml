@@ -11,3 +11,16 @@ mrtrix3_DWIExtract:
   in_bval: 'path'
   args: ''
   environ: {}
+mrtrix3_MRConvert:
+  coord: [0.0]
+  vox: [0.0]
+  axes: [0]
+  scaling: [0.0]
+  nthreads: 0
+  grad_file: 'path'
+  grad_fsl: ('bvecs', 'bvals')
+  bval_scale: enumerate(('yes', 'no'))
+  in_bvec: 'path'
+  in_bval: 'path'
+  args: ''
+  environ: {}

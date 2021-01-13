@@ -53,7 +53,6 @@ for lst_str in list_struct:
 
 od = collections.OrderedDict(sorted(list_idx.items()))
 
-
 with open(output_result, 'w') as results:
     results.write('Labels|Sequences|Vol(mm3)|Mean|Stdv\n')
     for k, v in od.items():
