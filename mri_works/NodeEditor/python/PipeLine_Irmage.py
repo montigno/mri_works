@@ -664,112 +664,65 @@ class LoadDiagram:
 
         for line in txt:
             if line[0:5] == 'connt':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('name=') + 6:len(line)]
-                name = line[0:line.index(']')]
-                line = line[line.index('type=') + 6:len(line)]
-                typ = line[0:line.index(']')]
-                line = line[line.index('format=') + 8:len(line)]
-                form = line[0:line.index(']')]
-                Vinput = ''
+                args = ["connt", "name", "type", "format", "valOut", "RectF"]
+                unit, name, typ, form, Vinput, pos = self.getValueInBrackets(line, args)
                 try:
-                    line = line[line.index('valOut=') + 8:len(line)]
-                    Vinput = line[0:line.index('] RectF=')]
+                    pos = edit.mapToScene(eval(pos))
                 except Exception as e:
-                    pass
-                line = line[line.index('RectF=') + 7:len(line)]
-                try:
-                    pos = edit.mapToScene(eval(line[0:line.index(']')]))
-                except Exception as e:
-                    pos = eval(line[0:line.index(']')])
+                    pos = eval(pos)
                 edit.loadConn(unit, name, pos, str(typ), form, Vinput)
                 listCn[unit] = edit.returnBlockSystem()
 
             elif line[0:5] == 'probe':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('label=') + 7:len(line)]
-                label = line[0:line.index(']')]
-                line = line[line.index('format=') + 8:len(line)]
-                form = line[0:line.index('] RectF')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["probe", "label", "format", "RectF"]
+                unit, label, form, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 edit.loadProbe(unit, label, form, pos)
                 listPr[unit] = edit.returnBlockSystem()
 
             elif line[0:5] == 'block':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('category=') + 10:len(line)]
-                cat = line[0:line.index(']')]
-                line = line[line.index('class=') + 7:len(line)]
-                classs = line[0:line.index(']')]
-                line = line[line.index('valInputs=') + 11:len(line)]
-                Vinput = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["block", "category", "class", "valInputs", "RectF"]
+                unit, cat, classs, Vinput, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 edit.loadBlock(unit, classs, cat, pos, eval(Vinput))
                 listBl[unit] = edit.returnBlockSystem()
 
             elif line[0:8] == 'comments':
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
-                line = line[line.index('text=') + 6:len(line)]
-                cmt = line[0:line.index(']')]
+                args = ["comments", "RectF", "text"]
+                unit, pos, cmt = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 cmt = cmt.replace("\\n", '\n')
                 cmt = cmt.replace("'", '')
                 cmt = cmt.replace('"', '')
                 edit.loadComments(pos, cmt)
 
             elif line[0:7] == 'loopFor':
-                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
-                line = line[line.index('inputs=') + 8:len(line)]
-                inp = line[0:line.index('] outputs')]
-                line = line[line.index('outputs=') + 9:len(line)]
-                outp = line[0:line.index('] listItems=')]
-                line = line[line.index('listItems=') + 11:len(line)]
-                listIt = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["loopFor", "inputs", "outputs", "listItems", "RectF"]
+                unit, inp, outp, listIt, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
                 listFo[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = eval(listIt)
 
             elif line[0:6] == 'loopIf':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('inputs=') + 8:len(line)]
-                inp = line[0:line.index('] outputs')]
-                line = line[line.index('outputs=') + 9:len(line)]
-                outp = line[0:line.index('] listItems=')]
-                line = line[line.index('listItems=') + 11:len(line)]
-                listIt = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["loopIf", "inputs", "outputs", "listItems", "RectF"]
+                unit, inp, outp, listIt, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
                 listIf[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = eval(listIt)
 
             elif line[0:6] == 'submod':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('nameMod=') + 9:len(line)]
-                nameMod = line[0:line.index(']')]
-                line = line[line.index('valInputs=') + 11:len(line)]
-                Vinput = line[0:line.index('] RectF')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["submod", "nameMod", "valInputs", "RectF"]
+                unit, nameMod, Vinput, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 edit.loadMod(unit, nameMod, pos, eval(Vinput))
                 listSm[unit] = edit.returnBlockSystem()
 
             elif line[0:8] == 'constant':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('value=') + 7:len(line)]
-                vout = line[0:line.index('] format')]
-                line = line[line.index('format=') + 8:len(line)]
-                fort = line[0:line.index('] label')]
-                if not fort:
-                    fort = ''
-                line = line[line.index('label=') + 7:len(line)]
-                lab = line[0:line.index(']')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["constant", "value", "format", "label", "RectF"]
+                unit, vout, fort, lab, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
                 try:
                     edit.loadConstant(unit, pos, eval(vout), fort, lab)
                 except Exception as e:
@@ -777,17 +730,11 @@ class LoadDiagram:
                 listCt[unit] = edit.returnBlockSystem()
 
             elif line[0:6] == 'script':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('title=') + 7:len(line)]
-                tit = line[0:line.index('] inputs')]
-                line = line[line.index('inputs=') + 7:len(line)]
-                inp = line[0:line.index(' outputs')]
-                line = line[line.index('outputs=') + 8:len(line)]
-                outp = line[0:line.index(' code=')]
-                line = line[line.index('code=') + 6:len(line)]
-                code = line[0:line.index('] RectF=')]
-                line = line[line.index('RectF=') + 7:len(line)]
-                pos = eval(line[0:line.index(']')])
+                args = ["script", "title", "inputs", "outputs", "code", "RectF"]
+                unit, tit, inp, outp, code, pos = self.getValueInBrackets(line, args)
+                pos = eval(pos)
+                inp = "["+inp+"]"
+                outp = "["+outp+"]"
                 edit.loadScriptItem(unit, tit, pos, eval(inp), eval(outp))
                 listSc[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = code
@@ -807,9 +754,8 @@ class LoadDiagram:
                 tmpValScript += line
 
             elif line[0:4] == 'link':
-                nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
-                line = line[line.index('node=') + 6:len(line)]
-                line = line[0:line.index(']')]
+                args = ["link", "node"]
+                nameNode, line = self.getValueInBrackets(line, args)
                 listNodes[editor.currentTab][nameNode] = line
                 listNd[nameNode] = line.replace('#Node#', ':').split(':')
 
@@ -895,6 +841,21 @@ class LoadDiagram:
 
 #         UpdateUndoRedo()
 
+    def getValueInBrackets(self, line, args):
+        res = []
+        line = line.rstrip()
+        for i in range(len(args)-1):
+            tmp=''
+            try:
+                tmp = line[line.index(args[i]+'=')+len(args[i])+1:line.index(args[i+1]+'=')-1][1:-1]
+            except Exception as e:
+                try:
+                    tmp = line[line.index(args[i]+'=')+len(args[i])+1:line.index(args[i+2]+'=')-1][1:-1]
+                except Exception as e:
+                    pass
+            res.append(tmp)
+        res.append(line[line.index(args[-1]+'=')+len(args[-1])+1:][1:-1])
+        return res
 
 class ValueZ:
 

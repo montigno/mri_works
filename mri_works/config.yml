@@ -26,16 +26,9 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Bureau/test_xml.dgr
-  - /home/omontigon/Documents/mri_works_projects/test_calculs_structure_2.dgr
-  - /home/omontigon/Bureau/test_MP_spm_reorient.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment_one.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/5-Display_Atlas_Images.dgr
-  - /home/omontigon/Bureau/test_bvec_bval.dgr
+  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Bruker_Paravision/Search_param_Paravision.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/domicile-xubuntu/Desktop/test_ray_add.dgr
   modules: modules
   projects: ../data
 version: 21.01.12a

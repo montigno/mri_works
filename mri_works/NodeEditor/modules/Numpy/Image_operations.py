@@ -1,4 +1,3 @@
-from grpc.framework.foundation.logging_pool import pool
 class addImage_dyn():
     def __init__(self, image1=[[0.0]], image2=[[0.0]], **dynamicsInputs):
         import numpy as np
