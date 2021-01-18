@@ -8,7 +8,7 @@
 
 '''
 Created on 14 december 2017
-Modified on 21 oct. 2020
+Modified on 18 jan. 2021
 @author: omonti
 '''
 
@@ -1472,7 +1472,7 @@ class DiagramView(QGraphicsView):
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
             elif "Checkbox" in name:
-                self.a1 = Checkbox('newCheckbox', ['Item1', 'Item2'], True )
+                self.a1 = Checkbox('newCheckbox', ['Item1', 'Item2'], '', True )
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
@@ -1538,8 +1538,8 @@ class DiagramView(QGraphicsView):
         self.ball = self.b6
 
     def loadConstant(self, unit, pos, vout, format, label):
-        if label == 'CheckBox':
-            self.b7 = Checkbox(unit, vout, True)
+        if format == 'list_str':
+            self.b7 = Checkbox(unit, vout, label, True)
         else:
             self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
         self.b7.setPos(pos[0], pos[1])
@@ -3408,12 +3408,11 @@ class LabelGroup(QGraphicsTextItem):
 
 class Checkbox(QGraphicsRectItem):
     
-    def __init__(self, unit='', listItems=[], isMod=True, parent=None):
+    def __init__(self, unit='', listItems=[], label='', isMod=True, parent=None):
         super(Checkbox, self).__init__(parent)
        
         self.isMod = isMod
         self.form = 'list_str'
-        self.label = 'CheckBox'
                 
         self.setZValue(2)
         if self.isMod:
@@ -3432,6 +3431,12 @@ class Checkbox(QGraphicsRectItem):
             self.unit = 'A' + str(inc)
         else:
             self.unit = unit
+        
+        if label:
+            self.label = label
+        else:    
+            self.label = self.unit
+
         
         self.listCheckBox = []
         self.listItems = listItems
@@ -3456,6 +3461,12 @@ class Checkbox(QGraphicsRectItem):
         
         self.w = self.proxyWidget.boundingRect().size().width() + 15
         self.h = self.proxyWidget.boundingRect().size().height() + 6
+        
+        self.lab = QGraphicsTextItem(self.label, self)
+        self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
+        self.lab.setFont(QFont("Times", 12, QFont.Bold))
+        self.lab.setPos(0, -30)
+        self.lab.setVisible(True)
        
         self.setPen(QtGui.QPen(ItemColor.frame_constants.value, 3))
         color = TypeColor.str.value
@@ -3511,10 +3522,11 @@ class Checkbox(QGraphicsRectItem):
                 self.grid.deleteLater()
                 self.grid = QGridLayout()
                 for i, v in enumerate(newList):
-                    self.listItems.append(v)
-                    self.listCheckBox.append(QCheckBox(v))
-                    self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
-                    self.grid.addWidget(self.listCheckBox[-1], i, 0)
+                    if v:
+                        self.listItems.append(v)
+                        self.listCheckBox.append(QCheckBox(v))
+                        self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
+                        self.grid.addWidget(self.listCheckBox[-1], i, 0)
                 self.elemProxy = QWidget()
                 self.elemProxy.setLayout(self.grid)
                 self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
@@ -3525,17 +3537,18 @@ class Checkbox(QGraphicsRectItem):
                 h = self.proxyWidget.boundingRect().size().height() + 6    
                 self.setRect(0.0, 0.0, w, h)
                 self.outputs[0].setPos(w + 2, h / 2)
-
                
     def contextMenuEvent(self, event):
         if self.isMod:
             menu = QMenu()
             de = menu.addAction('Delete')
             de.triggered.connect(self.deleteConstant)
-            pa = menu.addAction('Check on all items')
-            pa.triggered.connect(self.checkOn)
-            pa = menu.addAction('Check off all items')
-            pa.triggered.connect(self.checkOff)
+            ca = menu.addAction('Check on all items')
+            ca.triggered.connect(self.checkOn)
+            fa = menu.addAction('Check off all items')
+            fa.triggered.connect(self.checkOff)
+            pa = menu.addAction('Change label')
+            pa.triggered.connect(self.changeLabel)
             menu.exec_(event.screenPos())
             
     def deleteConstant(self):
@@ -3562,6 +3575,25 @@ class Checkbox(QGraphicsRectItem):
             if lstCh.checkState():
                 lstCh.setChecked(False)
             self.listItems.append(lstCh.text())
+            
+    def changeLabel(self):
+        listLabCts = []
+        for x, y in listConstants[editor.currentTab].items():
+            listLabCts.append(y[2])
+        listVal = listConstants[editor.currentTab][self.unit]
+        oldVal = listVal[2]
+        c = changeLabel('Const', self.unit, oldVal)
+        c.exec_()
+        try:
+            self.label = c.getNewLabel()
+            if self.label in listLabCts:
+                self.label += '-b'
+            self.lab.setPlainText(self.label)
+            del listConstants[editor.currentTab][self.unit]
+            listConstants[editor.currentTab][self.unit] = (listVal[0], listVal[1], self.label)
+            UpdateUndoRedo()
+        except OSError as err:
+            print("OS error: {0}".format(err))
 ###############################################################################
 
 
@@ -3640,11 +3672,11 @@ class Constants(QGraphicsRectItem):
         self.w = self.proxyWidget.boundingRect().size().width() + 15
         self.h = self.proxyWidget.boundingRect().size().height() + 6
 
-        self.nameUnit = QGraphicsTextItem(self.unit, self)
-        self.nameUnit.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
-        self.nameUnit.setFont(QFont("Times", 12, QFont.Bold))
-        self.nameUnit.setPos(0, 60)
-        self.nameUnit.setVisible(False)
+#         self.nameUnit = QGraphicsTextItem(self.unit, self)
+#         self.nameUnit.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
+#         self.nameUnit.setFont(QFont("Times", 12, QFont.Bold))
+#         self.nameUnit.setPos(0, 60)
+#         self.nameUnit.setVisible(False)
 
         self.lab = QGraphicsTextItem(self.label, self)
         self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
@@ -5634,7 +5666,7 @@ class TreeLibrary(QTreeView):
                 elif 'Script' in name:
                     bc = ScriptItem('', name, 200, 200, False)
                 elif 'Checkbox' in name:
-                    bc = Checkbox('', ['item1', 'item2'], False)
+                    bc = Checkbox('', ['item1', 'item2'], '', False)
                 elif name in ['Value', 'Type', 'Length']:
                     bc = Probes('', 'int', name, False)
 
