@@ -3477,6 +3477,22 @@ class Checkbox(QGraphicsRectItem):
                 self.listItems.append(tmp+'*')
             else:
                 self.listItems.append(tmp)
+    
+    def keyPressEvent(self, event):
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.deleteConstant()
+        if event.key() == QtCore.Qt.Key_Up:
+            self.setPos(self.x(), self.y() - 1)
+        if event.key() == QtCore.Qt.Key_Down:
+            self.setPos(self.x(), self.y() + 1)
+        if event.key() == QtCore.Qt.Key_Left:
+            self.setPos(self.x() - 1, self.y())
+        if event.key() == QtCore.Qt.Key_Right:
+            self.setPos(self.x() + 1, self.y())
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
+#         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
             
     def mouseDoubleClickEvent(self, event):
         if self.isMod:
@@ -3509,8 +3525,43 @@ class Checkbox(QGraphicsRectItem):
                 h = self.proxyWidget.boundingRect().size().height() + 6    
                 self.setRect(0.0, 0.0, w, h)
                 self.outputs[0].setPos(w + 2, h / 2)
-               
 
+               
+    def contextMenuEvent(self, event):
+        if self.isMod:
+            menu = QMenu()
+            de = menu.addAction('Delete')
+            de.triggered.connect(self.deleteConstant)
+            pa = menu.addAction('Check on all items')
+            pa.triggered.connect(self.checkOn)
+            pa = menu.addAction('Check off all items')
+            pa.triggered.connect(self.checkOff)
+            menu.exec_(event.screenPos())
+            
+    def deleteConstant(self):
+        for elem in editor.diagramView[editor.currentTab].items():
+            if type(elem) == LinkItem:
+                if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
+                    BlockCreate.deletelink(self, elem, self.unit)
+        editor.diagramScene[editor.currentTab].removeItem(self)
+        del listConstants[editor.currentTab][self.unit]
+        del listItems[editor.currentTab][self.unit]
+        editor.deleteItemsLoop(self)
+        UpdateUndoRedo()
+        
+    def checkOn(self):
+        self.listItems = []
+        for lstCh in self.listCheckBox:
+            if not lstCh.checkState():
+                lstCh.setChecked(True)
+            self.listItems.append(lstCh.text()+'*')
+    
+    def checkOff(self):
+        self.listItems = []
+        for lstCh in self.listCheckBox:
+            if lstCh.checkState():
+                lstCh.setChecked(False)
+            self.listItems.append(lstCh.text())
 ###############################################################################
 
 
