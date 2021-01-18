@@ -6375,8 +6375,8 @@ class NodeEdit(QWidget):
                     tmpunit = item.unit
                     tmptypeio = item.typeio
                     tmpformat = item.format
-                    # print(tmpname,tmpunit,tmptypeio,tmpformat)
-                    # print(self.fromPort.name,self.fromPort.unit,self.fromPort.typeio,self.fromPort.format)
+#                     print(tmpname,tmpunit,tmptypeio,tmpformat)
+#                     print(self.fromPort.name,self.fromPort.unit,self.fromPort.typeio,self.fromPort.format)
                     if 'enumerate' in tmpformat:
                         tmpformat = tmpformat[10:]
                     textEdit.setStyleSheet("background-color : lightgray")
@@ -6409,6 +6409,13 @@ class NodeEdit(QWidget):
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection impossible : constant to connector ')
+                greenText = greenText + ("</span><br>")
+                textEdit.append(greenText)
+            elif ('A' in self.fromPort.unit and 'F' in tmpunit) or (
+                    'F' in self.fromPort.unit and 'A' in tmpunit):
+                self.startConnection.delete()
+                greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
+                greenText = greenText + ('Connection impossible : constant to loopFor ')
                 greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
             elif not self.touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
