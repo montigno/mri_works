@@ -26,9 +26,7 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/domicile-xubuntu/Apps/Github/mri_works/mri_works/NodeEditor/examples/Bruker_Paravision/Search_param_Paravision.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
-  - /home/domicile-xubuntu/Desktop/test_ray_add.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_Checkbox.dgr
   modules: modules
   projects: ../data
 version: 21.01.12a

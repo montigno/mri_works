@@ -33,7 +33,7 @@ from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QTreeView, QWidget, QVBoxLayout, QTabBar, QTabWidget, QSplitter, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
-    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem
+    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem, QGridLayout, QCheckBox
 
 from . import analyze
 from . import execution
@@ -1025,7 +1025,7 @@ class SaveDiagram(QTextEdit):
                     except Exception as e:
                         pass
 
-            elif type(item) == Constants:
+            elif type(item) == Constants or type(item) ==Checkbox:
                 rect = item.rect()
                 if type(item.elemProxy) == Constants_Combo:
                     value = repr(item.elemProxy.currentText())
@@ -1033,6 +1033,8 @@ class SaveDiagram(QTextEdit):
                     value = repr(item.elemProxy.toPlainText())
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
+                elif type(item.elemProxy) == QWidget:
+                    value = item.listItems
                 self.append('constant=[' + str(item.unit) +
                             '] value=[' + str(value) +
                             '] format=[' + str(item.form) +
@@ -1469,6 +1471,11 @@ class DiagramView(QGraphicsView):
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
+            elif "Checkbox" in name:
+                self.a1 = Checkbox('newCheckbox', ['Item1', 'Item2'], True )
+                self.a1.setPos(self.mapToScene(event.pos()))
+                self.scene().addItem(self.a1)
+                self.addItemLoop(self.a1.unit)
             try:
                 listItems[editor.currentTab][self.a1.unit] = self.a1
             except Exception as e:
@@ -1531,7 +1538,10 @@ class DiagramView(QGraphicsView):
         self.ball = self.b6
 
     def loadConstant(self, unit, pos, vout, format, label):
-        self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
+        if label == 'CheckBox':
+            self.b7 = Checkbox(unit, vout, True)
+        else:
+            self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
         self.b7.setPos(pos[0], pos[1])
         self.scene().addItem(self.b7)
         listItems[editor.currentTab][self.b7.unit] = self.b7
@@ -3393,6 +3403,113 @@ class LabelGroup(QGraphicsTextItem):
             self.setPos(self.x() - 2, self.y())
         if event.key() == Qt.Key_Right:
             self.setPos(self.x() + 2, self.y())
+
+###############################################################################
+
+class Checkbox(QGraphicsRectItem):
+    
+    def __init__(self, unit='', listItems=[], isMod=True, parent=None):
+        super(Checkbox, self).__init__(parent)
+       
+        self.isMod = isMod
+        self.form = 'list_str'
+        self.label = 'CheckBox'
+                
+        self.setZValue(2)
+        if self.isMod:
+            self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
+            self.setFlag(self.ItemIsFocusable, True)
+            self.setAcceptHoverEvents(True)
+            
+        if unit in 'newCheckbox':
+            ConstantExist = True
+            inc = 0
+            while ConstantExist:
+                if 'A' + str(inc) in listConstants[editor.currentTab]:
+                    inc += 1
+                else:
+                    ConstantExist = False
+            self.unit = 'A' + str(inc)
+        else:
+            self.unit = unit
+        
+        self.listCheckBox = []
+        self.listItems = listItems
+        self.grid = QGridLayout()
+        self.elemProxy = QWidget()
+
+        for i, v in enumerate(listItems):
+            if '*' in v:
+                self.listCheckBox.append(QCheckBox(v[0:-1]))
+                self.listCheckBox[-1].setChecked(True)
+            else:
+                self.listCheckBox.append(QCheckBox(v))
+            self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
+            self.grid.addWidget(self.listCheckBox[-1], i, 0)
+        
+        self.elemProxy.setLayout(self.grid)
+
+        self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
+        self.proxyWidget.setWidget(self.elemProxy)
+        self.proxyWidget.setPos(3, 3)
+        self.proxyWidget.setZValue(3)
+        
+        self.w = self.proxyWidget.boundingRect().size().width() + 15
+        self.h = self.proxyWidget.boundingRect().size().height() + 6
+       
+        self.setPen(QtGui.QPen(ItemColor.frame_constants.value, 3))
+        color = TypeColor.str.value
+        self.setBrush(QtGui.QBrush(color))
+        self.setRect(0.0, 0.0, self.w, self.h)
+        
+        self.inputs = []
+        self.outputs = []
+        self.outputs.append(Port('', 'out', 'list_str', self.unit, True, self.isMod, 80, -12, self))
+        self.outputs[0].setPos(self.w + 2, self.h / 2)
+        if self.isMod:
+            listConstants[editor.currentTab][self.unit] = (self.form, listItems, self.label)
+    
+    def checkboxChanged(self):
+        self.listItems = []
+        for lstCh in self.listCheckBox:
+            tmp = lstCh.text().replace('*','')
+            if lstCh.checkState():
+                self.listItems.append(tmp+'*')
+            else:
+                self.listItems.append(tmp)
+            
+    def mouseDoubleClickEvent(self, event):
+        if self.isMod:
+            tmp = []
+            for el in self.listItems:
+                tmp.append(el.replace('*',''))
+            p = editCombobox(tmp)
+            p.exec_()
+            if p.getAnswer() == 'ok':
+                newList = p.getNewList()
+                del self.listCheckBox
+                self.listCheckBox = []
+                self.listItems = []
+                self.elemProxy.deleteLater()
+                self.proxyWidget.deleteLater()
+                self.grid.deleteLater()
+                self.grid = QGridLayout()
+                for i, v in enumerate(newList):
+                    self.listItems.append(v)
+                    self.listCheckBox.append(QCheckBox(v))
+                    self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
+                    self.grid.addWidget(self.listCheckBox[-1], i, 0)
+                self.elemProxy = QWidget()
+                self.elemProxy.setLayout(self.grid)
+                self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
+                self.proxyWidget.setWidget(self.elemProxy)
+                self.proxyWidget.setPos(3, 3)
+                self.proxyWidget.setZValue(3)
+                w = self.proxyWidget.boundingRect().size().width() + 15
+                h = self.proxyWidget.boundingRect().size().height() + 6    
+                self.setRect(0.0, 0.0, w, h)
+                self.outputs[0].setPos(w + 2, h / 2)
+               
 
 ###############################################################################
 
@@ -5465,6 +5582,8 @@ class TreeLibrary(QTreeView):
                     bc = ForLoopItem('', name, 200, 200, False)
                 elif 'Script' in name:
                     bc = ScriptItem('', name, 200, 200, False)
+                elif 'Checkbox' in name:
+                    bc = Checkbox('', ['item1', 'item2'], False)
                 elif name in ['Value', 'Type', 'Length']:
                     bc = Probes('', 'int', name, False)
 
@@ -5708,7 +5827,7 @@ class NodeEdit(QWidget):
         self.tabLib.addTab(TreeLibrary(), ' ')
 
         libTools = []
-        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'Script', 'Probes']
+        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'CheckBox', 'Script', 'Probes']
         self.libMod1 = LibMod('structures_tools')
         self.libMod1.setColumnCount(1)
 
@@ -5755,8 +5874,16 @@ class NodeEdit(QWidget):
             self.libMod1.appendRow(self.stdItem1)
             branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
-
+        
         branch1 = QStandardItem(listCategoryTools[4])
+        branch1.setEditable(False)
+        self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Checkbox')
+        self.stdItem1.setEditable(False)
+        self.libMod1.appendRow(self.stdItem1)
+        branch1.appendRow([QStandardItem(self.stdItem1), None])
+        self.rootNode1.appendRow([branch1, None])
+
+        branch1 = QStandardItem(listCategoryTools[5])
         branch1.setEditable(False)
         self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Script_editor')
         self.stdItem1.setEditable(False)
@@ -5764,7 +5891,7 @@ class NodeEdit(QWidget):
         branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
 
-        branch1 = QStandardItem(listCategoryTools[5])
+        branch1 = QStandardItem(listCategoryTools[6])
         branch1.setEditable(False)
         self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Value')
         self.stdItem1.setEditable(False)
