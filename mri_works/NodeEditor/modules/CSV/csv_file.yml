@@ -1,9 +1,0 @@
-csv_reader_file:
-  delimiter: ','
-  doublequote: True
-  escapechar: 'None'
-  lineterminator: '\r\n'
-  quotechar: '"'
-  quoting: enumerate(('csv.QUOTE_ALL','csv.QUOTE_MINIMAL','csv.QUOTE_NONE','csv.QUOTE_NONNUMERIC'))
-  skipinitialspace: True
-  strict: False

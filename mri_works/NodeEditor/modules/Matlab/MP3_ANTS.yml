@@ -1,8 +1,0 @@
-MP3_Atlas_ANTS:
-  suffix: ''
-  dimension: '3'
-  transformation: enumerate(('t','r','a','s','sr','so','b','br','bo'))
-  script_location: 'path'
-  atlas_filename: 'path'
-  label_filename: 'path'
-  

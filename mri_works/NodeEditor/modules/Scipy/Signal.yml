@@ -1,4 +1,0 @@
-Convolve2d:
-  mode: enumerate(('full','valid','same'))
-  boundary: enumerate(('fill','wrap','symm'))
-  fillvalue : 0

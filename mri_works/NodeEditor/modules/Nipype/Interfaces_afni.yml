@@ -1,8 +1,0 @@
-Fourier:
-  out_file: 'path'
-  retrend: True
-  num_threads: 1
-  outputtype: enumerate(('NIFTI', 'AFNI', 'NIFTI_GZ'))
-  args: ''
-  environ: {}
-   

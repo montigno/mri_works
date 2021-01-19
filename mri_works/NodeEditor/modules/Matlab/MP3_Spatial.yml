@@ -1,8 +1,0 @@
-MP3_Brain_Mask_PCNN3D:
-  Radius: 5.0
-  Min_BrainSize: 1200.0
-  Max_BrainSize: 4400.0
-MP3_Arithmetic:
-  Output_orientation: enumerate(('First input', 'Second input'))
-  Operation: enumerate(('Addition', 'Subtraction', 'Multiplication (Between Scans)', 'Division', 'Percentage', 'Union', 'Intersection', 'Moyenne temporelle' ))
-  Constant: 1
