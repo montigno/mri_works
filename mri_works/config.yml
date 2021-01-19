@@ -26,8 +26,13 @@ packages:
 paths:
   data: /tmp/
   histories:
-  - /home/omontigon/Documents/mri_works_projects/test_Checkbox.dgr
-  - /home/omontigon/Documents/mri_works_projects/pb_checkbox_loopfor.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_convolve3D_erosion.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_mrtrix_dwiextract.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/5-Display_Atlas_Images.dgr
   modules: modules
   projects: ../data
-version: 21.01.12a
+version: 20.11.19a

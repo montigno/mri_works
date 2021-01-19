@@ -643,7 +643,11 @@ class LoadCodeScript:
                 tmpVal = val[0:val.index('#Node#')]
                 if 'A' in tmpVal[0:1]:
                     tmpConstName = tmpVal[0:-1]
-                    tmpVal = repr(listConstants[editor.currentTab][tmpConstName][1])
+                    tmpIt = listItems[editor.currentTab][tmpConstName]
+                    tmpVal = listConstants[editor.currentTab][tmpConstName][1]
+                    if type(tmpIt).__name__ == 'Checkbox':
+                        tmpVal = [i[0:-1] for i in tmpVal if '*' in i]
+                    tmpVal = repr(tmpVal)
                 listInputVal.append(tmpIn + '=' + tmpVal)
         return listInputVal
 
@@ -1034,7 +1038,7 @@ class SaveDiagram(QTextEdit):
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
                 elif type(item.elemProxy) == QWidget:
-                    value = item.listItems
+                    value = item.listItemsBox
                 self.append('constant=[' + str(item.unit) +
                             '] value=[' + str(value) +
                             '] format=[' + str(item.form) +
@@ -3439,7 +3443,7 @@ class Checkbox(QGraphicsRectItem):
 
         
         self.listCheckBox = []
-        self.listItems = listItems
+        self.listItemsBox = listItems
         self.grid = QGridLayout()
         self.elemProxy = QWidget()
 
@@ -3478,16 +3482,21 @@ class Checkbox(QGraphicsRectItem):
         self.outputs.append(Port('', 'out', 'list_str', self.unit, True, self.isMod, 80, -12, self))
         self.outputs[0].setPos(self.w + 2, self.h / 2)
         if self.isMod:
-            listConstants[editor.currentTab][self.unit] = (self.form, listItems, self.label)
-    
+            self.updateListItems()
+            
     def checkboxChanged(self):
-        self.listItems = []
+        self.listItemsBox = []
         for lstCh in self.listCheckBox:
             tmp = lstCh.text().replace('*','')
             if lstCh.checkState():
-                self.listItems.append(tmp+'*')
+                self.listItemsBox.append(tmp+'*')
             else:
-                self.listItems.append(tmp)
+                self.listItemsBox.append(tmp)
+        if self.isMod:
+            self.updateListItems()
+                
+    def updateListItems(self):
+        listConstants[editor.currentTab][self.unit] = (self.form, self.listItemsBox, self.label)
     
     def keyPressEvent(self, event):
         global itemStored
@@ -3508,7 +3517,7 @@ class Checkbox(QGraphicsRectItem):
     def mouseDoubleClickEvent(self, event):
         if self.isMod:
             tmp = []
-            for el in self.listItems:
+            for el in self.listItemsBox:
                 tmp.append(el.replace('*',''))
             p = editCombobox(tmp)
             p.exec_()
@@ -3516,14 +3525,14 @@ class Checkbox(QGraphicsRectItem):
                 newList = p.getNewList()
                 del self.listCheckBox
                 self.listCheckBox = []
-                self.listItems = []
+                self.listItemsBox = []
                 self.elemProxy.deleteLater()
                 self.proxyWidget.deleteLater()
                 self.grid.deleteLater()
                 self.grid = QGridLayout()
                 for i, v in enumerate(newList):
                     if v:
-                        self.listItems.append(v)
+                        self.listItemsBox.append(v)
                         self.listCheckBox.append(QCheckBox(v))
                         self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
                         self.grid.addWidget(self.listCheckBox[-1], i, 0)
@@ -3537,6 +3546,7 @@ class Checkbox(QGraphicsRectItem):
                 h = self.proxyWidget.boundingRect().size().height() + 6    
                 self.setRect(0.0, 0.0, w, h)
                 self.outputs[0].setPos(w + 2, h / 2)
+                self.updateListItems()
                
     def contextMenuEvent(self, event):
         if self.isMod:
@@ -3563,18 +3573,22 @@ class Checkbox(QGraphicsRectItem):
         UpdateUndoRedo()
         
     def checkOn(self):
-        self.listItems = []
+        self.listItemsBox = []
         for lstCh in self.listCheckBox:
             if not lstCh.checkState():
                 lstCh.setChecked(True)
-            self.listItems.append(lstCh.text()+'*')
+            self.listItemsBox.append(lstCh.text()+'*')
+        if self.isMod:
+            self.updateListItems()
     
     def checkOff(self):
-        self.listItems = []
+        self.listItemsBox = []
         for lstCh in self.listCheckBox:
             if lstCh.checkState():
                 lstCh.setChecked(False)
-            self.listItems.append(lstCh.text())
+            self.listItemsBox.append(lstCh.text())
+        if self.isMod:
+            self.updateListItems()
             
     def changeLabel(self):
         listLabCts = []
@@ -3594,6 +3608,9 @@ class Checkbox(QGraphicsRectItem):
             UpdateUndoRedo()
         except OSError as err:
             print("OS error: {0}".format(err))
+        if self.isMod:
+            self.updateListItems()
+            
 ###############################################################################
 
 

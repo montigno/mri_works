@@ -13,6 +13,7 @@ class executionScript:
         textScript = '\n'.join(txt.split('\n')[1:-2])
         outputsList = eval(txt.splitlines()[-1])
         code = ''
+        
         for lst in inputsList:
             az = lst.split('=')
             if ':' in az[1]:
