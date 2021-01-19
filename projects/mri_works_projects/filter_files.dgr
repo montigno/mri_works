@@ -1,0 +1,28 @@
+[diagram]
+constant=[A0] value=['Choose directory'] format=[str] label=[title] RectF=[(-576.6038122090501, -99.60948353091683, 142.0, 33.0)]
+link=[N0] node=[A0:#Node#U0:title]
+link=[N1] node=[U0:filePath#Node#U1:RepDefault]
+link=[N2] node=[U1:listFiles#Node#S0:list_files]
+script=[S0] title=[Script_editor] inputs=[['list_files', 'in', 'list_path']] outputs=[] code=[your code] RectF=[(174.73666338731744, -229.7642314153676, 584.7061104632828, 325.1374076090607)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_directory] valInputs=[(['RepDefault', 'title'], ['path', 'Node(N0)'], ['filePath'], ['path'])] RectF=[(-337.14193429954986, -136.16950232760007, 159.171875, 80.0)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N1)', 'Select a directory', '*', True], ['listFiles'], ['list_path'])] RectF=[(-94.20762441809998, -112.96187790950012, 158.328125, 80.0)]
+[source S0]
+['list_files=U1:listFiles']
+from NodeEditor.modules.File_IO.Deleting_files_folders import deleting_file
+
+for lst in list_files:
+    if 'BrukerFLASH-T1_FLASH_3D' in lst or '2--DTI_EPI_3D_40dir' in lst:
+        pass
+    else:
+        deleting_file(lst)
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'U1', 'S0']
+{'U1': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['U0:filePath', 'Select a directory', '*', True], ['listFiles'], ['list_path'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_directory', "(['RepDefault', 'title'], ['path', 'Choose directory'], ['filePath'], ['path'])")}
+['U1:listFiles', 'U0:filePath', 'A0:']
+{}
+[]

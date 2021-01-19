@@ -1,0 +1,31 @@
+[diagram]
+constant=[A0] value=['[\n[0.0, 1.0, 2.0],\n[0.1, 1.1, 2.1]\n]'] format=[str] label=[A0] RectF=[(-518.0, -45.0, 115.0, 84.0)]
+block=[U0] category=[Tools.Print] class=[Print_float] valInputs=[(['comment', 'inFloat'], ['', 'Node(N1)'], [], [])] RectF=[(95.5, -27.5, 150.0, 80.0)]
+link=[N3] node=[A0:#Node#U1:inString]
+link=[N2] node=[U1:outArrayFloat#Node#F0:in0]
+link=[N1] node=[F1:in0#Node#U0:inFloat]
+link=[N0] node=[F0:in0#Node#F1:in0]
+loopFor=[F1] inputs=[[[['in0', 'in', 'list_float'], ['in0', 'out', 'float']]]] outputs=[[]] listItems=[['U0']] RectF=[(61.0, -117.0, 213.0, 238.0)]
+block=[U1] category=[Tools.Conversion] class=[StringToArrayFloat] valInputs=[(['inString'], ['Node(N3)'], ['outArrayFloat'], ['array_float'])] RectF=[(-345.0, -41.0, 181.6875, 80.0)]
+loopFor=[F0] inputs=[[[['in0', 'in', 'array_float'], ['in0', 'out', 'list_float']]]] outputs=[[]] listItems=[['F1']] RectF=[(-90.0, -227.0, 557.0, 455.0)]
+[execution]
+[]
+['U1', 'F0']
+{'U1': ('Tools.Conversion', 'StringToArrayFloat', "(['inString'], ['[\\n[0.0, 1.0, 2.0],\\n[0.1, 1.1, 2.1]\\n]'], ['outArrayFloat'], ['array_float'])")}
+['F0:in0', 'F1:in0', 'U1:outArrayFloat', 'A0:']
+{}
+[]
+[loopfor F0]
+['F0:in0=U1:outArrayFloat']
+['F1']
+{}
+['F0:in0']
+{}
+[]
+[loopfor F1]
+[]
+['U0']
+{'U0': ('Tools.Print', 'Print_float', "(['comment', 'inFloat'], ['', 'F1:in0'], [], [])")}
+['F1:in0']
+{}
+[]

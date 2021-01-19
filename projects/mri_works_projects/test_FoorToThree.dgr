@@ -1,0 +1,13 @@
+[diagram]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Nifti/Isabelle_Guillemain/F0_H52/Rat_fixe-F0_H52-2020-08-05073648-1-T1_FLASH_3D-BrukerFLASH-003009.000_N4BiasCorrection.nii'] format=[path] label=[image] RectF=[(-1331.5, -20.5, 1217.0, 33.0)]
+link=[N1] node=[U0:fourToFree#Node#U1:image]
+link=[N0] node=[A0:#Node#U0:image]
+block=[U1] category=[Nifti.Nifti] class=[DisplayImage] valInputs=[(['image', 'title'], ['Node(N1)', ''], [], [])] RectF=[(252.0, -66.0, 150.0, 80.0)]
+block=[U0] category=[Nifti.funcs] class=[four_to_free] valInputs=[(['image'], ['Node(N0)'], ['fourToFree'], ['array_float'])] RectF=[(-57.0, -48.0, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'U1']
+{'U1': ('Nifti.Nifti', 'DisplayImage', "(['image', 'title'], ['U0:fourToFree', ''], [], [])"), 'U0': ('Nifti.funcs', 'four_to_free', "(['image'], ['/home/omontigon/Documents/DataIRM/Nifti/Isabelle_Guillemain/F0_H52/Rat_fixe-F0_H52-2020-08-05073648-1-T1_FLASH_3D-BrukerFLASH-003009.000_N4BiasCorrection.nii'], ['fourToFree'], ['array_float'])")}
+['A0:', 'U0:fourToFree']
+{}
+[]

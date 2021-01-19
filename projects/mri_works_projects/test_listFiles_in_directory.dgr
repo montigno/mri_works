@@ -1,0 +1,26 @@
+[diagram]
+constant=[A1] value=['*.*'] format=[str] label=[filter] RectF=[(-365.08506944444434, -29.18402777777778, 44.0, 33.0)]
+constant=[A0] value=['True'] format=[bool] label=[recursive] RectF=[(-389.5, 35.5, 79.0, 31.0)]
+constant=[A2] value=['/home/omontigon/Documents/DataIRM/Nifti/Dicomifier'] format=[path] label=[RepDefault] RectF=[(-754.8906257142577, -109.54679928982392, 411.0, 33.0)]
+link=[N4] node=[F0:in0#Node#P0:Value]
+probe=[P0] label=[Value] format=[path] RectF=[(94.09742755546077, -31.227646667375005, 70, 24)]
+link=[N0] node=[U0:listFiles#Node#F0:in0]
+link=[N2] node=[A1:#Node#U0:filter]
+link=[N1] node=[A0:#Node#U0:recursive]
+link=[N3] node=[A2:#Node#U0:RepDefault]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[]] listItems=[['P0']] RectF=[(-1.2809354227005514, -122.9698005792531, 257.6420940215248, 208.96654795890387)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N3)', 'Select a directory', 'Node(N2)', 'Node(N1)'], ['listFiles'], ['list_path'])] RectF=[(-240.00000000000003, -60.966547958903874, 158.328125, 80.0)]
+[execution]
+[]
+['U0', 'F0']
+{'U0': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['/home/omontigon/Documents/DataIRM/Nifti/Dicomifier', 'Select a directory', '*.*', True], ['listFiles'], ['list_path'])")}
+['A2:', 'A0:', 'A1:', 'U0:listFiles', 'F0:in0']
+{}
+[]
+[loopfor F0]
+['F0:in0=U0:listFiles']
+['P0']
+{'P0': ('path', 'Value', 'F0:in0')}
+['F0:in0']
+{}
+[]

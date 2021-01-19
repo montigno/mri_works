@@ -1,0 +1,11 @@
+[diagram]
+link=[N0] node=[U0:factorial#Node#U1:inInt]
+block=[U1] category=[Tools.Print] class=[Print_int] valInputs=[(['comment', 'inInt'], ['', 'Node(N0)'], [], [])] RectF=[(58.5, -121.5, 150.0, 80.0)]
+block=[U0] category=[C.Maths] class=[fact] valInputs=[(['enter_int'], [0], ['factorial'], ['int'])] RectF=[(-220.0, -18.0, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'U1']
+{'U0': ('C.Maths', 'fact', "(['enter_int'], [0], ['factorial'], ['int'])"), 'U1': ('Tools.Print', 'Print_int', "(['comment', 'inInt'], ['', 'U0:factorial'], [], [])")}
+['U0:factorial']
+{}
+[]

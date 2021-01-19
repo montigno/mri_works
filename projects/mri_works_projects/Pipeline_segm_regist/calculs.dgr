@@ -1,0 +1,59 @@
+[diagram]
+constant=[A3] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-07-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii'] format=[path] label=[Diff_MD] RectF=[(-1340.870956828739, 67.50401855616386, 840.0, 33.0)]
+constant=[A2] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-07-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii'] format=[path] label=[Diff_FA] RectF=[(-1331.190646864526, -16.28861017613574, 828.0, 33.0)]
+constant=[A1] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-05-T1_FLASH_3D-BrukerFLASH-003009.000.nii'] format=[path] label=[T1flash] RectF=[(-1299.1178780876508, -90.64579972723101, 802.0, 33.0)]
+constant=[A0] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/listStructures/'] format=[path] label=[mask] RectF=[(-924.7170489835833, -186.2446355625373, 427.0, 33.0)]
+constant=[A4] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/result.txt'] format=[path] label=[output_result] RectF=[(-906.9399401939172, 167.7781306388333, 398.0, 33.0)]
+link=[N5] node=[U0:path_list#Node#S0:list_files]
+link=[N4] node=[A0:#Node#U1:RepDefault]
+link=[N1] node=[A2:#Node#U0:in_path_0]
+link=[N0] node=[A1:#Node#U0:in_path]
+link=[N2] node=[A3:#Node#U0:in_path_1]
+link=[N6] node=[A4:#Node#S0:output_result]
+link=[N3] node=[U1:listFiles#Node#U2:files_list]
+link=[N7] node=[U2:list_out#Node#S0:list_masks]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N4)', 'Select a directory', '*', True], ['listFiles'], ['list_path'])] RectF=[(-264.38215323487, -194.09744039420278, 158.328125, 80.0)]
+block=[U0] category=[Tools.PathManipulation] class=[build_list_path_dyn] valInputs=[(['in_path', 'in_path_0', 'in_path_1'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['path_list'], ['list_path'])] RectF=[(-275.0386837364293, -61.729310250010684, 159.890625, 133.0)]
+script=[S0] title=[Script_editor] inputs=[['list_masks', 'in', 'list_path'], ['list_files', 'in', 'list_path'], ['output_result', 'in', 'path']] outputs=[] code=[your code] RectF=[(230.67553884337556, -260.5514686018141, 537.7032895347078, 541.5114194704972)]
+block=[U2] category=[Tools.PathManipulation] class=[order_name_files] valInputs=[(['files_list', 'reverse'], ['Node(N3)', False], ['list_out'], ['list_path'])] RectF=[(-21.69589698480131, -186.55469191160077, 150.0, 80.0)]
+[source S0]
+['list_masks=U2:list_out', "output_result='/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/result.txt'", 'list_files=U0:path_list']
+import numpy as np
+import nibabel as nib
+import os
+import pathlib
+
+fileSet = {}
+for seq in list_files:
+    base_seq = os.path.basename(seq)
+    base_seq=('.').join(base_seq.split('.')[:-1])
+    fileSet[base_seq] = nib.load(seq).get_fdata()  
+
+with open(output_result, 'w') as results:
+    results.write('Labels|Sequences|Vol(mm3)|Mean|Stdv\n')
+    for mask in list_masks:
+        base_mask = os.path.basename(mask)
+        base_mask=('.').join(base_mask.split('.')[:-1])
+        tmpmask = nib.load(mask).get_fdata()
+        hdr =  nib.load(mask).header
+        list_dim = (hdr['pixdim']).tolist()
+        voxel_dim = list_dim[1] * list_dim[2] * list_dim[3]
+        sum_mask = np.sum(tmpmask)
+        results.write(base_mask + '||' + str(round(sum_mask*voxel_dim, 2)) + '||\n')
+        for seq_k, seq_v in fileSet.items():
+            mul = np.multiply(seq_v, tmpmask)
+            mul[mul == 0.0] = 'nan'
+            mean = np.nanmean(mul)
+            stdv = np.nanstd(mul)
+            results.write( '|' + seq_k + '|''|' + str(mean) + '|' + str(stdv) + '\n')
+results.close()
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'U1', 'U2', 'S0']
+{'U2': ('Tools.PathManipulation', 'order_name_files', "(['files_list', 'reverse'], ['U1:listFiles', False], ['list_out'], ['list_path'])"), 'U0': ('Tools.PathManipulation', 'build_list_path_dyn', "(['in_path', 'in_path_0', 'in_path_1'], ['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-05-T1_FLASH_3D-BrukerFLASH-003009.000.nii', '/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-07-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii', '/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/Rat_fixe-F1_C43-2020-11-03152552-07-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii'], ['path_list'], ['list_path'])"), 'U1': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['/home/domicile-xubuntu/Documents/DataIRM/tmp_C43/listStructures/', 'Select a directory', '*', True], ['listFiles'], ['list_path'])")}
+['U2:list_out', 'U1:listFiles', 'A4:', 'A3:', 'A1:', 'A2:', 'A0:', 'U0:path_list']
+{}
+[]

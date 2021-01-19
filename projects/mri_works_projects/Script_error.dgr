@@ -1,0 +1,39 @@
+[diagram]
+constant=[A0] value=['[1.1, 2.2, 3.3, \n4.4, 5.5, 6.6, \n7.7, 8.8, 9.9]'] format=[str] label=[text_in] RectF=[(-678.0648290401173, 249.76887222131302, 110.0, 67.0)]
+link=[N5] node=[S1:out1#Node#U3:in_list_Float]
+link=[N4] node=[S0:out1#Node#U2:in_list_Float]
+link=[N0] node=[A0:#Node#S0:text_in]
+link=[N1] node=[A0:#Node#S1:text2]
+link=[N2] node=[A0:#Node#U0:inString]
+link=[N3] node=[U0:outListFloat#Node#U1:in_list_Float]
+block=[U3] category=[Tools.Print] class=[Print_list_float] valInputs=[(['comment', 'in_list_Float'], ['', 'Node(N5)'], [], [])] RectF=[(163.48935201667837, 287.76505041695657, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_list_float] valInputs=[(['comment', 'in_list_Float'], ['', 'Node(N4)'], [], [])] RectF=[(161.7135527926747, 40.57652495502872, 150.0, 80.0)]
+script=[S1] title=[Script_test2] inputs=[['text2', 'in', 'str']] outputs=[['out1', 'out', 'list_float']] code=[your code] RectF=[(-281.6802908404645, 197.85880041695657, 340.6696428571429, 192.8125)]
+script=[S0] title=[Script_test1] inputs=[['text_in', 'in', 'str']] outputs=[['out1', 'out', 'list_float']] code=[your code] RectF=[(-280.34100512617886, -44.07526075925702, 337.55455791885356, 182.30357142857147)]
+block=[U0] category=[Tools.Conversion] class=[StringToListFloat] valInputs=[(['inString'], ['Node(N2)'], ['outListFloat'], ['list_float'])] RectF=[(-251.4505372949932, 479.9481115676251, 167.515625, 80.0)]
+block=[U1] category=[Tools.Print] class=[Print_list_float] valInputs=[(['comment', 'in_list_Float'], ['', 'Node(N3)'], [], [])] RectF=[(21.29283738886531, 463.60517541122647, 150.0, 80.0)]
+[source S0]
+["text_in='[1.1, 2.2, 3.3, \\n4.4, 5.5, 6.6, \\n7.7, 8.8, 9.9]'"]
+import ast
+
+out1 = []
+out1 = ast.literal_eval(text_in)
+print('type = ', type(out1).__name__)
+
+['S0:out1']
+[/source S0]
+[source S1]
+["text2='[1.1, 2.2, 3.3, \\n4.4, 5.5, 6.6, \\n7.7, 8.8, 9.9]'"]
+out1 = []
+
+print('text2 = ', text2)
+['S1:out1']
+[/source S1]
+
+[execution]
+[]
+['S0', 'S1', 'U0', 'U1', 'U2', 'U3']
+{'U1': ('Tools.Print', 'Print_list_float', "(['comment', 'in_list_Float'], ['', 'U0:outListFloat'], [], [])"), 'U2': ('Tools.Print', 'Print_list_float', "(['comment', 'in_list_Float'], ['', 'S0:out1'], [], [])"), 'U3': ('Tools.Print', 'Print_list_float', "(['comment', 'in_list_Float'], ['', 'S1:out1'], [], [])"), 'U0': ('Tools.Conversion', 'StringToListFloat', "(['inString'], ['[1.1, 2.2, 3.3, \\n4.4, 5.5, 6.6, \\n7.7, 8.8, 9.9]'], ['outListFloat'], ['list_float'])")}
+['U0:outListFloat', 'A0:', 'A0:', 'A0:', 'S0:out1', 'S1:out1']
+{}
+[]

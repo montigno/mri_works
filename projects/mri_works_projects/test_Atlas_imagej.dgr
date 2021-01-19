@@ -1,0 +1,17 @@
+[diagram]
+constant=[A3] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000_N4bias_seg_RegLinTemp_regNoLin_Template.nii'] format=[path] label=[A3] RectF=[(-1650.402817177219, -34.75292148665386, 1340.0, 33.0)]
+constant=[A2] value=['/home/omontigon/Documents/DataIRM/Atlas_Rat/SIGMA_W_Rat_Atlas_V1.1/SIGMA_Rat_Brain_Atlases/SIGMA_Anatomical_Atlas/SIGMA_Anatomical_Brain_Atlas_Labels.txt'] format=[path] label=[label_txt] RectF=[(-1512.6366031294426, 126.65211097214751, 1204.0, 33.0)]
+constant=[A1] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000_N4bias_seg_RegLinLab_regNoLin_Label.nii'] format=[path] label=[atlas_in] RectF=[(-1611.0027179016379, 45.36847846706431, 1300.0, 33.0)]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000.nii'] format=[path] label=[file_in] RectF=[(-1344.0358162780085, -128.98327750817265, 1022.0, 33.0)]
+link=[N3] node=[A2:#Node#U0:label_txt]
+link=[N2] node=[A1:#Node#U0:atlas_label]
+link=[N1] node=[A3:#Node#U0:atlas_template]
+link=[N0] node=[A0:#Node#U0:file_in]
+block=[U0] category=[ImageJ.ImageJ_analyze] class=[Atlas_reg] valInputs=[(['file_in', 'atlas_template', 'atlas_label', 'label_txt'], ['Node(N0)', 'Node(N1)', 'Node(N2)', 'Node(N3)'], [], [])] RectF=[(-107.14637565585299, -15.714801762858436, 150.0, 80.0)]
+[execution]
+[]
+['U0']
+{'U0': ('ImageJ.ImageJ_analyze', 'Atlas_reg', "(['file_in', 'atlas_template', 'atlas_label', 'label_txt'], ['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000.nii', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000_N4bias_seg_RegLinTemp_regNoLin_Template.nii', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_C13/Rat_fixe-FO_C13-2020-07-10091718-4-T1_FLASH_3D-BrukerFLASH-003006_000_N4bias_seg_RegLinLab_regNoLin_Label.nii', '/home/omontigon/Documents/DataIRM/Atlas_Rat/SIGMA_W_Rat_Atlas_V1.1/SIGMA_Rat_Brain_Atlases/SIGMA_Anatomical_Atlas/SIGMA_Anatomical_Brain_Atlas_Labels.txt'], [], [])")}
+['A0:', 'A3:', 'A1:', 'A2:']
+{}
+[]

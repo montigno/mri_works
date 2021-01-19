@@ -1,0 +1,28 @@
+[diagram]
+constant=[A5] value=['/tmp/result.txt'] format=[path] label=[output_result] RectF=[(-197.4429136537687, 213.87047647683983, 128.0, 33.0)]
+constant=[A4] value=['/home/omontigon/Documents/mri_works_projects/Is_Gu/SIGMA_Anatomical_Brain_Atlas_Labels.txt'] format=[path] label=[Atlas_label_text] RectF=[(-763.2362210550447, 130.36998544553256, 710.0, 33.0)]
+constant=[A3] value=['/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D_N4bias_seg_RegLinLab_regNoLin_Label.nii'] format=[path] label=[Atlas_label_nifti] RectF=[(-1185.8877640476246, 58.428067125821286, 1138.0, 33.0)]
+constant=[A2] value=['/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0001_RegLinMD_NoLinMD.nii'] format=[path] label=[Diff MD Nifti] RectF=[(-1034.2828905528572, -7.934481784294626, 998.0, 33.0)]
+constant=[A1] value=['/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0000_RegLinFA_NoLinFA.nii'] format=[path] label=[Diff FA Nifti] RectF=[(-1015.60104115641, -79.6793278826967, 986.0, 33.0)]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D.nii'] format=[path] label=[T1_Flash Nifti] RectF=[(-893.4428241695249, -156.79953363661755, 859.0, 33.0)]
+link=[N5] node=[A5:#Node#M0:output_result]
+link=[N4] node=[A4:#Node#M0:Atlas_label_text]
+link=[N3] node=[A3:#Node#M0:Atlas_label_nifti]
+link=[N2] node=[A2:#Node#M0:Diff MD Nifti]
+link=[N1] node=[A1:#Node#M0:Diff FA Nifti]
+link=[N0] node=[A0:#Node#M0:T1_Flash Nifti]
+submod=[M0] nameMod=[IG_calculs_2] valInputs=[(['T1_Flash Nifti', 'Diff FA Nifti', 'Diff MD Nifti', 'Atlas_label_nifti', 'Atlas_label_text', 'output_result'], ['Node(N0)', 'Node(N1)', 'Node(N2)', 'Node(N3)', 'Node(N4)', 'Node(N5)'], [], [])] RectF=[(51.31063731315746, -129.0, 200.0, 317.0)]
+[execution]
+[]
+['M0']
+{}
+['A0:', 'A1:', 'A2:', 'A3:', 'A4:', 'A5:']
+{'M0': ('IG_calculs_2', "(['T1_Flash Nifti', 'Diff FA Nifti', 'Diff MD Nifti', 'Atlas_label_nifti', 'Atlas_label_text', 'output_result'], ['/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D.nii', '/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0000_RegLinFA_NoLinFA.nii', '/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0001_RegLinMD_NoLinMD.nii', '/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D_N4bias_seg_RegLinLab_regNoLin_Label.nii', '/home/omontigon/Documents/mri_works_projects/Is_Gu/SIGMA_Anatomical_Brain_Atlas_Labels.txt', '/tmp/result.txt'], [], [])")}
+[]
+[submod M0]
+['C1:T1_Flash Nifti=/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D.nii', 'C2:Diff FA Nifti=/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0000_RegLinFA_NoLinFA.nii', 'C3:Diff MD Nifti=/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-07-2--DTI_EPI_3D_40dir_0001_RegLinMD_NoLinMD.nii', 'C4:Atlas_label_nifti=/home/omontigon/Documents/DataIRM/Traitement_IG_2_test/F0_C42/Rat_fixe-F0_C42-09-BrukerFLASH-T1_FLASH_3D_N4bias_seg_RegLinLab_regNoLin_Label.nii', 'C0:Atlas_label_text=/home/omontigon/Documents/mri_works_projects/Is_Gu/SIGMA_Anatomical_Brain_Atlas_Labels.txt', 'C5:output_result=/tmp/result.txt']
+['U0', 'S0']
+{'U0': ('Tools.PathManipulation', 'build_list_path_dyn', "(['in_path', 'in_path_0', 'in_path_1'], ['C1:T1_Flash Nifti', 'C2:Diff FA Nifti', 'C3:Diff MD Nifti'], ['path_list'], ['list_path'])")}
+['C5:output_result', 'C0:Atlas_label_text', 'C4:Atlas_label_nifti', 'U0:path_list', 'C3:Diff MD Nifti', 'C2:Diff FA Nifti', 'C1:T1_Flash Nifti']
+{}
+[]

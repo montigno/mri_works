@@ -1,0 +1,35 @@
+[diagram]
+constant=[A1] value=['For Bruker '] format=[str] label=[in0] RectF=[(-203.5, 124.0, 100.0, 33.0)]
+constant=[A0] value=['True'] format=[bool] label=[val] RectF=[(-193.5, -20.5, 79.0, 31.0)]
+link=[N5] node=[I0:in0#Node#U1:comment]
+link=[N4] node=[A3:#Node#U1:in_String]
+constant=[A3] value=['error'] format=[str] label=[in_String] RectF=[(45.5, 189.83333333333337, 60.0, 33.0)]
+block=[U1] category=[Tools.Print] class=[Print_str] valInputs=[(['comment', 'in_String'], ['Node(N5)', 'Node(N4)'], [], [])] RectF=[(167.65073856097328, 113.84187582929371, 150.0, 80.0)]
+link=[N3] node=[A2:#Node#U0:in_String]
+constant=[A2] value=["it's ok !"] format=[str] label=[in_String] RectF=[(56.5, 174.83333333333337, 73.0, 33.0)]
+link=[N2] node=[I0:in0#Node#U0:comment]
+link=[N1] node=[A1:#Node#I0:in0]
+block=[U0] category=[Tools.Print] class=[Print_str] valInputs=[(['comment', 'in_String'], ['Node(N2)', 'Node(N3)'], [], [])] RectF=[(176.0, 108.0, 150.0, 80.0)]
+link=[N0] node=[A0:#Node#I0:val]
+loopIf=[I0] inputs=[[[['in0', 'in', 'str'], ['in0', 'out', 'str']]]] outputs=[[]] listItems=[[['A2', 'U0'], ['A3', 'U1']]] RectF=[(-31.0, -18.0, 418.0, 319.0)]
+[execution]
+[]
+['I0']
+{}
+['A0:', 'A1:', 'I0:in0', 'A2:', 'A3:', 'I0:in0']
+{}
+[]
+[loopif I0 True]
+['I0:val=True', 'I0:in0=For Bruker ']
+['U0']
+{'U0': ('Tools.Print', 'Print_str', '([\'comment\', \'in_String\'], [\'I0:in0\', "it\'s ok !"], [], [])')}
+['I0:in0']
+{}
+[]
+[loopif I0 False]
+['I0:val=True', 'I0:in0=For Bruker ']
+['U1']
+{'U1': ('Tools.Print', 'Print_str', "(['comment', 'in_String'], ['I0:in0', 'error'], [], [])")}
+['I0:in0']
+{}
+[]

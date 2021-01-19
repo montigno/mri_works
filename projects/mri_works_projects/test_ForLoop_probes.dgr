@@ -1,0 +1,34 @@
+[diagram]
+constant=[A0] value=[10] format=[int] label=[n] RectF=[(-453.8028141101862, 52.8021466398027, 98.0, 31.0)]
+link=[N5] node=[S0:X1#Node#P2:Value]
+probe=[P2] label=[Value] format=[int] RectF=[(470.8383772074691, 58.741832089223585, 70, 24)]
+link=[N4] node=[F0:in0#Node#S0:X]
+script=[S0] title=[Script_editor] inputs=[['X', 'in', 'int']] outputs=[['X1', 'out', 'int']] code=[your code] RectF=[(196.10734712863876, -16.26696888624653, 200.0, 200.0)]
+link=[N0] node=[U0:serie_int#Node#F0:in0]
+link=[N1] node=[A0:#Node#U0:n]
+link=[N2] node=[F0:in0#Node#P0:Value]
+link=[N3] node=[U0:serie_int#Node#P1:Value]
+probe=[P0] label=[Value] format=[int] RectF=[(127.04356641676995, -74.60962219826679, 70, 24)]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_int'], ['in0', 'out', 'int']]]] outputs=[[]] listItems=[['P0', 'S0', 'P2']] RectF=[(18.17407230819427, -128.34550970571553, 564.5367205046903, 405.4768890099969)]
+block=[U0] category=[Generator.Integer] class=[ListOfInt] valInputs=[(['n'], ['Node(N1)'], ['serie_int'], ['list_int'])] RectF=[(-285.70236050557094, 33.97159603866648, 150.0, 80.0)]
+probe=[P1] label=[Value] format=[list_int] RectF=[(-80.68289042563585, -38.64746999190878, 70, 24)]
+[source S0]
+['X=F0:in0']
+X1 = 2 * X
+['S0:X1']
+[/source S0]
+
+[execution]
+[]
+['U0', 'P1', 'F0']
+{'U0': ('Generator.Integer', 'ListOfInt', "(['n'], [10], ['serie_int'], ['list_int'])"), 'P1': ('list_int', 'Value', 'U0:serie_int')}
+['U0:serie_int', 'F0:in0', 'A0:', 'U0:serie_int', 'F0:in0', 'S0:X1']
+{}
+[]
+[loopfor F0]
+['F0:in0=U0:serie_int']
+['P0', 'ThreadOn', 'S0', 'ThreadOff', 'P2']
+{'P0': ('int', 'Value', 'F0:in0'), 'P2': ('int', 'Value', 'S0:X1')}
+['F0:in0', 'F0:in0', 'S0:X1']
+{}
+[]

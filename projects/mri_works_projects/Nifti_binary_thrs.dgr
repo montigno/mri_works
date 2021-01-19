@@ -1,0 +1,42 @@
+[diagram]
+constant=[A3] value=['Choose Nifti  to mask'] format=[str] label=[title] RectF=[(-636.1835592575092, -121.26857852377233, 170.0, 33.0)]
+constant=[A2] value=['Choose Nifti to create mask'] format=[str] label=[title] RectF=[(-663.8670730596879, 94.08355656040766, 213.0, 33.0)]
+constant=[A1] value=['*.nii'] format=[str] label=[extension] RectF=[(-549.7820969420616, -35.37232634642609, 53.0, 33.0)]
+constant=[A0] value=['/tmp/mask.nii.gz'] format=[path] label=[fileOut] RectF=[(-353.46102476983094, 290.35041813243174, 139.0, 33.0)]
+link=[N8] node=[U3:filePath#Node#U1:in_file]
+link=[N7] node=[A3:#Node#U3:title]
+link=[N6] node=[A1:#Node#U3:extension]
+link=[N5] node=[A2:#Node#U0:title]
+link=[N2] node=[A1:#Node#U0:extension]
+link=[N4] node=[U1:out_file#Node#U2:inPath]
+link=[N3] node=[S0:outFile#Node#U1:mask_file]
+link=[N0] node=[U0:filePath#Node#S0:img_nifti]
+link=[N1] node=[A0:#Node#S0:fileOut]
+block=[U3] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', 'Node(N6)', 'Node(N7)'], ['filePath'], ['path'])] RectF=[(-395.67838763146307, -128.484304943989, 155.3125, 82.0)]
+block=[U1] category=[Nipype.Interfaces_fsl_maths] class=[fsl_ApplyMask] valInputs=[(['in_file', 'mask_file'], ['Node(N8)', 'Node(N3)'], ['out_file'], ['path'])] RectF=[(587.0066370843929, 28.970191382816978, 150.0, 80.0)]
+block=[U2] category=[Tools.Print] class=[Print_path] valInputs=[(['comment', 'inPath'], ['', 'Node(N4)'], [], [])] RectF=[(831.5097625580647, 15.623339592737764, 150.0, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', 'Node(N2)', 'Node(N5)'], ['filePath'], ['path'])] RectF=[(-407.8615416967939, 6.09043190640115, 153.3125, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['img_nifti', 'in', 'path'], ['fileOut', 'in', 'path']] outputs=[['outFile', 'out', 'path']] code=[your code] RectF=[(-101.2345973423341, 149.00394839343988, 515.7761367544574, 234.02272278170716)]
+[source S0]
+["fileOut='/tmp/mask.nii.gz'", 'img_nifti=U0:filePath']
+import nibabel
+import os
+
+outFile = fileOut
+
+localizer_img = nibabel.load(img_nifti)
+localizer =  localizer_img.get_data()
+
+localizer[localizer >= 1.0] = 1.0
+locmask = nibabel.Nifti1Image(localizer, localizer_img.get_affine())
+nibabel.save(locmask, fileOut)
+['S0:outFile']
+[/source S0]
+
+[execution]
+[]
+['U0', 'U3', 'S0', 'U1', 'U2']
+{'U2': ('Tools.Print', 'Print_path', "(['comment', 'inPath'], ['', 'U1:out_file'], [], [])"), 'U1': ('Nipype.Interfaces_fsl_maths', 'fsl_ApplyMask', "(['in_file', 'mask_file'], ['U3:filePath', 'S0:outFile'], ['out_file'], ['path'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'Choose Nifti to create mask'], ['filePath'], ['path'])"), 'U3': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'Choose Nifti  to mask'], ['filePath'], ['path'])")}
+['A0:', 'U0:filePath', 'S0:outFile', 'U1:out_file', 'A1:', 'A2:', 'A1:', 'A3:', 'U3:filePath']
+{}
+[]

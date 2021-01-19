@@ -1,0 +1,84 @@
+[diagram]
+constant=[A2] value=['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG-bvecs-MRtrix.txt'] format=[path] label=[fileDefault] RectF=[(-1572.3603501640678, -124.30667424142595, 1208.0, 33.0)]
+constant=[A0] value=['*.txt'] format=[str] label=[extension] RectF=[(-458.4797449835469, -37.72784281013392, 56.0, 33.0)]
+constant=[A1] value=['Choose bvec file'] format=[str] label=[title] RectF=[(-531.75670368293, 27.04817007359047, 136.0, 33.0)]
+constant=[A3] value=['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG.json'] format=[path] label=[jsonFile] RectF=[(-1496.1043454602989, 361.16621957676875, 1123.0, 33.0)]
+constant=[A4] value=['ImageOrientationPatient'] format=[str] label=[tag] RectF=[(-583.6311784762886, 442.8683521406953, 196.0, 33.0)]
+constant=[A5] value=['Choose bval file'] format=[str] label=[title] RectF=[(-539.8983630558234, 201.29644011510265, 133.0, 33.0)]
+constant=[A6] value=['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG-bvals-MRtrix.txt'] format=[path] label=[fileDefault] RectF=[(-1610.3476346203531, 125.7499714010033, 1204.0, 33.0)]
+link=[N3] node=[A2:#Node#U0:fileDefault]
+link=[N0] node=[A0:#Node#U0:extension]
+link=[N1] node=[A1:#Node#U0:title]
+link=[N2] node=[U0:filePath#Node#S0:bvec_file]
+link=[N4] node=[A3:#Node#U1:jsonFile]
+link=[N5] node=[A4:#Node#U1:tag]
+link=[N6] node=[U2:filePath#Node#S0:bval_file]
+link=[N7] node=[A0:#Node#U2:extension]
+link=[N8] node=[A5:#Node#U2:title]
+link=[N9] node=[A6:#Node#U2:fileDefault]
+link=[N10] node=[U1:value#Node#U3:inString]
+link=[N11] node=[U3:outArrayFloat#Node#U4:ArrayIn]
+link=[N12] node=[U4:OutList#Node#S0:patient_position]
+script=[S0] title=[Script_editor] inputs=[['bvec_file', 'in', 'path'], ['bval_file', 'in', 'path'], ['patient_position', 'in', 'list_float']] outputs=[] code=[your code] RectF=[(439.8909873679056, -253.67076256409678, 820.6288688648642, 791.0039196353486)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['Node(N3)', 'Node(N0)', 'Node(N1)'], ['filePath'], ['path'])] RectF=[(-268.21389528726377, -125.95817133242176, 153.3125, 80.0)]
+block=[U1] category=[Irmage.Json_Irmage] class=[Json_File_Irmage] valInputs=[(['jsonFile', 'tag'], ['Node(N4)', 'Node(N5)'], ['value', 'format', 'description', 'type', 'units'], ['str', 'str', 'str', 'str', 'str'])] RectF=[(-314.29775670228554, 391.18949247144616, 159.34375, 100.0)]
+block=[U2] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['Node(N9)', 'Node(N7)', 'Node(N8)'], ['filePath'], ['path'])] RectF=[(-269.82968409438786, 121.7912790409153, 155.3125, 82.0)]
+block=[U3] category=[Tools.Conversion] class=[StringToArrayFloat] valInputs=[(['inString'], ['Node(N10)'], ['outArrayFloat'], ['array_float'])] RectF=[(-72.5384805320676, 369.0818253612019, 181.6875, 80.0)]
+block=[U4] category=[Irmage.Conversion] class=[ArrayToList] valInputs=[(['ArrayIn'], ['Node(N11)'], ['OutList'], ['list_float'])] RectF=[(163.6890985349957, 367.3566702417227, 150.0, 80.0)]
+[source S0]
+['patient_position=U4:OutList', 'bval_file=U2:filePath', 'bvec_file=U0:filePath']
+import numpy as np
+
+bve = open(bvec_file, "r")
+
+xe = bve.readline().split(' ')
+ye = bve.readline().split(' ')
+ze = bve.readline().split(' ')
+print(len(xe), len(ye), len(ze))
+xe = np.array(xe)
+xe=np.asfarray(xe, float)
+ye = np.array(ye)
+ye=np.asfarray(ye, float)
+ze = np.array(ze)
+ze=np.asfarray(ze, float)
+
+bva = open(bval_file, "r")
+xa = bva.readline().split(' ')
+
+print()
+print('patient_position =',patient_position)
+
+v1 = np.array((patient_position[0], patient_position[1], patient_position[2]))
+v2 = np.array((patient_position[3], patient_position[4], patient_position[5]))
+v3 = np.cross(v1, v2)
+ 
+bvecX = []
+bvecY = []
+bvecZ = []
+pbvec = np.zeros(3)
+
+for i in range(0,len(xe)):
+    bvec = []
+    bvec.append(xe[i])
+    bvec.append(ye[i])
+    bvec.append(ze[i])
+    bvecX.append(np.dot(v1, bvec[0:3]))
+    bvecY.append(np.dot(v2, bvec[0:3]))
+    bvecZ.append(np.dot(v3, bvec[0:3]))
+
+text_file = open("/tmp/output.txt", "w")
+text_file.write(' '.join([str(bx) for bx in bvecX] ) + '\n')
+text_file.write(' '.join([str(by) for by in bvecY] ) +'\n')
+text_file.write(' '.join([str(bz) for bz in bvecZ] ) +'\n')
+text_file.close()
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'U1', 'U2', 'U3', 'U4', 'S0']
+{'U4': ('Irmage.Conversion', 'ArrayToList', "(['ArrayIn'], ['U3:outArrayFloat'], ['OutList'], ['list_float'])"), 'U3': ('Tools.Conversion', 'StringToArrayFloat', "(['inString'], ['U1:value'], ['outArrayFloat'], ['array_float'])"), 'U2': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG-bvals-MRtrix.txt', '*.txt', 'Choose bval file'], ['filePath'], ['path'])"), 'U1': ('Irmage.Json_Irmage', 'Json_File_Irmage', "(['jsonFile', 'tag'], ['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG.json', 'ImageOrientationPatient'], ['value', 'format', 'description', 'type', 'units'], ['str', 'str', 'str', 'str', 'str'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['/tmp/105-1245_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG_2019-06-15204414_2019-06-14000000_0_401_DWI-APP_7x0-30x800-60x2000_Axi2_50_EnhG-bvecs-MRtrix.txt', '*.txt', 'Choose bvec file'], ['filePath'], ['path'])")}
+['U4:OutList', 'U3:outArrayFloat', 'U1:value', 'A6:', 'A5:', 'A0:', 'U2:filePath', 'A4:', 'A3:', 'U0:filePath', 'A1:', 'A0:', 'A2:']
+{}
+[]
