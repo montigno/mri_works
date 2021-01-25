@@ -1204,40 +1204,6 @@ class DiagramScene(QGraphicsScene):
         crss = QLineF(0, -10, 0, 10)
         self.addLine(crss, pen)
 
-    def draw_grid(self):
-        WIDTH = 20
-        HEIGHT = 15
-        NUM_BLOCKS_X = 100
-        NUM_BLOCKS_Y = 140
-
-        width = NUM_BLOCKS_X * WIDTH
-        height = NUM_BLOCKS_Y * HEIGHT
-        self.setSceneRect(0, 0, width, height)
-        self.setItemIndexMethod(self.NoIndex)
-
-        pen = QPen(QColor(150, 150, 150), 1, Qt.SolidLine)
-
-        for x in range(-NUM_BLOCKS_X, NUM_BLOCKS_X + 1):
-            xc = x * WIDTH
-            self.lines.append(self.addLine(xc, -height, xc, height, pen))
-
-        for y in range(-NUM_BLOCKS_Y, NUM_BLOCKS_Y + 1):
-            yc = y * HEIGHT
-            self.lines.append(self.addLine(-width, yc, width, yc, pen))
-
-    def set_visible(self, visible=True):
-        for line in self.lines:
-            line.setVisible(visible)
-
-    def delete_grid(self):
-        for line in self.lines:
-            self.removeItem(line)
-        del self.lines[:]
-
-    def set_opacity(self, opacity):
-        for line in self.lines:
-            line.setOpacity(opacity)
-
     def mouseMoveEvent(self, mouseEvent):
         editor.sceneMouseMoveEvent(mouseEvent)
         super(DiagramScene, self).mouseMoveEvent(mouseEvent)

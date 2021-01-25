@@ -1,12 +1,20 @@
 MP3_SPM_reorient:
   output_filename_ext: '_Reoriented'
-  right: 0
-  forward: 0
-  up: 0
-  pitch: 0
-  roll: 0
-  yall: 0
-  resize_x: 0
-  resize_y: 0
-  resize_z: 0
- 
+  right: 0.0
+  forward: 0.0
+  up: 0.0
+  pitch: 0.0
+  roll: 0.0
+  yall: 0.0
+  resize_x: 0.0
+  resize_y: 0.0
+  resize_z: 0.0
+MP_SPM_Coreg_Est_Res:
+  Function: enumerate(('mi', 'ncc', 'nmi', 'ecc'))
+  Separation: '4 2'
+  Tolerence: '0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001'
+  Hist_Smooth: '7 7'
+  output_filename_ext: 'Coreg'
+  Interpolation: enumerate(('Nearest neighbour', 'Trilinear', '2nd Degree B-Spline', '3rd Degree B-Spline', '4th Degree B-Spline', '5th Degree B-Spline', '6th Degree B-Spline', '7th Degree B-Spline'))
+  Wrapping: enumerate(('Mask images', 'Dont mask images'))
+  Masking: enumerate(('No wrap', 'Warp X', 'Warp Y', 'Warp X&Y', 'Warp Z', 'Warp X&Z', 'Warp Y&Z', 'Warp X,Y&Z'))
