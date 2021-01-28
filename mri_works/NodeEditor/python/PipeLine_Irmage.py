@@ -8,7 +8,7 @@
 
 '''
 Created on 14 december 2017
-Modified on 18 jan. 2021
+Last modification on 27 jan. 2021
 @author: omonti
 '''
 
@@ -860,35 +860,6 @@ class LoadDiagram:
             res.append(tmp)
         res.append(line[line.index(args[-1]+'=')+len(args[-1])+1:][1:-1])
         return res
-
-class ValueZ:
-
-    def __init__(self):
-        listZ = {}
-        zref = len(listTools)
-        lst = listTools[editor.currentTab]
-        keyZ = list(lst.keys())
-        uniZ = lst.values()
-        uniZ = [item for sublist in uniZ for item in sublist]
-
-        listLowNivel = list(set(keyZ) - set(uniZ))
-
-        ind = 0
-        while uniZ:
-            for le in listLowNivel:
-                listZ[le] = ind
-                for le2 in lst[le]:
-                    listZ[le2] = ind + 1
-                    uniZ.remove(le2)
-                keyZ.remove(le)
-            listLowNivel = list(set(keyZ) - set(uniZ))
-            ind += 1
-
-        for its in editor.diagramView[editor.currentTab].items():
-            try:
-                its.setZValue(listZ[its.unit])
-            except Exception as e:
-                pass
 
 
 class ValueZ2:

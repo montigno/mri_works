@@ -37,7 +37,8 @@ class MP_SPM_Coreg_Est_Res():
         if file_other != 'path':
             files_in['In3'] = [file_other]
         files_out['In1'] = [file_out]
-        mat.eng.Module_Coreg_Est_Res(files_in, files_out, options)
+        files_out['In2'] = [file_out]
+        mat_eng.Module_Coreg_Est_Res(files_in, files_out, options)
         self.mat_eng = mat_eng
         self.map = file_out
         
@@ -46,3 +47,5 @@ class MP_SPM_Coreg_Est_Res():
 
     def file_out(self: 'path'):
         return self.map
+
+##############################################################################

@@ -1,0 +1,14 @@
+Matlab pb with libssl.so.1.1 : 
+	sudo mv /usr/local/matlab/bin/glnxa64/libssl.so.1.0.0 /usr/local/matlab/bin/glnxa64/tmp-libssl.so.1.0.0
+	
+nipype lent :
+	pip3 install git+https://github.com/FCP-INDI/nipype.git
+	numpy == 1.18.5
+	
+	
+UserWarning: Could not import the lzma module:
+	$ sudo apt-get install liblzma-dev
+	$ sudo apt-get install lzma
+	$ cd /usr/src/Python-3.6.9
+	$ sudo ./configure --enable-optimizations
+	$ sudo make altinstall
