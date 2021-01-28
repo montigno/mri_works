@@ -33,7 +33,7 @@ if __name__ == '__main__':
     install('source bin/activate')
     install('pip install --upgrade pip')
     install('pip3 install --ignore-installed PyYAML')
-    from Config import Config
+    from mri_works.Config import Config
     pack = Config().getPathLibraries()
     for keypk, valpk in pack.items():
         try:
