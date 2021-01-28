@@ -8,7 +8,7 @@
 
 '''
 Created on 11 feb. 2020
-Modified on 13 aug. 2020
+Modified on 28 jan. 2021
 @author: omonti
 '''
 
@@ -27,25 +27,13 @@ if __name__ == '__main__':
     # install('python3 -m pip install --upgrade pip')
 #     install('pip install --upgrade pip')
     install('python3.6 -m venv ~/Apps/mri_works_venv')
-    install ('cp -r mri_works/ ~/Apps/mri_works_venv/')
-    install ('cp -r docs/ ~/Apps/mri_works_venv/')
-    install('cd ~/Apps/mri_works_venv')
-    install('source bin/activate')
-    install('pip install --upgrade pip')
-    install('pip3 install --ignore-installed PyYAML')
-    from mri_works.Config import Config
-    pack = Config().getPathLibraries()
-    for keypk, valpk in pack.items():
-        try:
-            print('\033[93m'+'checking ', keypk, end=' : ')
-            print('\033[0m')
-            install(valpk)
-            print('\033[0m')
-        except Exception as e:
-            print('error : ', e)
-    install('deactivate')       
+    install('cp -r mri_works/ ~/Apps/mri_works_venv/')
+    install('cp -r docs/ ~/Apps/mri_works_venv/')
     os.system("echo '\n#mri_works' >> ~/.bashrc")    
-    os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc")    
+    os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
+    os.system("echo 'cmd_mw_update=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
     os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
+    os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
     os.system("echo '\n' >> ~/.bashrc ")
     os.system("echo 'source ~/.bashrc'")
+
