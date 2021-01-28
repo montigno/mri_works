@@ -30,7 +30,9 @@ if __name__ == '__main__':
     install('cp -r mri_works/ ~/Apps/mri_works_venv/')
     install('cp -r docs/ ~/Apps/mri_works_venv/')
     
-    fp = open(os.path.join(os.path.expanduser('~'), '.bashrc'))
+    src_bash = os.path.join(os.path.expanduser('~'), '.bashrc')
+    
+    fp = open(src_bash)
     found = False
     if '#mri_works' in fp.read():
         found = True
@@ -41,4 +43,4 @@ if __name__ == '__main__':
         os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
         os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
         os.system("echo '\n' >> ~/.bashrc ")
-        os.system("echo 'source ~/.bashrc'")
+
