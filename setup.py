@@ -13,7 +13,7 @@ Modified on 28 jan. 2021
 '''
 
 import subprocess
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, call
 import sys
 import os
 
@@ -24,16 +24,21 @@ def install(command):
 
 
 if __name__ == '__main__':
-    # install('python3 -m pip install --upgrade pip')
-#     install('pip install --upgrade pip')
+
+    install('sudo apt install -y python3-venv')
     install('python3.6 -m venv ~/Apps/mri_works_venv')
     install('cp -r mri_works/ ~/Apps/mri_works_venv/')
     install('cp -r docs/ ~/Apps/mri_works_venv/')
-    os.system("echo '\n#mri_works' >> ~/.bashrc")    
-    os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
-    os.system("echo 'cmd_mw_update=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
-    os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
-    os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
-    os.system("echo '\n' >> ~/.bashrc ")
-    os.system("echo 'source ~/.bashrc'")
-
+    
+    fp = open(os.path.join(os.path.expanduser('~'), '.bashrc'))
+    found = False
+    if '#mri_works' in fp.read():
+        found = True
+    if not found:
+        os.system("echo '\n#mri_works' >> ~/.bashrc")    
+        os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
+        os.system("echo 'cmd_mw_update=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
+        os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
+        os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
+        os.system("echo '\n' >> ~/.bashrc ")
+        os.system("echo 'source ~/.bashrc'")
