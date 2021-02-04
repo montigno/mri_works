@@ -9,7 +9,7 @@ MP3_SPM_reorient:
   resize_x: 0.0
   resize_y: 0.0
   resize_z: 0.0
-MP_SPM_Coreg_Est_Res:
+MP3_SPM_Coreg_Est_Res:
   Function: enumerate(('mi', 'ncc', 'nmi', 'ecc'))
   Separation: '4 2'
   Tolerence: '0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001'
