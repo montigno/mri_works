@@ -28,6 +28,7 @@ paths:
   histories:
   - /home/omontigon/Bureau/test_functions.dgr
   - /home/omontigon/Bureau/test_pwm.dgr
+  - /home/omontigon/Bureau/test_dcm2niix.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a
