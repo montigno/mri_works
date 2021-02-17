@@ -8,7 +8,7 @@
 
 '''
 Created on 11 feb. 2020
-Modified on 28 jan. 2021
+Modified on 17 feb. 2021
 @author: omonti
 '''
 
@@ -16,15 +16,14 @@ import subprocess
 from subprocess import Popen, PIPE, call
 import sys
 import os
+import platform
 
 
 def install(command):
     p = subprocess.Popen(command, shell=True)
     p.wait()
 
-
-if __name__ == '__main__':
-
+def install_linux():
     install('sudo apt install -y python3-venv')
     install('python3.6 -m venv ~/Apps/mri_works_venv')
     install('cp -r mri_works/ ~/Apps/mri_works_venv/')
@@ -43,4 +42,26 @@ if __name__ == '__main__':
         os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
         os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
         os.system("echo '\n' >> ~/.bashrc ")
+
+def install_windows():
+    #install('pip install virtualenv')
+    install('python -m venv %homepath%\python_env')
+    install('move mri_works %homepath%\python_env')
+    install('move docs %homepath%\python_env')
+    #install('python -m %homepath%\python_env\mri_works\update_modules.py')
+
+def install_macos():
+    pass
+
+if __name__ == '__main__':
+
+    os_current = platform.system()
+    if os_current == 'Linux':
+        install_linux()
+    elif os_current == 'Windows':
+        install_windows()
+    elif os_current == 'Darwin':
+        install_macos()
+
+
 
