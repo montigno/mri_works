@@ -21,7 +21,8 @@ class Config():
 
     def loadConfig(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        with open(dir_path+"/config.yml", 'r') as stream:
+        config_path = os.path.join(dir_path, 'config.yml')
+        with open(config_path, 'r') as stream:
             try:
                 return yaml.load(stream, yaml.FullLoader)
             except yaml.YAMLError as exc:
