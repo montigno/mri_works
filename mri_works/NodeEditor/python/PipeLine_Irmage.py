@@ -52,6 +52,7 @@ from . import ConfigModuls, windowConfig
 from . import editCombobox
 from . import exportCapsul
 from . import PythonHighlighter
+from . import multiple_execution
 
 from Config import Config
 
@@ -94,12 +95,15 @@ class Menu(QMenuBar):
         redo.setShortcut('Ctrl+Y')
         self.menu12.triggered[QAction].connect(self.btnPressed)
         self.menu2 = self.addMenu('Pipeline')
-        anaPipe = self.menu2.addAction('Analyze Pipeline')
+        anaPipe = self.menu2.addAction('Analyze this Pipeline')
         anaPipe.setShortcut('Ctrl+A')
-        runpipe = self.menu2.addAction('Run Pipeline')
+        runpipe = self.menu2.addAction('Run this Pipeline')
         runpipe.setShortcut('Ctrl+R')
-        runpipethreadless = self.menu2.addAction('Run Pipeline with Thread')
+        runpipethreadless = self.menu2.addAction('Run this Pipeline in Threading mode')
         runpipethreadless.setShortcut('Ctrl+T')
+#         runmultipipe = self.menu2.addAction('Run multiple Pipelines')
+#         runmultipipe.setShortcut('Ctrl+M')
+        self.menu2.addSeparator()
         listItm = self.menu2.addAction('See List Items')
         listItm.setShortcut('Ctrl+I')
         listLib = self.menu2.addAction('See List Libraries')
@@ -294,8 +298,8 @@ class Menu(QMenuBar):
             except Exception as err:
                 print('error Capsul execution : ', err)
 
-        if (tmpActText == 'Run Pipeline' or
-                tmpActText == 'Run Pipeline with Thread'):
+        if (tmpActText == 'Run this Pipeline' or
+                tmpActText == 'Run this Pipeline in Threading mode'):
             textEdit.clear()
             txt_raw = SaveDiagram().toPlainText()
             txt_code = ''
@@ -305,7 +309,7 @@ class Menu(QMenuBar):
                     txt_code += txt_raw[txt_raw.index('[' +
                                         tmpS):txt_raw.index('[/' +
                                         tmpS) + len(tmpS) + 2] + '\n'
-            if 'with Thread' in tmpActText:
+            if 'in Threading mode' in tmpActText:
                 txt = analyze(txt_raw, textEdit, True).\
                                 getListForExecution()
             else:
@@ -320,8 +324,16 @@ class Menu(QMenuBar):
                             "font-weight:600; color:#0000CC;"
                             "\" >Pipeline running ......... </span>")
             execution(txt, textEdit)
+            
+        if tmpActText == 'Run multiple Pipelines':
+            list_dgr = []
+            for i in range(0, editor.tabsDiagram.count()):
+                list_dgr.append(editor.tabsDiagram.tabText(i))
+            c = multiple_execution(list_dgr)
+            c.exec_()
+            print(c.getNewValues())
 
-        if tmpActText == 'Analyze Pipeline':
+        if tmpActText == 'Analyze this Pipeline':
             txt = SaveDiagram()
             analyze(txt.toPlainText(), textEdit, True)
 
