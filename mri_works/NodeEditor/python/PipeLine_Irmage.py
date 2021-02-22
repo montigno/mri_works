@@ -230,7 +230,7 @@ class Menu(QMenuBar):
             textInf.setText(last_exist_file)
             currentpathwork = last_exist_file
             if not last_exist_file:
-                self.addTab('')
+                editor.addTab('')
                 textInf.setText('')
         else:
             editor.addTab('')
