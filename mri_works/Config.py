@@ -5,6 +5,7 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
+from mpmath import diag
 
 '''
 Created on 11 feb. 2020
@@ -68,3 +69,11 @@ class Config():
 
     def getPathLibraries(self):
         return self.config['packages']
+    
+    def getPathDiagrams(self):
+        diag = self.config["paths"]["diagrams"]
+        return diag
+        
+    def setPathDiagrams(self, diag):
+        self.config["paths"]["diagrams"] = diag
+        self.saveConfig()

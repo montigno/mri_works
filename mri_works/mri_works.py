@@ -40,7 +40,7 @@ class Project_Irmage(QMainWindow):
         mhelp = self.menuBar().addMenu('Help')
 
         exitAct = QAction(QIcon('sources_images/exit.png'), 'Exit', self)
-        exitAct.triggered.connect(qApp.quit)
+        exitAct.triggered.connect(self.closeWindow)
         mfile.addAction(exitAct)
 
         about = QAction(QIcon(), 'About mriWorks', self)
@@ -70,7 +70,16 @@ class Project_Irmage(QMainWindow):
 
         if box == QMessageBox.Yes:
             event.accept()
-
+            
+    def closeWindow(self):
+        box = QMessageBox.question(self,
+                                   "Confirm Exit...",
+                                   "Do you want quit mri_works ? \n" +
+                                   "your projects are saved ? ",
+                                   QMessageBox.Yes | QMessageBox.No,
+                                   QMessageBox.No)
+        if box == QMessageBox.Yes:
+            qApp.quit()
 
 class CreateTabs(QWidget):
     def __init__(self):

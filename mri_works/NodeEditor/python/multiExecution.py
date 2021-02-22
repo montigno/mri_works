@@ -12,7 +12,7 @@ from PyQt5 import QtCore
 class multiple_execution(QDialog):
     def __init__(self, listDiagram, parent=None):
         super(multiple_execution, self).__init__(parent)
-        self.setWindowTitle('Input parameters')
+        self.setWindowTitle('Multiple execution')
         self.setWindowFlags(self.windowFlags() &
                             QtCore.Qt.WindowCloseButtonHint)
         self.listVal = []

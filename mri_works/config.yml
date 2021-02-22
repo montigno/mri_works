@@ -25,10 +25,15 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
+  diagrams:
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
+  - /home/omontigon/Bureau/test_functions.dgr
   histories:
   - /home/omontigon/Bureau/test_functions.dgr
   - /home/omontigon/Bureau/test_pwm.dgr
   - /home/omontigon/Bureau/test_dcm2niix.dgr
+  - /home/omontigon/Documents/mri_works_projects/compare_two_Nifti.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
   modules: modules
   projects: ../data
 version: 20.11.19a
