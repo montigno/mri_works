@@ -26,7 +26,11 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  histories:
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
+  - /home/omontigon/Bureau/test_functions.dgr
+  - /home/omontigon/Bureau/test_pwm.dgr
+  - /home/omontigon/Bureau/test_dcm2niix.dgr
+  histories: []
   modules: modules
   projects: ../data
 version: 20.11.19a

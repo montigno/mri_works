@@ -52,9 +52,10 @@ class Config():
     def getPathHistories(self):
         hist = self.config["paths"]["histories"]
         newHist = []
-        for h in hist:
-            if os.path.exists(h):
-                newHist.append(h)
+        if hist:
+            for h in hist:
+                if os.path.exists(h):
+                    newHist.append(h)
         self.setPathHistories(newHist)
         return newHist
 
