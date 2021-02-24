@@ -198,6 +198,7 @@ class Menu(QMenuBar):
         Config().setPathDiagrams(list_dgr)
         
     def load_previous_diagram(self):
+        global currentpathwork
         last_exist_file = ''
         lst_dgr = Config().getPathDiagrams()
         if lst_dgr:
@@ -6245,9 +6246,10 @@ class NodeEdit(QWidget):
             if self.tabsDiagram.count() == 0:
                 self.addTab('')
         list_dgr = Config().getPathDiagrams()
-        for elem in list_dgr:
-            if currentTitle in elem:
-                list_dgr.remove(elem)
+        if list_dgr:
+            for elem in list_dgr:
+                if currentTitle in elem:
+                    list_dgr.remove(elem)
         Config().setPathDiagrams(list_dgr)
 
     def saveDiagramDialog(self, title):
