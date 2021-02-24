@@ -3092,11 +3092,11 @@ class Probes(QGraphicsPolygonItem):
     def mouseMoveEvent(self, mouseEvent):
         mouseEvent.accept()
         editor.loopMouseMoveEvent(self, mouseEvent.scenePos())
-        return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
+        return QGraphicsPolygonItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
         editor.loopMouseReleaseEvent(self)
-        return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
         global itemStored
