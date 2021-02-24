@@ -168,7 +168,7 @@ class Menu(QMenuBar):
         print('path_config = ', path_config)
         pathYml = os.path.join(QDir.currentPath(), "config.yml")
         if os.path.isdir(pathYml):
-            with open(pathYml, 'r') as stream:
+            with open(pathYml, 'r', encoding='utf8') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 return dicts['paths']['histories']
         else:
@@ -204,7 +204,7 @@ class Menu(QMenuBar):
         if lst_dgr:
             for i, elem in enumerate(lst_dgr):
                 if os.path.exists(elem):
-                    f = open(elem, 'r')
+                    f = open(elem, 'r', encoding='utf8')
                     txt = f.readlines()
                     f.close()
                     try:
@@ -279,7 +279,7 @@ class Menu(QMenuBar):
                         fileNameonly = os.path.basename(file)
                 try:
                     if file:
-                        f = open(file, 'w')
+                        f = open(file, 'w', encoding='utf8')
                         f.write(txt.toPlainText())
                         f.write('\n[execution]\n')
                         f.write(analyze(txt.toPlainText(), textEdit, True)
@@ -314,7 +314,7 @@ class Menu(QMenuBar):
                 editor.addTab(os.path.basename(fileDiagram[0]))
                 editor.pathDiagram[editor.currentTab] = fileDiagram[0]
                 textInf.setText(fileDiagram[0])
-                f = open(fileDiagram[0], 'r')
+                f = open(fileDiagram[0], 'r', encoding='utf8')
                 txt = f.readlines()
                 f.close()
                 LoadDiagram(txt)
@@ -430,7 +430,7 @@ class Menu(QMenuBar):
                 try:
                     if '.mod' not in file and file:
                         file += '.mod'
-                    f = open(file, 'w')
+                    f = open(file, 'w', encoding='utf8')
                     f.write(txt.toPlainText())
                     f.write('\n[execution]\n')
                     f.write(analyze(txt.toPlainText(),
@@ -463,7 +463,7 @@ class Menu(QMenuBar):
             if connectPresent:
                 txt = SaveDiagram()
                 try:
-                    f = open(file, 'w')
+                    f = open(file, 'w', encoding='utf8')
                     f.write(txt.toPlainText())
                     f.write('\n[execution]\n')
                     f.write(analyze(txt.toPlainText(),
@@ -515,7 +515,7 @@ class Menu(QMenuBar):
 
         if tmpActText == 'See Raw file':
             if editor.pathDiagram[editor.currentTab]:
-                f = open(editor.pathDiagram[editor.currentTab], 'r')
+                f = open(editor.pathDiagram[editor.currentTab], 'r', encoding='utf8')
                 textEdit.append(f.read())
                 f.close()
 
@@ -524,7 +524,7 @@ class Menu(QMenuBar):
             tmp = str(os.path.join(path_html,
                                    '../../../docs',
                                    'index.html'))
-            webbrowser.open(tmp)
+            webbrowser.open(tmp, encoding='utf8')
 
         if tmpActText == 'Setting Standalone Paths':
             c = windowConfig()
@@ -558,7 +558,7 @@ class Menu(QMenuBar):
                 tmpActText = os.path.join(self.Dictexamples[tmpActText],
                                           tmpActText)
             editor.pathDiagram[editor.currentTab] = tmpActText
-            f = open(tmpActText, 'r')
+            f = open(tmpActText, 'r', encoding='utf8')
             txt = f.readlines()
             f.close()
             try:
@@ -1950,7 +1950,7 @@ class LinkItem(QGraphicsPathItem):
                     pathYml = os.path.dirname(os.path.realpath(__file__))
                     pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                     if os.path.exists(pathYml):
-                        with open(pathYml, 'r') as stream:
+                        with open(pathYml, 'r', encoding='utf8') as stream:
                             self.dicts = yaml.load(stream, yaml.FullLoader)
                             for el in self.dicts[mod]:
                                 if el in listVal[2][0]:
@@ -2120,7 +2120,7 @@ class ProcessItem():
                 pathYml = os.path.dirname(os.path.realpath(__file__))
                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                 if os.path.exists(pathYml):
-                    with open(pathYml, 'r') as stream:
+                    with open(pathYml, 'r', encoding='utf8') as stream:
                         self.dicts = yaml.load(stream, yaml.FullLoader)
                         for el in self.dicts[name]:
                             if el in listVal[0]:
@@ -2523,7 +2523,7 @@ class BlockCreate(QGraphicsRectItem):
             pathYml = os.path.dirname(os.path.realpath(__file__))
             pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
             if os.path.exists(pathYml):
-                with open(pathYml, 'r') as stream:
+                with open(pathYml, 'r', encoding='utf8') as stream:
                     self.dicts = yaml.load(stream, yaml.FullLoader)
                     try:
                         for el in self.dicts[self.name]:
@@ -2683,14 +2683,14 @@ class BlockCreate(QGraphicsRectItem):
             self.subinput()
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+U"):
             if self.link:
-                webbrowser.open(self.link)
+                webbrowser.open(self.link, encoding='utf8')
 
     def showToolTip(self, classUnit, position):
         self.link = ''
         path_blockdoc = os.path.dirname(os.path.realpath(__file__))
         docYml = os.path.join(path_blockdoc, '../blocsdoc', "BlocsDoc.yml")
         if os.path.exists(docYml):
-            with open(docYml, 'r') as stream:
+            with open(docYml, 'r', encoding='utf8') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 if classUnit in dicts.keys():
                     txtFunctionalité = dicts[classUnit]['functionality']
@@ -2746,7 +2746,7 @@ class BlockCreate(QGraphicsRectItem):
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
-            with open(pathYml, 'r') as stream:
+            with open(pathYml, 'r', encoding='utf8') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
             try:
                 dicts[self.name]
@@ -2955,7 +2955,7 @@ class BlockCreate(QGraphicsRectItem):
                         pathYml = os.path.dirname(os.path.realpath(__file__))
                         pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                         if os.path.exists(pathYml):
-                            with open(pathYml, 'r') as stream:
+                            with open(pathYml, 'r', encoding='utf8') as stream:
                                 self.dicts = yaml.load(stream, yaml.FullLoader)
                                 for el in self.dicts[mod]:
                                     if el in listVal[2][0]:
@@ -3027,7 +3027,7 @@ class BlockCreate(QGraphicsRectItem):
         file = os.path.join(path_submod, '../submodules', self.name + '.mod')
         editor.pathDiagram[editor.currentTab] = file
         textInf.setText(file)
-        f = open(file, 'r')
+        f = open(file, 'r', encoding='utf8')
         txt = f.readlines()
         f.close()
         LoadDiagram(txt)
@@ -5591,7 +5591,7 @@ class Port(QGraphicsRectItem):
         pathYml = os.path.dirname(os.path.realpath(__file__))
         pathYml = os.path.join(pathYml, '../modules', pathBlock[0], pathBlock[1] + ".yml")
         if os.path.exists(pathYml):
-            with open(pathYml, 'r') as stream:
+            with open(pathYml, 'r', encoding='utf8') as stream:
                 self.dicts = yaml.load(stream, yaml.FullLoader)
         en = self.dicts[classBlock][self.name]
         return en
@@ -6149,7 +6149,7 @@ class NodeEdit(QWidget):
 #                 if os.path.exists(elem):
 #                     editor.addTab(os.path.basename(elem))
 #                     last_exist_file = elem
-#                     f = open(elem, 'r')
+#                     f = open(elem, 'r', encoding='utf8')
 #                     txt = f.readlines()
 #                     f.close()
 #                     try:
@@ -6557,7 +6557,7 @@ class NodeEdit(QWidget):
                                 pathYml = os.path.dirname(os.path.realpath(__file__))
                                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                                 if os.path.exists(pathYml):
-                                    with open(pathYml, 'r') as stream:
+                                    with open(pathYml, 'r', encoding='utf8') as stream:
                                         self.dicts = yaml.load(stream, yaml.FullLoader)
                                         for el in self.dicts[name]:
                                             if el in listVal[2][0]:
