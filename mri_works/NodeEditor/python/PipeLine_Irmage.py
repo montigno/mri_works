@@ -3212,18 +3212,18 @@ class ConnectorItem(QGraphicsPolygonItem):
         if self.inout in 'out':
             if self.input.label.toPlainText() not in 'unkn':
                 self.changelabel()
-        return QGraphicsRectItem.mouseDoubleClickEvent(self, event)
+        return QGraphicsPolygonItem.mouseDoubleClickEvent(self, event)
 
     def mouseMoveEvent(self, event):
         self.moved = True
         event.accept()
-        return QGraphicsRectItem.mouseMoveEvent(self, event)
+        return QGraphicsPolygonItem.mouseMoveEvent(self, event)
 
     def mouseReleaseEvent(self, event):
         if self.moved:
             UpdateUndoRedo()
             self.moved = False
-        return QGraphicsRectItem.mouseReleaseEvent(self, event)
+        return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
         global itemStored
