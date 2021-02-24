@@ -46,8 +46,8 @@ def install_linux():
 def install_windows():
     #install('pip install virtualenv')
     install('python -m venv %homepath%\python_env')
-    install('Xcopy mri_works %homepath%\python_env\mri_works')
-    install('Xcopy docs %homepath%\python_env\docs')
+    install('Xcopy mri_works %homepath%\python_env\mri_works /E /I')
+    install('Xcopy docs %homepath%\python_env\docs /E /I')
     #install('python -m %homepath%\python_env\mri_works\update_modules.py')
 
 def install_macos():
