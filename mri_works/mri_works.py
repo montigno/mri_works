@@ -9,7 +9,6 @@
 '''
 Created on 11 jan. 2018
 @author: omonti
-
 '''
 
 import sys
@@ -20,6 +19,7 @@ from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
 from Config import Config
 from About import AboutSoft
 from NodeEditor.python.PipeLine_Irmage import NodeEdit
+from ImageBrowser.DataBrowser import DataBrowser
 from PyQt5.QtGui import QIcon
 
 
@@ -81,6 +81,7 @@ class Project_Irmage(QMainWindow):
         if box == QMessageBox.Yes:
             qApp.quit()
 
+
 class CreateTabs(QWidget):
     def __init__(self):
         super(CreateTabs, self).__init__()
@@ -101,6 +102,7 @@ class CreateTabs(QWidget):
         self.textInfo.setText('Welcome to Irmage')
 
         self.tabs.addTab(NodeEdit(self.textInfo), "PipeLine Manager")
+#         self.tabs.addTab(DataBrowser(self.textInfo), "Image Browser")
         self.tabs.setCurrentIndex(0)
 
         self.verticalLayout = QVBoxLayout(self)

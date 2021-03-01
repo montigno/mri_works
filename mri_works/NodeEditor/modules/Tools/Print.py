@@ -16,7 +16,7 @@ class Print_str:
 class Print_int:
     def __init__(self, comment='', inInt=0):
         from prompt_toolkit import print_formatted_text, ANSI
-        print_formatted_text(ANSI('\x1b[34m'+comment+str(inInt)))
+        print_formatted_text(ANSI('\x1b[94m'+comment+str(inInt)))
 
 ##############################################################################
 
@@ -56,7 +56,7 @@ class Print_list_str:
 class Print_list_int:
     def __init__(self, comment='', in_list_Int=[0]):
         from prompt_toolkit import print_formatted_text, ANSI
-        print_formatted_text(ANSI('\x1b[34m'+comment+str(in_list_Int)))
+        print_formatted_text(ANSI('\x1b[94m'+comment+str(in_list_Int)))
 
 ##############################################################################
 
@@ -98,7 +98,7 @@ class Print_array_str:
 class Print_array_int:
     def __init__(self, comment='', in_array_Int=[[0]]):
         from prompt_toolkit import print_formatted_text, ANSI
-        print_formatted_text(ANSI('\x1b[34m'+comment+str(in_array_Int)))
+        print_formatted_text(ANSI('\x1b[94m'+comment+str(in_array_Int)))
 
 ##############################################################################
 

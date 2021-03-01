@@ -5,7 +5,7 @@ class printProbe():
     def __init__(self, unit, lab, format, label, val):
 
         if 'int' in format:
-            col = '\x1b[34m'
+            col = '\x1b[94m'
         elif 'float' in format:
             col = '\x1b[33m'
         elif 'tuple' in format:

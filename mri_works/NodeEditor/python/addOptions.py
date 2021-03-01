@@ -20,25 +20,20 @@ class chOptions(QDialog):
 
     def __init__(self, pathYaml, nameclass, ports, parent=None):
         super(chOptions, self).__init__(parent)
-
         doc = "No description"
         try:
             if '_' in nameclass:
                 firstAttr = nameclass[0:nameclass.index("_")]
                 secondAttr = nameclass[nameclass.index("_") + 1:]
                 TxtToExecute = firstAttr + "." + secondAttr + "().help(True)"
-
             else:
                 firstAttr = nameclass
                 secondAttr = ''
                 TxtToExecute = firstAttr + ".help(True)"
-
             TxtToImport = "from nipype.interfaces import " + firstAttr
-
             exec(TxtToImport)
             doc = eval(TxtToExecute)
             doc = doc[doc.index('[Optional]') + 11:doc.index('Outputs')]
-
         except Exception as e:
             doc = "No description"
 

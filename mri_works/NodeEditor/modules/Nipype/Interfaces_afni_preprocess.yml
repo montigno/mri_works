@@ -18,4 +18,4 @@ afni_SkullStrip:
   ignore_exception: False
   out_file: 'path'
   outputtype: enumerate(('NIFTI_GZ', 'AFNI', 'NIFTI'))
-  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none'))

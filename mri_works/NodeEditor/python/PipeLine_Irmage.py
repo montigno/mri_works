@@ -24,9 +24,9 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QByteArray, Qt, QStringListModel, QLineF, QPointF, \
     QRectF, QDir, QRect
 from PyQt5.QtGui import QStandardItemModel, QPixmap, QPainterPath, \
-    QCursor, QBrush, QStandardItem, QPen, QPainter, \
+    QCursor, QBrush, QStandardItem, QPainter, \
     QImage, QTransform, QColor, QFont, QPolygonF, QLinearGradient, \
-    QKeySequence, QIcon, QFontMetrics, QTextCursor
+    QKeySequence, QIcon, QFontMetrics
 from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QGraphicsView, QGraphicsPathItem, QGraphicsPolygonItem, \
     QGraphicsRectItem, QDialog, QSpinBox, QDoubleSpinBox, QComboBox, \
@@ -617,19 +617,19 @@ class ShowLegend:
                             bisLine.setPen(QtGui.QPen(Qt.NoPen))
 
                         path = QPainterPath()
-                        self.start_x, self.start_y = pos1X, pos1Y
-                        self.end_x, self.end_y = pos2X, pos2Y
-                        self.ctrl1_x = pos1X + (pos2X - pos1X) * 0.7
-                        self.ctrl1_y = pos1Y
-                        self.ctrl2_x = pos2X + (pos1X - pos2X) * 0.7
-                        self.ctrl2_y = pos2Y
-                        path.moveTo(self.start_x, self.start_y)
-                        path.cubicTo(self.ctrl1_x,
-                                     self.ctrl1_y,
-                                     self.ctrl2_x,
-                                     self.ctrl2_y,
-                                     self.end_x,
-                                     self.end_y)
+                        start_x, start_y = pos1X, pos1Y
+                        end_x, end_y = pos2X, pos2Y
+                        ctrl1_x = pos1X + (pos2X - pos1X) * 0.7
+                        ctrl1_y = pos1Y
+                        ctrl2_x = pos2X + (pos1X - pos2X) * 0.7
+                        ctrl2_y = pos2Y
+                        path.moveTo(start_x, start_y)
+                        path.cubicTo(ctrl1_x,
+                                     ctrl1_y,
+                                     ctrl2_x,
+                                     ctrl2_y,
+                                     end_x,
+                                     end_y)
 
                         line.setPath(path)
                         bisLine.setPath(path)
@@ -1725,55 +1725,55 @@ class Connection:
         self.pos2 = endpos
 
         path = QPainterPath()
-        self.start_x, self.start_y = self.pos1.x(), self.pos1.y() - 1
-        self.end_x, self.end_y = self.pos2.x(), self.pos2.y() - 1
-        self.ctrl1_x, self.ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
-        self.ctrl2_x, self.ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
-        path.moveTo(self.start_x, self.start_y)
+        start_x, start_y = self.pos1.x(), self.pos1.y() - 1
+        end_x, end_y = self.pos2.x(), self.pos2.y() - 1
+        ctrl1_x, ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
+        ctrl2_x, ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
+        path.moveTo(start_x, start_y)
 
-        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
+        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
 
         self.link.setPath(path)
         self.link.bislink.setPath(path)
-        self.link.setPositionTxt((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2)
+        self.link.setPositionTxt((start_x + end_x) / 2, (start_y + end_y) / 2)
         try:
-            theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
+            theta = atan((ctrl2_y - ctrl1_y) / (ctrl2_x - ctrl1_x))
         except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
-            QPointF((self.start_x + self.end_x) / 2, (1 + self.start_y + self.end_y) / 2),
-            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (self.start_x + self.end_x) / 2,
-                    self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2),
-            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (self.start_x + self.end_x) / 2,
-                    1 - self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2)])
+            QPointF((start_x + end_x) / 2, (1 + start_y + end_y) / 2),
+            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (start_x + end_x) / 2,
+                    self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2),
+            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (start_x + end_x) / 2,
+                    1 - self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2)])
         self.link.setPositionShow(polyhead)
 
     def setBeginPos(self, pos1):
         self.pos1 = pos1
 
         path = QPainterPath()
-        self.start_x, self.start_y = self.pos1.x(), self.pos1.y() - 1
-        self.end_x, self.end_y = self.pos2.x(), self.pos2.y() - 1
-        self.ctrl1_x, self.ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
-        self.ctrl2_x, self.ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
-        path.moveTo(self.start_x, self.start_y)
+        start_x, start_y = self.pos1.x(), self.pos1.y() - 1
+        end_x, end_y = self.pos2.x(), self.pos2.y() - 1
+        ctrl1_x, ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
+        ctrl2_x, ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
+        path.moveTo(start_x, start_y)
 
-        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
+        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
 
         self.link.setPath(path)
         self.link.bislink.setPath(path)
-        self.link.setPositionTxt((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2)
+        self.link.setPositionTxt((start_x + end_x) / 2, (start_y + end_y) / 2)
 
         try:
-            theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
+            theta = atan((ctrl2_y - ctrl1_y) / (ctrl2_x - ctrl1_x))
         except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
-            QPointF((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2),
-            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (self.start_x + self.end_x) / 2,
-                    self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2),
-            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (self.start_x + self.end_x) / 2,
-                    -self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2)])
+            QPointF((start_x + end_x) / 2, (start_y + end_y) / 2),
+            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (start_x + end_x) / 2,
+                    self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2),
+            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (start_x + end_x) / 2,
+                    -self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2)])
         self.link.setPositionShow(polyhead)
 
     # if link connected nowhere
@@ -1951,23 +1951,23 @@ class LinkItem(QGraphicsPathItem):
                     pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                     if os.path.exists(pathYml):
                         with open(pathYml, 'r', encoding='utf8') as stream:
-                            self.dicts = yaml.load(stream, yaml.FullLoader)
-                            for el in self.dicts[mod]:
+                            dicts = yaml.load(stream, yaml.FullLoader)
+                            for el in dicts[mod]:
                                 if el in listVal[2][0]:
                                     listEnter = (*listEnter, el)
-                                    if type(self.dicts[mod][el]).__name__ == 'str':
-                                        if 'enumerate' in self.dicts[mod][el]:
-                                            listValDefault = (*listValDefault, self.dicts[mod][el])
+                                    if type(dicts[mod][el]).__name__ == 'str':
+                                        if 'enumerate' in dicts[mod][el]:
+                                            listValDefault = (*listValDefault, dicts[mod][el])
                                         else:
                                             try:
-                                                listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
+                                                listValDefault = (*listValDefault, eval(dicts[mod][el]))
                                             except Exception as e:
-                                                listValDefault = (*listValDefault, self.dicts[mod][el])
+                                                listValDefault = (*listValDefault, dicts[mod][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
+                                            listValDefault = (*listValDefault, eval(dicts[mod][el]))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, self.dicts[mod][el])
+                                            listValDefault = (*listValDefault, dicts[mod][el])
             ################################################################
             newList = []
             for i in range(len(listEnter)):
@@ -2121,23 +2121,23 @@ class ProcessItem():
                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                 if os.path.exists(pathYml):
                     with open(pathYml, 'r', encoding='utf8') as stream:
-                        self.dicts = yaml.load(stream, yaml.FullLoader)
-                        for el in self.dicts[name]:
+                        dicts = yaml.load(stream, yaml.FullLoader)
+                        for el in dicts[name]:
                             if el in listVal[0]:
                                 listEnter = (*listEnter, el)
-                                if type(self.dicts[name][el]).__name__ == 'str':
-                                    if 'enumerate' in self.dicts[name][el]:
-                                        listValDefault = (*listValDefault, self.dicts[name][el])
+                                if type(dicts[name][el]).__name__ == 'str':
+                                    if 'enumerate' in dicts[name][el]:
+                                        listValDefault = (*listValDefault, dicts[name][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, str(eval(self.dicts[name][el])))
+                                            listValDefault = (*listValDefault, str(eval(dicts[name][el])))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, str(self.dicts[name][el]))
+                                            listValDefault = (*listValDefault, str(dicts[name][el]))
                                 else:
                                     try:
-                                        listValDefault = (*listValDefault, eval(self.dicts[name][el]))
+                                        listValDefault = (*listValDefault, eval(dicts[name][el]))
                                     except Exception as e:
-                                        listValDefault = (*listValDefault, self.dicts[name][el])
+                                        listValDefault = (*listValDefault, dicts[name][el])
 
         ###############################################################################
         newVal = []
@@ -2524,23 +2524,23 @@ class BlockCreate(QGraphicsRectItem):
             pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
             if os.path.exists(pathYml):
                 with open(pathYml, 'r', encoding='utf8') as stream:
-                    self.dicts = yaml.load(stream, yaml.FullLoader)
+                    dicts = yaml.load(stream, yaml.FullLoader)
                     try:
-                        for el in self.dicts[self.name]:
+                        for el in dicts[self.name]:
                             if el in listBlocks[editor.currentTab][self.unit][2][0]:
-                                if type(self.dicts[self.name][el]).__name__ == 'str':
-                                    if 'enumerate' in self.dicts[self.name][el]:
-                                        listValDefault = (*listValDefault, self.dicts[self.name][el])
+                                if type(dicts[self.name][el]).__name__ == 'str':
+                                    if 'enumerate' in dicts[self.name][el]:
+                                        listValDefault = (*listValDefault, dicts[self.name][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
+                                            listValDefault = (*listValDefault, eval(dicts[self.name][el]))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, self.dicts[self.name][el])
+                                            listValDefault = (*listValDefault, dicts[self.name][el])
                                 else:
                                     try:
-                                        listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
+                                        listValDefault = (*listValDefault, eval(dicts[self.name][el]))
                                     except Exception as e:
-                                        listValDefault = (*listValDefault, self.dicts[self.name][el])
+                                        listValDefault = (*listValDefault, dicts[self.name][el])
                     except Exception as e:
                         pass                    
         c = editParam(self.name, self.unit, listBlocks[editor.currentTab][self.unit][2], listValDefault)
@@ -2756,7 +2756,6 @@ class BlockCreate(QGraphicsRectItem):
                     return
                 asq = (c.getNewValues()[0],)
                 self.updateBlock(asq)
-
             except (OSError, KeyError) as err:
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + (' No options available ')
@@ -2956,23 +2955,23 @@ class BlockCreate(QGraphicsRectItem):
                         pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                         if os.path.exists(pathYml):
                             with open(pathYml, 'r', encoding='utf8') as stream:
-                                self.dicts = yaml.load(stream, yaml.FullLoader)
-                                for el in self.dicts[mod]:
+                                dicts = yaml.load(stream, yaml.FullLoader)
+                                for el in dicts[mod]:
                                     if el in listVal[2][0]:
                                         listEnter = (*listEnter, el)
-                                        if type(self.dicts[mod][el]).__name__ == 'str':
-                                            if 'enumerate' in self.dicts[mod][el]:
-                                                listValDefault = (*listValDefault, self.dicts[mod][el])
+                                        if type(dicts[mod][el]).__name__ == 'str':
+                                            if 'enumerate' in dicts[mod][el]:
+                                                listValDefault = (*listValDefault, dicts[mod][el])
                                             else:
                                                 try:
-                                                    listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
+                                                    listValDefault = (*listValDefault, eval(dicts[mod][el]))
                                                 except Exception as e:
-                                                    listValDefault = (*listValDefault, self.dicts[mod][el])
+                                                    listValDefault = (*listValDefault, dicts[mod][el])
                                         else:
                                             try:
-                                                listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
+                                                listValDefault = (*listValDefault, eval(dicts[mod][el]))
                                             except Exception as e:
-                                                listValDefault = (*listValDefault, self.dicts[mod][el])
+                                                listValDefault = (*listValDefault, dicts[mod][el])
                 ###############################################################################
                 newList = []
                 for i in range(len(listEnter)):
@@ -5592,8 +5591,8 @@ class Port(QGraphicsRectItem):
         pathYml = os.path.join(pathYml, '../modules', pathBlock[0], pathBlock[1] + ".yml")
         if os.path.exists(pathYml):
             with open(pathYml, 'r', encoding='utf8') as stream:
-                self.dicts = yaml.load(stream, yaml.FullLoader)
-        en = self.dicts[classBlock][self.name]
+                dicts = yaml.load(stream, yaml.FullLoader)
+        en = dicts[classBlock][self.name]
         return en
 
 
@@ -5771,12 +5770,12 @@ class TreeLibrary(QTreeView):
         path = QPainterPath()
         pos2X, pos2Y = inp.scenePos().x(), inp.scenePos().y() - 1
         pos1X, pos1Y = pos2X + posX, pos2Y - posY
-        self.start_x, self.start_y = pos1X, pos1Y
-        self.end_x, self.end_y = pos2X, pos2Y
-        self.ctrl1_x, self.ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
-        self.ctrl2_x, self.ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
-        path.moveTo(self.start_x, self.start_y)
-        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
+        start_x, start_y = pos1X, pos1Y
+        end_x, end_y = pos2X, pos2Y
+        ctrl1_x, ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
+        ctrl2_x, ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
+        path.moveTo(start_x, start_y)
+        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
 
         link.setPath(path)
         bislink.setPath(path)
@@ -6435,7 +6434,7 @@ class NodeEdit(QWidget):
             valH = self.diagramView[editor.currentTab].horizontalScrollBar().value()
 
     def sceneMouseReleaseEvent(self, event):
-        self.touchF = (int(event.modifiers()) == (Qt.ControlModifier))
+        touchF = (int(event.modifiers()) == (Qt.ControlModifier))
 
         if self.startConnection:
             pos = event.scenePos()
@@ -6496,7 +6495,7 @@ class NodeEdit(QWidget):
                 greenText = greenText + ('Connection impossible : constant to loopFor ')
                 greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
-            elif not self.touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
+            elif not touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection not recommended due to different formats')
@@ -6558,23 +6557,23 @@ class NodeEdit(QWidget):
                                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                                 if os.path.exists(pathYml):
                                     with open(pathYml, 'r', encoding='utf8') as stream:
-                                        self.dicts = yaml.load(stream, yaml.FullLoader)
-                                        for el in self.dicts[name]:
+                                        dicts = yaml.load(stream, yaml.FullLoader)
+                                        for el in dicts[name]:
                                             if el in listVal[2][0]:
                                                 listEnter = (*listEnter, el)
-                                                if type(self.dicts[name][el]).__name__ == 'str':
-                                                    if 'enumerate' in self.dicts[name][el]:
-                                                        listValDefault = (*listValDefault, self.dicts[name][el])
+                                                if type(dicts[name][el]).__name__ == 'str':
+                                                    if 'enumerate' in dicts[name][el]:
+                                                        listValDefault = (*listValDefault, dicts[name][el])
                                                     else:
                                                         try:
-                                                            listValDefault = (*listValDefault, eval(self.dicts[name][el]))
+                                                            listValDefault = (*listValDefault, eval(dicts[name][el]))
                                                         except Exception as e:
-                                                            listValDefault = (*listValDefault, self.dicts[name][el])
+                                                            listValDefault = (*listValDefault, dicts[name][el])
                                                 else:
                                                     try:
-                                                        listValDefault = (*listValDefault, eval(self.dicts[name][el]))
+                                                        listValDefault = (*listValDefault, eval(dicts[name][el]))
                                                     except Exception as e:
-                                                        listValDefault = (*listValDefault, self.dicts[name][el])
+                                                        listValDefault = (*listValDefault, dicts[name][el])
 
                         ###################################################
                         newList = []
