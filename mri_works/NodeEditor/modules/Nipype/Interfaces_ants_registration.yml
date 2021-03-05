@@ -17,12 +17,12 @@ ants_Registration:
   fixed_image_mask: 'path' # (an existing file name). Mask used to limit metric sampling region of the fixed imagein all stages. argument: ``%s``. mutually_exclusive: fixed_image_masks.
   fixed_image_masks: ['path'] # (a list of items which are an existing file name or 'NULL'). Masks used to limit metric sampling region of the fixed image, defined per registration stage (Use "NULL" to omit a mask at a given stage), mutually_exclusive: fixed_image_mask.
   float: False # (a boolean). Use float instead of double for computations. argument ``--float %d``.
-  initial_moving_transform: ['path'] # 
-  initial_moving_transform_com: 0 # 
-  initialize_transforms_per_stage: False # 
+  initial_moving_transform: ['path'] # (a list of items which are an existing file name). A transform or a list of transforms that should be applied before the registration begins. Note that, when a list is given, the transformations are applied in reverse order. argument: ``%s``. mutually_exclusive: initial_moving_transform_com.
+  initial_moving_transform_com: 0 # (0 or 1 or 2). Align the moving_image nad fixed_image befor registration using the geometric center of the images (=0), the image intensities (=1),or the origin of the images (=2). argument: ``%s``. mutually_exclusive: initial_moving_transform.
+  initialize_transforms_per_stage: False # (a boolean, nipype default value: False). Initialize linear transforms from the previous stage. By enabling this option, the current linear stage transform is directly intialized from the previous stages linear transform; this allows multiple linear stages to be run where each stage directly updates the estimated linear transform from the previous stage. (e.g. Translation -> Rigid -> Affine). argument: ``--initialize-transforms-per-stage %d``.
   interpolation: enumerate(('Linear', 'NearestNeighbor', 'CosineWindowedSinc', 'WelchWindowedSinc', 'HammingWindowedSinc', 'LanczosWindowedSinc', 'BSpline', 'MultiLabel', 'Gaussian')) # 
   interpolation_parameters: (1.0, 1.0) # 
-  invert_initial_moving_transform: [False, False] # 
+  invert_initial_moving_transform: [False, False] # (a list of items which are a boolean). One boolean or a list of booleans that indicate whether the inverse(s) of the transform(s) definedin initial_moving_transform should be used. mutually_exclusive: initial_moving_transform_com. requires: initial_moving_transform.
   metric_item_trait: enumerate(('CC', 'MeanSquares', 'Demons', 'GC', 'MI', 'Mattes')) # 
   metric_stage_trait: enumerate(('CC', 'MeanSquares', 'Demons', 'GC', 'MI', 'Mattes')) # 
   metric_weight_item_trait: 1.0 # 

@@ -191,13 +191,10 @@ class Menu(QMenuBar):
             self.openRecent.addAction(path)
             
     def saveDiagramsConfig(self, file):
-        print('file = ', file)
         list_dgr = Config().getPathDiagrams()
-        print('list_dgr old = ', list_dgr)
         if not list_dgr:
             list_dgr = []
         list_dgr.append(file)
-        print('list_dgr new = ', list_dgr)
         Config().setPathDiagrams(set(list_dgr))
         
     def load_previous_diagram(self):
