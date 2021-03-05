@@ -1,0 +1,8 @@
+resize:
+  order: 0
+  mode: enumerate(('constant', 'edge', 'symmetric', 'reflect', 'wrap'))
+  cval: 0.0
+  clip: True
+  preserve_range: True
+  anti_aliasing: True
+  anti_aliasing_sigma: (0.0,0.1)
