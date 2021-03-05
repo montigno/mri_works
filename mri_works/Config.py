@@ -72,7 +72,7 @@ class Config():
     
     def getPathDiagrams(self):
         diag = self.config["paths"]["diagrams"]
-        return diag
+        return list(diag)
         
     def setPathDiagrams(self, diag):
         self.config["paths"]["diagrams"] = diag

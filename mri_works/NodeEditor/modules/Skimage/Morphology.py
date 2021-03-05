@@ -1,12 +1,14 @@
 from h5py.h5t import np
 class remove_small_holes:
-    def __init__(self, image=[[0.0]], area_threshold=64, connectivity=1, in_place=False):
+    def __init__(self, image=[[0.0]], area_threshold=64, **options):
         from skimage import morphology
         import numpy as np
-        self.a = morphology.remove_small_holes(np.array(image), area_threshold, connectivity=connectivity, in_place=in_place)
+        self.a = np.array(image, dtype=bool)
+        for sl1 in range(self.a.shape[2]):
+                self.a[:, :, sl1] = morphology.remove_small_holes(self.a[:, :, sl1], area_threshold, connectivity=connectivity, in_place=in_place)
        
     def image_cln(self:'array_float'):
-        return self.a
+        return np.array(self.a, dtype=float)
     
 ###########################################################
 
@@ -14,10 +16,12 @@ class remove_small_objects:
     def __init__(self, image=[[0.0]], min_size=64, **options):
         from skimage import morphology
         import numpy as np
-        self.a = morphology.remove_small_objects(np.array(image), min_size, **options)
+        self.a = np.array(image, dtype=bool)
+        for sl1 in range(self.a.shape[2]):
+                self.a[:, :, sl1] = morphology.remove_small_objects(self.a[:, :, sl1], min_size, **options)
        
     def image_cln(self:'array_float'):
-        return self.a
+        return np.array(self.a, dtype=float)
     
 ###########################################################
 

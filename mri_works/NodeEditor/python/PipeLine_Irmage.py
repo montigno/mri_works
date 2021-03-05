@@ -191,11 +191,14 @@ class Menu(QMenuBar):
             self.openRecent.addAction(path)
             
     def saveDiagramsConfig(self, file):
+        print('file = ', file)
         list_dgr = Config().getPathDiagrams()
+        print('list_dgr old = ', list_dgr)
         if not list_dgr:
             list_dgr = []
         list_dgr.append(file)
-        Config().setPathDiagrams(list_dgr)
+        print('list_dgr new = ', list_dgr)
+        Config().setPathDiagrams(set(list_dgr))
         
     def load_previous_diagram(self):
         global currentpathwork
@@ -2683,7 +2686,7 @@ class BlockCreate(QGraphicsRectItem):
             self.subinput()
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+U"):
             if self.link:
-                webbrowser.open(self.link, encoding='utf8')
+                webbrowser.open(self.link)
 
     def showToolTip(self, classUnit, position):
         self.link = ''

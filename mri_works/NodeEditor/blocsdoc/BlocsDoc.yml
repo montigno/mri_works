@@ -7,6 +7,17 @@ AbsX:
   outAbscissa: (list of float) list of abscissa of x
   dependencies: Numpy
 
+afni_Seg:
+  functionality: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#seg
+  in_file: (an existing file name). ANAT is the volume to segment. argument ``-anat %s``, position -1
+  mask: ('AUTO' or an existing file name). only non-zero voxels in mask are analyzed. mask can either be a dataset or the string "AUTO" which would use AFNI's automask function to create the mask. argument ``-mask %s``, position -2.
+  dependencies: Nipype, AFNI
+  
+afni_SkullStrip:
+  functionality: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#skullstrip
+  in_file: (an existing file name). input file to 3dSkullStrip. flag -input %s, position 1
+  dependencies: Nipype, AFNI
+
 ants_AntsJointFusion:
   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
   dependencies: Nipype, ANTs
@@ -37,6 +48,13 @@ ants_N4BiasFieldCorrection:
 
 ants_Registration:
   functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
+  moving_image: (a list of items which are an existing file name). Image that will be registered to the space of fixed_image. This is the image on which the transformations will be applied to
+  fixed_image: (a list of items which are an existing file name). Image to which the moving_image should be transformed(usually a structural image).
+  metric: (a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes' or a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes'). the metric(s) to use for each stage. Note that multiple metrics per stage are not supported in ANTS 1.9.1 and earlier.
+  metric_weight: (a list of items which are a float or a list of items which are a float, nipype default value [1.0]). the metric weight(s) for each stage. The weights must sum to 1 per stage. requires metric.
+  transforms: (a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``.
+  shrink_factors: (a list of items which are a list of items which are an integer (int or long))
+  smoothing_sigmas: (a list of items which are a list of items which are a float).
   dependencies: Nipype, ANTs
   
 ants_set_spacing:
