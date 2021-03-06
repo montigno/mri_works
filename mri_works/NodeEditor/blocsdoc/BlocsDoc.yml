@@ -17,7 +17,19 @@ afni_SkullStrip:
   functionality: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#skullstrip
   in_file: (an existing file name). input file to 3dSkullStrip. flag -input %s, position 1
   dependencies: Nipype, AFNI
-
+  
+ants_atropos:
+  functionality: "A finite mixture modeling (FMM) segmentation approach with possibilities 
+                 for specifying prior constraints.
+                 These prior constraints include the specification of a prior label image, 
+                 prior probability images (one for each class), 
+                 and/or an MRF prior to enforce spatial smoothing of the labels. 
+                 Similar algorithms include FAST and SPM. 
+                 atropos can also perform multivariate segmentation if you pass a list of images in e.g. a=(img1,img2)."
+  ants_image: (ANTsImage or list/tuple of ANTsImage python:types) – One or more scalar images to segment. If priors are not used, the intensities of the first image are used to order the classes in the segmentation output, from lowest to highest intensity. Otherwise the order of the classes is dictated by the order of the prior images.
+  mask_ants: (ANTsImage) – mask image.
+  dependencies: ANTsPy
+  
 ants_AntsJointFusion:
   functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
   dependencies: Nipype, ANTs

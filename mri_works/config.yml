@@ -25,7 +25,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
+  diagrams:
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_FSL_BET.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr

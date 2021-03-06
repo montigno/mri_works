@@ -29,7 +29,7 @@ A beta documentation is available here : [https://montigno.github.io/mri_works](
 
 # Installation
 
-See [here](https://montigno.github.io/mri_works/Home/install_mri_works.html)
+See [here](https://montigno.github.io/mri_works/Home/install_mri_works_linux.html)
 
 # to launch the software
 

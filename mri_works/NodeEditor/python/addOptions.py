@@ -42,7 +42,7 @@ class chOptions(QDialog):
         self.labels_inputs = self.poqs[0]
         self.values_inputs = self.poqs[1]
 
-        self.setWindowTitle('choose options input')
+        self.setWindowTitle(nameclass)
         self.setWindowFlags(self.windowFlags() &
                             QtCore.Qt.WindowCloseButtonHint)
 
@@ -142,7 +142,7 @@ class chOptions(QDialog):
                     pass
                 if len(comm) != 0:
                     doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#222222;\" >" + tmp + " : </span>"
-                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm + "</span><br>"
+                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm + "</span><br><br>"
             if len(doc) != 0:
                 desc.clear()
                 desc.append(doc)

@@ -1,13 +1,13 @@
 ants_get_mask:
-  low_thresh: 0.0
-  high_thresh: 0.0
-  cleanup: 1
+  low_thresh: 0.0 # (scalar (optional)) – An inclusive lower threshold for voxels to be included in the mask. If not given, defaults to image mean.
+  high_thresh: 0.0 # (scalar (optional)) – An inclusive upper threshold for voxels to be included in the mask. If not given, defaults to image max
+  cleanup: 1 # (integer) – If > 0, morphological operations will be applied to clean up the mask by eroding away small or weakly-connected areas, and closing holes. If cleanup is >0, the following steps are applied: <br>1. Erosion with radius 2 voxels<br>2. Retain largest component<br>3. Dilation with radius 1 voxel<br>4. Morphological closing
 ants_mask_image:
-  binarize: False
+  binarize: False # (boolean) – whether binarize the output image
 ants_n4_bias_field_correction:
-  mask: [[0.0]]
-  shrink_factor: (0)
-  convergence: {}
-  spline_param: (0)
-  verbose: False
-  weight_mask: [[0.0]]
+  mask: [[0.0]] # (ANTsImage) – input mask, if one is not passed one will be made
+  shrink_factor: (0) # (scalar) – Shrink factor for multi-resolution correction, typically integer less than 4
+  convergence: {} # (dict w/ keys iters and tol) – iters : vector of maximum number of iterations for each shrinkage factor tol : the convergence tolerance.
+  spline_param: (0) # (integer) – Parameter controlling number of control points in spline. Either single value, indicating how many control points, or vector with one entry per dimension of image, indicating the spacing in each direction.
+  verbose: False # (boolean) – enables verbose output.
+  weight_mask: [[0.0]] # (ANTsImage (optional)) – antsImage of weight mask
