@@ -26,7 +26,9 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/test_FSL_BET.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_convolve3D_maxpool.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Capsul_convert/simple_operation.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr

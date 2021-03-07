@@ -192,10 +192,13 @@ class Menu(QMenuBar):
             
     def saveDiagramsConfig(self, file):
         list_dgr = Config().getPathDiagrams()
-        if not list_dgr:
-            list_dgr = []
-        list_dgr.append(file)
-        Config().setPathDiagrams(set(list_dgr))
+        if list_dgr:
+            if file not in list_dgr:
+                list_dgr.append(file)
+                Config().setPathDiagrams(list_dgr)
+        else:
+            list_dgr = [file]
+            Config().setPathDiagrams(list_dgr)
         
     def load_previous_diagram(self):
         global currentpathwork
@@ -327,7 +330,6 @@ class Menu(QMenuBar):
                 self.saveHistories(fileDiagram[0])
                 self.saveDiagramsConfig(fileDiagram[0])
 
-
         if tmpActText == 'Close Diagram':
             editor.closeTab(editor.currentTab)
 
@@ -384,21 +386,17 @@ class Menu(QMenuBar):
             c = multiple_execution(list_dgr)
             c.exec_()
             print(c.getNewValues())
+            order_dgr = []
             for lstdg in c.getNewValues()[0:-3]:
-                ind = [index for index in range(editor.tabsDiagram.count()) if lstdg == editor.tabsDiagram.tabText(index)]
-                print(ind)
-                
+                order_dgr.append([index for index in range(editor.tabsDiagram.count()) if lstdg == editor.tabsDiagram.tabText(index)])
+              
             textEdit.clear()
             textEdit.append("<span style=\" font-size:10pt;"
                             "font-weight:600; color:#CC0000;"
                             "\" >this function will be available in the next version (patience !)</span>")
-
-#             print('list_ind = ', list_ind)
-#             for i, lstdg in enumerate(c.getNewValues()[0:-3]):
-#                 print(lstdg)
-#                 editor.tabsDiagram.setCurrentWidget(editor.tabsDiagram.findChild(QWidget, lstdg))
-#                 print('currentTab = ', editor.currentTab)
-
+            for i in order_dgr:
+                editor.tabsDiagram.setCurrentIndex(i[0])
+                
 
         if tmpActText == 'Analyze this Pipeline':
             txt = SaveDiagram()
@@ -6135,49 +6133,9 @@ class NodeEdit(QWidget):
        
         self.startConnection = None
         self.startSelection = None
-        
-#         self.load_previous_diagram()
 
         self.menub.btnPressed(QAction('load_previous_diagram'))
         
-#     def load_previous_diagram(self):
-#         last_exist_file = ''
-#         lst_dgr = Config().getPathDiagrams()
-#         if lst_dgr:
-#             for i, elem in enumerate(lst_dgr):
-#                 if os.path.exists(elem):
-#                     editor.addTab(os.path.basename(elem))
-#                     last_exist_file = elem
-#                     f = open(elem, 'r', encoding='utf8')
-#                     txt = f.readlines()
-#                     f.close()
-#                     try:
-#                         LoadDiagram(txt)
-#                         editor.pathDiagram[editor.currentTab] = elem
-#                         editor.diagramScene[editor.currentTab].fitwindow()
-#                         textInf.setText(elem)
-#                         textEdit.clear()
-#                     except Exception as e:
-#                         redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-#                         redText = redText + ('This diagram contains errors !')
-#                         redText = redText + ("</span>")
-#                         textEdit.clear()
-#                         textEdit.append(redText)
-#                     editor.diagramScene[editor.currentTab].fitwindow()
-#                     editor.diagramView[editor.currentTab].scale(0.8, 0.8)
-# 
-# 
-#             textInf.setText(last_exist_file)
-#             currentpathwork = last_exist_file
-#             if not last_exist_file:
-#                 self.addTab('')
-#                 textInf.setText('')
-# 
-#         else:
-#             self.addTab('')
-#             textInf.setText('')
-
-
     def getlib(self):
         return self.libBlocks
 
