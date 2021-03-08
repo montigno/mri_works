@@ -728,7 +728,7 @@ class analyze:
 
 ######################################################################
 
-        textEditor.clear()
+#         textEditor.clear()
         textEditor.append("<span style=\" \
                            font-size:10pt; \
                            font-weight:600; \

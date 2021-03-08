@@ -352,51 +352,29 @@ class Menu(QMenuBar):
             except Exception as err:
                 print('error Capsul execution : ', err)
 
-        if (tmpActText == 'Run this Pipeline' or
-                tmpActText == 'Run this Pipeline in Threading mode'):
+        if tmpActText == 'Run this Pipeline':
             textEdit.clear()
-            txt_raw = SaveDiagram().toPlainText()
-            txt_code = ''
-            for keyS, valS in listTools[editor.currentTab].items():
-                if 'S' in keyS:
-                    tmpS = 'source ' + keyS + ']'
-                    txt_code += txt_raw[txt_raw.index('[' +
-                                        tmpS):txt_raw.index('[/' +
-                                        tmpS) + len(tmpS) + 2] + '\n'
-            if 'in Threading mode' in tmpActText:
-                txt = analyze(txt_raw, textEdit, True).\
-                                getListForExecution()
-            else:
-                txt = analyze(txt_raw, textEdit, False).\
-                                getListForExecution()
-            if txt_code:
-                txt += txt_code
-            textEdit.append("<span style=\" font-size:10pt;"
-                            "font-weight:600; color:#0000CC;"
-                            "\" >Pipeline started ! </span>")
-            textEdit.append("<span style=\" font-size:10pt;"
-                            "font-weight:600; color:#0000CC;"
-                            "\" >Pipeline running ......... </span>")
-            execution(txt, textEdit)
+            self.execute_pipeline('', False)
+            
+        if tmpActText == 'Run this Pipeline in Threading mode':
+            textEdit.clear()
+            self.execute_pipeline('', True)
             
         if tmpActText == 'Run multiple Pipelines':
+            textEdit.clear()
             list_dgr = []
             for i in range(0, editor.tabsDiagram.count()):
                 list_dgr.append(editor.tabsDiagram.tabText(i))
             c = multiple_execution(list_dgr)
             c.exec_()
-            print(c.getNewValues())
             order_dgr = []
-            for lstdg in c.getNewValues()[0:-3]:
-                order_dgr.append([index for index in range(editor.tabsDiagram.count()) if lstdg == editor.tabsDiagram.tabText(index)])
-              
-            textEdit.clear()
-            textEdit.append("<span style=\" font-size:10pt;"
-                            "font-weight:600; color:#CC0000;"
-                            "\" >this function will be available in the next version (patience !)</span>")
+            for lstdg in c.getNewValues()[0:-2]:
+                order_dgr.append(([index for index in range(editor.tabsDiagram.count()) if lstdg[0] == editor.tabsDiagram.tabText(index)],
+                                  lstdg[1]))
             for i in order_dgr:
-                editor.tabsDiagram.setCurrentIndex(i[0])
-                
+                editor.tabsDiagram.setCurrentIndex(i[0][0])
+                self.execute_pipeline(editor.tabsDiagram.tabText(i[0][0]), i[1])
+
 
         if tmpActText == 'Analyze this Pipeline':
             txt = SaveDiagram()
@@ -574,6 +552,34 @@ class Menu(QMenuBar):
                 textEdit.clear()
                 textEdit.append(redText)
 
+    def execute_pipeline(self, title_dgr, mode_th):
+        txt_raw = SaveDiagram().toPlainText()
+        txt_code = ''
+        for keyS, valS in listTools[editor.currentTab].items():
+            if 'S' in keyS:
+                tmpS = 'source ' + keyS + ']'
+                txt_code += txt_raw[txt_raw.index('[' +
+                                    tmpS):txt_raw.index('[/' +
+                                    tmpS) + len(tmpS) + 2] + '\n'
+        
+        textEdit.append("<br><span style=\" font-size:10pt;"
+                        "font-weight:600; color:#00CC00;"
+                        "\" >"+ title_dgr +"</span>")
+        if mode_th:
+            txt = analyze(txt_raw, textEdit, True).\
+                            getListForExecution()
+        else:
+            txt = analyze(txt_raw, textEdit, False).\
+                            getListForExecution()
+        if txt_code:
+            txt += txt_code
+        textEdit.append("<span style=\" font-size:10pt;"
+                        "font-weight:600; color:#0000CC;"
+                        "\" >Pipeline started ! </span>")
+        textEdit.append("<span style=\" font-size:10pt;"
+                        "font-weight:600; color:#0000CC;"
+                        "\" >Pipeline running ......... </span>")
+        execution(txt, textEdit)
 
 class ShowLegend:
 

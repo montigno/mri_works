@@ -24,22 +24,21 @@ class multiple_execution(QDialog):
             comb = QComboBox(self)
             comb.addItems(listDiagram)
             comb.setCurrentIndex(i)
-            self.zonecombo.append(comb)
+            checkb = QCheckBox('threading mode')
+            self.zonecombo.append((comb, checkb))
             hbox = QHBoxLayout()
             hbox.addWidget(lab)
             hbox.addWidget(comb)
+            hbox.addWidget(checkb)
             vbox.addLayout(hbox)
         self.a = QCheckBox('run sequentially')
         self.a.setChecked(True)
-        self.b = QCheckBox('run sequentially in Threading mode')
-        self.c = QCheckBox('run in multiprocessing mode')
+        self.b = QCheckBox('run in multiprocessing mode')
         cs = QButtonGroup(self)
         cs.addButton(self.a)
         cs.addButton(self.b)
-        cs.addButton(self.c)
         vbox.addWidget(self.a)
         vbox.addWidget(self.b)
-        vbox.addWidget(self.c)
     
         buttonGo = QPushButton('Go!', self)
         buttonCancel = QPushButton('Cancel', self)
@@ -56,10 +55,9 @@ class multiple_execution(QDialog):
 
     def GO(self):
         for lst_comb in self.zonecombo:
-            self.listVal.append(lst_comb.currentText())
+            self.listVal.append((lst_comb[0].currentText(), lst_comb[1].isChecked()))
         self.listVal.append(self.a.isChecked())
         self.listVal.append(self.b.isChecked())
-        self.listVal.append(self.c.isChecked())
         self.close()
         
     def closeEvent(self, event):
