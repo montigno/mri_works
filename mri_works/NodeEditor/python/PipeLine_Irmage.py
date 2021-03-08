@@ -216,12 +216,12 @@ class Menu(QMenuBar):
                         last_exist_file = elem
                         LoadDiagram(txt)
                         editor.pathDiagram[editor.currentTab] = elem
+                        editor.diagramView[editor.currentTab].scene().clearSelection()
                         editor.diagramView[editor.currentTab]\
                                                 .fitInView(editor.diagramScene[editor.currentTab].
                                                            sceneRect(),
                                                            QtCore.Qt.KeepAspectRatio)
-                        editor.diagramView[editor.currentTab].scale(15, 15)
-                        editor.diagramView[editor.currentTab].scene().clearSelection()
+                        editor.diagramView[editor.currentTab].scale(10, 10)
                         textInf.setText(elem)
                         textEdit.clear()
                     except Exception as e:
@@ -738,7 +738,6 @@ class LoadCodeScript:
 class LoadDiagram:
 
     def __init__(self, txt):
-
         edit = DiagramView(editor.diagramScene[editor.currentTab])
 #         listItems[editor.currentTab] = {}
         listNd = {}
@@ -925,8 +924,6 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
-
-#         UpdateUndoRedo()
 
     def getValueInBrackets(self, line, args):
         res = []

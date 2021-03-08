@@ -5,9 +5,13 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
+
+import time
+
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox,\
     QButtonGroup, QCheckBox, QPushButton, QLineEdit
 from PyQt5 import QtCore
+from PyQt5.QtCore import QTimer
 
 class multiple_execution(QDialog):
     def __init__(self, listDiagram, parent=None):
@@ -33,7 +37,8 @@ class multiple_execution(QDialog):
             vbox.addLayout(hbox)
         self.a = QCheckBox('run sequentially')
         self.a.setChecked(True)
-        self.b = QCheckBox('run in multiprocessing mode')
+        self.b = QCheckBox('run in multiprocessing mode (available in the next version)')
+        self.b.stateChanged.connect(self.info_mu)
         cs = QButtonGroup(self)
         cs.addButton(self.a)
         cs.addButton(self.b)
@@ -59,6 +64,12 @@ class multiple_execution(QDialog):
         self.listVal.append(self.a.isChecked())
         self.listVal.append(self.b.isChecked())
         self.close()
+        
+    def info_mu(self):
+        self.a.setChecked(True)
+
+    def onTimeout(self):
+        self.info.setText('')
         
     def closeEvent(self, event):
         return QDialog.closeEvent(self, event)

@@ -26,8 +26,10 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Benchmarks/Diagram_50blocks.dgr
   - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Capsul_convert/simple_operation.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Capsul_convert/operations.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Script/operation.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Script/plot_XY.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
