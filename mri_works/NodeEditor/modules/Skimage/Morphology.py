@@ -99,5 +99,14 @@ class skimage_closing:
     def sk_closing(self:'array_float'):
         return self.cl
 
+###########################################################
 
+class skimage_convex_hull_image:
+    def __init__(self, image=[[0.0]], **options):
+        from skimage.morphology import convex_hull_image
+        import numpy as np
+        self.ch = convex_hull_image(image, **options)
+        
+    def sk_convex(self:'array_bool'):
+        return self.ch
         
