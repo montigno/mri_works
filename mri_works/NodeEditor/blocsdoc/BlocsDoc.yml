@@ -6,6 +6,15 @@ AbsX:
   delta_x: (float) deviation of x
   outAbscissa: (list of float) list of abscissa of x
   dependencies: Numpy
+  
+afni_Fourier:
+  functionality: Wraps command 3dFourier. Program to lowpass and/or highpass each voxel time series in a dataset, via the FFT
+  highpass: (a float) highpass. flag -highpass %f, position 1.
+  in_file: (an existing file name) input file to 3dFourier. flag %s, position -1.
+  lowpass: (a float) lowpass. flag -lowpass %f, position 0
+  out_file: (an existing file name) output file
+  dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#fourier
 
 afni_Seg:
   functionality: "3dSeg segments brain volumes into tissue classes. The program allows
@@ -35,27 +44,6 @@ ants_atropos:
   ants_image: (ANTsImage or list/tuple of ANTsImage python:types) – One or more scalar images to segment. If priors are not used, the intensities of the first image are used to order the classes in the segmentation output, from lowest to highest intensity. Otherwise the order of the classes is dictated by the order of the prior images.
   mask_ants: (ANTsImage) – mask image.
   dependencies: ANTsPy
-  
-ants_AntsJointFusion:
-  functionality: Wraps command antsJointFusion
-  atlas_image: "(a list of items which are a list of items which are an
-                existing file name)
-                The atlas image (or multimodal atlas images) assumed to be aligned
-                to a common image domain.
-                flag: -g %s..."
-  atlas_segmentation_image: "(a list of items which are an existing file
-                             name)
-                             The atlas segmentation images. For performing label fusion the
-                             number of specified segmentations should be identical to the number
-                             of atlas image sets.
-                             flag: -l %s..."
-  target_image: "(a list of items which are a list of items which are an
-                 existing file name)
-                 The target image (or multimodal target images) assumed to be aligned
-                 to a common image domain.
-                 flag: -t %s"
-  dependencies: Nipype, ANTs
-  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#antsjointfusion
 
 ants_BrainExtraction:
   functionality: Wraps command antsBrainExtraction.sh
@@ -76,6 +64,8 @@ ants_BrainExtraction:
                    Anatomical template created using e.g. LPBA40 data set
                    withbuildtemplateparallel.sh in ANTs.
                    flag: -e %s"
+  BrainExtractionBrain: (an existing file name) brain extraction image
+  BrainExtractionMask: (an existing file name) brain extraction mask
   dependencies: Nipype, ANTs
   link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#brainextraction
   
@@ -94,13 +84,38 @@ ants_image_write:
   dependencies: ANTsPy
   link_web: https://antspy.readthedocs.io/en/latest/core.html
 
+ants_JointFusion:
+  functionality: Wraps command antsJointFusion
+  atlas_image: "(a list of items which are a list of items which are an
+                existing file name)
+                The atlas image (or multimodal atlas images) assumed to be aligned
+                to a common image domain.
+                flag: -g %s..."
+  atlas_segmentation_image: "(a list of items which are an existing file
+                             name)
+                             The atlas segmentation images. For performing label fusion the
+                             number of specified segmentations should be identical to the number
+                             of atlas image sets.
+                             flag: -l %s..."
+  target_image: "(a list of items which are a list of items which are an
+                 existing file name)
+                 The target image (or multimodal target images) assumed to be aligned
+                 to a common image domain.
+                 flag: -t %s"
+  out_atlas_voting_weight_name_format: (a string)
+  out_intensity_fusion_name_format: (a string)
+  out_label_fusion: (an existing file name)
+  out_label_post_prob_name_format: (a string)
+  dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#antsjointfusion
+
 ants_MeasureImageSimilarity:
   functionality: Wrapped executable MeasureImageSimilarity.
   fixed_image: (a pathlike object or string representing an existing file) – Image to which the moving image is warped.
   metric: (‘CC’ or ‘MI’ or ‘Mattes’ or ‘MeanSquares’ or ‘Demons’ or ‘GC’) – Maps to a command-line argument %s.
   moving_image: (a pathlike object or string representing an existing file) – Image to apply transformation to (generally a coregistered functional).
   radius_or_number_of_bins: (an integer) – The number of bins in each stage for the MI and Mattes metric, or the radius for other metrics. Requires inputs metric.
-  sampling_percentage: (0.0 <= a floating point number <= 1.0) – Percentage of points accessible to the sampling strategy over which to optimize the metric. Requires inputs metric.
+  sampling_percentage: (0.0 ≤ a floating point number ≤ 1.0) – Percentage of points accessible to the sampling strategy over which to optimize the metric. Requires inputs metric.
   dependencies: Nipype, ANTs
   link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
 
@@ -114,9 +129,8 @@ ants_N4BiasFieldCorrection:
                 image to apply transformation to (generally a coregistered
                 functional)
                 flag: --input-image %s"
-  save_bias: "(a boolean, nipype default value: False)
-              True if the estimated bias should be saved to file.
-              mutually_exclusive: bias_image"
+  bias_image: (an existing file name) Estimated bias
+  output_image: (an existing file name) Warped image
   dependencies: Nipype, ANTs
   link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#n4biasfieldcorrection
 

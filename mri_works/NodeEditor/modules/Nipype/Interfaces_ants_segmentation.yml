@@ -4,10 +4,12 @@ ants_BrainExtraction:
   dimension: 3 # (3 or 2) – Image dimension (2 or 3). Maps to a command-line argument: -d %d. (Nipype default value: 3)
   environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
   extraction_registration_mask: 'path' # (a pathlike object or string representing an existing file) – Mask (defined in the template space) used during registration for brain extraction. To limit the metric computation to a specific region. Maps to a command-line argument: -f %s.
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
   image_suffix: 'nii.gz' # (a string) – Any of standard ITK formats, nii.gz is default. Maps to a command-line argument: -s %s. (Nipype default value: nii.gz)
   keep_temporary_files: 0 # (an integer) – Keep brain extraction/segmentation warps, etc (default = 0). Maps to a command-line argument: -k %d.
   num_threads: 1 # (an integer) – Number of ITK threads to use. (Nipype default value: 1)
   out_prefix: 'highres001' # (a string) – Prefix that is prepended to all output files. Maps to a command-line argument: -o %s. (Nipype default value: highres001_)
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
   use_floatingpoint_precision: 0 # (0 or 1) – Use floating point precision in registrations (default = 0). Maps to a command-line argument: -q %d.
   use_random_seeding: 1 # (0 or 1) – Use random number generated from system clock in Atropos (default = 1). Maps to a command-line argument: -u %d.
 ants_JointFusion:
@@ -39,12 +41,12 @@ ants_N4BiasFieldCorrection:
   convergence_threshold: 0.0 # (a float) – Requires inputs: n_iterations.
   dimension: 3 # (3 or 2 or 4) – Image dimension (2, 3 or 4). Maps to a command-line argument: -d %d. (Nipype default value: 3)
   environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
-  histogram_sharpening: (0.0, 0.0, 0) # (a tuple of the form: (a float, a float, an integer)) – Three-values tuple of histogram sharpening parameters (FWHM, wienerNose, numberOfHistogramBins). These options describe the histogram sharpening parameters, i.e. the deconvolution step parameters described in the original N3 algorithm. The default values have been shown to work fairly well. Maps to a command-line argument: --histogram-sharpening [%g,%g,%d].
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
   mask_image: 'path' # (a pathlike object or string representing a file) – Image to specify region to perform final bias correction in. Maps to a command-line argument: --mask-image %s.
   n_iterations: [0] # (a list of items which are an integer) – Maps to a command-line argument: --convergence %s.
   num_threads: 1 # (an integer) – Number of ITK threads to use. (Nipype default value: 1)
   output_image: 'path' # (a string) – Output file name. Maps to a command-line argument: --output %s.
-  rescale_intensities: False # (a boolean) – [NOTE: Only ANTs>=2.1.0] At each iteration, a new intensity mapping is calculated and applied but there is nothing which constrains the new intensity range to be within certain values. The result is that the range can “drift” from the original at each iteration. This option rescales to the [min,max] range of the original image intensities within the user-specified mask. Maps to a command-line argument: -r. (Nipype default value: False)
   shrink_factor: 0 # (an integer) – Maps to a command-line argument: --shrink-factor %d.
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
   weight_image: 'path' # (a pathlike object or string representing a file) – Image for relative weighting (e.g. probability map of the white matter) of voxels during the B-spline fitting. . Maps to a command-line argument: --weight-image %s.
-  
+ 
