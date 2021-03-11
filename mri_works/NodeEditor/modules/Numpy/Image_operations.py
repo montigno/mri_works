@@ -87,7 +87,6 @@ class MaxPool3D:
         print(image_height, image_width, image_depth)
         output_height = (image_height - size_filter) // stride + 1
         output_width = (image_width - size_filter) // stride + 1
-
         self.pool = np.zeros((output_height, output_width, image_depth))
         for k in range(image_depth):
             for i in range(output_height):

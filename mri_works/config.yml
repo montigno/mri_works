@@ -25,8 +25,24 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
+<<<<<<< HEAD
   diagrams: []
   histories: []
+=======
+  diagrams:
+  - /home/domicile-xubuntu/Desktop/test_convul3D_maxpool3D.dgr
+  histories:
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_convolve3D_maxpool.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_Gauss_filter.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/test_FSL_BET.dgr
+  - /home/domicile-xubuntu/Desktop/test_scripts.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
+  - /home/domicile-xubuntu/Desktop/test_convul3D_maxpool3D.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/2-Extraction_brain.dgr
+>>>>>>> 9622554e53dec4b679c83418e4c395f45360a986
   modules: modules
   projects: ../data
 version: 21.02.25a

@@ -28,3 +28,6 @@ remove_small_holes:
   out: [[0.0]]
   connectivity: 1
   in_place: False
+skimage_convex_hull_image:
+  offset_coordinates: False # If True, a pixel at coordinate, e.g., (4, 7) will be represented by coordinates (3.5, 7), (4.5, 7), (4, 6.5), and (4, 7.5). This adds some “extent” to a pixel when computing the hull.
+  tolerance: 0.0 # Tolerance when determining whether a point is inside the hull. Due to numerical floating point errors, a tolerance of 0 can result in some points erroneously being classified as being outside the hull.
