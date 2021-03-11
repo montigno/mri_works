@@ -8,15 +8,21 @@ AbsX:
   dependencies: Numpy
 
 afni_Seg:
-  functionality: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#seg
+  functionality: "3dSeg segments brain volumes into tissue classes. The program allows
+                  for adding a variety of global and voxelwise priors. However for the moment, only mixing fractions and MRF are documented.
+                  For complete details, see the `3dSeg Documentation (https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSeg.html>)"
   in_file: (an existing file name). ANAT is the volume to segment. argument ``-anat %s``, position -1
   mask: ('AUTO' or an existing file name). only non-zero voxels in mask are analyzed. mask can either be a dataset or the string "AUTO" which would use AFNI's automask function to create the mask. argument ``-mask %s``, position -2.
   dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#seg
   
 afni_SkullStrip:
-  functionality: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#skullstrip
+  functionality: "Wraps command 3dSkullStrip.
+                  A program to extract the brain from surrounding tissue from MRI T1-weighted images
+                  For complete details, see the 3dSkullStrip Documentation."
   in_file: (an existing file name). input file to 3dSkullStrip. flag -input %s, position 1
   dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#skullstrip
   
 ants_atropos:
   functionality: "A finite mixture modeling (FMM) segmentation approach with possibilities 
@@ -31,47 +37,108 @@ ants_atropos:
   dependencies: ANTsPy
   
 ants_AntsJointFusion:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: Wraps command antsJointFusion
+  atlas_image: "(a list of items which are a list of items which are an
+                existing file name)
+                The atlas image (or multimodal atlas images) assumed to be aligned
+                to a common image domain.
+                flag: -g %s..."
+  atlas_segmentation_image: "(a list of items which are an existing file
+                             name)
+                             The atlas segmentation images. For performing label fusion the
+                             number of specified segmentations should be identical to the number
+                             of atlas image sets.
+                             flag: -l %s..."
+  target_image: "(a list of items which are a list of items which are an
+                 existing file name)
+                 The target image (or multimodal target images) assumed to be aligned
+                 to a common image domain.
+                 flag: -t %s"
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#antsjointfusion
 
 ants_BrainExtraction:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: Wraps command antsBrainExtraction.sh
+  anatomical_image: "(an existing file name)
+                     Structural image, typically T1. If more than oneanatomical image is
+                     specified, subsequently specifiedimages are used during the
+                     segmentation process. However,only the first image is used in the
+                     registration of priors.Our suggestion would be to specify the T1 as
+                     the first image.Anatomical template created using e.g. LPBA40 data
+                     set withbuildtemplateparallel.sh in ANTs.
+                     flag: -a %s"
+  brain_probability_mask: "(an existing file name)
+                           Brain probability mask created using e.g. LPBA40 data set whichhave
+                           brain masks defined, and warped to anatomical template andaveraged
+                           resulting in a probability image.
+                           flag: -m %s"
+  brain_template: "(an existing file name)
+                   Anatomical template created using e.g. LPBA40 data set
+                   withbuildtemplateparallel.sh in ANTs.
+                   flag: -e %s"
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#brainextraction
   
 ants_image_read:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  functionality: Read an ANTsImage from file
+  filename: (string) – Name of the file to read the image from.
+  ants_image: return ANTsImage
   dependencies: ANTsPy
-  
-ants_image_write:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
-  dependencies: ANTsPy
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
 
-ants_JointFusion:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
-  dependencies: Nipype, ANTs
+ants_image_write:
+  functionality: Write an ANTsImage to file
+  image: (ANTsImage) – image to save to file
+  filename: (string) – name of file to which image will be saved
+  outfile_image: file in which the image is saved
+  dependencies: ANTsPy
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
 
 ants_MeasureImageSimilarity:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
+  functionality: Wrapped executable MeasureImageSimilarity.
+  fixed_image: (a pathlike object or string representing an existing file) – Image to which the moving image is warped.
+  metric: (‘CC’ or ‘MI’ or ‘Mattes’ or ‘MeanSquares’ or ‘Demons’ or ‘GC’) – Maps to a command-line argument %s.
+  moving_image: (a pathlike object or string representing an existing file) – Image to apply transformation to (generally a coregistered functional).
+  radius_or_number_of_bins: (an integer) – The number of bins in each stage for the MI and Mattes metric, or the radius for other metrics. Requires inputs metric.
+  sampling_percentage: (0.0 <= a floating point number <= 1.0) – Percentage of points accessible to the sampling strategy over which to optimize the metric. Requires inputs metric.
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
 
 ants_N4BiasFieldCorrection:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: "N4 is a variant of the popular N3 (nonparameteric nonuniform normalization) retrospective bias correction algorithm.
+                  Based on the assumption that the corruption of the low frequency bias field can be modeled as a convolution of the intensity histogram by a Gaussian,
+                  the basic algorithmic protocol is to iterate between deconvolving the intensity histogram by a Gaussian,
+                  remapping the intensities, and then spatially smoothing this result by a B-spline modeling of the bias field itself.
+                  The modifications from and improvements obtained over the original N3 algorithm are described in [Tustison2010]."
+  input_image: "(a file name)
+                image to apply transformation to (generally a coregistered
+                functional)
+                flag: --input-image %s"
+  save_bias: "(a boolean, nipype default value: False)
+              True if the estimated bias should be saved to file.
+              mutually_exclusive: bias_image"
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#n4biasfieldcorrection
 
 ants_Registration:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
-  moving_image: (a list of items which are an existing file name). Image that will be registered to the space of fixed_image. This is the image on which the transformations will be applied to
+  functionality: ANTs Registration command for registration of images.
   fixed_image: (a list of items which are an existing file name). Image to which the moving_image should be transformed(usually a structural image).
+  moving_image: (a list of items which are an existing file name). Image that will be registered to the space of fixed_image. This is the image on which the transformations will be applied to
   metric: (a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes' or a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes'). the metric(s) to use for each stage. Note that multiple metrics per stage are not supported in ANTS 1.9.1 and earlier.
   metric_weight: (a list of items which are a float or a list of items which are a float, nipype default value [1.0]). the metric weight(s) for each stage. The weights must sum to 1 per stage. requires metric.
-  transforms: (a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``.
   shrink_factors: (a list of items which are a list of items which are an integer (int or long))
   smoothing_sigmas: (a list of items which are a list of items which are a float).
+  transforms: (a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``.
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
   
 ants_set_spacing:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  functionality: Set image spacing
+  ants_image: AntsImage to read
+  new_spacing: (tuple or list) – updated spacing for the image. should have one value for each dimension
+  ants_image_spacing: return ANTsImage with spacing
   dependencies: ANTsPy
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
 
 Array_3D_random:
   functionality: Generate a random image 3D (row, column and slice)
@@ -149,19 +216,28 @@ fact:
   dependencies: Numpy
 
 fetch_atlas_harvard_oxford:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
+  functionality:
+  atlas_name: "(string) Name of atlas to load. Can be: cort-maxprob-thr0-1mm, cort-maxprob-thr0-2mm, cort-maxprob-thr25-1mm,
+               cort-maxprob-thr25-2mm, cort-maxprob-thr50-1mm, cort-maxprob-thr50-2mm, sub-maxprob-thr0-1mm, sub-maxprob-thr0-2mm,
+               sub-maxprob-thr25-1mm, sub-maxprob-thr25-2mm, sub-maxprob-thr50-1mm, sub-maxprob-thr50-2mm, cort-prob-1mm,
+               cort-prob-2mm, sub-prob-1mm, sub-prob-2mm"
   dependencies: Nipype, Nilearn
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
 
 fetch_atlas_msdl:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
+  functionality: 
   dependencies: Nipype, Nilearn
+  
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
 
 fetch_atlas_smith_2009:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
+  functionality: 
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
   dependencies: Nipype, Nilearn
 
 fetch_neurovault_motor_task:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
+  functionality: 
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
   dependencies: Nipype, Nilearn
 
 FloatToInt_array:
@@ -189,48 +265,114 @@ FloatToString:
   outString: (string) string of float number
 
 fsl_ApplyMask:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Use fslmaths to apply a binary mask to another image.
+  in_file: "(an existing file name)
+            image to operate on
+            flag: %s, position: 2"
+  mask_file: "(an existing file name)
+              binary image defining mask space
+              flag: -mas %s, position: 4"
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#applymask
 
 fsl_BET:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable bet. FSL BET wrapper for skull stripping
+  in_file: (a pathlike object or string representing an existing file) – Input file to skull strip. Maps to a command-line argument %s (position 0).
+  out_file: (a pathlike object or string representing a file) – Path/name of skullstripped file (if generated).
+  mask_file: (a pathlike object or string representing a file) – Path/name of binary brain mask (if generated).
+  outline_file: (a pathlike object or string representing a file) – Path/name of outline file (if generated).
+  meshfile: (a pathlike object or string representing a file) – Path/name of vtk mesh file (if generated).
+  inskull_mask_file: (a pathlike object or string representing a file) – Path/name of inskull mask (if generated).
+  inskull_mesh_file: (a pathlike object or string representing a file) – Path/name of inskull mesh outline (if generated).
+  outskin_mask_file: (a pathlike object or string representing a file) – Path/name of outskin mask (if generated).
+  outskin_mesh_file: (a pathlike object or string representing a file) – Path/name of outskin mesh outline (if generated).
+  outskull_mask_file: (a pathlike object or string representing a file) – Path/name of outskull mask (if generated).
+  outskull_mesh_file: (a pathlike object or string representing a file) – Path/name of outskull mesh outline (if generated).
+  skull_file: (a pathlike object or string representing a file) – Path/name of skull file (if generated).
+  skull_mask_file: (a pathlike object or string representing a file) – Path/name of skull mask (if generated).
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#bet
 
 fsl_BinaryMaths:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Wraps command fslmaths Use fslmaths to perform mathematical operations using a second image or a numeric value.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  operand_file: (an existing file name) second image to perform operation with. flag %s, position 5. mutually_exclusive operand_value
+  operand_value: (a float) value to perform operation with. flag %.8f, position 5. mutually_exclusive operand_file
+  operation: ('add' or 'sub' or 'mul' or 'div' or 'rem' or 'max' or 'min') operation to perform. flag -%s, position 4. 
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#binarymaths
 
 fsl_FAST:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable fast. FSL FAST wrapper for segmentation and bias correction
+  in_files: "(a list of items which are a pathlike object or string representing an existing file)
+             Image, or multi-channel set of images, to be segmented. Maps to a command-line argument: %s (position: -1)."
+  bias_field: (a list of items which are a pathlike object or string representing a file)
+  mixeltype: (a pathlike object or string representing a file) – Path/name of mixeltype volume file _mixeltype.
+  partial_volume_files: (a list of items which are a pathlike object or string representing a file)
+  partial_volume_map: (a pathlike object or string representing a file) – Path/name of partial volume file _pveseg.
+  probability_maps: (a list of items which are a pathlike object or string representing a file)
+  restored_image: (a list of items which are a pathlike object or string representing a file)
+  tissue_class_files: (a list of items which are a pathlike object or string representing a file)
+  tissue_class_map: (a pathlike object or string representing an existing file) – Path/name of binary segmented volume file one val for each class _seg.
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#fast
 
 fsl_FLIRT:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable flirt. FSL FLIRT wrapper for coregistration
+  in_file: (a pathlike object or string representing an existing file) – Input file. Maps to a command-line argument -in %s (position 0).
+  reference: (a pathlike object or string representing an existing file) – Reference file. Maps to a command-line argument -ref %s (position 1).
+  out_file: (a pathlike object or string representing an existing file) – Path/name of registered file (if generated).
+  out_log: (a pathlike object or string representing a file) – Path/name of output log (if generated).
+  out_matrix_file: (a pathlike object or string representing an existing file) – Path/name of calculated affine transform (if generated).
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#flirt
 
 fsl_FNIRT:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable fnirt. FSL FNIRT wrapper for non-linear registration
+  in_file: (a pathlike object or string representing an existing file) – Name of input image. Maps to a command-line argument --in=%s.
+  ref_file: (a pathlike object or string representing an existing file) – Name of reference image. Maps to a command-line argument --ref=%s.
+  field_file: (a pathlike object or string representing a file) – File with warp field.
+  fieldcoeff_file: (a pathlike object or string representing an existing file) – File with field coefficients.
+  jacobian_file: (a pathlike object or string representing a file) – File containing Jacobian of the field.
+  log_file: (a pathlike object or string representing a file) – Name of log-file.
+  modulatedref_file: (a pathlike object or string representing a file) – File containing intensity modulated –ref.
+  out_intensitymap_file: (a list of from 2 to 2 items which are a pathlike object or string representing a file) – Files containing info pertaining to intensity mapping.
+  warped_file: (a pathlike object or string representing an existing file) – Warped image.
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#fnirt
 
 fsl_Merge:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: "Bases: FSLCommand. Wrapped executable fslmerge. Use fslmerge to concatenate images
+                  Images can be concatenated across time, x, y, or z dimensions.
+                  Across the time (t) dimension the TR is set by default to 1 sec.
+                  Note to set the TR to a different value, specify ‘t’ for dimension and specify the TR value in seconds for the tr input.
+                  The dimension will be automatically updated to ‘tr’."
+  dimension: (‘t’ or ‘x’ or ‘y’ or ‘z’ or ‘a’) – Dimension along which to merge, optionally set tr input when dimension is t. Maps to a command-line argument -%s (position 0).
+  in_files: (a list of items which are a pathlike object or string representing an existing file) – Maps to a command-line argument %s (position 2).
+  merged_file: (a pathlike object or string representing an existing file)
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#merge
 
 fsl_Split:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: s
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
 
 fsl_SwapDimensions:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: s
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
 
 fsl_Threshold:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: s
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
 
 fsl_UnaryMaths:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: s
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
 
 IntToFloat_array:
   functionality: "Allows the conversion of an integer array to a floating array.
@@ -271,6 +413,15 @@ MP3_T2map:
 mrtrix3_DWIExtract:
   functionality: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
   dependencies: Nipype, MRtrix3
+
+nipy_FmriRealign4d:
+  functionality: Simultaneous motion and slice timing correction algorithm. This interface wraps nipy’s FmriRealign4d algorithm.
+  in_file: (a list of items which are an existing file name) File to realign
+  tr: (a float) TR in seconds
+  out_file: (a list of items which are an existing file name) Realigned files
+  par_file: (a list of items which are an existing file name) Motion parameter files
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.nipy.preprocess.html#fmrirealign4d
 
 NlargestInArray:
   functionality: Check the n largest value in array input.

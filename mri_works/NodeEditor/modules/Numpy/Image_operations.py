@@ -83,19 +83,16 @@ class Invert_image:
 class MaxPool3D:
     def __init__(self, image=[[0.0]], size_filter=1, stride=1):
         import numpy as np
-        img = np.array(image)
-        print('img shape = ', img.shape)
-        image_height, image_width, image_depth = img.shape
+        image_height, image_width, image_depth = image.shape
+        print(image_height, image_width, image_depth)
         output_height = (image_height - size_filter) // stride + 1
         output_width = (image_width - size_filter) // stride + 1
-        pool = np.zeros((output_height, output_width, image_depth))
-        for i in range(output_height):
-            for j in range(output_width):
-                pool[i, j, :] = np.max(img[i*stride:i*stride+size_filter, j*stride:j*stride+size_filter, :])
-        self.img_pool = pool
-        
-    def image_pool(self:'array_float'):
-        return self.img_pool
 
+        self.pool = np.zeros((output_height, output_width, image_depth))
+        for k in range(image_depth):
+            for i in range(output_height):
+                for j in range(output_width):
+                    self.pool[i, j, k] = np.max(image[i*stride:i*stride+size_filter, j*stride:j*stride+size_filter, k])
 
-
+    def out_maxpool(self:'array_float'):
+        return self.pool

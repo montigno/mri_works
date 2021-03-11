@@ -1,142 +1,139 @@
 fsl_BET:
-  args: ''
-  center: [0, 0, 0]
-  environ: {}
-  frac: 0.0
-  functional: True
-  mask: True
-  mesh: True
-  no_output: True
-  out_file: 'path'
-  outline: True
-  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ'))
-  padding: True
-  radius: 0
-  reduce_bias: True
-  remove_eyes: True
-  robust: True
-  skull: True
-  surfaces: True
-  t2_guided: 'path'
-  threshold: True
-  vertical_gradient: 0.0
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  center: [0, 0, 0] # (a list of at most 3 items which are an integer) – Center of gravity in voxels. Maps to a command-line argument: -c %s.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  frac: 0.0 # (a float) – Fractional intensity threshold. Maps to a command-line argument: -f %.2f.
+  functional: True # (a boolean) – Apply to 4D fMRI data. Maps to a command-line argument: -F. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  mask: True # (a boolean) – Create binary mask image. Maps to a command-line argument: -m.
+  mesh: True # (a boolean) – Generate a vtk mesh brain surface. Maps to a command-line argument: -e.
+  no_output: True # (a boolean) – Don’t generate segmented output. Maps to a command-line argument: -n.
+  out_file: 'path' # (a pathlike object or string representing a file) – Name of output skull stripped image. Maps to a command-line argument: %s (position: 1).
+  outline: True # (a boolean) – Create surface outline image. Maps to a command-line argument: -o.
+  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+  padding: True # a boolean) – Improve BET if FOV is very small in Z (by temporarily padding end slices). Maps to a command-line argument: -Z. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  radius: 0 # (an integer) – Head radius. Maps to a command-line argument: -r %d.
+  reduce_bias: True # (a boolean) – Bias field and neck cleanup. Maps to a command-line argument: -B. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  remove_eyes: True # (a boolean) – Eye & optic nerve cleanup (can be useful in SIENA). Maps to a command-line argument: -S. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  robust: True # (a boolean) – Robust brain centre estimation (iterates BET several times). Maps to a command-line argument: -R. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  skull: True # (a boolean) – Create skull image. Maps to a command-line argument: -s.
+  surfaces: True # (a boolean) – Run bet2 and then betsurf to get additional skull and scalp surfaces (includes registrations). Maps to a command-line argument: -A. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  t2_guided: 'path' # (a pathlike object or string representing a file) – As with creating surfaces, when also feeding in non-brain-extracted T2 (includes registrations). Maps to a command-line argument: -A2 %s. Mutually exclusive with inputs: functional, reduce_bias, robust, padding, remove_eyes, surfaces, t2_guided.
+  threshold: True # (a boolean) – Apply thresholding to segmented brain image and mask. Maps to a command-line argument: -t.
+  vertical_gradient: 0.0 # (a float) – Vertical gradient in fractional intensity threshold (-1, 1). Maps to a command-line argument: -g %.2f.
 fsl_FAST:
-  out_basename: 'path'
-  number_classes: 1
-  output_biasfield: False
-  output_biascorrected: False
-  img_type: 1
-  bias_iters: 1
-  bias_lowpass: 4
-  init_seg_smooth: 0.0001
-  segments: False
-  init_transform: 'path'
-  other_priors: ['','','']
-  no_pve: False
-  no_bias: False
-  use_priors: False
-  segment_iters: 1
-  mixel_smooth: 0.0
-  iters_afterbias: 1
-  hyper: 0.0
-  verbose: False
-  manual_seg: 'path'
-  probability_maps: False
-  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ'))
-  args: ''
-  environ: {}
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  bias_iters: 1 # (1 <= an integer <= 10) – Number of main-loop iterations during bias-field removal. Maps to a command-line argument: -I %d.
+  bias_lowpass: 4 # (4 <= an integer <= 40) – Bias field smoothing extent (FWHM) in mm. Maps to a command-line argument: -l %d.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  hyper: 0.0 # (0.0 <= a floating point number <= 1.0) – Segmentation spatial smoothness. Maps to a command-line argument: -H %.2f.
+  img_type: 1 # (1 or 2 or 3) – Int specifying type of image: (1 = T1, 2 = T2, 3 = PD). Maps to a command-line argument: -t %d.
+  init_seg_smooth: 0.0001 # (0.0001 <= a floating point number <= 0.1) – Initial segmentation spatial smoothness (during bias field estimation). Maps to a command-line argument: -f %.3f.
+  init_transform: 'path' # (a pathlike object or string representing an existing file) – <standard2input.mat> initialise using priors. Maps to a command-line argument: -a %s.
+  iters_afterbias: 1 # (1 <= an integer <= 20) – Number of main-loop iterations after bias-field removal. Maps to a command-line argument: -O %d.
+  manual_seg: 'path' # (a pathlike object or string representing an existing file) – Filename containing intensities. Maps to a command-line argument: -s %s.
+  mixel_smooth: 0.0 # (0.0 <= a floating point number <= 1.0) – Spatial smoothness for mixeltype. Maps to a command-line argument: -R %.2f.
+  no_bias: False # (a boolean) – Do not remove bias field. Maps to a command-line argument: -N.
+  no_pve: False # (a boolean) – Turn off PVE (partial volume estimation). Maps to a command-line argument: --nopve.
+  number_classes: 1 # (1 <= an integer <= 10) – Number of tissue-type classes. Maps to a command-line argument: -n %d.
+  other_priors: ['','',''] # (a list of from 3 to 3 items which are a pathlike object or string representing a file) – Alternative prior images. Maps to a command-line argument: -A %s.
+  out_basename: 'path' # (a pathlike object or string representing a file) – Base name of output files. Maps to a command-line argument: -o %s.
+  output_biascorrected: False # (a boolean) – Output restored image (bias-corrected image). Maps to a command-line argument: -B.
+  output_biasfield: False # (a boolean) – Output estimated bias field. Maps to a command-line argument: -b.
+  output_type: enumerate(('NIFTI','NIFTI_PAIR','NIFTI_GZ','NIFTI_PAIR_GZ')) # ‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+  probability_maps: False # (a boolean) – Outputs individual probability maps. Maps to a command-line argument: -p.
+  segment_iters: 1 # (1 <= an integer <= 50) – Number of segmentation-initialisation iterations. Maps to a command-line argument: -W %d.
+  segments: False # (a boolean) – Outputs a separate binary image for each tissue type. Maps to a command-line argument: -g.
+  use_priors: False # (a boolean) – Use priors throughout. Maps to a command-line argument: -P.
+  verbose: False # (a boolean) – Switch on diagnostic messages. Maps to a command-line argument: -v.
 fsl_FLIRT:
-  angle_rep: enumerate(('quaternion', 'euler'))
-  apply_isoxfm: 0.0
-  apply_xfm: False
-  args: ''
-  bbrslope: 0.0
-  bbrtype: enumerate(('signed', 'global_abs', 'local_abs'))
-  bgvalue: 0.0
-  bins: 0
-  coarse_search: 0
-  cost: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr'))
-  cost_func: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr'))
-  datatype: enumerate(('char', 'short', 'int', 'float', 'double'))
-  display_init: False
-  dof: 0
-  echospacing: 0.0
-  environ: {}
-  fieldmap: 'path'
-  fieldmapmask: 'path'
-  fine_search: 0
-  force_scaling: False
-  in_matrix_file: 'path'
-  in_weight: 'path'
-  interp: enumerate(('trilinear', 'nearestneighbour', 'sinc', 'spline'))
-  min_sampling: 0.0
-  no_clamp: False
-  no_resample: False
-  no_resample_blur: False
-  no_search: False
-  out_file: 'path'
-  out_log: 'path'
-  out_matrix_file: 'path'
-  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI'))
-  padding_size: 0
-  pedir: 0
-  ref_weight: 'path'
-  rigid2D: False
-  save_log: False
-  schedule: 'path'
-  searchr_x: [0]
-  searchr_y: [0]
-  searchr_z: [0]
-  sinc_width: 0
-  sinc_window: enumerate(('rectangular', 'hanning', 'blackman'))
-  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none'))
-  uses_qform: False
-  verbose: 0
-  wm_seg: 'path'
-  wmcoords: 'path'
-  wmnorms: 'path'
+  angle_rep: enumerate(('quaternion', 'euler')) # (‘quaternion’ or ‘euler’) – Representation of rotation angles. Maps to a command-line argument: -anglerep %s.
+  apply_isoxfm: 0.0 # (a float) – As applyxfm but forces isotropic resampling. Maps to a command-line argument: -applyisoxfm %f. Mutually exclusive with inputs: apply_xfm.
+  apply_xfm: False # (a boolean) – Apply transformation supplied by in_matrix_file or uses_qform to use the affine matrix stored in the reference header. Maps to a command-line argument: -applyxfm.
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  bbrslope: 0.0 # (a float) – Value of bbr slope. Maps to a command-line argument: -bbrslope %f.
+  bbrtype: enumerate(('signed', 'global_abs', 'local_abs')) # (‘signed’ or ‘global_abs’ or ‘local_abs’) – Type of bbr cost function: signed [default], global_abs, local_abs. Maps to a command-line argument: -bbrtype %s.
+  bgvalue: 0.0 # (a float) – Use specified background value for points outside FOV. Maps to a command-line argument: -setbackground %f.
+  bins: 0 # (an integer) – Number of histogram bins. Maps to a command-line argument: -bins %d.
+  coarse_search: 0 # (an integer) – Coarse search delta angle. Maps to a command-line argument: -coarsesearch %d.
+  cost: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr')) # (‘mutualinfo’ or ‘corratio’ or ‘normcorr’ or ‘normmi’ or ‘leastsq’ or ‘labeldiff’ or ‘bbr’) – Cost function. Maps to a command-line argument: -cost %s.
+  cost_func: enumerate(('mutualinfo', 'corratio', 'normcorr', 'normmi', 'leastsq', 'labeldiff', 'bbr')) # (‘mutualinfo’ or ‘corratio’ or ‘normcorr’ or ‘normmi’ or ‘leastsq’ or ‘labeldiff’ or ‘bbr’) – Cost function. Maps to a command-line argument: -searchcost %s.
+  datatype: enumerate(('char', 'short', 'int', 'float', 'double')) # (‘char’ or ‘short’ or ‘int’ or ‘float’ or ‘double’) – Force output data type. Maps to a command-line argument: -datatype %s.
+  display_init: False # (a boolean) – Display initial matrix. Maps to a command-line argument: -displayinit.
+  dof: 0 # (an integer) – Number of transform degrees of freedom. Maps to a command-line argument: -dof %d.
+  echospacing: 0.0 # (a float) – Value of EPI echo spacing - units of seconds. Maps to a command-line argument: -echospacing %f.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  fieldmap: 'path' # (a pathlike object or string representing a file) – Fieldmap image in rads/s - must be already registered to the reference image. Maps to a command-line argument: -fieldmap %s.
+  fieldmapmask: 'path' # (a pathlike object or string representing a file) – Mask for fieldmap image. Maps to a command-line argument: -fieldmapmask %s.
+  fine_search: 0 # (an integer) – Fine search delta angle. Maps to a command-line argument: -finesearch %d.
+  force_scaling: False # (a boolean) – Force rescaling even for low-res images. Maps to a command-line argument: -forcescaling.
+  in_matrix_file: 'path' # (a pathlike object or string representing a file) – Input 4x4 affine matrix. Maps to a command-line argument: -init %s.
+  in_weight: 'path' # (a pathlike object or string representing an existing file) – File for input weighting volume. Maps to a command-line argument: -inweight %s.
+  interp: enumerate(('trilinear', 'nearestneighbour', 'sinc', 'spline')) # (‘trilinear’ or ‘nearestneighbour’ or ‘sinc’ or ‘spline’) – Final interpolation method used in reslicing. Maps to a command-line argument: -interp %s.
+  min_sampling: 0.0 # (a float) – Set minimum voxel dimension for sampling. Maps to a command-line argument: -minsampling %f.
+  no_clamp: False # (a boolean) – Do not use intensity clamping. Maps to a command-line argument: -noclamp.
+  no_resample: False # (a boolean) – Do not change input sampling. Maps to a command-line argument: -noresample.
+  no_resample_blur: False # (a boolean) – Do not use blurring on downsampling. Maps to a command-line argument: -noresampblur.
+  no_search: False # (a boolean) – Set all angular searches to ranges 0 to 0. Maps to a command-line argument: -nosearch.
+  out_file: 'path' # (a pathlike object or string representing a file) – Registered output file. Maps to a command-line argument: -out %s (position: 2).
+  out_log: 'path' # (a pathlike object or string representing a file) – Output log. Requires inputs: save_log.
+  out_matrix_file: 'path' # (a pathlike object or string representing a file) – Output affine matrix in 4x4 asciii format. Maps to a command-line argument: -omat %s (position: 3).
+  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+  padding_size: 0 # (an integer) – For applyxfm: interpolates outside image by size. Maps to a command-line argument: -paddingsize %d.
+  pedir: 0 # (an integer) – Phase encode direction of EPI - 1/2/3=x/y/z & -1/-2/-3=-x/-y/-z. Maps to a command-line argument: -pedir %d.
+  ref_weight: 'path' # (a pathlike object or string representing an existing file) – File for reference weighting volume. Maps to a command-line argument: -refweight %s.
+  rigid2D: False # (a boolean) – Use 2D rigid body mode - ignores dof. Maps to a command-line argument: -2D.
+  save_log: False # (a boolean) – Save to log file.
+  schedule: 'path' # (a pathlike object or string representing an existing file) – Replaces default schedule. Maps to a command-line argument: -schedule %s.
+  searchr_x: [0] # (a list of from 2 to 2 items which are an integer) – Search angles along x-axis, in degrees. Maps to a command-line argument: -searchrx %s.
+  searchr_y: [0] # (a list of from 2 to 2 items which are an integer) – Search angles along y-axis, in degrees. Maps to a command-line argument: -searchry %s.
+  searchr_z: [0] # (a list of from 2 to 2 items which are an integer) – Search angles along z-axis, in degrees. Maps to a command-line argument: -searchrz %s.
+  sinc_width: 0 # (an integer) – Full-width in voxels. Maps to a command-line argument: -sincwidth %d.
+  sinc_window: enumerate(('rectangular', 'hanning', 'blackman')) # (‘rectangular’ or ‘hanning’ or ‘blackman’) – Sinc window. Maps to a command-line argument: -sincwindow %s.
+  uses_qform: False # (a boolean) – Initialize using sform or qform. Maps to a command-line argument: -usesqform.
+  verbose: 0 # (an integer) – Verbose mode, 0 is least. Maps to a command-line argument: -verbose %d.
+  wm_seg: 'path' # (a pathlike object or string representing a file) – White matter segmentation volume needed by BBR cost function. Maps to a command-line argument: -wmseg %s.
+  wmcoords: 'path' # (a pathlike object or string representing a file) – White matter boundary coordinates for BBR cost function. Maps to a command-line argument: -wmcoords %s.
+  wmnorms: 'path' # (a pathlike object or string representing a file) – White matter boundary normals for BBR cost function. Maps to a command-line argument: -wmnorms %s.
 fsl_FNIRT:
-  affine_file: 'path'
-  apply_inmask: [0]
-  apply_intensity_mapping: [0]
-  apply_refmask: [0]
-  args: ''
-  bias_regularization_lambda: 10000.0
-  biasfield_resolution: (50, 50, 50)
-  config_file: enumerate(('T1_2_MNI152_2mm', 'FA_2_FMRIB58_1mm'))
-  derive_from_ref: False
-  environ: {}
-  field_file: False
-  fieldcoeff_file: False
-  hessian_precision: 0.0
-  in_fwhm: [6, 4, 2, 2]
-  in_intensitymap_file: 'path'
-  inmask_file: 'path'
-  inmask_val: 0.0
-  intensity_mapping_model: enumerate(('none', 'global_linear', 'global_non_linearlocal_linear', 'global_non_linear_with_bias', 'local_non_linear'))
-  intensity_mapping_order: 5
-  inwarp_file: 'path'
-  jacobian_file: False
-  jacobian_range: (0.01, 100.0)
-  log_file: 'path'
-  max_nonlin_iter: [5, 5, 5, 5]
-  modulatedref_file: False
-  out_intensitymap_file: False
-  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI'))
-  ref_fwhm: [4, 2, 0, 0]
-  refmask_file: 'path'
-  refmask_val: 0.0
-  regularization_lambda: [0.0]
-  regularization_model: enumerate(('membrane_energy', 'bending_energy'))
-  skip_implicit_in_masking: False
-  skip_implicit_ref_masking: False
-  skip_inmask: False
-  skip_intensity_mapping: False
-  skip_lambda_ssq: False
-  skip_refmask: False
-  spline_order: 3
-  subsampling_scheme: [4, 2, 1, 1]
-  Terminal_output: enumerate(('stream', 'allatonce', 'file', 'none'))
-  warp_resolution: (10, 10, 10)
-  warped_file: 'path'
-
+  affine_file: 'path' # (a pathlike object or string representing an existing file) – Name of file containing affine transform. Maps to a command-line argument: --aff=%s.
+  apply_inmask: [0] # a list of items which are 0 or 1) – List of iterations to use input mask on (1 to use, 0 to skip). Maps to a command-line argument: --applyinmask=%s. Mutually exclusive with inputs: skip_inmask.
+  apply_intensity_mapping: [0] # (a list of items which are 0 or 1) – List of subsampling levels to apply intensity mapping for (0 to skip, 1 to apply). Maps to a command-line argument: --estint=%s. Mutually exclusive with inputs: skip_intensity_mapping.
+  apply_refmask: [0] # (a list of items which are 0 or 1) – List of iterations to use reference mask on (1 to use, 0 to skip). Maps to a command-line argument: --applyrefmask=%s. Mutually exclusive with inputs: skip_refmask.
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  bias_regularization_lambda: 10000.0 # (a float) – Weight of regularisation for bias-field, default 10000. Maps to a command-line argument: --biaslambda=%f.
+  biasfield_resolution: (50, 50, 50) # (a tuple of the form: (an integer, an integer, an integer)) – Resolution (in mm) of bias-field modelling local intensities, default 50, 50, 50. Maps to a command-line argument: --biasres=%d,%d,%d.
+  config_file: enumerate(('T1_2_MNI152_2mm', 'FA_2_FMRIB58_1mm')) # (‘T1_2_MNI152_2mm’ or ‘FA_2_FMRIB58_1mm’ or a pathlike object or string representing an existing file) – Name of config file specifying command line arguments. Maps to a command-line argument: --config=%s.
+  derive_from_ref: False # (a boolean) – If true, ref image is used to calculate derivatives. Default false. Maps to a command-line argument: --refderiv.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  field_file: False # (a boolean or a pathlike object or string representing a file) – Name of output file with field or true. Maps to a command-line argument: --fout=%s.
+  fieldcoeff_file: False # (a boolean or a pathlike object or string representing a file) – Name of output file with field coefficients or true. Maps to a command-line argument: --cout=%s.
+  hessian_precision: 0.0 #(‘double’ or ‘float’) – Precision for representing Hessian, double or float. Default double. Maps to a command-line argument: --numprec=%s. 
+  in_fwhm: [6, 4, 2, 2] # (a list of items which are an integer) – FWHM (in mm) of gaussian smoothing kernel for input volume, default [6, 4, 2, 2]. Maps to a command-line argument: --infwhm=%s.
+  in_intensitymap_file: 'path' # (a list of from 1 to 2 items which are a pathlike object or string representing an existing file) – Name of file/files containing initial intensity mapping usually generated by previous fnirt run. Maps to a command-line argument: --intin=%s.
+  inmask_file: 'path' # (a pathlike object or string representing an existing file) – Name of file with mask in input image space. Maps to a command-line argument: --inmask=%s.
+  inmask_val: 0.0 # (a float) – Value to mask out in –in image. Default =0.0. Maps to a command-line argument: --impinval=%f.
+  intensity_mapping_model: enumerate(('none', 'global_linear', 'global_non_linearlocal_linear', 'global_non_linear_with_bias', 'local_non_linear')) # (‘none’ or ‘global_linear’ or ‘global_non_linear’ or ‘local_linear’ or ‘global_non_linear_with_bias’ or ‘local_non_linear’) – Model for intensity-mapping. Maps to a command-line argument: --intmod=%s.
+  intensity_mapping_order: 5 # (an integer) – Order of poynomial for mapping intensities, default 5. Maps to a command-line argument: --intorder=%d.
+  inwarp_file: 'path' # (a pathlike object or string representing an existing file) – Name of file containing initial non-linear warps. Maps to a command-line argument: --inwarp=%s.
+  jacobian_file: False # (a boolean or a pathlike object or string representing a file) – Name of file for writing out the Jacobian of the field (for diagnostic or VBM purposes). Maps to a command-line argument: --jout=%s.
+  jacobian_range: (0.01, 100.0) # (a tuple of the form: (a float, a float)) – Allowed range of Jacobian determinants, default 0.01, 100.0. Maps to a command-line argument: --jacrange=%f,%f.
+  log_file: 'path' # (a pathlike object or string representing a file) – Name of log-file. Maps to a command-line argument: --logout=%s.
+  max_nonlin_iter: [5, 5, 5, 5] # (a list of items which are an integer) – Max # of non-linear iterations list, default [5, 5, 5, 5]. Maps to a command-line argument: --miter=%s.
+  modulatedref_file: False # (a boolean or a pathlike object or string representing a file) – Name of file for writing out intensity modulated –ref (for diagnostic purposes). Maps to a command-line argument: --refout=%s.
+  out_intensitymap_file: False # (a boolean or a pathlike object or string representing a file) – Name of files for writing information pertaining to intensity mapping. Maps to a command-line argument: --intout=%s.
+  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+  ref_fwhm: [4, 2, 0, 0] # (a list of items which are an integer) – FWHM (in mm) of gaussian smoothing kernel for ref volume, default [4, 2, 0, 0]. Maps to a command-line argument: --reffwhm=%s.
+  refmask_file: 'path' # (a pathlike object or string representing an existing file) – Name of file with mask in reference space. Maps to a command-line argument: --refmask=%s.
+  refmask_val: 0.0 # (a float) – Value to mask out in –ref image. Default =0.0. Maps to a command-line argument: --imprefval=%f.
+  regularization_lambda: [0.0] # (a list of items which are a float) – Weight of regularisation, default depending on –ssqlambda and –regmod switches. See user documetation. Maps to a command-line argument: --lambda=%s.
+  regularization_model: enumerate(('membrane_energy', 'bending_energy')) # (‘membrane_energy’ or ‘bending_energy’) – Model for regularisation of warp-field [membrane_energy bending_energy], default bending_energy. Maps to a command-line argument: --regmod=%s.
+  skip_implicit_in_masking: False # (a boolean) – Skip implicit masking based on value in –in image. Default = 0. Maps to a command-line argument: --impinm=0.
+  skip_implicit_ref_masking: False # (a boolean) – Skip implicit masking based on value in –ref image. Default = 0. Maps to a command-line argument: --imprefm=0.
+  skip_inmask: False # (a boolean) – Skip specified inmask if set, default false. Maps to a command-line argument: --applyinmask=0. Mutually exclusive with inputs: apply_inmask.
+  skip_intensity_mapping: False # (a boolean) – Skip estimate intensity-mapping default false. Maps to a command-line argument: --estint=0. Mutually exclusive with inputs: apply_intensity_mapping.
+  skip_lambda_ssq: False # (a boolean) – If true, lambda is not weighted by current ssq, default false. Maps to a command-line argument: --ssqlambda=0.
+  skip_refmask: False # (a boolean) – Skip specified refmask if set, default false. Maps to a command-line argument: --applyrefmask=0. Mutually exclusive with inputs: apply_refmask.
+  spline_order: 3 # (an integer) – Order of spline, 2->Qadratic spline, 3->Cubic spline. Default=3. Maps to a command-line argument: --splineorder=%d.
+  subsampling_scheme: [4, 2, 1, 1] # (a list of items which are an integer) – Sub-sampling scheme, list, default [4, 2, 1, 1]. Maps to a command-line argument: --subsamp=%s.
+  warp_resolution: (10, 10, 10) # (a tuple of the form: (an integer, an integer, an integer)) – (approximate) resolution (in mm) of warp basis in x-, y- and z-direction, default 10, 10, 10. Maps to a command-line argument: --warpres=%d,%d,%d.
+  warped_file: 'path' # (a pathlike object or string representing a file) – Name of output image. Maps to a command-line argument: --iout=%s.

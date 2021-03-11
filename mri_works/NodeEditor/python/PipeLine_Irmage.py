@@ -2694,30 +2694,32 @@ class BlockCreate(QGraphicsRectItem):
             with open(docYml, 'r', encoding='utf8') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 if classUnit in dicts.keys():
-                    txtFunctionalité = dicts[classUnit]['functionality']
-                    if 'http://' in txtFunctionalité or 'https://' in txtFunctionalité:
-                        self.link = txtFunctionalité
+                    functiona = dicts[classUnit]['functionality']
+                    link_web = ''
+                    try:
+                        link_web = dicts[classUnit]['link_web']
+                        if 'http://' in link_web or 'https://' in link_web:
+                            self.link = link_web
+                    except Exception as err:
+                        pass
+                    image_png = os.path.join(path_blockdoc,
+                                                        '../blocsdoc',
+                                                        classUnit+'.png')
                     txt = "<p style=\"background-color: #ffffff;\">"
                     txt += "<span style=\" \
                             font-size:12pt; \
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
-                    txt += " <img src='" + os.path.join(path_blockdoc,
-                                                        '../blocsdoc',
-                                                        classUnit+'.png') + \
+                    if os.path.exists(image_png):
+                        txt += " <img src='" + image_png + \
                            "'><br>"
-                    txt += "<span style=\" \
-                            font-size:10pt; \
-                            font-weight:600; \
-                            color:#3060FF;\" >" + txtFunctionalité + "<br>"
-                    if self.link:
+                    if functiona:
                         txt += "<span style=\" \
-                                font-size:10pt; \
-                                font-weight:1000; \
-                                color:#000000; \" > (type Ctrl+U to go to this link)<br>"
-                    txt += "<br></span>"
+                                font-size:12pt; \
+                                font-weight:600; \
+                                color:#3060FF;\" >" + functiona + "<br><br>"
                     for ks, vl in dicts[classUnit].items():
-                        if ks not in ['functionality', 'dependencies']:
+                        if ks not in ['functionality', 'dependencies', 'link_web']:
                             txt += "<span style=\" \
                                     font-size:10pt; \
                                     font-weight:800; \
@@ -2737,6 +2739,16 @@ class BlockCreate(QGraphicsRectItem):
                                 color:#AA1100;\" >" + dicts[classUnit]['dependencies'] + "<br></span>"
                     except Exception as e:
                         pass
+                    if self.link:
+                        txt += "<br><span style=\" \
+                            font-size:8pt; \
+                            font-weight:600; \
+                            color:#AA1100;\" >" + link_web + "<br>"
+                        txt += "<span style=\" \
+                                font-size:8pt; \
+                                font-weight:1000; \
+                                color:#AA1100; \" > (type Ctrl+U to go to this link)<br>"
+                        txt += "<br></span>"
                     txt += "</p>"
                     self.setToolTip(txt)
 
