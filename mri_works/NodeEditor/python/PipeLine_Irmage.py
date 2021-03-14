@@ -226,7 +226,7 @@ class Menu(QMenuBar):
                         textEdit.clear()
                     except Exception as e:
                         redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                        redText = redText + ('This diagram contains errors !')
+                        redText = redText + ('This diagram contains errors : ' + str(e))
                         redText = redText + ("</span>")
                         textEdit.clear()
                         textEdit.append(redText)
@@ -547,7 +547,7 @@ class Menu(QMenuBar):
                 self.saveDiagramsConfig(tmpActText)
             except Exception as e:
                 redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                redText = redText + ('This diagram contains errors !')
+                redText = redText + ('This diagram contains errors : ' + str(e))
                 redText = redText + ("</span>")
                 textEdit.clear()
                 textEdit.append(redText)
@@ -2254,7 +2254,7 @@ class BlockCreate(QGraphicsRectItem):
         gradient = QLinearGradient(QPointF(0, 0), QPointF(0, 50))
         gradient.setColorAt(0.3, colorGradient)
 
-        self.setPen(QtGui.QPen(colorPen, 2))
+        self.setPen(QtGui.QPen(colorPen, 3))
         self.setBrush(QBrush(gradient))
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
@@ -2715,7 +2715,7 @@ class BlockCreate(QGraphicsRectItem):
                            "'><br>"
                     if functiona:
                         txt += "<span style=\" \
-                                font-size:12pt; \
+                                font-size:10pt; \
                                 font-weight:600; \
                                 color:#3060FF;\" >" + functiona + "<br><br>"
                     for ks, vl in dicts[classUnit].items():
@@ -5876,8 +5876,6 @@ class NodeEdit(QWidget):
         self.icon2 = LibIcon(ItemColor.process.value)
         self.icon3 = LibIcon(ItemColor.subprocess.value)
 
-#         self.libMod2 = []
-
         self.libMod3 = LibMod('blocks_subModules')
         self.libMod3.setColumnCount(1)
 
@@ -6047,14 +6045,14 @@ class NodeEdit(QWidget):
 
 # library of submodules ##########################################################
 
-        infoSubModules = getlistSubModules().listSubModules()
+#         infoSubModules = getlistSubModules().listSubModules()
         libSubMod = []
         listCategorySubMod = []
         branch1 = QStandardItem('SubModules')
         branch1.setEditable(False)
         branch1.setSelectable(False)
         listCategorySubMod.append('SubModules')
-        for submod in infoSubModules:
+        for submod in getlistSubModules().listSubModules():
             self.stdItem3 = QStandardItem(QIcon(self.icon3), submod[0])
             self.stdItem3.setEditable(False)
             libSubMod.append(submod)
@@ -6268,12 +6266,12 @@ class NodeEdit(QWidget):
         self.model3.setColumnCount(1)
         self.rootNode3 = self.model3.invisibleRootItem()
 
-        infoSubModules = getlistSubModules().listSubModules()
+#         infoSubModules = getlistSubModules().listSubModules()
         libSubMod = []
         branch1 = QStandardItem('SubModules')
         branch1.setEditable(False)
         branch1.setSelectable(False)
-        for submod in infoSubModules:
+        for submod in getlistSubModules().listSubModules():
             self.stdItem3 = QStandardItem(QIcon(self.icon3), submod[0])
             self.stdItem3.setEditable(False)
             libSubMod.append(submod)

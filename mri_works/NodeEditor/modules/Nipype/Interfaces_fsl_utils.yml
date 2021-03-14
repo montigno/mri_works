@@ -1,16 +1,16 @@
 fsl_Merge:
-  args: ''
-  environ: {}
-  merged_file: 'path'
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
-  tr: 1.0
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  merged_file: 'path' # (a pathlike object or string representing a file) – Maps to a command-line argument: %s (position: 1).
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+  tr: 1.0 # (a float) – Use to specify TR in seconds (default is 1.00 sec), overrides dimension and sets it to tr. Maps to a command-line argument: %.2f (position: -1).
 fsl_Split:
-  args: ''
-  environ: {}
-  out_base_name: ''
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  out_base_name: '' # (a string) – Outputs prefix. Maps to a command-line argument: %s (position: 1).
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
 fsl_SwapDimensions:
-  args: ''
-  environ: {}
-  out_file: 'path'
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value {})
+  out_file: 'path' # (a pathlike object or string representing a file) – Image to write. Maps to a command-line argument %s.
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.

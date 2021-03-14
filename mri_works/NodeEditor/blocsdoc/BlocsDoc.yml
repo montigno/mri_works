@@ -129,8 +129,10 @@ ants_N4BiasFieldCorrection:
                 image to apply transformation to (generally a coregistered
                 functional)
                 flag: --input-image %s"
-  bias_image: (an existing file name) Estimated bias
+  save_bias: (a boolean) – True if the estimated bias should be saved to file. Mutually exclusive with inputs bias_image. (Nipype default value False)
+  copy_header: (a boolean) – Copy headers of the original image into the output (corrected) file. (Nipype default value False)
   output_image: (an existing file name) Warped image
+  bias_image: (an existing file name) Estimated bias
   dependencies: Nipype, ANTs
   link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#n4biasfieldcorrection
 
@@ -369,24 +371,42 @@ fsl_Merge:
   link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#merge
 
 fsl_Split:
-  functionality: s
+  functionality: Wrapped executable fslsplit. Uses FSL Fslsplit command to separate a volume into images in time, x, y or z dimension.
+  dimension: (‘t’ or ‘x’ or ‘y’ or ‘z’) – Dimension along which the file will be split. Maps to a command-line argument -%s (position 2).
+  in_file: (a pathlike object or string representing an existing file) – Input filename. Maps to a command-line argument %s (position 0).
+  out_files: (a list of items which are a pathlike object or string representing an existing file)
   dependencies: Nipype, fsl
-  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#split
 
 fsl_SwapDimensions:
-  functionality: s
+  functionality: "Wrapped executable: fslswapdim. Use fslswapdim to alter the orientation of an image.
+                  This interface accepts a three-tuple corresponding to the new orientation. You may either provide dimension ids in the form of (-)x, (-)y, or (-z), or nifti-syle dimension codes (RL, LR, AP, PA, IS, SI)."
+  in_file: (a pathlike object or string representing an existing file) – Input image. Maps to a command-line argument %s (position 1).
+  new_dims: (a tuple of the form (‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’, ‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’, ‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’)) – 3-tuple of new dimension order. Maps to a command-line argument %s %s %s.
+  out_file: (a pathlike object or string representing an existing file) – Image with new dimensions.
   dependencies: Nipype, fsl
-  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#swapdimensions
 
 fsl_Threshold:
-  functionality: s
+  functionality: Wraps command fslmaths. Use fslmaths to apply a threshold to an image in a variety of ways.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  thresh: (a float) threshold value. flag %s, position 4
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
-  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#threshold
 
 fsl_UnaryMaths:
-  functionality: s
+  functionality: Wraps command fslmaths. Use fslmaths to perorm a variety of mathematical operations on an image.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  operation: "('exp' or 'log' or 'sin' or 'cos' or 'tan' or 'asin' or
+               'acos' or 'atan' or 'sqr' or 'sqrt' or 'recip' or 'abs' or 'bin' or
+               'binv' or 'fillh' or 'fillh26' or 'index' or 'edge' or 'nan' or
+               'nanm' or 'rand' or 'randn' or 'range')
+               operation to perform
+               flag: -%s, position: 4"
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
-  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#unarymaths
 
 IntToFloat_array:
   functionality: "Allows the conversion of an integer array to a floating array.
