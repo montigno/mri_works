@@ -408,6 +408,32 @@ fsl_UnaryMaths:
   dependencies: Nipype, fsl
   link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#unarymaths
 
+image_Reorient:
+  functionality: "Conform an image to a given orientation
+                  Flips and reorder the image data array so that the axes match the directions indicated in orientation.
+                  The default RAS orientation corresponds to the first axis being ordered from left to right, the second axis from posterior to anterior, and the third axis from inferior to superior.
+                  For oblique images, the original orientation is considered to be the closest plumb orientation.
+                  No resampling is performed, and thus the output image is not de-obliqued or registered to any other image or template.
+                  The effective transform is calculated from the original affine matrix to the reoriented affine matrix."
+  in_file: (a pathlike object or string representing an existing file) – Input image.
+  out_file: (a pathlike object or string representing an existing file) – Reoriented image.
+  transform: (a pathlike object or string representing an existing file) – Affine transform from input orientation to output.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.image.html#reorient
+
+image_rescale:
+  functionality: "Rescale an image
+                  Rescales the non-zero portion of in_file to match the bounds of the non-zero portion of ref_file.
+                  Reference values in the input and reference images are defined by the percentile parameter,
+                  and the reference values in each image are identified and the remaining values are scaled accordingly.
+                  In the case of percentile == 0, the reference values are the maxima and minima of each image.
+                  If the invert parameter is set, the input file is inverted prior to rescaling."
+  in_file: (a pathlike object or string representing an existing file) – Skull-stripped image to rescale.
+  ref_file: (a pathlike object or string representing an existing file) – Skull-stripped reference image.
+  out_file: (a pathlike object or string representing an existing file) – Rescaled image.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.image.html#rescale
+
 IntToFloat_array:
   functionality: "Allows the conversion of an integer array to a floating array.
                   Example [[0] , [1] , [2]] --> [[0.0] , [1.0] , [2.0]]"
@@ -436,6 +462,13 @@ ListOfInt:
   functionality: Create a list of integer number 0 to n-1.
   n: (integer) an integer number
   serie_int: (list of integer) a list of integer number 0 to n-1
+  
+meshfix_MeshFix:
+  functionality: Wrapped executable meshfix. MeshFix v1.2-alpha - by Marco Attene, Mirko Windhoff, Axel Thielscher.
+  in_file1: (a pathlike object or string representing an existing file) – Maps to a command-line argument %s (position 1).
+  mesh_file: (a pathlike object or string representing an existing file) – The output mesh file.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.meshfix.html#meshfix
 
 MP3_T2map:
   functionality: Create a T2 map from a multi-echo time data.
@@ -443,10 +476,34 @@ MP3_T2map:
   file_in: (path) path of your Nifti file (with JSON)
   file_out: (path) recording Nifti file path (a JSON file with the same name will also be created)
   dependencies: Matlab engine
-  
-mrtrix3_DWIExtract:
-  functionality: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
+ 
+mrtrix3_DWIDenoise:
+  functionality: "Denoise DWI data and estimate the noise level based on the optimal threshold for PCA.
+                  DWI data denoising and noise map estimation by exploiting data redundancy in the PCA domain using the prior knowledge
+                  that the eigenspectrum of random covariance matrices is described by the universal Marchenko Pastur distribution.
+                  Important note, image denoising must be performed as the first step of the image processing pipeline.
+                  The routine will fail if interpolation or smoothing has been applied to the data prior to denoising.
+                  Note that this function does not correct for non-Gaussian noise biases."
+  in_file: (an existing file name) input DWI image. argument ``%s``, position -2
+  out_file: (an existing file name) the output denoised DWI image
   dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/preprocess.html#dwidenoise
+
+mrtrix3_DWIExtract:
+  functionality: Wraps the executable command dwiextract. Extract diffusion-weighted volumes, b=0 volumes, or certain shells from a DWI dataset
+  in_file: (an existing file name) input image. argument ``%s``, position -2
+  out_file: (a file name) output image. argument ``%s``, position -1
+  out_file: (an existing file name) output image
+  dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
+  
+mrtrix3_MRConvert:
+  functionality: Perform conversion between different file types and optionally extract a subset of the input image
+  in_file: (an existing file name) input image. argument ``%s``, position -2
+  out_file: (a file name, nipype default value dwi.mif) output image. argument ``%s``, position -1
+  out_file: (an existing file name) output image
+  dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#mrconvert
 
 nipy_FmriRealign4d:
   functionality: Simultaneous motion and slice timing correction algorithm. This interface wraps nipy’s FmriRealign4d algorithm.

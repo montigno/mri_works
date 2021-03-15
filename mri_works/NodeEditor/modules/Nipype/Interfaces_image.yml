@@ -5,7 +5,7 @@ image_Reorient:
                           'PRS','PRI','PLS','PLI','ASR','ASL','AIR',
                           'AIL','PSR','PSL','PIR','PIL','SRA','SRP',
                           'SLA','SLP','IRA','IRP','ILA','ILP','SAR',
-                          'SAL','SPR','SPL','IAR','IAL','IPR','IPL'))
+                          'SAL','SPR','SPL','IAR','IAL','IPR','IPL')) # orientation (‘RAS’ or ‘RAI’ or ‘RPS’ or ‘RPI’ or ‘LAS’ or ‘LAI’ or ‘LPS’ or ‘LPI’ or ‘RSA’ or ‘RSP’ or ‘RIA’ or ‘RIP’ or ‘LSA’ or ‘LSP’ or ‘LIA’ or ‘LIP’ or ‘ARS’ or ‘ARI’ or ‘ALS’ or ‘ALI’ or ‘PRS’ or ‘PRI’ or ‘PLS’ or ‘PLI’ or ‘ASR’ or ‘ASL’ or ‘AIR’ or ‘AIL’ or ‘PSR’ or ‘PSL’ or ‘PIR’ or ‘PIL’ or ‘SRA’ or ‘SRP’ or ‘SLA’ or ‘SLP’ or ‘IRA’ or ‘IRP’ or ‘ILA’ or ‘ILP’ or ‘SAR’ or ‘SAL’ or ‘SPR’ or ‘SPL’ or ‘IAR’ or ‘IAL’ or ‘IPR’ or ‘IPL’) – Target axis orientation. (Nipype default value: RAS)
 image_Rescale:
-  percentile: 0.0
-  invert: True
+  percentile: 0.0 # (0.0 ≤ a floating point number ≤ 50.0) – Percentile to use for reference to allow for outliers - 1 indicates the 1st and 99th percentiles in the input file will be mapped to the 99th and 1st percentiles in the reference; 0 indicates minima and maxima will be mapped. (Nipype default value: 0.0)
+  invert: True # (a boolean) – Invert contrast of rescaled image.
