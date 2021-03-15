@@ -674,8 +674,35 @@ spm_Coregister:
   target: (an existing file name) reference file to register to
   coregistered_files: (a list of items which are an existing file name) Coregistered other files
   coregistered_source: (a list of items which are an existing file name) Coregistered source files
+  dependencies: Nipype, SPM
   link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#coregister
-  
+
+spm_Normalize:
+  functionality: use spm_normalise for warping an image to a template
+  parameter_file: (a file name) normalization parameter file*_sn.mat. mutually_exclusive source, template
+  source: (a list of items which are an existing file name) file to normalize to template. mutually_exclusive parameter_file
+  template: (an existing file name) template file to normalize to. mutually_exclusive parameter_file 
+  normalization_parameters: (a list of items which are an existing file name) MAT files containing the normalization parameters
+  normalized_files: (a list of items which are an existing file name) Normalized other files 
+  normalized_source: (a list of items which are an existing file name) Normalized source files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#normalize
+
+spm_NewSegment:
+  functionality: Use spm_preproc8 (New Segment) to separate structural images into different tissue classes. Supports multiple modalities. NOTE This interface currently supports single channel input only
+  channel_files: (a list of items which are an existing file name) A list of files to be segmented
+  bias_corrected_images: (a list of items which are an existing file name) bias corrected images
+  bias_field_images: (a list of items which are an existing file name) bias field images
+  dartel_input_images: (a list of items which are a list of items which are an existing file name) dartel imported class images
+  forward_deformation_field: (a list of items which are an existing file name)
+  inverse_deformation_field: (a list of items which are an existing file name)
+  modulated_class_images: (a list of items which are a list of items which are an existing file name) modulated+normalized class images
+  native_class_images: (a list of items which are a list of items which are an existing file name) native space probability maps
+  normalized_class_images: (a list of items which are a list of items which are an existing file name) normalized class images
+  transformation_mat: (a list of items which are an existing file name) Normalization transformation
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#newsegment
+
 spm_SliceTiming:
   functionality: Use spm to perform slice timing correction.
   in_files: (a list of items which are a list of items which are an existing file name or an existing file name) list of filenames to apply slice timing
