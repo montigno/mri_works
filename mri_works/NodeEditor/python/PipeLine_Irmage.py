@@ -2779,6 +2779,8 @@ class BlockCreate(QGraphicsRectItem):
             greenText = greenText + (' No options available ')
             greenText = greenText + ("</span>")
             textEdit.append(greenText)
+            
+        UpdateUndoRedo()
 
     def addinput(self):
         ind = 0

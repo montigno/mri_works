@@ -9,6 +9,7 @@ packages:
   matplotlib: pip3 install matplotlib
   nibabel: pip3 install nibabel
   nilearn: pip3 install nilearn
+  nipy : pip3 install nipy
   nipype: pip3 install nipype
   niwidgets: pip3 install niwidgets
   nose: pip3 install nose
@@ -41,4 +42,4 @@ paths:
   - /home/domicile-xubuntu/Desktop/test_threshold_otsu.dgr
   modules: modules
   projects: ../data
-version: 21.02.25a
+version: 21.03.15a

@@ -21,7 +21,6 @@ class nipy_SpaceTimeRealigner():
         from nipype.interfaces.nipy.preprocess import SpaceTimeRealigner
         realigner = SpaceTimeRealigner()
         realigner.inputs.in_file = in_file
-        realigner.inputs.tr = tr
         for ef in options:
             setattr(realigner.inputs, ef, options[ef])
         res = realigner.run()

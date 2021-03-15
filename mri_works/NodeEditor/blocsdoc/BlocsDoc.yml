@@ -41,7 +41,9 @@ ants_atropos:
                  and/or an MRF prior to enforce spatial smoothing of the labels. 
                  Similar algorithms include FAST and SPM. 
                  atropos can also perform multivariate segmentation if you pass a list of images in e.g. a=(img1,img2)."
-  ants_image: (ANTsImage or list/tuple of ANTsImage python:types) – One or more scalar images to segment. If priors are not used, the intensities of the first image are used to order the classes in the segmentation output, from lowest to highest intensity. Otherwise the order of the classes is dictated by the order of the prior images.
+  ants_image: "(ANTsImage or list/tuple of ANTsImage python:types) – One or more scalar images to segment.
+                If priors are not used, the intensities of the first image are used to order the classes in the segmentation output, from lowest to highest intensity.
+                Otherwise the order of the classes is dictated by the order of the prior images."
   mask_ants: (ANTsImage) – mask image.
   dependencies: ANTsPy
 
@@ -125,10 +127,7 @@ ants_N4BiasFieldCorrection:
                   the basic algorithmic protocol is to iterate between deconvolving the intensity histogram by a Gaussian,
                   remapping the intensities, and then spatially smoothing this result by a B-spline modeling of the bias field itself.
                   The modifications from and improvements obtained over the original N3 algorithm are described in [Tustison2010]."
-  input_image: "(a file name)
-                image to apply transformation to (generally a coregistered
-                functional)
-                flag: --input-image %s"
+  input_image: (a file name) image to apply transformation to (generally a coregistered functional). flag --input-image %s
   save_bias: (a boolean) – True if the estimated bias should be saved to file. Mutually exclusive with inputs bias_image. (Nipype default value False)
   copy_header: (a boolean) – Copy headers of the original image into the output (corrected) file. (Nipype default value False)
   output_image: (an existing file name) Warped image
@@ -140,11 +139,14 @@ ants_Registration:
   functionality: ANTs Registration command for registration of images.
   fixed_image: (a list of items which are an existing file name). Image to which the moving_image should be transformed(usually a structural image).
   moving_image: (a list of items which are an existing file name). Image that will be registered to the space of fixed_image. This is the image on which the transformations will be applied to
-  metric: (a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes' or a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes'). the metric(s) to use for each stage. Note that multiple metrics per stage are not supported in ANTS 1.9.1 and earlier.
+  metric: "(a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes' 
+           or a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes').
+           the metric(s) to use for each stage. Note that multiple metrics per stage are not supported in ANTS 1.9.1 and earlier."
   metric_weight: (a list of items which are a float or a list of items which are a float, nipype default value [1.0]). the metric weight(s) for each stage. The weights must sum to 1 per stage. requires metric.
   shrink_factors: (a list of items which are a list of items which are an integer (int or long))
   smoothing_sigmas: (a list of items which are a list of items which are a float).
-  transforms: (a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``.
+  transforms: "(a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' 
+               or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``."
   dependencies: Nipype, ANTs
   link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
   
@@ -665,7 +667,34 @@ pyPlot2:
   x: (list of float) sequence of scalar for abscissa
   title: (str or None) the legend’s title
   dependencies: matplotlib
+ 
+spm_Coregister:
+  functionality: Use spm_coreg for estimating cross-modality rigid body alignment
+  source: (a list of items which are an existing file name) file to register to target
+  target: (an existing file name) reference file to register to
+  coregistered_files: (a list of items which are an existing file name) Coregistered other files
+  coregistered_source: (a list of items which are an existing file name) Coregistered source files
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#coregister
+  
+spm_SliceTiming:
+  functionality: Use spm to perform slice timing correction.
+  in_files: (a list of items which are a list of items which are an existing file name or an existing file name) list of filenames to apply slice timing
+  num_slices: (an integer (int or long)) number of slices in a volume
+  ref_slice: (an integer (int or long)) 1-based Number of the reference slice
+  slice_order: (a list of items which are an integer (int or long)) 1-based order in which slices are acquired
+  time_acquisition: (a float) time of volume acquisition. usuallycalculated as TR-(TR/num_slices)
+  time_repetition: (a float) time between volume acquisitions(start to start time)
+  timecorrected_files: (a list of items which are a list of items which are an existing file name or an existing file name) slice time corrected files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#slicetiming
 
+spm_Smooth:
+  functionality: Use spm_smooth for 3D Gaussian smoothing of image volumes.
+  in_files: (a list of items which are an existing file name) list of files to smooth
+  smoothed_files: (a list of items which are an existing file name) smoothed files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#smooth
+  
 trigonometric:
   functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
                      y = f(x+angle)"

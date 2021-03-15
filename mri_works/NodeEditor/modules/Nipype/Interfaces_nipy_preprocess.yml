@@ -8,6 +8,6 @@ nipy_FmriRealign4d:
   time_interp: True # (True) Assume smooth changes across time e.g., fmri series. If you don't want slice timing correction set this to undefined. requires: slice_order
   tr_slices: 0.0 # (a float) TR slices. requires: time_interp
 nipy_SpaceTimeRealigner:
-  ignore_exception: False # (a boolean, nipype default value: False). Print an error message instead of throwing an exception in case the interface fails to run
   slice_info: 2 # (an integer (int or long) or a list of items which are any value). Single integer or length 2 sequence If int, the axis in `images` that is the slice axis. In a 4D image, this will often be axis = 2. If a 2 sequence, then elements are ``(slice_axis, slice_direction)``, where ``slice_axis`` is the slice axis in the image as above, and ``slice_direction`` is 1 if the slices were acquired slice 0 first, slice -1 last, or -1 if acquired slice -1 first, slice 0 last. If `slice_info` is an int, assume ``slice_direction`` == 1. requires: slice_times
   slice_times: enumerate(('asc_alt_2', 'asc_alt_2_1', 'asc_alt_half', 'asc_alt_siemens', 'ascending', 'desc_alt_2', 'desc_alt_half', 'descending')) # (a list of items which are a float or 'asc_alt_2' or 'asc_alt_2_1' or 'asc_alt_half' or 'asc_alt_siemens' or 'ascending' or 'desc_alt_2' or 'desc_alt_half' or 'descending'). Actual slice acquisition times.
+  tr: 1.0 # (a float) TR in seconds. requires slice_times
