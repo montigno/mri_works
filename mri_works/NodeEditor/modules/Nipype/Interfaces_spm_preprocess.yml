@@ -50,7 +50,7 @@ spm_NewSegment:
   use_mcr: True # (a boolean) Run m-code using SPM MCR
   use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
   warping_regularization: [0.0] # (a float) Aproximate distance between sampling points.
-  write_deformation_fields: [True,True] # (a list of from 2 to 2 items which are a boolean) Which deformation fields to write:[Inverse, Forward]
+  mri_c  write_deformation_fields: [True,True] # (a list of from 2 to 2 items which are a boolean) Which deformation fields to write:[Inverse, Forward]
 spm_Segment:
   affine_regularization: enumerate(('mni','eastern','subj','none',''))
   bias_fwhm: 0
