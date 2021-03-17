@@ -7,7 +7,6 @@ Update on 08 jan. 2018
 '''
 import json
 import os, fnmatch
-from tkinter.ttk import Separator
 
 from PIL import Image, ImageEnhance  # image processing
 from PyQt5.Qt import QMenuBar
