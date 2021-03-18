@@ -158,6 +158,16 @@ ants_set_spacing:
   dependencies: ANTsPy
   link_web: https://antspy.readthedocs.io/en/latest/core.html
 
+antsMotionCorr:
+  functionality:
+  output: "[outputTransformPrefix,<outputWarpedImage>,<outputAverageImage>] 
+           Specify the output transform prefix (output format is .nii.gz ).Optionally, one 
+           can choose to warp the moving image to the fixed space and, if the inverse 
+           transform exists, one can also output the warped fixed image."
+  outputWarpedImage: warped image
+  outputAverageImage: fixed image
+  dependencies: Ants
+
 Array_3D_random:
   functionality: Generate a random image 3D (row, column and slice)
   row: (integer) number of row
