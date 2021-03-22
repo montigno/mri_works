@@ -14,3 +14,39 @@ fsl_SwapDimensions:
   environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value {})
   out_file: 'path' # (a pathlike object or string representing a file) – Image to write. Maps to a command-line argument %s.
   output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # (‘NIFTI’ or ‘NIFTI_PAIR’ or ‘NIFTI_GZ’ or ‘NIFTI_PAIR_GZ’) – FSL output type.
+fsl_ExtractROI:
+  args: '' # (a string) Additional parameters to the command. flag %s
+  crop_list: [(0,0)]  # (a list of items which are a tuple of the form (an integer (int or long), an integer (int or long))) list of two tuples specifying crop options. flag %s, position 2
+                      # mutually_exclusive x_min, x_size, y_min, y_size, z_min, z_size, t_min, t_size
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) #('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI') FSL output type
+  roi_file: 'path' # (a file name) output file. flag %s, position 1
+  t_min: 0 # (an integer (int or long)) flag %d, position 8
+  t_size: 0 # (an integer (int or long)) flag %d, position 9
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none')
+                                                                      # Control terminal output: 
+                                                                      # `stream` - displays to terminal immediately (default),
+                                                                      # `allatonce` - waits till command is finished to display output, 
+                                                                      # `file` - writes output to file, `none` - output is ignored
+  x_min: 0 # (an integer (int or long)) flag %d, position 2
+  x_size: 0 # (an integer (int or long)) flag %d, position 3
+  y_min: 0 # (an integer (int or long)) flag %d, position 4
+  y_size: 0 # (an integer (int or long)) flag %d, position 5
+  z_min: 0 # (an integer (int or long)) flag %d, position 6
+  z_size: 0 # (an integer (int or long)) flag %d, position 7
+fsl_ImageMaths:
+  args: '' # (a string) Additional parameters to the command. flag: %s
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run in_file2 (an existing file name). flag %s, position 3
+  op_string: '-add' # (a string) string defining the operation, i. e. -add. flag %s, position 2
+  out_data_type: enumerate(('char', 'short', 'int', 'float', 'double', 'input')) # ('char' or 'short' or 'int' or 'float' or 'double' or 'input') output datatype, one of (char, short, int, float, double, input) flag -odt %s, position 5
+  out_file: 'path' # (a file name) flag0 %s, position 4
+  output_type: enumerate(('NIFTI_PAIR', 'NIFTI_PAIR_GZ', 'NIFTI_GZ', 'NIFTI')) # ('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI') FSL output type
+  suffix: '' # (a string) out_file suffix
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none')
+                                                                      # Control terminal output: 
+                                                                      # `stream` - displays to terminal immediately (default),
+                                                                      # `allatonce` - waits till command is finished to display output,
+                                                                      # `file` - writes output to file,
+                                                                      # `none` - output is ignored

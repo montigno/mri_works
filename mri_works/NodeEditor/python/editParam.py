@@ -169,11 +169,14 @@ class editParam(QDialog):
                     else:
                         self.listVal.append(tmp)
 
+                elif self.listField[self.label[index]] == 'str':
+                    self.listVal.append(str(tmp))
+
                 elif (DefinitType(tmp).returntype() !=
                         self.listField[self.label[index]]):
                     self.info.setText("<span style=\" \
                                         font-size:10pt; \
-                                        color:#cc0000;\" > error :"
+                                        color:#cc0000;\" > error : "
                                       + self.label[index] + " must be "
                                       + self.listField[self.label[index]]
                                       + "</span>")

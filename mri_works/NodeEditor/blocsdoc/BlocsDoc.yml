@@ -331,6 +331,18 @@ fsl_BinaryMaths:
   dependencies: Nipype, fsl
   link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#binarymaths
 
+fsl_ExtractROI:
+  functionality: "Wraps command fslroi
+                  Uses FSL Fslroi command to extract region of interest (ROI) from an image.
+                  You can 
+                  a) take a 3D ROI from a 3D data set (or if it is 4D, the same ROI is taken from each time point and a new 4D data set is created),
+                  b) extract just some time points from a 4D data set, or 
+                  c) control time and space limits to the ROI. Note that the arguments are minimum index and size (not maximum index). So to extract voxels 10 to 12 inclusive you would specify 10 and 3 (not 10 and 12)."
+  in_file: (an existing file name) input file flag %s, position 0
+  roi_file: (an existing file name)
+  dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.fsl.utils.html#extractroi
+
 fsl_FAST:
   functionality: Bases FSLCommand. Wrapped executable fast. FSL FAST wrapper for segmentation and bias correction
   in_files: "(a list of items which are a pathlike object or string representing an existing file)
@@ -369,6 +381,13 @@ fsl_FNIRT:
   warped_file: (a pathlike object or string representing an existing file) – Warped image.
   dependencies: Nipype, fsl
   link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#fnirt
+
+fsl_ImageMaths:
+  functionality: Wraps command fslmaths. Use FSL fslmaths command to allow mathematical manipulation of images FSL info
+  in_file: (an existing file name) flag %s, position 1
+  out_file: (an existing file name)
+  dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.fsl.utils.html#imagemaths
 
 fsl_Merge:
   functionality: "Bases: FSLCommand. Wrapped executable fslmerge. Use fslmerge to concatenate images

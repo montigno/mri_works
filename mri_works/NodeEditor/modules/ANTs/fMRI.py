@@ -1,5 +1,5 @@
 class antsMotionCorr:
-    def __init__(self, output=[''], **options):
+    def __init__(self, output='', **options):
         from subprocess import run
         list_options = []
         list_options.append('--output')
@@ -10,10 +10,10 @@ class antsMotionCorr:
         command = ['antsMotionCorr']
         command.extend(list_options)            
         result = run(command, shell=False, check=True)
-        self.res = output
-        
+        self.res = output.strip('][').split(',')
+
     def outputWarpedImage(self:'path'):
         return self.res[1]
-    
+
     def outputAverageImage(self:'path'):
         return self.res[2]
