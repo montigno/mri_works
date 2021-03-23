@@ -106,6 +106,19 @@ class change_extension:
 
     def newPath(self: 'path'):
         return self.outPath
+    
+###############################################################################
+
+
+class change_extension_2ext:
+    def __init__(self, file_path='path', new_extension='.txt'):
+        import os
+        pre, ext1 = os.path.splitext(file_path)
+        pre, ext2 = os.path.splitext(pre)
+        self.outPath = os.path.join(pre + new_extension)
+
+    def newPath(self: 'path'):
+        return self.outPath
 
 ###############################################################################
 
@@ -120,6 +133,28 @@ class add_suffixprefix_file:
         tmp = os.path.basename(file_path)
         name = ('.').join(tmp.split('.')[:-1])
         ext = tmp.split('.')[-1]
+        if place == 'suffix':
+            self.outPath = os.path.join(dir, name + new_str + '.'+ext)
+        elif place == 'prefix':
+            self.outPath = os.path.join(dir, new_str + name + '.'+ext)
+
+    def newPath(self: 'path'):
+        return self.outPath
+    
+###############################################################################
+
+
+class add_suffixprefix_2ext:
+    def __init__(self,
+                 file_path='path',
+                 new_str='',
+                 place="enumerate(('suffix','prefix'))"):
+        import os
+        dir = os.path.dirname(file_path)
+        tmp = os.path.basename(file_path)
+        lsfield = tmp.split('.')
+        name = ('.').join(lsfield[:-2])
+        ext = lsfield[-2] + '.' + lsfield[-1]
         if place == 'suffix':
             self.outPath = os.path.join(dir, name + new_str + '.'+ext)
         elif place == 'prefix':
