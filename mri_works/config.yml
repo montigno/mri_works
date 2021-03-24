@@ -26,19 +26,9 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Desktop/test_Petteri.dgr
-  - /home/domicile-xubuntu/Desktop/test_Petteri_motionCorrection.dgr
+  - /home/omontigon/Bureau/test_operation4D3D.dgr
   histories:
-  - /home/domicile-xubuntu/Desktop/test_scripts.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/1-N4bias.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/2-Extraction_brain.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
-  - /home/domicile-xubuntu/Desktop/test_convul3D_maxpool3D.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/2-Extraction_brain.dgr
-  - /home/domicile-xubuntu/Desktop/test_threshold_otsu.dgr
-  - /home/domicile-xubuntu/Desktop/test_Petteri.dgr
-  - /home/domicile-xubuntu/Desktop/test_Petteri_motionCorrection.dgr
+  - /home/omontigon/Bureau/test_operation4D3D.dgr
   modules: modules
   projects: ../data
 version: 21.02.25a
