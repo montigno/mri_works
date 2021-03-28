@@ -3865,6 +3865,9 @@ class Constants(QGraphicsRectItem):
                                                      QFileDialog.DontUseNativeDialog)
                 if fileCh[0]:
                     self.elemProxy.setPlainText(fileCh[0])
+                    del listConstants[editor.currentTab][self.unit]
+                    listConstants[editor.currentTab][self.unit] = ('path', self.elemProxy.toPlainText(), self.label)
+
             UpdateUndoRedo()
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 

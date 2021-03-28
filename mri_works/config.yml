@@ -25,12 +25,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams:
-  - /home/domicile-xubuntu/Desktop/test_splitNifti.dgr
+  diagrams: []
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/3-Registration_Atlas.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/3-Registration_Atlas.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/test-RegistrationLinear_Atlas.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/change_resolution_thickness.dgr
   - /home/domicile-xubuntu/Desktop/test_tiff_to_nii.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/test-RegistrationNonLinear_Atlas.dgr
@@ -38,6 +34,9 @@ paths:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/1-N4bias.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/2-ExtractionBrain.dgr
   - /home/domicile-xubuntu/Desktop/test_splitNifti.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/5-Display_Atlas_Images.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/testUnit_mri_conv/test_unit_mriconv.dgr
   modules: modules
   projects: ../data
 version: 21.02.25a
