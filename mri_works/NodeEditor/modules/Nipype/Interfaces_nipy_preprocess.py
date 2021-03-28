@@ -6,7 +6,7 @@ class nipy_FmriRealign4d():
         realigner.inputs.tr = tr
         for ef in options:
             setattr(realigner.inputs, ef, options[ef])
-        res = realigner.run()
+        self.res = realigner.run()
         
     def out_file(self:'list_path'):
         return self.res.outputs.out_file
@@ -23,7 +23,7 @@ class nipy_SpaceTimeRealigner():
         realigner.inputs.in_file = in_file
         for ef in options:
             setattr(realigner.inputs, ef, options[ef])
-        res = realigner.run()
+        self.res = realigner.run()
         
     def out_file(self:'list_path'):
         return self.res.outputs.out_file
