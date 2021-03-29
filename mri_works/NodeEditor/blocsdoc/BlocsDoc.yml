@@ -1,3 +1,8 @@
+# class:
+#  functionality: 
+#  link_web: 
+#  dependencies: 
+
 AbsX:
   functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
                   Example (xmin=0.0, xmax=10.0, delta_x=0.1) --> [0.0, 0.1, ...., 9.9, 10.0]"
@@ -696,7 +701,35 @@ pyPlot2:
   x: (list of float) sequence of scalar for abscissa
   title: (str or None) the legend’s title
   dependencies: matplotlib
- 
+
+skimage_black_tophat:
+  functionality: Return black top hat of an image. The black top hat of an image is defined as its morphological closing minus the original image. This operation returns the dark spots of the image that are smaller than the structuring element. Note that dark spots in the original image are bright spots after the black top hat.
+  image: (ndarray) Image array.
+  sk_black_tophat: (array, same shape and type as image) The result of the morphological black top hat.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.black_tophat
+  dependencies: skimage
+
+skimage_dilation:
+  functionality: Return greyscale morphological dilation of an image. Morphological dilation sets a pixel at (i,j) to the maximum over all pixels in the neighborhood centered at (i,j). Dilation enlarges bright regions and shrinks dark regions.
+  image: (ndarray) Image array.
+  sk_dilation: (uint8 array, same shape and type as image) The result of the morphological dilation.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.dilation
+  dependencies: skimage
+
+skimage_erosion:
+  functionality: Return greyscale morphological erosion of an image. Morphological erosion sets a pixel at (i,j) to the minimum over all pixels in the neighborhood centered at (i,j). Erosion shrinks bright regions and enlarges dark regions.
+  image: (ndarray) Image array.
+  sk_erosion: (array, same shape as image) The result of the morphological erosion.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.erosion
+  dependencies: skimage
+
+skimage_white_tophat:
+  functionality: Return white top hat of an image. The white top hat of an image is defined as the image minus its morphological opening. This operation returns the bright spots of the image that are smaller than the structuring element.
+  image: (ndarray) Image array.
+  sk_white_tophat: (array, same) shape and type as image. The result of the morphological white top hat.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.white_tophat
+  dependencies: skimage
+
 spm_Coregister:
   functionality: Use spm_coreg for estimating cross-modality rigid body alignment
   source: (a list of items which are an existing file name) file to register to target

@@ -1,4 +1,3 @@
-from nilearn.plotting import glass_brain_files
 class smoothing():
     def __init__(self, fwhm=[4, 8]):
         from nipype.interfaces.spm import Smooth
