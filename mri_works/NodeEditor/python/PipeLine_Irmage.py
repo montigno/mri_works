@@ -373,8 +373,8 @@ class Menu(QMenuBar):
                                   lstdg[1]))
             for i in order_dgr:
                 editor.tabsDiagram.setCurrentIndex(i[0][0])
+                currentpathwork = editor.pathDiagram[i[0][0]]
                 self.execute_pipeline(editor.tabsDiagram.tabText(i[0][0]), i[1])
-
 
         if tmpActText == 'Analyze this Pipeline':
             txt = SaveDiagram()
@@ -6242,8 +6242,10 @@ class NodeEdit(QWidget):
 
     def tabSelected(self, arg=None):
         global textInf
+        global currentpathwork
         editor.currentTab = arg
         textInf.setText(editor.pathDiagram[editor.currentTab])
+        currentpathwork = editor.pathDiagram[editor.currentTab]
         
     def tabMoved(self):
         print('tab moved')

@@ -26,8 +26,12 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
-  histories: []
+  diagrams:
+  - /home/omontigon/Bureau/test_current_workspace.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_current_workspace.dgr
+  histories:
+  - /home/omontigon/Bureau/test_current_workspace.dgr
+  - /home/omontigon/Documents/mri_works_projects/test_current_workspace.dgr
   modules: modules
   projects: ../data
 version: 21.03.15a
