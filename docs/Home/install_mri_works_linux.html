@@ -50,8 +50,8 @@
 			<div>
 			<pre class="console" style="width:500px;">cd ~</pre>
 			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
-			- add the following lines at the end of your .bashrc file
-			<pre class="bashrc" style="width:900px;">#mri_works<br>alias mri_works='source ~/Apps/python_env/bin/activate; cd ~/Apps/python_env/mri_works; python3 mri_works.py; deactivate'</pre>
+			- check that you have these lines (otherwise add them):
+			<pre class="bashrc" style="width:900px;">#mri_works<br>cmd_mw="source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri><br>cmd_mw_update="source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_v>			<br>aliasmri_works=$cmd_mw<br>alias mri_works_update=$cmd_mw_update</pre>
 			- to save<br>
 			- type: 
 			<pre class="console" style="width:500px;">source .bashrc</pre>
