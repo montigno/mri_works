@@ -20,10 +20,11 @@
 		<a class="style1" href="#pre">Prerequisite</a><br>
 		<a class="style1" href="#dwnl"> 1 - Download mri_works </a><br>
 		<a class="style1" href="#package"> 2 - Installation </a><br>
-		<a class="style1" href="#launch"> 3 - Launch mri_works </a><br>
-		<a class="style1" href="#leave"> 4 - To leave the virtual environment </a><br>
-		<a class="style1" href="#modules"> 5 - To install other Python modules </a><br>
-		<a class="style1" href="#mat_eng"> 6 - About Matlab engine </a><br>
+		<a class="style1" href="#package"> 3 - Configuration </a><br>
+		<a class="style1" href="#launch"> 4 - Launch mri_works </a><br>
+		<a class="style1" href="#leave"> 5 - To leave the virtual environment </a><br>
+		<a class="style1" href="#modules"> 6 - To install other Python modules </a><br>
+		<a class="style1" href="#mat_eng"> 7 - About Matlab engine </a><br>
 		<hr>
 
 		<h2 id="pre"><font color="blue">Prerequisite</font></h2>
@@ -45,19 +46,30 @@
 			<table><tbody><tr><td><pre class="console" style="width:500px;">mri_works_update</pre></td><td>(install packages in the virtual repertory)</td></tr></tbody></table>	
 			</div><hr>
 		
-		<h2 id="launch"><font color="blue">3 - Launch mri_works</font></h2>
+		<h2 id="config"><font color="blue">3 - Configuration</font></h2>
+			<div>
+			<pre class="console" style="width:500px;">cd ~</pre>
+			<pre class="console" style="width:500px;">sudo nano .bashrc</pre>
+			- add the following lines at the end of your .bashrc file
+			<pre class="bashrc" style="width:900px;">#mri_works<br>alias mri_works='source ~/Apps/python_env/bin/activate; cd ~/Apps/python_env/mri_works; python3 mri_works.py; deactivate'</pre>
+			- to save<br>
+			- type: 
+			<pre class="console" style="width:500px;">source .bashrc</pre>
+			</div><hr>
+		
+		<h2 id="launch"><font color="blue">4 - Launch mri_works</font></h2>
 			<div>
 			- type everywhere:
        		<pre class="console" style="width:500px;">mri_works</pre>
 			</div><hr>
 		
-		<h2 id="leave"><font color="blue">4 - To leave the virtual environment</font></h2>
+		<h2 id="leave"><font color="blue">5 - To leave the virtual environment</font></h2>
 			<div>
 			- When you close mri_works, the virtual environment can sometimes stay active, to stop it, type : 
        		<pre class="console" style="width:500px;">deactivate</pre>
 			</div><hr>
 		
-		<h2 id="modules"><font color="blue">5 - To install other Python modules</font></h2>
+		<h2 id="modules"><font color="blue">6 - To install other Python modules</font></h2>
 			<div>
 			The installation of Python modules must be done in the virtual environment.
 			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ~/Apps/mri_works_env</pre></td><td>(go to the new virtual directory)</td></tr></tbody></table>
@@ -66,7 +78,7 @@
 			<table><tbody><tr><td><pre class="console" style="width:500px;">deactivate</pre></td><td>(leave the virtual environnement)</td></tr></tbody></table>
 			</div><hr>		
 		
-		<h2 id="mat_eng"><font color="blue">6 - About Matlab engine</font></h2>
+		<h2 id="mat_eng"><font color="blue">7 - About Matlab engine</font></h2>
 			<div>
 			- the Matlab engine install must be done in the virtual environment :
        		<pre class="console" style="width:500px;">cd ~/Apps/mri_works_env</pre>
