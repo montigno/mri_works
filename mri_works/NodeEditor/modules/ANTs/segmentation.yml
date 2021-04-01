@@ -1,6 +1,5 @@
 N4BiasFieldCorrection:
-  image-dimensionality: 3 # 2/3/4. This option forces the image to be treated as a specified-dimensional image. If not specified, N4 tries to infer the dimensionality from the input image. 
-  input-image: 'path' # inputImageFilename. A scalar image is expected as input for bias correction. Since N4 log transforms the intensities, negative values or values close to zero should be processed prior to correction. 
+  image-dimensionality: '' # 2/3/4. This option forces the image to be treated as a specified-dimensional image. If not specified, N4 tries to infer the dimensionality from the input image. 
   mask-image: '' # maskImageFilename. 
                  # If a mask image is specified, the final bias correction is only performed in the 
                  # mask region. If a weight image is not specified, only intensity values inside 
@@ -9,7 +8,7 @@ N4BiasFieldCorrection:
                  # algorithm although the mask region defines where bias correction is performed in 
                  # the final output. Otherwise bias correction occurs over the entire image domain. 
                  # See also the option description for the weight image. 
-  rescale-intensities: '0' # 0/(1).
+  rescale-intensities: '' # 0/(1).
                           # At each iteration, a new intensity mapping is calculated and applied but there 
                           # is nothing which constrains the new intensity range to be within certain values. 
                           # The result is that the range can "drift" from the original at each iteration. 
@@ -22,7 +21,7 @@ N4BiasFieldCorrection:
                    # spatial probability map of the white matter, one can use this map to weight the 
                    # b-spline fitting towards those voxels which are more probabilistically 
                    # classified as white matter. See also the option description for the mask image. 
-  shrink-factor: '1' # 1/2/3/4/...
+  shrink-factor: '' # 1/2/3/4/...
                      # Running N4 on large images can be time consuming. To lessen computation time, 
                      # the input image can be resampled. The shrink factor, specified as a single 
                      # integer, describes this resampling. Shrink factors <= 4 are commonly used. 
@@ -45,7 +44,3 @@ N4BiasFieldCorrection:
                                             # These options describe the histogram sharpening parameters, i.e. the 
                                             # deconvolution step parameters described in the original N3 algorithm. The 
                                             # default values have been shown to work fairly well. 
-  output: 'path' # correctedImage
-                 # [correctedImage,<biasField>]
-                 # The output consists of the bias corrected version of the input image. 
-                 # Optionally, one can also output the estimated bias field. 
