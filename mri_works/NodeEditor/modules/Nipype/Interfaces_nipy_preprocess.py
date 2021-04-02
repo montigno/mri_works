@@ -30,3 +30,17 @@ class nipy_SpaceTimeRealigner():
     
     def par_file(self:'list_path'):
         return self.res.outputs.par_file
+    
+###############################################################################
+
+class nipy_Trim():
+    def __init__(self, in_file='path', **options):
+        from nipype.interfaces.nipy.preprocess import Trim
+        trim = Trim()
+        trim.inputs.in_file = in_file
+        for ef in options:
+            setattr(trim.inputs, ef, options[ef])
+        self.res = trim.run() 
+        
+    def out_file(self:'path'):
+        return self.res.outputs.out_file

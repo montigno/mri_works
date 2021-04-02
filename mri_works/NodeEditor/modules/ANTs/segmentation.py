@@ -7,9 +7,9 @@ class N4BiasFieldCorrection:
         list_options.append('--output')
         list_options.append(output)
         for op in options:
-            list_options.append('--' + op)
+            list_options.append(op)
             if options[op]:
-                list_options.append(options[op])
+                list_options.append(str(options[op]))
         command = ["N4BiasFieldCorrection"]
         command.extend(list_options)
         print('command : ', command)

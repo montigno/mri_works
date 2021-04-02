@@ -5,8 +5,9 @@ class antsMotionCorr:
         list_options.append('--output')
         list_options.append(output)
         for op in options:
-            list_options.append('--' + op)
-            list_options.append(options[op])
+            list_options.append(op)
+            if options[op]:
+                list_options.append(str(options[op]))
         command = ['antsMotionCorr']
         command.extend(list_options)            
         result = run(command, shell=False, check=True)
@@ -17,3 +18,5 @@ class antsMotionCorr:
 
     def outputAverageImage(self:'path'):
         return self.res[2]
+    
+###############################################################################

@@ -25,11 +25,11 @@ class fslmerge():
         list_options.append(dimension)
         list_options.append(output)
         list_options.extend(in_files)
-        command = ["fslmerge"]
         for op in options:
             list_options.append(op)
             if options[op]:
                 list_options.append(str(options[op]))
+        command = ["fslmerge"]
         command.extend(list_options)
         print('command : ', command)
         result = run(command, shell=False, check=True)

@@ -5,9 +5,9 @@ class bet2:
         list_options.append(input_file)
         list_options.append(output_file)
         for op in options:
-            list_options.append('-' + op)
+            list_options.append(op)
             if options[op]:
-                list_options.append(options[op])
+                list_options.append(str(options[op]))
         command = ["bet2"]
         command.extend(list_options)
         print('command : ', command)

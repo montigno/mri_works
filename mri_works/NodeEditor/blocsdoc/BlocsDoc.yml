@@ -173,6 +173,25 @@ antsMotionCorr:
   outputAverageImage: fixed image
   dependencies: Ants
 
+antsRegistration:
+ functionality: "This program is a user-level registration application meant to utilize 
+                ITKv4-only classes. The user can specify any number of 'stages' where a stage 
+                consists of a transform; an image metric; and iterations, shrink factors, and 
+                smoothing sigmas for each level.Note that dimensionality, metric, transform, 
+                output, convergence, shrink-factors and smoothing-sigmas parameters are 
+                mandatory."
+ output: "outputTransformPrefix
+          [outputTransformPrefix,<outputWarpedImage>,<outputInverseWarpedImage>]
+          Specify the output transform prefix (output format is .nii.gz ). Optionally, one 
+          can choose to warp the moving image to the fixed space and, if the inverse 
+          transform exists, one can also output the warped fixed image. Note that only the 
+          images specified in the first metric call are warped. Use antsApplyTransforms to 
+          warp other images using the resultant transform(s)."
+ outputWarpedImage: the warped fixed image output
+ outputInverseWarpedImage: the inverse warped fixed image output
+ link_web: 
+ dependencies: ANTs 
+
 Array_3D_random:
   functionality: Generate a random image 3D (row, column and slice)
   row: (integer) number of row

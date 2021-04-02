@@ -26,8 +26,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams:
-  - /home/omontigon/Bureau/test_fsl_split.dgr
+  diagrams: []
   histories:
   - /home/omontigon/Bureau/test_fsl_split.dgr
   modules: modules

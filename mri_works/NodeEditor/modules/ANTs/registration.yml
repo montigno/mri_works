@@ -1,7 +1,6 @@
 antsRegistration:
-  version: '' # Get Version Information. 
-  dimensionality: '' # 2/3. This option forces the image to be treated as a specified-dimensional image. If not specified, we try to infer the dimensionality from the input image. 
-  save-state: '' # saveSateAsTransform
+  --dimensionality: 3 # 2/3. This option forces the image to be treated as a specified-dimensional image. If not specified, we try to infer the dimensionality from the input image. 
+  --save-state: 1 # saveSateAsTransform
                  # A boolean specifying whether or not the composite transform resulted from the 
                  # current state of the registration should be written to an hdf5 composite file. 
                  # It is specially usefull if we want to save the current state of a SyN 
@@ -11,29 +10,29 @@ antsRegistration:
                  # the last transform is a SyN transform. In that case, the inverse displacement 
                  # field of the SyN transform is also added to the output composite transform. To 
                  # load the written file this flag, we must use restore-state. 
-  restore-state: '' # restoreStateAsATransform
+  --restore-state: '' # restoreStateAsATransform
                     # Specify the initial state of the registration which get immediately used to 
                     # directly initialize the registration process. The flag is mutually exclusive 
                     # with other intialization flags.If this flag is used, none of the 
                     # initial-moving-transform and initial-fixed-transform cannot be used. 
-  write-composite-transform: '' # 1/(0)
+  --write-composite-transform: 1 # 1/(0)
                                 # Boolean specifying whether or not the composite transform (and its inverse, if 
                                 # it exists) should be written to an hdf5 composite file. This is false by default 
                                 # so that only the transform for each stage is written to file. 
                                 # <VALUES>: 0
-  print-similarity-measure-interval: '' # <unsignedIntegerValue>
+  --print-similarity-measure-interval: '' # <unsignedIntegerValue>
                                         # Prints out the CC similarity metric measure between the full-size input fixed 
                                         # and the transformed moving images at each iteration a value of 0 (the default) 
                                         # indicates that the full scale computation should not take placeany value greater 
                                         # than 0 represents the interval of full scale metric computation. 
                                         # <VALUES>: 0
-  write-interval-volumes: '' # <unsignedIntegerValue>
+  --write-interval-volumes: '' # <unsignedIntegerValue>
                              # Writes out the output volume at each iteration. It helps to present the 
                              # registration process as a short movie a value of 0 (the default) indicates that 
                              # this option should not take placeany value greater than 0 represents the 
                              # interval between the iterations which outputs are written to the disk. 
                              # <VALUES>: 0
-  collapse-output-transforms: '' # (1)/0
+  --collapse-output-transforms: '' # (1)/0
                                  # Collapse output transforms. Specifically, enabling this option combines all 
                                  # adjacent transforms wherepossible. All adjacent linear transforms are written to 
                                  # disk in the forman itk affine transform (called xxxGenericAffine.mat). 
@@ -42,14 +41,14 @@ antsRegistration:
                                  # output composite transform including the collapsed transforms is written to the 
                                  # disk (called outputCollapsed(Inverse)Composite). 
                                  # <VALUES>: 1
-  initialize-transforms-per-stage: '' # (1)/0
+  --initialize-transforms-per-stage: '' # (1)/0
                                       # Initialize linear transforms from the previous stage. By enabling this option, 
                                       # the current linear stage transform is directly intialized from the previous 
                                       # stage's linear transform; this allows multiple linear stages to be run where 
                                       # each stage directly updates the estimated linear transform from the previous 
                                       # stage. (e.g. Translation -> Rigid -> Affine). 
                                       # <VALUES>: 0
-  interpolation: '' # Linear
+  --interpolation: '' # Linear
                     # NearestNeighbor
                     # MultiLabel[<sigma=imageSpacing>,<alpha=4.0>]
                     # Gaussian[<sigma=imageSpacing>,<alpha=1.0>]
@@ -61,7 +60,7 @@ antsRegistration:
                     # Several interpolation options are available in ITK. These have all been made 
                     # available. Currently the interpolator choice is only used to warp (and possibly 
                     # inverse warp) the final output image(s). 
-  restrict-deformation: '' # PxQxR
+  --restrict-deformation: '' # PxQxR
                            # This option allows the user to restrict the optimization of the displacement 
                            # field, translation, rigid or affine transform on a per-component basis. For 
                            # example, if one wants to limit the deformation or rotation of 3-D volume to the 
@@ -69,7 +68,7 @@ antsRegistration:
                            # for a deformation field or '1x1x0x1x1x0' for a rigid 
                            # transformation.Low-dimensional restriction only works if there are no preceding 
                            # transformations. 
-  initial-fixed-transform: '' # initialTransform
+  --initial-fixed-transform: '' # initialTransform
                               # [initialTransform,<useInverse>]
                               # [fixedImage,movingImage,initializationFeature]
                               # Specify the initial fixed transform(s) which get immediately incorporated into 
@@ -79,7 +78,7 @@ antsRegistration:
                               # translation alignment by specifying the fixed and moving images and selecting an 
                               # initialization feature. These features include using the geometric center of the 
                               # images (=0), the image intensities (=1), or the origin of the images (=2). 
-  initial-moving-transform: '' # initialTransform
+  --initial-moving-transform: '' # initialTransform
                                # [initialTransform,<useInverse>]
                                # [fixedImage,movingImage,initializationFeature]
                                # Specify the initial moving transform(s) which get immediately incorporated into 
@@ -89,7 +88,7 @@ antsRegistration:
                                # translation alignment by specifying the fixed and moving images and selecting an 
                                # initialization feature. These features include using the geometric center of the 
                                # images (=0), the image intensities (=1), or the origin of the images (=2). 
-  metric: '' # CC[fixedImage,movingImage,metricWeight,radius,<samplingStrategy={None,Regular,Random}>,<samplingPercentage=[0,1]>]
+  --metric: '' # CC[fixedImage,movingImage,metricWeight,radius,<samplingStrategy={None,Regular,Random}>,<samplingPercentage=[0,1]>]
              # MI[fixedImage,movingImage,metricWeight,numberOfBins,<samplingStrategy={None,Regular,Random}>,<samplingPercentage=[0,1]>]
              # Mattes[fixedImage,movingImage,metricWeight,numberOfBins,<samplingStrategy={None,Regular,Random}>,<samplingPercentage=[0,1]>]
              # MeanSquares[fixedImage,movingImage,metricWeight,radius=NA,<samplingStrategy={None,Regular,Random}>,<samplingPercentage=[0,1]>]
@@ -109,7 +108,7 @@ antsRegistration:
              # samplingPercentage defines the fraction of points to select from the domain. In 
              # addition, three point set metrics are available: Euclidean (ICP), Point-set 
              # expectation (PSE), and Jensen-Havrda-Charvet-Tsallis (JHCT). 
-  transform: '' # Rigid[gradientStep]
+  --transform: '' # Rigid[gradientStep]
                 # Affine[gradientStep]
                 # CompositeAffine[gradientStep]
                 # Similarity[gradientStep]
@@ -129,30 +128,75 @@ antsRegistration:
                 # transform-specific and can be determined from the usage. For the B-spline 
                 # transforms one can also specify the smoothing in terms of spline distance (i.e. 
                 # knot spacing). 
-  convergence: '' # MxNxO
+  --convergence: '' # MxNxO
                   # [MxNxO,<convergenceThreshold=1e-6>,<convergenceWindowSize=10>]
                   # Convergence is determined from the number of iterations per level and is 
                   # determined by fitting a line to the normalized energy profile of the last N 
                   # iterations (where N is specified by the window size) and determining the slope 
                   # which is then compared with the convergence threshold. 
-  smoothing-sigmas: '' # MxNxO...
+  --smoothing-sigmas: '' # MxNxO...
                        # Specify the sigma of gaussian smoothing at each level. Units are given in terms 
                        # of voxels ('vox') or physical spacing ('mm'). Example usage is '4x2x1mm' and 
                        # '4x2x1vox' where no units implies voxel spacing. 
-  shrink-factors: '' # MxNxO...
+  --shrink-factors: '' # MxNxO...
                      # Specify the shrink factor for the virtual domain (typically the fixed image) at 
                      # each level. 
-  use-histogram-matching: '' # Histogram match the images before registration. 
-  use-estimate-learning-rate-once: '' # 
+  --use-histogram-matching: '' # Histogram match the images before registration. 
+  --use-estimate-learning-rate-once: '' # 
                                       # turn on the option that lets you estimate the learning rate step size only at 
                                       # the beginning of each level. * useful as a second stage of fine-scale 
                                       # registration. 
-  winsorize-image-intensities: '' # [lowerQuantile,upperQuantile]
+  --winsorize-image-intensities: '' # [lowerQuantile,upperQuantile]
                                   # Winsorize data based on specified quantiles. 
-  masks: '' # [fixedImageMask,movingImageMask]
+  --masks: '' # [fixedImageMask,movingImageMask]
             # Image masks to limit voxels considered by the metric. 
-  float: '' # 
+  --float: '' # 
             # Use 'float' instead of 'double' for computations. 
             # <VALUES>: 0
-  h: '' # Print the help menu (short version). 
-  help: '' # Print the help menu. Will also print values used on the current command line call. 
+
+antsApplyTransforms:
+  --dimensionality: 2 # 2/3/4. 
+                      # This option forces the image to be treated as a specified-dimensional image. If 
+                      # not specified, antsWarp tries to infer the dimensionality from the input image. 
+  --input-image-type: 0 # 0/1/2/3 
+                        # scalar/vector/tensor/time-series 
+                        # sOption specifying the input image type of scalar (default), vector, tensor, or 
+                        # stime series. 
+                        # s<VALUES>: 0
+  --input: 'path' # inputFileName
+                  # Currently, the only input objects supported are image objects. However, the 
+                  # current framework allows for warping of other objects such as meshes and point 
+                  # sets. 
+  --reference-image: 'path' # imageFileName
+                            # For warping input images, the reference image defines the spacing, origin, size, 
+                            # and direction of the output warped image. 
+  --interpolation: 'Linear' # Linear
+                            # NearestNeighbor
+                            # MultiLabel[<sigma=imageSpacing>,<alpha=4.0>]
+                            # Gaussian[<sigma=imageSpacing>,<alpha=1.0>]
+                            # BSpline[<order=3>]
+                            # CosineWindowedSinc
+                            # WelchWindowedSinc
+                            # HammingWindowedSinc
+                            # LanczosWindowedSinc
+                            # Several interpolation options are available in ITK. These have all been made available. 
+  --transform: 'path' # transformFileName
+                      # [transformFileName,useInverse]
+                      # Several transform options are supported including all those defined in the ITK 
+                      # library in addition to a deformation field transform. The ordering of the 
+                      # transformations follows the ordering specified on the command line. An identity 
+                      # transform is pushed onto the transformation stack. Each new transform 
+                      # encountered on the command line is also pushed onto the transformation stack. 
+                      # Then, to warp the input object, each point comprising the input object is warped 
+                      # first according to the last transform pushed onto the stack followed by the 
+                      # second to last transform, etc. until the last transform encountered which is the 
+                      # identity transform. Also, it should be noted that the inverse transform can be 
+                      # accommodated with the usual caveat that such an inverse must be defined by the 
+                      # specified transform class 
+  --default-value: 0 # value
+                     # Default voxel value to be used with input images only. Specifies the voxel value 
+                     # when the input point maps outside the output domain 
+  --static-cast-for-R: 0 # value
+                         # forces static cast in ReadTransform (for R) 
+  --float: 0 # Use 'float' instead of 'double' for computations. <VALUES>: 0
+  

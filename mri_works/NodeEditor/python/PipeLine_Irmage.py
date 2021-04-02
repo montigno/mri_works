@@ -913,10 +913,16 @@ class LoadDiagram:
                     if type(lout) == Port and lout.name == namePortEnd:
                         toPort = lout
                         break
-
-            startConnection = Connection(lk, fromPort, toPort, fromPort.format)
-            startConnection.setEndPos(toPort.scenePos())
-            startConnection.setToPort(toPort)
+            try:
+                startConnection = Connection(lk, fromPort, toPort, fromPort.format)
+                startConnection.setEndPos(toPort.scenePos())
+                startConnection.setToPort(toPort)
+            except Exception as e:
+                redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
+                redText = redText + ('This diagram contains errors : ' + lk)
+                redText = redText + ("</span>")
+                textEdit.clear()
+                textEdit.append(redText)
 
         if listSc:
             for elem in editor.diagramView[editor.currentTab].items():
