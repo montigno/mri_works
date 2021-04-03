@@ -186,6 +186,17 @@ class add_suffixprefix_2ext:
     
 ###############################################################################
 
+class change_name_file:
+    def __init__(self, file_path='path', new_name='myname.txt'):
+        import os
+        dir = os.path.dirname(file_path)
+        self.newPath = os.path.join(dir, new_name)
+        
+    def out_new_file(self:'path'):
+        return self.newPath
+
+###############################################################################
+
 
 class order_name_files:
     def __init__(self, files_list=['path'], reverse=False):

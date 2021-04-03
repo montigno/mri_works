@@ -9,7 +9,6 @@ packages:
   matplotlib: pip3 install matplotlib
   nibabel: pip3 install nibabel
   nilearn: pip3 install nilearn
-  nipy: pip3 install nipy
   nipype: pip3 install nipype
   niwidgets: pip3 install niwidgets
   nose: pip3 install nose
@@ -26,9 +25,20 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
+  diagrams:
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
   histories:
-  - /home/omontigon/Bureau/test_fsl_split.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/0-Remove_N_volumes.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/1-Extract_ROI_mean.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/2-Extraction_brain_mean.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/4-N4bias_ZTE.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/3-N4bias_mean.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/9-Apply_Transform.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
   modules: modules
   projects: ../data
-version: 21.03.15a
+version: 21.02.25a

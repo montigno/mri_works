@@ -22,7 +22,7 @@ class antsRegistration():
 ###############################################################################
 
 class antsApplyTransforms():
-    def __init__(self, output='', **options):
+    def __init__(self, output='path', **options):
         from subprocess import run
         list_options = []
         list_options.append('--output')
@@ -34,10 +34,8 @@ class antsApplyTransforms():
         command = ['antsApplyTransforms']
         command.extend(list_options)            
         result = run(command, shell=False, check=True)
-        self.res = output.strip('][').split(',')
+        self.res = output
 
     def outputWarpedImage(self:'path'):
-        return self.res[1]
-
-    def outputInverseWarpedImage(self:'path'):
-        return self.res[2]      
+        return self.res
+    
