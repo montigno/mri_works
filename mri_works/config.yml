@@ -27,7 +27,6 @@ paths:
   data: /tmp/
   diagrams:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/0-Remove_N_volumes.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/1-Extract_ROI_mean.dgr

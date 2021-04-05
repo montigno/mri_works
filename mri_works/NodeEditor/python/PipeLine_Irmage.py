@@ -1299,7 +1299,7 @@ class DiagramScene(QGraphicsScene):
 #         UpdateUndoRedo()
 
     def mousePressEvent(self, mouseEvent):
-
+        editor.sceneMousePressEvent(mouseEvent)
         item = self.itemAt(mouseEvent.scenePos().x(),
                            mouseEvent.scenePos().y(),
                            QTransform(0, 0, 0, 0, 0, 0))
@@ -1391,6 +1391,8 @@ class DiagramView(QGraphicsView):
         self.caseFinal = False
         self.currentLoop = None
         self.m_originX, self.m_originY = 0, 0
+        
+#         self.startPos = None
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat('mod_SubMod')\
@@ -1592,7 +1594,8 @@ class DiagramView(QGraphicsView):
         if event.button() == Qt.MidButton:
             self.__prevMousePos = event.pos()
         elif event.button() == Qt.LeftButton:
-            self.m_originX, self.m_originY = self.mapToScene(event.pos()).x(), self.mapToScene(event.pos()).y()
+#             self.startPos = event.pos()
+#             self.__prevMousePos = event.pos()
             return QGraphicsView.mousePressEvent(self, event)
         else:
             super(DiagramView, self).mousePressEvent(event)
@@ -1601,19 +1604,35 @@ class DiagramView(QGraphicsView):
         if event.buttons() == Qt.MidButton:
             offset = self.__prevMousePos - event.pos()
             self.__prevMousePos = event.pos()
-            self.verticalScrollBar().setValue(self.verticalScrollBar().value() + offset.y())
             self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() + offset.x())
+            self.verticalScrollBar().setValue(self.verticalScrollBar().value() + offset.y())
+
+#         elif event.buttons() == Qt.LeftButton:
+#             offset = self.__prevMousePos - event.pos()
+#             self.__prevMousePos = event.pos()
+#             self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() - offset.x())
+#             self.verticalScrollBar().setValue(self.verticalScrollBar().value() - offset.y())        
+#         elif self.startPos is not None:
+#             delta = self.startPos - event.pos()
+#             transform = self.transform()
+#             deltaX = delta.x() / transform.m11()
+#             deltaY = delta.y() / transform.m22()
+#             self.setSceneRect(self.sceneRect().translated(deltaX, deltaY))
+#             self.startPos = event.pos()
+#             return QGraphicsView.mouseMoveEvent(self, event)
         else:
             super(DiagramView, self).mouseMoveEvent(event)
-
+            
+#     def mouseReleaseEvent(self, event):
+#         self.startPos = None
+#         return QGraphicsView.mouseReleaseEvent(self, event)
+            
     def wheelEvent(self, event):
         adj = 0.1777
         if event.angleDelta().y() < 0:
             adj = -adj
-
         self.scalefactor += adj
         self.scale(1 + adj, 1 + adj)
-
         rectBounds = self.scene().itemsBoundingRect()
         self.scene().setSceneRect(rectBounds.x() - 200, rectBounds.y() - 200, rectBounds.width() + 400, rectBounds.height() + 400)
 
@@ -6410,12 +6429,14 @@ class NodeEdit(QWidget):
         if item.moved:
             UpdateUndoRedo()
             item.moved = False
+            
+    def sceneMousePressEvent(self, event):
+        pass
 
     def sceneMouseMoveEvent(self, event):
         if self.startConnection:
             pos = event.scenePos()
             self.startConnection.setEndPos(pos)
-            valH = self.diagramView[editor.currentTab].horizontalScrollBar().value()
 
     def sceneMouseReleaseEvent(self, event):
         touchF = (int(event.modifiers()) == (Qt.ControlModifier))
