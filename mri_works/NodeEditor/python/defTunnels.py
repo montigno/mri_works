@@ -15,7 +15,10 @@ from PyQt5 import QtCore
 class defineTunnels(QDialog):
     def __init__(self, name, typeLoop, parent=None):
         super(defineTunnels, self).__init__(parent)
-        self.setWindowTitle('Define input tunnels')
+        if 'in' in name:
+            self.setWindowTitle('Define input tunnels')
+        else:
+            self.setWindowTitle('Define output tunnels')
         self.setWindowFlags(self.windowFlags() &
                             QtCore.Qt.WindowCloseButtonHint)
         self.adjustSize()

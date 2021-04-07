@@ -20,7 +20,7 @@
 		<a class="style1" href="#pre">Prerequisite</a><br>
 		<a class="style1" href="#pypip"> 1 - Install Python 3.6, pip and virtualenv </a><br>
 		<a class="style1" href="#dwnl"> 2 - Download mri_works </a><br>
-		<a class="style1" href="#package"> 3 - Installation </a><br>
+		<a class="style1" href="#install"> 3 - Installation </a><br>
 		<a class="style1" href="#launch"> 4 - Launch mri_works </a><br>
 		<a class="style1" href="#leave"> 5 - To leave the virtual environment </a><br>
 		<a class="style1" href="#modules"> 6 - To install other Python modules </a><br>
@@ -50,11 +50,33 @@
 				and retart the Command Prompt.<br>
 		
 		<h2 id="dwnl"><font color="blue">2 - Download mri_works</font></h2>
-		<div> 
 			- download the release of mri_works from <a href="https://github.com/montigno/mri_works/archive/master.zip" target="_blank">the github homepage</a> to the 'Download' repertory<br>
-			- decompress the downloaded file <br>
+			- unzip it <br>
+
+		<h2 id="install"><font color="blue">3 - Installation</font></h2>
 			- go to the unzipped directory where the setup.py file is located  <br>
-			<table><tbody><tr><td><pre class="console" style="width:500px;">cd %homepath%\Downloads\mri_works-master</pre></td><td>(go to the unzipped directory)</td></tr></tbody></table>
+			<pre class="console" style="width:500px;">cd %homepath%\Downloads\mri_works-master\mri_works</pre>
+			- type:
+			<table><tbody><tr><td><pre class="console" style="width:500px;">python setup.py</pre></td><td>(this create and install a virtual environment 'python_env' in your home path)</td></tr></tbody></table>
+			- go to the 'python_env\Scripts' directory <br>
+			<pre class="console" style="width:500px;">cd %homepath%\python_env\Scripts</pre>
+			- to activate the environment virtual, type:
+			<table><tbody><tr><td><pre class="console" style="width:500px;">activate</pre></td><td>(a prompt '(python_env)' is added on the left)</td></tr></tbody></table>
+			- go to the mri_works folder:
+			<table><tbody><tr><td><pre class="console" style="width:500px;">cd ..\mri_works</pre></td><td>(directory before then mri_works)</td></tr></tbody></table>
+			- type:
+			<table><tbody><tr><td><pre class="console" style="width:500px;">python update_modules.py</pre></td><td>(this will install all the necessary python packages)</td></tr></tbody></table>
+			- at the end, type:
+			<table><tbody><tr><td><pre class="console" style="width:500px;">deactivate</pre></td><td>(this deactivates the environment virtual)</td></tr></tbody></table><br>
+			
+		<h2 id="launch"><font color="blue">4 - Launch mri_works</font></h2>
+			- go the 'python_env\mri_works' folder:
+			<pre class="console" style="width:500px;">cd %homepath%\python_env\mri_works</pre>
+			- activate the virtual environment:
+			<pre class="console" style="width:500px;">..\Scripts\activate</pre>
+			- launch mri_works:
+			<pre class="console" style="width:500px;">python mri_works.py</pre>
+
 			</div><br><hr>
 
     </div>

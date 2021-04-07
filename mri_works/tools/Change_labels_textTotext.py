@@ -1,9 +1,9 @@
 import json
 
-file_json = '/home/omontigon/Documents/DataIRM/Atlas_mouse/Waxhom/waxhom_acr2full.json'
+file_json = '/tmp/waxhom_acr2full.json'
 # file_json = '/home/omontigon/Documents/DataIRM/Atlas_mouse/Badhwar/acr2full.json'
 
-file_output = '/home/omontigon/Documents/DataIRM/Atlas_mouse/Waxhom/waxhom.txt'
+file_output = '/tmp/waxhom.txt'
 
 with open(file_json) as f:
   data = json.load(f)
