@@ -2,10 +2,10 @@ antsMotionCorr:
   --dimensionality: 3 # 2/3 This option forces the image to be treated as a specified-dimensional image. If not specified, the program tries to infer the dimensionality from the input image.
   --use-estimate-learning-rate-once: 1 # turn  on  the option that lets you estimate the learning rate step size only at the beginning of each level. * useful as a second stage of fine-scale registration.
   --n-images: 0  # This option sets the number of images to use to construct the template image.
-  --metric: '' # CC[fixedImage,movingImage,metricWeight,radius,<samplingStrategy={Regular,Random}>,<samplingPercentage=[0,1]>]
-             # MI[fixedImage,movingImage,metricWeight,numberOfBins,<samplingStrategy={Regular,Random}>,<samplingPercentage=[0,1]>]
-             # Demons[fixedImage,movingImage,metricWeight,radius,<samplingStrategy={Regular,Random}>,<samplingPercentage=[0,1]>]
-             # GC[fixedImage,movingImage,metricWeight,radius,<samplingStrategy={Regular,Random}>,<samplingPercentage=[0,1]>]
+  --metric: '' # CC[fixedImage,movingImage,metricWeight,radius,(samplingStrategy={Regular,Random}),(samplingPercentage=[0,1])]
+             # MI[fixedImage,movingImage,metricWeight,numberOfBins,(samplingStrategy={Regular,Random}),(samplingPercentage=[0,1])]
+             # Demons[fixedImage,movingImage,metricWeight,radius,(samplingStrategy={Regular,Random}),(samplingPercentage=[0,1])]
+             # GC[fixedImage,movingImage,metricWeight,radius,(samplingStrategy={Regular,Random}),(samplingPercentage=[0,1])]
              # Four  image metrics are available--- GC : global correlation, CC: ANTS neighborhood
              # cross correlation, MI: Mutual information, and Demons: Thirion's  Demons  (modified
              # mean-squares).  Note  that  the metricWeight is currently not used. Rather, it is a
