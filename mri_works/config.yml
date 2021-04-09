@@ -25,8 +25,19 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
-  histories: []
+  diagrams:
+  - /home/domicile-xubuntu/Desktop/test_ZcutUp.dgr
+  histories:
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/3-N4bias_mean.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/9-Apply_Transform.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/MotionCorrection.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/merge_zte_mean_2slices.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/0-Remove_N_volumes.dgr
+  - /home/domicile-xubuntu/Desktop/test_ZcutUp.dgr
   modules: modules
   projects: ../data
 version: 21.02.25a

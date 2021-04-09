@@ -21,6 +21,11 @@ afni_Fourier:
   dependencies: Nipype, AFNI
   link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#fourier
 
+afni_ZcutUp:
+  functionality: 
+  link_web: 
+  dependencies: 
+
 afni_Seg:
   functionality: "3dSeg segments brain volumes into tissue classes. The program allows
                   for adding a variety of global and voxelwise priors. However for the moment, only mixing fractions and MRF are documented.
