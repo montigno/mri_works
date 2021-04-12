@@ -24,10 +24,11 @@ def install(command):
     p.wait()
 
 def install_linux():
+    base_dir='~/Apps/mri_works_venv/'
     install('sudo apt install -y python3-venv')
-    install('python3.6 -m venv ~/Apps/mri_works_venv')
-    install('cp -r mri_works/ ~/Apps/mri_works_venv/')
-    install('cp -r docs/ ~/Apps/mri_works_venv/')
+    install('python3.6 -m venv ' + base_dir)
+    install('cp -r mri_works/ ' + base_dir)
+    install('cp -r docs/ ' + base_dir)
     
     src_bash = os.path.join(os.path.expanduser('~'), '.bashrc')
     
@@ -37,8 +38,10 @@ def install_linux():
         found = True
     if not found:
         os.system("echo '\n#mri_works' >> ~/.bashrc")    
-        os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
-        os.system("echo 'cmd_mw_update=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
+        os.system("echo 'cmd_mw=\"source " + base_dir + "bin/activate; cd " + base_dir + "mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
+        # os.system("echo 'cmd_mw=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 mri_works.py; deactivate\"' >> ~/.bashrc") 
+        os.system("echo 'cmd_mw_update=\"source " + base_dir + "bin/activate; cd " + base_dir + "mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
+        # os.system("echo 'cmd_mw_update=\"source ~/Apps/mri_works_venv/bin/activate; cd ~/Apps/mri_works_venv/mri_works; python3 update_modules.py; deactivate\"' >> ~/.bashrc")
         os.system("echo alias mri_works=\$cmd_mw >> ~/.bashrc ")
         os.system("echo alias mri_works_update=\$cmd_mw_update >> ~/.bashrc ")
         os.system("echo '\n' >> ~/.bashrc ")
