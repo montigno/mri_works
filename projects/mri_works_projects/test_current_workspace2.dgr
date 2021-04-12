@@ -1,0 +1,11 @@
+[diagram]
+link=[N0] node=[U0:projet_path#Node#P0:Value]
+probe=[P0] label=[Value] format=[path] RectF=[(-62.5, -51.5, 70, 24)]
+block=[U0] category=[Tools.Os] class=[projet_path] valInputs=[([], [], ['projet_path'], ['path'])] RectF=[(-306.0, -82.0, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'P0']
+{'U0': ('Tools.Os', 'projet_path', "([], [], ['projet_path'], ['path'])"), 'P0': ('path', 'Value', 'U0:projet_path')}
+['U0:projet_path']
+{}
+[]

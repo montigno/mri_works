@@ -1,0 +1,15 @@
+[diagram]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Souris_Toff/T1 Flash MAP6 hetero/T1 Flash MAP6 hetero/M672 - 20181210_082106_MAP6_1_1 - seq n°15 .tif'] format=[path] label=[file_tiff] RectF=[(-1246.8056155488787, -145.73332005728912, 1043.0, 33.0)]
+constant=[A1] value=['/home/omontigon/Documents/DataIRM/Souris_Toff/M672/M672.nii'] format=[path] label=[filepath] RectF=[(-687.6401082872092, -11.975647522230055, 489.0, 33.0)]
+link=[N2] node=[A1:#Node#U0:output_nii]
+link=[N1] node=[U0:output_nii#Node#U2:file]
+link=[N0] node=[A0:#Node#U0:Tif_file]
+block=[U0] category=[Images.Tiff] class=[tif_to_nii] valInputs=[(['Tif_file', 'output_nii', 'pixdim'], ['Node(N0)', 'Node(N2)', [0.025, 0.025, 0.05]], ['output_nii'], ['path'])] RectF=[(-117.3168608171365, -88.60216675283782, 169.1875, 80.0)]
+block=[U2] category=[ImageJ.ImageJ_open] class=[openImageJ] valInputs=[(['file'], ['Node(N1)'], ['currentImage'], ['str'])] RectF=[(132.81464245474308, -87.52035578007705, 150.0, 80.0)]
+[execution]
+[]
+['U0', 'U2']
+{'U2': ('ImageJ.ImageJ_open', 'openImageJ', "(['file'], ['U0:output_nii'], ['currentImage'], ['str'])"), 'U0': ('Images.Tiff', 'tif_to_nii', "(['Tif_file', 'output_nii', 'pixdim'], ['/home/omontigon/Documents/DataIRM/Souris_Toff/T1 Flash MAP6 hetero/T1 Flash MAP6 hetero/M672 - 20181210_082106_MAP6_1_1 - seq n°15 .tif', '/home/omontigon/Documents/DataIRM/Souris_Toff/M672/M672.nii', [0.025, 0.025, 0.05]], ['output_nii'], ['path'])")}
+['A0:', 'U0:output_nii', 'A1:']
+{}
+[]

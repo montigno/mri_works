@@ -1,0 +1,55 @@
+[diagram]
+constant=[A0] value=['True'] format=[bool] label=[recursive] RectF=[(-951.5784213281736, -1.5023997641769853, 79.0, 31.0)]
+constant=[A5] value=['Choose Nifti directory  (containing T1_Flash, Atlas, FA, MD)'] format=[str] label=[title] RectF=[(-1474.4989074014204, -132.67656370318934, 423.0, 33.0)]
+constant=[A1] value=['SIGMA_Anatomical_Brain_Atlas_Labels.txt'] format=[str] label=[fileName] RectF=[(-831.3415853252155, 273.2165834870637, 314.0, 33.0)]
+link=[N11] node=[A0:#Node#U2:recursive]
+link=[N5] node=[S0:Atlas_lab#Node#U0:atlas_label]
+link=[N4] node=[S0:Atlas_temp#Node#U0:atlas_template]
+link=[N3] node=[S0:T1flash#Node#U0:file_in]
+link=[N0] node=[A5:#Node#U1:title]
+link=[N1] node=[U1:filePath#Node#U2:RepDefault]
+link=[N2] node=[U2:listFiles#Node#S0:list_nifti]
+link=[N7] node=[S0:FA#Node#U3:in_path]
+link=[N8] node=[S0:MD#Node#U3:in_path_0]
+link=[N9] node=[U3:path_list#Node#U0:other_files]
+link=[N6] node=[U4:projet_path#Node#U5:inPath]
+link=[N10] node=[U5:directory#Node#U6:inPath]
+link=[N12] node=[A1:#Node#U6:fileName]
+link=[N13] node=[U6:outFile#Node#U0:label_txt]
+block=[U0] category=[ImageJ.ImageJ_analyze] class=[Atlas_reg] valInputs=[(['file_in', 'atlas_template', 'atlas_label', 'label_txt', 'other_files'], ['Node(N3)', 'Node(N4)', 'Node(N5)', 'Node(N13)', 'Node(N9)'], [], [])] RectF=[(109.44342471156207, -250.02984903915723, 183.6110777577451, 277.87673719509155)]
+script=[S0] title=[Script_editor] inputs=[['list_nifti', 'in', 'list_path']] outputs=[['T1flash', 'out', 'path'], ['Atlas_temp', 'out', 'path'], ['Atlas_lab', 'out', 'path'], ['FA', 'out', 'path'], ['MD', 'out', 'path']] code=[your code] RectF=[(-561.6651978729692, -260.28025334120093, 270.5778414499048, 315.53784041545896)]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_directory] valInputs=[(['RepDefault', 'title'], ['path', 'Node(N0)'], ['filePath'], ['path'])] RectF=[(-1001.7709891959989, -170.3245835653166, 159.171875, 80.0)]
+block=[U2] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N1)', 'Select a directory', '*', 'Node(N11)'], ['listFiles'], ['list_path'])] RectF=[(-796.6350861074782, -143.77823640039395, 158.328125, 80.0)]
+block=[U3] category=[Tools.PathManipulation] class=[build_list_path_dyn] valInputs=[(['in_path', 'in_path_0'], ['Node(N7)', 'Node(N8)'], ['path_list'], ['list_path'])] RectF=[(-203.7183132581981, -46.94853910452806, 155.890625, 62.97400511872604)]
+block=[U4] category=[Tools.Os] class=[projet_path] valInputs=[([], [], ['projet_path'], ['path'])] RectF=[(-747.473123533834, 108.98778141369283, 150.0, 80.0)]
+block=[U5] category=[Tools.PathManipulation] class=[separatePath] valInputs=[(['inPath'], ['Node(N6)'], ['directory', 'nameFile', 'extension'], ['path', 'str', 'str'])] RectF=[(-508.2020839358844, 118.3115962602059, 150.0, 80.0)]
+block=[U6] category=[Tools.PathManipulation] class=[joinPath] valInputs=[(['inPath', 'fileName'], ['Node(N10)', 'Node(N12)'], ['outFile'], ['path'])] RectF=[(-236.62319252041175, 147.88949532525731, 150.0, 80.0)]
+[source S0]
+['list_nifti=U2:listFiles']
+FA = 'path'
+MD = 'path'
+T1flash = 'path'
+Atlas_temp = 'path'
+Atlas_lab = 'path'
+
+for lst in list_nifti:
+    if 'T1_FLASH_3D.nii' in lst:
+        T1flash = lst
+    elif '_Template.nii' in lst:
+        Atlas_temp = lst
+    elif '_Label.nii' in lst:
+        Atlas_lab = lst
+    elif '_NoLinFA.nii' in lst:
+        FA = lst
+    elif '_NoLinMD.nii' in lst:
+        MD = lst
+['S0:T1flash', 'S0:Atlas_temp', 'S0:Atlas_lab', 'S0:FA', 'S0:MD']
+[/source S0]
+
+[execution]
+[]
+['U1', 'U4', 'ThreadOn', 'U2', 'U5', 'ThreadOff', 'ThreadOn', 'S0', 'U6', 'ThreadOff', 'U3', 'U0']
+{'U5': ('Tools.PathManipulation', 'separatePath', "(['inPath'], ['U4:projet_path'], ['directory', 'nameFile', 'extension'], ['path', 'str', 'str'])"), 'U4': ('Tools.Os', 'projet_path', "([], [], ['projet_path'], ['path'])"), 'U3': ('Tools.PathManipulation', 'build_list_path_dyn', "(['in_path', 'in_path_0'], ['S0:FA', 'S0:MD'], ['path_list'], ['list_path'])"), 'U0': ('ImageJ.ImageJ_analyze', 'Atlas_reg', "(['file_in', 'atlas_template', 'atlas_label', 'label_txt', 'other_files'], ['S0:T1flash', 'S0:Atlas_temp', 'S0:Atlas_lab', 'U6:outFile', 'U3:path_list'], [], [])"), 'U6': ('Tools.PathManipulation', 'joinPath', "(['inPath', 'fileName'], ['U5:directory', 'SIGMA_Anatomical_Brain_Atlas_Labels.txt'], ['outFile'], ['path'])"), 'U1': ('File_IO.Dialog_files_directories', 'Choose_directory', "(['RepDefault', 'title'], ['path', 'Choose Nifti directory  (containing T1_Flash, Atlas, FA, MD)'], ['filePath'], ['path'])"), 'U2': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['U1:filePath', 'Select a directory', '*', True], ['listFiles'], ['list_path'])")}
+['U6:outFile', 'A1:', 'U5:directory', 'U4:projet_path', 'U3:path_list', 'S0:MD', 'S0:FA', 'U2:listFiles', 'U1:filePath', 'A5:', 'S0:T1flash', 'S0:Atlas_temp', 'S0:Atlas_lab', 'A0:']
+{}
+[]

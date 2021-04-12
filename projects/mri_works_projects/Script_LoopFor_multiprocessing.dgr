@@ -1,0 +1,50 @@
+[diagram]
+constant=[A1] value=[100] format=[int] label=[col] RectF=[(-725.849101906625, 251.71301721878586, 98.0, 31.0)]
+constant=[A0] value=[100] format=[int] label=[row] RectF=[(-734.9010123181008, 129.35577312913085, 98.0, 31.0)]
+link=[N4] node=[F1m:in0#Node#S1:X]
+link=[N3] node=[F0m:in0#Node#S0:X]
+link=[N0] node=[A0:#Node#U0:row]
+link=[N1] node=[A1:#Node#U0:col]
+link=[N2] node=[U0:rand_out#Node#F1m:in0]
+link=[N5] node=[U0:rand_out#Node#F0m:in0]
+script=[S1] title=[Script_editor] inputs=[['X', 'in', 'list_float']] outputs=[] code=[your code] RectF=[(-168.59574664348816, 268.24488649594633, 429.87237898215574, 208.647856093702)]
+script=[S0] title=[Script_editor] inputs=[['X', 'in', 'list_float']] outputs=[] code=[your code] RectF=[(-165.61807246629726, -114.06906741699426, 398.7740615040289, 202.2968421760712)]
+loopFor=[F1m] inputs=[[[['in0', 'in', 'array_float'], ['in0', 'out', 'list_float']]]] outputs=[[]] listItems=[['S1']] RectF=[(-257.23384264080744, 222.19105275341303, 564.908376533189, 300.0472956476295)]
+loopFor=[F0m] inputs=[[[['in0', 'in', 'array_float'], ['in0', 'out', 'list_float']]]] outputs=[[]] listItems=[['S0']] RectF=[(-258.9523405980915, -169.33139821787364, 573.0986241695003, 311.6992103578525)]
+block=[U0] category=[Generator.Random] class=[Array_random] valInputs=[(['row', 'col'], ['Node(N0)', 'Node(N1)'], ['rand_out'], ['array_float'])] RectF=[(-512.713693230731, 164.86553386571205, 150.0, 80.0)]
+[source S0]
+['X=F0m:in0']
+import numpy as np
+
+Z = (np.cos(np.array(list(X)) * np.pi / 180.))
+[]
+[/source S0]
+[source S1]
+['X=F1m:in0']
+import numpy as np
+
+Z = (np.sin(np.array(list(X)) * np.pi / 180.))
+[]
+[/source S1]
+
+[execution]
+[]
+['U0', 'F0m', 'F1m']
+{'U0': ('Generator.Random', 'Array_random', "(['row', 'col'], [100, 100], ['rand_out'], ['array_float'])")}
+['U0:rand_out', 'U0:rand_out', 'A1:', 'A0:', 'F0m:in0', 'F1m:in0']
+{}
+[]
+[loopfor F0m]
+['F0m:in0=U0:rand_out']
+['S0']
+{}
+['F0m:in0']
+{}
+[]
+[loopfor F1m]
+['F1m:in0=U0:rand_out']
+['S1']
+{}
+['F1m:in0']
+{}
+[]

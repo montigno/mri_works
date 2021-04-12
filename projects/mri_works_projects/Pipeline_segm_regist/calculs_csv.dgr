@@ -1,0 +1,65 @@
+[diagram]
+constant=[A3] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-6-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii'] format=[path] label=[Diff_MD] RectF=[(-1320.4231331347191, 64.58290088558962, 915.0, 33.0)]
+constant=[A2] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-6-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii'] format=[path] label=[Diff_FA] RectF=[(-1319.506176182229, -16.28861017613574, 903.0, 33.0)]
+constant=[A1] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-4-T1_FLASH_3D-BrukerFLASH-003009.000.nii'] format=[path] label=[T1flash] RectF=[(-1300.5784369229377, -86.26412322136963, 877.0, 33.0)]
+constant=[A0] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/listStructures/'] format=[path] label=[mask] RectF=[(-911.1506409273568, -214.83085465591452, 508.0, 33.0)]
+constant=[A4] value=['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/result2.csv'] format=[path] label=[output_result] RectF=[(-418.1916110211504, 168.22022532379953, 489.0, 33.0)]
+link=[N5] node=[U0:path_list#Node#S0:list_files]
+link=[N4] node=[A0:#Node#U1:RepDefault]
+link=[N1] node=[A2:#Node#U0:in_path_0]
+link=[N0] node=[A1:#Node#U0:in_path]
+link=[N2] node=[A3:#Node#U0:in_path_1]
+link=[N6] node=[A4:#Node#S0:output_result]
+link=[N3] node=[U1:listFiles#Node#U2:files_list]
+link=[N7] node=[U2:list_out#Node#S0:list_masks]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N4)', 'Select a directory', '*', True], ['listFiles'], ['list_path'])] RectF=[(-262.98731425805397, -213.62518606962618, 158.328125, 80.0)]
+block=[U0] category=[Tools.PathManipulation] class=[build_list_path_dyn] valInputs=[(['in_path', 'in_path_0', 'in_path_1'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['path_list'], ['list_path'])] RectF=[(-264.3632168104025, -75.0736439075442, 159.890625, 133.0)]
+script=[S0] title=[Script_editor] inputs=[['list_masks', 'in', 'list_path'], ['list_files', 'in', 'list_path'], ['output_result', 'in', 'path']] outputs=[] code=[your code] RectF=[(231.38262393645397, -237.21766053022796, 530.8164548092738, 476.46202657136394)]
+block=[U2] category=[Tools.PathManipulation] class=[order_name_files] valInputs=[(['files_list', 'reverse'], ['Node(N3)', False], ['list_out'], ['list_path'])] RectF=[(-20.953924563374983, -162.8115744259585, 150.0, 80.0)]
+[source S0]
+['list_masks=U2:list_out', 'output_result="\'/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/result2.csv\'"', 'list_files=U0:path_list']
+import numpy as np
+import nibabel as nib
+import os
+import csv
+
+with open(output_result, 'w') as results:
+    spamwriter = csv.writer(results, delimiter=' ',
+                                                quoting=csv.QUOTE_MINIMAL)
+    spamwriter.writerow(['label', 'sequences','volume(mm3)','mean','standard deviation'])
+    for mask in list_masks:
+        base_mask = os.path.basename(mask)
+        base_mask=('.').join(base_mask.split('.')[:-1])
+        tmpmask = nib.load(mask).get_fdata()
+        hdr =  nib.load(mask).header
+        list_dim = (hdr['pixdim']).tolist()
+        voxel_dim = list_dim[1] * list_dim[2] * list_dim[3]
+        sum_mask = np.sum(tmpmask)
+        spamwriter.writerow([base_mask,
+                                                '',
+                                                round(sum_mask*voxel_dim, 2)])
+        for seq in list_files:
+            tmpseq = nib.load(seq).get_fdata()  
+            mul = np.multiply(tmpseq, tmpmask)
+            mul[mul == 0.0] = 'nan'
+            mean = np.nanmean(mul)
+            stdv = np.nanstd(mul)
+            base_seq = os.path.basename(seq)
+            base_seq=('.').join(base_seq.split('.')[:-1])
+            spamwriter.writerow(['',
+                                                    base_seq,
+                                                    '',
+                                                    mean,
+                                                    stdv])
+results.close()
+ 
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'U1', 'U2', 'S0']
+{'U2': ('Tools.PathManipulation', 'order_name_files', "(['files_list', 'reverse'], ['U1:listFiles', False], ['list_out'], ['list_path'])"), 'U0': ('Tools.PathManipulation', 'build_list_path_dyn', "(['in_path', 'in_path_0', 'in_path_1'], ['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-4-T1_FLASH_3D-BrukerFLASH-003009.000.nii', '/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-6-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii', '/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/Rat_fixe-F0_H55-2020-08-05093339-6-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii'], ['path_list'], ['list_path'])"), 'U1': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['/home/domicile-xubuntu/Documents/DataIRM/tmp_H55_2/tmp_H55_2/listStructures/', 'Select a directory', '*', True], ['listFiles'], ['list_path'])")}
+['U2:list_out', 'U1:listFiles', 'A4:', 'A3:', 'A1:', 'A2:', 'A0:', 'U0:path_list']
+{}
+[]

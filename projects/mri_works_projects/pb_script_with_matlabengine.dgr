@@ -1,0 +1,17 @@
+[diagram]
+link=[N0] node=[U0:mat_eng#Node#S0:mat_eng]
+block=[U0] category=[Matlab.MatlabEngine] class=[start_matlab] valInputs=[(['option'], ['-nodesktop'], ['mat_eng'], ['str'])] RectF=[(-476.0, 46.0, 150.0, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['mat_eng', 'in', 'str']] outputs=[] code=[your code] RectF=[(-135.0, -26.0, 200.0, 200.0)]
+[source S0]
+['mat_eng=U0:mat_eng']
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'S0']
+{'U0': ('Matlab.MatlabEngine', 'start_matlab', "(['option'], ['-nodesktop'], ['mat_eng'], ['str'])")}
+['U0:mat_eng']
+{}
+[]

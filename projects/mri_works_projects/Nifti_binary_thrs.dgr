@@ -1,0 +1,52 @@
+[diagram]
+constant=[A4] value=['_masked'] format=[str] label=[new_str] RectF=[(305.31460379289155, -134.57071920883772, 85.0, 33.0)]
+constant=[A0] value=['_mask'] format=[str] label=[new_str] RectF=[(-464.9441017129185, 234.53727718750258, 68.0, 33.0)]
+constant=[A3] value=['Choose Nifti  to mask (template)'] format=[str] label=[title] RectF=[(-968.0402066482617, -217.9792567346375, 245.0, 33.0)]
+constant=[A2] value=['Choose Nifti to create mask (label)'] format=[str] label=[title] RectF=[(-1002.0770302534858, 61.03117820195877, 260.0, 33.0)]
+constant=[A1] value=['*.nii'] format=[str] label=[extension] RectF=[(-787.5578010153309, -70.89482257941178, 53.0, 33.0)]
+constant=[A5] value=['NIFTI'] format=[enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))] label=[output_type] RectF=[(525.1174957232926, -18.61191166882122, 144.0, 31.0)]
+link=[N14] node=[A4:#Node#U4:new_str]
+link=[N13] node=[U4:newPath#Node#U1:out_file]
+link=[N9] node=[U3:filePath#Node#U4:file_path]
+link=[N12] node=[A0:#Node#U6:new_str]
+link=[N11] node=[U6:newPath#Node#S0:fileOut]
+link=[N1] node=[U0:filePath#Node#U6:file_path]
+link=[N8] node=[U3:filePath#Node#U1:in_file]
+link=[N7] node=[A3:#Node#U3:title]
+link=[N6] node=[A1:#Node#U3:extension]
+link=[N5] node=[A2:#Node#U0:title]
+link=[N2] node=[A1:#Node#U0:extension]
+link=[N4] node=[U1:out_file#Node#U2:inPath]
+link=[N3] node=[S0:outFile#Node#U1:mask_file]
+link=[N0] node=[U0:filePath#Node#S0:img_nifti]
+link=[N10] node=[A5:#Node#U1:output_type]
+block=[U4] category=[Tools.PathManipulation] class=[add_suffixprefix_file] valInputs=[(['file_path', 'new_str', 'place'], ['Node(N9)', 'Node(N14)', 'suffix'], ['newPath'], ['path'])] RectF=[(529.7066276237978, -200.25494458948452, 153.0, 83.0)]
+block=[U6] category=[Tools.PathManipulation] class=[add_suffixprefix_file] valInputs=[(['file_path', 'new_str', 'place'], ['Node(N1)', 'Node(N12)', 'suffix'], ['newPath'], ['path'])] RectF=[(-274.4662217237799, 207.497114109744, 150.0, 80.0)]
+block=[U3] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', 'Node(N6)', 'Node(N7)'], ['filePath'], ['path'])] RectF=[(-652.8020638862926, -161.72076130200855, 155.3125, 82.0)]
+block=[U2] category=[Tools.Print] class=[Print_path] valInputs=[(['comment', 'inPath'], ['', 'Node(N4)'], [], [])] RectF=[(1142.6249459499174, 46.01056379164258, 150.0, 80.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['path', 'Node(N2)', 'Node(N5)'], ['filePath'], ['path'])] RectF=[(-663.1993786105687, -5.452760281085013, 153.3125, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['img_nifti', 'in', 'path'], ['fileOut', 'in', 'path']] outputs=[['outFile', 'out', 'path']] code=[your code] RectF=[(157.8272524315894, 83.76293378589531, 515.7761367544574, 234.02272278170716)]
+block=[U1] category=[Nipype.Interfaces_fsl_maths] class=[fsl_ApplyMask] valInputs=[(['in_file', 'mask_file', 'out_file', 'output_type'], ['Node(N8)', 'Node(N3)', 'Node(N13)', 'Node(N10)'], ['out_file'], ['path'])] RectF=[(887.5681746340709, 24.95224934608565, 164.48135904341984, 162.41884178088762)]
+[source S0]
+['img_nifti=U0:filePath', 'fileOut=U6:newPath']
+import nibabel
+import os
+
+outFile = fileOut
+
+localizer_img = nibabel.load(img_nifti)
+localizer =  localizer_img.get_data()
+
+localizer[localizer >= 1.0] = 1.0
+locmask = nibabel.Nifti1Image(localizer, localizer_img.get_affine())
+nibabel.save(locmask, fileOut)
+['S0:outFile']
+[/source S0]
+
+[execution]
+[]
+['U0', 'U3', 'ThreadOn', 'U4', 'U6', 'ThreadOff', 'S0', 'U1', 'U2']
+{'U2': ('Tools.Print', 'Print_path', "(['comment', 'inPath'], ['', 'U1:out_file'], [], [])"), 'U1': ('Nipype.Interfaces_fsl_maths', 'fsl_ApplyMask', "(['in_file', 'mask_file', 'out_file', 'output_type'], ['U3:filePath', 'S0:outFile', 'U4:newPath', 'NIFTI'], ['out_file'], ['path'])"), 'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'Choose Nifti to create mask (label)'], ['filePath'], ['path'])"), 'U3': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['path', '*.nii', 'Choose Nifti  to mask (template)'], ['filePath'], ['path'])"), 'U6': ('Tools.PathManipulation', 'add_suffixprefix_file', "(['file_path', 'new_str', 'place'], ['U0:filePath', '_mask', 'suffix'], ['newPath'], ['path'])"), 'U4': ('Tools.PathManipulation', 'add_suffixprefix_file', "(['file_path', 'new_str', 'place'], ['U3:filePath', '_masked', 'suffix'], ['newPath'], ['path'])")}
+['A5:', 'U0:filePath', 'S0:outFile', 'U1:out_file', 'A1:', 'A2:', 'A1:', 'A3:', 'U3:filePath', 'U0:filePath', 'U6:newPath', 'A0:', 'U3:filePath', 'U4:newPath', 'A4:']
+{}
+[]

@@ -1,0 +1,22 @@
+[diagram]
+constant=[A0] value=['/home/omontigon/Apps/python_env/mri_works/NodeEditor/examples/'] format=[path] label=[RepDefault] RectF=[(-824.5, -111.5, 512.0, 33.0)]
+link=[N2] node=[F0:in0#Node#P0:Value]
+probe=[P0] label=[Value] format=[path] RectF=[(178.84040566022543, -62.01671069150612, 70, 24)]
+link=[N1] node=[U0:listDirectories#Node#F0:in0]
+link=[N0] node=[A0:#Node#U0:RepDefault]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[]] listItems=[['P0']] RectF=[(74.34040566022544, -155.51671069150612, 200.0, 200.0)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[list_directories_in_directory] valInputs=[(['RepDefault', 'title'], ['Node(N0)', 'Select a directory'], ['listDirectories'], ['list_path'])] RectF=[(-253.78276415042478, -99.9750283016825, 199.109375, 80.0)]
+[execution]
+[]
+['U0', 'F0']
+{'U0': ('File_IO.Dialog_files_directories', 'list_directories_in_directory', "(['RepDefault', 'title'], ['/home/omontigon/Apps/python_env/mri_works/NodeEditor/examples/', 'Select a directory'], ['listDirectories'], ['list_path'])")}
+['A0:', 'U0:listDirectories', 'F0:in0']
+{}
+[]
+[loopfor F0]
+['F0:in0=U0:listDirectories']
+['P0']
+{'P0': ('path', 'Value', 'F0:in0')}
+['F0:in0']
+{}
+[]

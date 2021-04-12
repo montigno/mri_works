@@ -1,0 +1,17 @@
+[diagram]
+constant=[A0] value=['-t'] format=[enumerate(('-t', '-x', '-y', '-z', '-a', 'tr'))] label=[dimension] RectF=[(-235.5, -91.5, 57.0, 31.0)]
+constant=[A1] value=['/tmp/merge.nii.gz'] format=[path] label=[output] RectF=[(-381.5, -41.5, 148.0, 33.0)]
+link=[N2] node=[U1:filesPath#Node#U0:in_files]
+link=[N0] node=[A0:#Node#U0:dimension]
+link=[N1] node=[A1:#Node#U0:output]
+link=[N3] node=[U0:output_file#Node#U2:file]
+block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-394.22349343414487, 39.27414502257457, 206.59375, 80.0)]
+block=[U0] category=[FSL.Utils] class=[fslmerge] valInputs=[(['dimension', 'output', 'in_files'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['output_file'], ['path'])] RectF=[(-111.0, -65.0, 172.671875, 80.0)]
+block=[U2] category=[ImageJ.ImageJ_open] class=[openImageJ] valInputs=[(['file'], ['Node(N3)'], ['currentImage'], ['str'])] RectF=[(159.0, -67.0, 150.0, 80.0)]
+[execution]
+[]
+['U1', 'U0', 'U2']
+{'U2': ('ImageJ.ImageJ_open', 'openImageJ', "(['file'], ['U0:output_file'], ['currentImage'], ['str'])"), 'U1': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U0': ('FSL.Utils', 'fslmerge', "(['dimension', 'output', 'in_files'], ['-t', '/tmp/merge.nii.gz', 'U1:filesPath'], ['output_file'], ['path'])")}
+['U0:output_file', 'A1:', 'A0:', 'U1:filesPath']
+{}
+[]

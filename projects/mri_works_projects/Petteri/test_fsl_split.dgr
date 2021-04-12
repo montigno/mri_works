@@ -1,0 +1,17 @@
+[diagram]
+constant=[A0] value=['/tmp/ZTE_N4.nii.gz'] format=[path] label=[input] RectF=[(-274.2200868055556, -126.37256944444445, 156.0, 33.0)]
+constant=[A1] value=['/tmp/bc_split_'] format=[path] label=[output_basename] RectF=[(-264.06371527777776, -32.31079861111112, 125.0, 33.0)]
+constant=[A2] value=['-t'] format=[enumerate(('-t', '-x', '-y', '-z'))] label=[dimension] RectF=[(-161.57916666666665, 64.52916666666667, 57.0, 31.0)]
+link=[N0] node=[A0:#Node#U0:input]
+link=[N1] node=[A1:#Node#U0:output_basename]
+link=[N2] node=[A2:#Node#U0:dimension]
+link=[N3] node=[U0:output_file#Node#P0:Value]
+probe=[P0] label=[Value] format=[list_path] RectF=[(279.5097569444445, -36.02204861111111, 70, 24)]
+block=[U0] category=[FSL.Utils] class=[fslsplit] valInputs=[(['input', 'output_basename', 'dimension'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['output_file'], ['list_path'])] RectF=[(-34.56614583333332, -63.37126736111111, 219.140625, 80.0)]
+[execution]
+[]
+['U0', 'P0']
+{'U0': ('FSL.Utils', 'fslsplit', "(['input', 'output_basename', 'dimension'], ['/tmp/ZTE_N4.nii.gz', '/tmp/bc_split_', '-t'], ['output_file'], ['list_path'])"), 'P0': ('list_path', 'Value', 'U0:output_file')}
+['U0:output_file', 'A2:', 'A1:', 'A0:']
+{}
+[]

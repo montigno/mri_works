@@ -1,0 +1,17 @@
+[diagram]
+constant=[A2] value=['-t'] format=[enumerate(('-t', '-x', '-y', '-z'))] label=[dimension] RectF=[(-258.48347562948334, 151.1193197476349, 56.0, 31.0)]
+constant=[A1] value=['/home/domicile-xubuntu/Documents/DataIRM/Nifti/Petteri/test_pipeline/orig_split_'] format=[path] label=[output_basename] RectF=[(-718.6148466735611, 63.4967725363999, 497.0, 33.0)]
+constant=[A0] value=['/home/domicile-xubuntu/Documents/DataIRM/Nifti/Petteri/test_pipeline/ZTE.nii.gz'] format=[path] label=[input] RectF=[(-795.320779409242, -42.49586890737082, 492.0, 33.0)]
+link=[N3] node=[U0:output_file#Node#P0:Value]
+link=[N2] node=[A2:#Node#U0:dimension]
+link=[N1] node=[A1:#Node#U0:output_basename]
+link=[N0] node=[A0:#Node#U0:input]
+probe=[P0] label=[Value] format=[list_path] RectF=[(192.9228898045002, 60.666395782437405, 70, 24)]
+block=[U0] category=[FSL.Utils] class=[fslsplit] valInputs=[(['input', 'output_basename', 'dimension'], ['Node(N0)', 'Node(N1)', 'Node(N2)'], ['output_file'], ['list_path'])] RectF=[(-115.60279537711817, -52.50206554631461, 245.140625, 248.0)]
+[execution]
+[]
+['U0', 'P0']
+{'U0': ('FSL.Utils', 'fslsplit', "(['input', 'output_basename', 'dimension'], ['/home/domicile-xubuntu/Documents/DataIRM/Nifti/Petteri/test_pipeline/ZTE.nii.gz', '/home/domicile-xubuntu/Documents/DataIRM/Nifti/Petteri/test_pipeline/orig_split_', '-t'], ['output_file'], ['list_path'])"), 'P0': ('list_path', 'Value', 'U0:output_file')}
+['A0:', 'A1:', 'A2:', 'U0:output_file']
+{}
+[]

@@ -1,0 +1,28 @@
+[diagram]
+constant=[A4] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/FO_H16_analyse_2.txt'] format=[path] label=[outfile_result_name] RectF=[(-632.2738017243936, 184.64193395599494, 615.0, 33.0)]
+constant=[A3] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii'] format=[path] label=[Diff MD Nifti] RectF=[(-1075.0, 105.14318426960797, 1065.0, 33.0)]
+constant=[A2] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii'] format=[path] label=[Diff FA Nifti] RectF=[(-1063.0, 22.391371837961373, 1053.0, 33.0)]
+constant=[A1] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-3-T1_FLASH_3D-BrukerFLASH-003006_000.nii'] format=[path] label=[T1_Flash Nifti] RectF=[(-1034.0, -59.54071067068563, 1024.0, 33.0)]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/listStructures/'] format=[path] label=[RepDefault] RectF=[(-851.6710256418725, -179.99429713315092, 561.0, 33.0)]
+link=[N5] node=[A4:#Node#M0:outfile_result_name]
+link=[N4] node=[A3:#Node#M0:Diff MD Nifti]
+link=[N3] node=[A2:#Node#M0:Diff FA Nifti]
+link=[N2] node=[A1:#Node#M0:T1_Flash Nifti]
+link=[N1] node=[A0:#Node#U0:RepDefault]
+link=[N0] node=[U0:listFiles#Node#M0:list_structures]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[list_files_in_directory] valInputs=[(['RepDefault', 'title', 'filter', 'recursive'], ['Node(N1)', 'Select a directory', '*', True], ['listFiles'], ['list_path'])] RectF=[(-229.0, -176.0, 158.328125, 80.0)]
+submod=[M0] nameMod=[IG_calculs] valInputs=[(['list_structures', 'T1_Flash Nifti', 'Diff FA Nifti', 'Diff MD Nifti', 'outfile_result_name'], ['Node(N0)', 'Node(N2)', 'Node(N3)', 'Node(N4)', 'Node(N5)'], [], [])] RectF=[(126.24891757719345, -107.51072553064179, 199.34375, 226.0)]
+[execution]
+[]
+['U0', 'M0']
+{'U0': ('File_IO.Dialog_files_directories', 'list_files_in_directory', "(['RepDefault', 'title', 'filter', 'recursive'], ['/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/listStructures/', 'Select a directory', '*', True], ['listFiles'], ['list_path'])")}
+['U0:listFiles', 'A0:', 'A1:', 'A2:', 'A3:', 'A4:']
+{'M0': ('IG_calculs', "(['list_structures', 'T1_Flash Nifti', 'Diff FA Nifti', 'Diff MD Nifti', 'outfile_result_name'], ['U0:listFiles', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-3-T1_FLASH_3D-BrukerFLASH-003006_000.nii', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii', '/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/FO_H16_analyse_2.txt'], [], [])")}
+[]
+[submod M0]
+['C0:list_structures=U0:listFiles', 'C1:T1_Flash Nifti=/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-3-T1_FLASH_3D-BrukerFLASH-003006_000.nii', 'C2:Diff FA Nifti=/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0000_RegLinFA_NoLinFA.nii', 'C3:Diff MD Nifti=/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/Rat_fixe-FO_H16-2020-07-10125310-6-DTI_EPI_3D_40dir--_0001_RegLinMD_NoLinMD.nii', 'C4:outfile_result_name=/home/omontigon/Documents/DataIRM/Traitement_IS/F0_H16/FO_H16_analyse_2.txt']
+['ThreadOn', 'U0', 'U2', 'ThreadOff', 'S0']
+{'U2': ('Tools.PathManipulation', 'order_name_files', "(['files_list', 'reverse'], ['C0:list_structures', False], ['list_out'], ['list_path'])"), 'U0': ('Tools.PathManipulation', 'build_list_path_dyn', "(['in_path', 'in_path_0', 'in_path_1'], ['C1:T1_Flash Nifti', 'C2:Diff FA Nifti', 'C3:Diff MD Nifti'], ['path_list'], ['list_path'])")}
+['C4:outfile_result_name', 'C1:T1_Flash Nifti', 'C2:Diff FA Nifti', 'C3:Diff MD Nifti', 'C0:list_structures', 'U2:list_out', 'U0:path_list']
+{}
+[]

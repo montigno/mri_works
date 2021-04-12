@@ -1,0 +1,19 @@
+[diagram]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Nifti/PatientX/PatientX^^-IRMcrane+perfusion-2014-11-29092124-06-SO2_3D_FFESENSE-FFE-000520.000_MGE2Dfrom3D.nii'] format=[path] label=[fileSource] RectF=[(-1492.2103802824477, 15.985519014122389, 1017.0, 31.0)]
+link=[N1] node=[A0:#Node#U0:fileSource]
+link=[N0] node=[U0:image#Node#S0:img]
+block=[U0] category=[Nifti.Nifti] class=[Open_Nifti] valInputs=[(['fileSource'], ['Node(N1)'], ['image', 'dim', 'pixdim', 'filePath'], ['array_float', 'int', 'list_float', 'path'])] RectF=[(-401.0, 7.0, 150.0, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['img', 'in', 'array_float']] outputs=[] code=[your code] RectF=[(-161.0, -120.0, 476.0, 359.0)]
+[source S0]
+['img=U0:image']
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'S0']
+{'U0': ('Nifti.Nifti', 'Open_Nifti', "(['fileSource'], ['/home/omontigon/Documents/DataIRM/Nifti/PatientX/PatientX^^-IRMcrane+perfusion-2014-11-29092124-06-SO2_3D_FFESENSE-FFE-000520.000_MGE2Dfrom3D.nii'], ['image', 'dim', 'pixdim', 'filePath'], ['array_float', 'int', 'list_float', 'path'])")}
+['U0:image', 'A0:']
+{}
+[]

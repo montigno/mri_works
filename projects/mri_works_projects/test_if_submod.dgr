@@ -1,0 +1,18 @@
+[diagram]
+constant=[A0] value=['Phi'] format=[str] label=[in_string] RectF=[(-351.5, 85.5, 47.0, 33.0)]
+link=[N0] node=[A0:#Node#M0:in_string]
+submod=[M0] nameMod=[test_if] valInputs=[(['in_string'], ['Node(N0)'], [], [])] RectF=[(-158.0, 54.0, 150.0, 80.0)]
+[execution]
+[]
+['M0']
+{}
+['A0:']
+{'M0': ('test_if', "(['in_string'], ['Phi'], [], [])")}
+[]
+[submod M0]
+['C0:in_string=Phi']
+['U3', 'I0', 'U2']
+{'U2': ('Tools.Print', 'Print_bool', "(['comment', 'inBool'], ['', 'U3:compare_res'], [], [])"), 'U3': ('Tools.StringManipulation', 'string_compare', "(['in_string', 'compareTo', 'type_compare'], ['C0:in_string', 'Bruker', 'equal'], ['compare_res'], ['bool'])")}
+['I0:in0', 'A3:', 'A2:', 'I0:in0', 'A0:', 'C0:in_string', 'A1:', 'U3:compare_res', 'U3:compare_res']
+{}
+[]

@@ -1,0 +1,66 @@
+[diagram]
+constant=[A5] value=['[\n[0.0, 1.1, 2.2], \n[3.0, 4.1, 5.2], \n[6.0, 7.1, 8.2], \n[9.0, 10.1, 11.2],\n[12.0,13.1,14.2]\n]'] format=[str] label=[A5] RectF=[(-599.1327362362413, 292.3922684125942, 132.0, 135.0)]
+constant=[A0] value=[1.0] format=[float] label=[float_in] RectF=[(-606.2811939245615, -57.18626986099537, 135.0, 31.0)]
+constant=[A1] value=[2.0] format=[float] label=[float_in_0] RectF=[(-606.5241626314106, 0.7764111419590165, 135.0, 31.0)]
+constant=[A2] value=[3.0] format=[float] label=[float_in_1] RectF=[(-606.9316093402118, 58.075935916640304, 135.0, 31.0)]
+constant=[A3] value=[1.0] format=[float] label=[float_in_2] RectF=[(-606.8776102729659, 114.96655035195661, 135.0, 31.0)]
+constant=[A4] value=[4.0] format=[float] label=[float_in_3] RectF=[(-607.1876443539718, 173.53113076013432, 135.0, 31.0)]
+link=[N7] node=[U1:outArrayFloat#Node#S0:array_f]
+link=[N6] node=[A5:#Node#U1:inString]
+link=[N1] node=[A0:#Node#U0:float_in]
+link=[N2] node=[A1:#Node#U0:float_in_0]
+link=[N3] node=[A2:#Node#U0:float_in_1]
+link=[N4] node=[A3:#Node#U0:float_in_2]
+link=[N5] node=[A4:#Node#U0:float_in_3]
+link=[N0] node=[U0:out_list#Node#S0:list_f]
+block=[U1] category=[Tools.Conversion] class=[StringToArrayFloat] valInputs=[(['inString'], ['Node(N6)'], ['outArrayFloat'], ['array_float'])] RectF=[(-385.1793973297465, 321.2723775109675, 181.6875, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['list_f', 'in', 'list_float'], ['array_f', 'in', 'array_float']] outputs=[] code=[your code] RectF=[(-49.361003840327186, -115.51417503726361, 603.5802510236952, 609.4261073220628)]
+block=[U0] category=[Tools.ListManipulation] class=[build_list_float_dyn] valInputs=[(['float_in', 'float_in_0', 'float_in_1', 'float_in_2', 'float_in_3'], ['Node(N1)', 'Node(N2)', 'Node(N3)', 'Node(N4)', 'Node(N5)'], ['out_list'], ['list_float'])] RectF=[(-390.20093481247625, -31.143834823044017, 162.08089013153906, 236.98354445144864)]
+[source S0]
+['list_f=U0:out_list', 'array_f=U1:outArrayFloat']
+# statistics module - Mathematical statistics functions
+# see https://docs.python.org/3/library/statistics.html
+
+# mean() : Arithmetic mean (“average”) of data.
+# fmean() : Fast, floating point arithmetic mean (new in Python 3.8).
+# geometric_mean() : Geometric mean of data (new in Python 3.8).
+# harmonic_mean() : Harmonic mean of data.
+# median() : Median (middle value) of data.
+# median_low() : Low median of data.
+# median_high() : High median of data.
+# median_grouped() : Median, or 50th percentile, of grouped data.
+# mode() : Single mode (most common value) of discrete or nominal data.
+# multimode() : List of modes (most common values) of discrete or nomimal data.
+# quantiles() : Divide data into intervals with equal probability.
+
+# pstdev() : Population standard deviation of data.
+# pvariance() : Population variance of data.
+# stdev() : Sample standard deviation of data.
+# variance() : Sample variance of data.
+
+
+import statistics as st
+from fractions import Fraction as F
+from decimal import Decimal as D
+
+print('mean list = ', st.mean(list_f))
+print('mean array[0] = ', st.mean(array_f[0]))
+print('mean in Fraction = ', st.mean([F(3, 7), F(1, 21), F(5, 3), F(1, 3)]))
+print('mean in Decimal = ', st.mean([D("0.5"), D("0.75"), D("0.625"), D("0.375")]))
+print('harmonic_mean = ', st.harmonic_mean([40, 60]))
+print('median = ', st.median([1, 3, 5]))
+
+print('stdev = ', st.stdev([1.5, 2.5, 2.5, 2.75, 3.25, 4.75]))
+print('variance in Fraction = ', st.variance([F(1, 6), F(1, 2), F(5, 3)]))
+print()
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'U1', 'S0']
+{'U0': ('Tools.ListManipulation', 'build_list_float_dyn', "(['float_in', 'float_in_0', 'float_in_1', 'float_in_2', 'float_in_3'], [1.0, 2.0, 3.0, 1.0, 4.0], ['out_list'], ['list_float'])"), 'U1': ('Tools.Conversion', 'StringToArrayFloat', "(['inString'], ['[\\n[0.0, 1.1, 2.2], \\n[3.0, 4.1, 5.2], \\n[6.0, 7.1, 8.2], \\n[9.0, 10.1, 11.2],\\n[12.0,13.1,14.2]\\n]'], ['outArrayFloat'], ['array_float'])")}
+['U0:out_list', 'A4:', 'A3:', 'A2:', 'A1:', 'A0:', 'A5:', 'U1:outArrayFloat']
+{}
+[]

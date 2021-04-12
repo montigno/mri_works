@@ -1,0 +1,30 @@
+[diagram]
+constant=[A0] value=['/home/omontigon/Documents/DataIRM/Nifti/Paul/dcm2nii/DICOM_DWI-APA_7x0-30x800-60x2000_Axi2.50_EnhG_20190614161054_301.bvec'] format=[path] label=[bvec_nii] RectF=[(-1462.6401473915034, -89.86428034843394, 996.0, 33.0)]
+link=[N1] node=[U0:filePath#Node#S0:bvec_nii]
+link=[N0] node=[A0:#Node#U0:fileDefault]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_file] valInputs=[(['fileDefault', 'extension', 'title'], ['Node(N0)', '*', 'Select a file'], ['filePath'], ['path'])] RectF=[(-390.5472167480934, -92.41957037550299, 153.3125, 80.0)]
+script=[S0] title=[Script_editor] inputs=[['bvec_nii', 'in', 'path']] outputs=[] code=[your code] RectF=[(-149.7421747638471, -212.850912956201, 366.0, 323.0)]
+[source S0]
+['bvec_nii=U0:filePath']
+print('bevc_nii = ', bvec_nii)
+
+bve = open(bvec_nii, "r")
+#bva = open(bval_file, "r")
+
+xe = bve.readline().split(' ')
+ye = bve.readline().split(' ')
+ze = bve.readline().split(' ')
+
+print(len(xe))
+print(len(ye))
+print(len(ze))
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'S0']
+{'U0': ('File_IO.Dialog_files_directories', 'Choose_file', "(['fileDefault', 'extension', 'title'], ['/home/omontigon/Documents/DataIRM/Nifti/Paul/dcm2nii/DICOM_DWI-APA_7x0-30x800-60x2000_Axi2.50_EnhG_20190614161054_301.bvec', '*', 'Select a file'], ['filePath'], ['path'])")}
+['A0:', 'U0:filePath']
+{}
+[]
