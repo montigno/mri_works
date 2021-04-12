@@ -60,9 +60,10 @@ currentpathwork = ''
 
 class getPathWork():
     global currentpathwork
+
     def pathWork(self):
-        print('currentpathwork = ', currentpathwork)
         return currentpathwork
+
 
 class Menu(QMenuBar):
 
@@ -242,7 +243,9 @@ class Menu(QMenuBar):
             textInf.setText('')
 
     def btnPressed(self, act):
+        
         global currentpathwork
+        
         tmpActText = act.text()
 #         ct = editor.currentTab
         
@@ -314,7 +317,6 @@ class Menu(QMenuBar):
                                 QFileDialog.DontUseNativeDialog)
 
             if fileDiagram[0] != '':
-                currentpathwork = fileDiagram[0]
                 editor.addTab(os.path.basename(fileDiagram[0]))
                 editor.pathDiagram[editor.currentTab] = fileDiagram[0]
                 textInf.setText(fileDiagram[0])
@@ -328,6 +330,11 @@ class Menu(QMenuBar):
                                  QtCore.Qt.KeepAspectRatio)
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
                 editor.diagramView[editor.currentTab].scene().clearSelection()
+                file = editor.pathDiagram[editor.currentTab]
+                fileNameonly = os.path.basename(file)
+                editor.tabsDiagram.setTabText(editor.currentTab,
+                                                  fileNameonly)
+                currentpathwork = file
                 self.saveHistories(fileDiagram[0])
                 self.saveDiagramsConfig(fileDiagram[0])
 
