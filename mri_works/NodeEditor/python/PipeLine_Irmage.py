@@ -2780,6 +2780,7 @@ class BlockCreate(QGraphicsRectItem):
                 c.exec_()
                 if c.getAnswer() == "cancel":
                     return
+                UpdateUndoRedo()
                 asq = (c.getNewValues()[0],)
                 self.updateBlock(asq)
             except (OSError, KeyError) as err:

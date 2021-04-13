@@ -26,7 +26,7 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Desktop/test_ZcutUp.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/3-N4bias_mean.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/9-Apply_Transform.dgr
