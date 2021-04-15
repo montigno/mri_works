@@ -26,9 +26,8 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Dicomifier2/Dicom_to_Nifti.dgr
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/3-N4bias_mean.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/9-Apply_Transform.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
@@ -37,7 +36,7 @@ paths:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/MotionCorrection.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/merge_zte_mean_2slices.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/0-Remove_N_volumes.dgr
-  - /home/domicile-xubuntu/Desktop/test_ZcutUp.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline_2.dgr
   modules: modules
   projects: ../data
 version: 21.02.25a
