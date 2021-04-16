@@ -2394,9 +2394,9 @@ class BlockCreate(QGraphicsRectItem):
         event.accept()
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
-    def hoverLeaveEvent(self, event):
-        self.setSelected(False)
-        return QGraphicsRectItem.hoverLeaveEvent(self, event)
+#     def hoverLeaveEvent(self, event):
+#         self.setSelected(False)
+#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def contextMenuEvent(self, event):
         menu = QMenu()
@@ -2793,7 +2793,7 @@ class BlockCreate(QGraphicsRectItem):
             greenText = greenText + (' No options available ')
             greenText = greenText + ("</span>")
             textEdit.append(greenText)
-            
+
         UpdateUndoRedo()
 
     def addinput(self):
@@ -3824,8 +3824,8 @@ class Constants(QGraphicsRectItem):
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
-    def hoverLeaveEvent(self, event):
-        self.setSelected(False)
+#     def hoverLeaveEvent(self, event):
+#         self.setSelected(False)
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, event):
