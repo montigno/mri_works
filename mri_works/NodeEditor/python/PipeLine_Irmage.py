@@ -747,7 +747,6 @@ class LoadDiagram:
 
     def __init__(self, txt):
         edit = DiagramView(editor.diagramScene[editor.currentTab])
-#         listItems[editor.currentTab] = {}
         listNd = {}
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc, listPr = {}, {}, {}, {}
@@ -938,6 +937,8 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
+        UpdateUndoRedo()
+
 
     def getValueInBrackets(self, line, args):
         res = []
@@ -1367,7 +1368,7 @@ class DiagramScene(QGraphicsScene):
         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
             listItemStored.clear()
             for el in self.selectedItems():
-                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem']:
+                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox']:
                     listItemStored[el.unit] = el
             for elnd, nod in listNodes[editor.currentTab].items():
                 a, b, c, d = nod.replace('#Node#', ':').split(':')
@@ -1376,12 +1377,21 @@ class DiagramScene(QGraphicsScene):
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
             self.clearSelection()
             self.pastItems(listItemStored)
+        elif event.key() == QtCore.Qt.Key_Delete:
+            self.deleteItems()
         return QGraphicsScene.keyPressEvent(self, event)
+    
+    def deleteItems(self):
+        for el in self.selectedItems():
+            if type(el) != LinkItem and type(el) != Wrist:
+                el.deleteItem()
+        UpdateUndoRedo()
     
     def pastItems(self, list_It):
         changeNodeName = {}
         edit = editor.diagramView[editor.currentTab]
-        
+        UpdateUndoRedo()
+
         for it, ins in list_It.items():
             try:
                 x_orig = edit.m_originX
@@ -2453,7 +2463,7 @@ class BlockCreate(QGraphicsRectItem):
             ad.triggered.connect(self.addConnectorOutputs)
             menu.addSeparator()
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteBlocks)
+            de.triggered.connect(self.deleteItem)
             pa = menu.addAction('Parameters')
             if self.category:
                 pa.triggered.connect(self.editParametersProcess)
@@ -2716,9 +2726,7 @@ class BlockCreate(QGraphicsRectItem):
                 self.editParametersSubProcess()
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            self.deleteBlocks()
-        elif event.key() == QtCore.Qt.Key_Up:
+        if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         elif event.key() == QtCore.Qt.Key_Down:
             self.setPos(self.x(), self.y() + 1)
@@ -2919,7 +2927,7 @@ class BlockCreate(QGraphicsRectItem):
         UpdateList(diagram)
         undoredoTyping[editor.currentTab][len(undoredoTyping[editor.currentTab])] = diagram
 
-    def deleteBlocks(self):
+    def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -2934,7 +2942,7 @@ class BlockCreate(QGraphicsRectItem):
             listSubMod[editor.currentTab] = ReorderList(listSubMod[editor.currentTab]).getNewList()
         editor.deleteItemsLoop(self)
         listNodes[editor.currentTab] = ReorderList(listNodes[editor.currentTab]).getNewList()
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
     def deletelink(self, linkEle, unt):
         nameItem = listNodes[editor.currentTab][linkEle.name]
@@ -3162,8 +3170,6 @@ class Probes(QGraphicsPolygonItem):
         return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            self.deleteProbe()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3173,7 +3179,7 @@ class Probes(QGraphicsPolygonItem):
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
 
-    def deleteProbe(self):
+    def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -3181,7 +3187,7 @@ class Probes(QGraphicsPolygonItem):
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listProbes[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
     def hoverLeaveEvent(self, event):
         self.setSelected(0)
@@ -3286,8 +3292,6 @@ class ConnectorItem(QGraphicsPolygonItem):
         return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            self.deleteConnct()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3302,7 +3306,7 @@ class ConnectorItem(QGraphicsPolygonItem):
             return
         menu = QMenu()
         de = menu.addAction('Delete')
-        de.triggered.connect(self.deleteConnct)
+        de.triggered.connect(self.deleteItem)
         pa = menu.addAction('Change label')
         if self.inout in 'in':
             if self.output.label.toPlainText() == 'unkn':
@@ -3348,7 +3352,7 @@ class ConnectorItem(QGraphicsPolygonItem):
             print('error change label : ', str(err))
             listConnects[editor.currentTab][self.connct] = listVal
 
-    def deleteConnct(self):
+    def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.connct + ':') != -1:
@@ -3356,7 +3360,7 @@ class ConnectorItem(QGraphicsPolygonItem):
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listConnects[editor.currentTab][self.connct]
         listConnects[editor.currentTab] = ReorderList(listConnects[editor.currentTab]).getNewList()
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
     def hoverEnterEvent(self, event):
         self.setSelected(1)
@@ -3407,9 +3411,6 @@ class CommentsItem(QGraphicsRectItem):
         return w, h
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            editor.diagramScene[editor.currentTab].removeItem(self)
-            UpdateUndoRedo()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3418,6 +3419,9 @@ class CommentsItem(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+            
+    def deleteItem(self):
+        editor.diagramScene[editor.currentTab].removeItem(self)
 
 class LabelGroup(QGraphicsTextItem):
 
@@ -3568,8 +3572,6 @@ class Checkbox(QGraphicsRectItem):
         listConstants[editor.currentTab][self.unit] = (self.form, self.listItemsBox, self.label)
     
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            self.deleteConstant()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3618,7 +3620,7 @@ class Checkbox(QGraphicsRectItem):
         if self.isMod:
             menu = QMenu()
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteConstant)
+            de.triggered.connect(self.deleteItem)
             ca = menu.addAction('Check on all items')
             ca.triggered.connect(self.checkOn)
             fa = menu.addAction('Check off all items')
@@ -3627,7 +3629,7 @@ class Checkbox(QGraphicsRectItem):
             pa.triggered.connect(self.changeLabel)
             menu.exec_(event.screenPos())
             
-    def deleteConstant(self):
+    def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -3636,7 +3638,7 @@ class Checkbox(QGraphicsRectItem):
         del listConstants[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
         
     def checkOn(self):
         self.listItemsBox = []
@@ -3834,7 +3836,7 @@ class Constants(QGraphicsRectItem):
         if self.isMod:
             menu = QMenu()
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteConstant)
+            de.triggered.connect(self.deleteItem)
             pa = menu.addAction('Change label')
             pa.triggered.connect(self.changeLabel)
             menu.exec_(event.screenPos())
@@ -3904,8 +3906,6 @@ class Constants(QGraphicsRectItem):
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Delete:
-            self.deleteConstant()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3916,7 +3916,7 @@ class Constants(QGraphicsRectItem):
             self.setPos(self.x() + 1, self.y())
 #         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
 
-    def deleteConstant(self):
+    def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -3925,7 +3925,7 @@ class Constants(QGraphicsRectItem):
         del listConstants[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-        UpdateUndoRedo()
+#         UpdateUndoRedo()
 
 ###############################################################################
 
@@ -4756,9 +4756,6 @@ class ScriptItem(QGraphicsRectItem):
         listItemStored.clear()
     
     def keyPressEvent(self, keyEvent):
-        if keyEvent.key() == QtCore.Qt.Key_Delete:
-            self.deleteScript()
-            UpdateUndoRedo()
         if keyEvent.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if keyEvent.key() == QtCore.Qt.Key_Down:
@@ -4869,14 +4866,14 @@ class ScriptItem(QGraphicsRectItem):
             outtu = menu.addAction('Add output')
             outtu.triggered.connect(self.add_Output)
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteScript)
+            de.triggered.connect(self.deleteItem)
             ct = menu.addAction('Change title')
             ct.triggered.connect(self.changeTitle)
             menu.exec_(event.screenPos())
 #             event.accept()
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
-    def deleteScript(self):
+    def deleteItem(self):
         editor.diagramScene[editor.currentTab].removeItem(self)
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
