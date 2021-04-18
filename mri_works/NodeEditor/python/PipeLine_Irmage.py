@@ -7,8 +7,8 @@
 ##########################################################################
 
 '''
-Created on 14 december 2017
-Last modification on 27 jan. 2021
+Created on 14 December 2017
+Last modification on 18 Apr. 2021
 @author: omonti
 '''
 
@@ -1259,6 +1259,7 @@ class UpdateUndoRedo:
 class DiagramScene(QGraphicsScene):
 
     def __init__(self, parent=None):
+        global listItemStored
         super(DiagramScene, self).__init__(parent)
         self.prevItem = []
         self._selectedItemVec = deque()
@@ -1362,23 +1363,97 @@ class DiagramScene(QGraphicsScene):
             .fitInView(self.sceneRect(), QtCore.Qt.KeepAspectRatio)
         editor.diagramView[editor.currentTab].scale(0.8, 0.8)
         
-#     def keyPressEvent(self, event):
-#         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-#             for elit, itm in listItems[editor.currentTab].items():
-#                 if itm.isSelected():
-#                     listItemStored[elit] = itm
-#             for elnd, nod in listNodes[editor.currentTab].items():
-#                 a, b, c, d = nod.replace('#Node#', ':').split(':')
-#                 if a in listItemStored.keys() and c in listItemStored.keys():
-#                     listItemStored[elnd] = nod
-#         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
-#             self.pastItems(listItemStored)
-#         return QGraphicsScene.keyPressEvent(self, event)
-#     
-#     def pastItems(self, listItems):
-#         changeNodeName = {}
-#         for it, ins in listItems.items():
-#             print(it, ins)
+    def keyPressEvent(self, event):
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            listItemStored.clear()
+            for el in self.selectedItems():
+                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem']:
+                    listItemStored[el.unit] = el
+            for elnd, nod in listNodes[editor.currentTab].items():
+                a, b, c, d = nod.replace('#Node#', ':').split(':')
+                if a in listItemStored.keys() and c in listItemStored.keys():
+                    listItemStored[elnd] = nod
+        elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
+            self.clearSelection()
+            self.pastItems(listItemStored)
+        return QGraphicsScene.keyPressEvent(self, event)
+    
+    def pastItems(self, list_It):
+        changeNodeName = {}
+        edit = editor.diagramView[editor.currentTab]
+        
+        for it, ins in list_It.items():
+            try:
+                x_orig = edit.m_originX
+                y_orig = edit.m_originY
+                posRe = (ins.pos().x() + 100, ins.pos().y() + 100, ins.boundingRect().width(), ins.boundingRect().height())
+            except Exception as e:
+                posRe = (0, 0, 100, 100)
+                
+            if type(ins) == ConnectorItem:
+                if 'in' in ins.inout:
+                    self.addInputConn(x_orig, y_orig)
+                else:
+                    self.addOutputConn(x_orig, y_orig)
+#                 ball = edit.returnBlockSystem()
+                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+                
+            if type(ins) == BlockCreate:
+                if ins.category is not None:
+                    edit.loadBlock('newBlock', ins.name, ins.category, posRe, *ins.inout)
+                else:
+                    edit.loadMod('newSubMod', ins.name, posRe)
+                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+
+            if type(ins) == ScriptItem:
+                edit.loadScriptItem('newScript', ins.name, posRe, ins.inout[0], ins.inout[1])
+                ball = edit.returnBlockSystem()
+                ball.elemProxy.setText(ins.elemProxy.toPlainText())
+                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+ 
+            if type(ins) == CommentsItem:
+                edit.loadComments(posRe, ins.label.toPlainText())
+ 
+            if type(ins) == Constants:
+                edit.loadConstant('newConstant', posRe, ins.val, ins.form, '')
+                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+ 
+            if type(ins) == Probes:
+                edit.loadProbe('new', ins.label, 'unkn', posRe)
+                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+
+        for it, nod in list_It.items():
+            if 'N' in it:
+                a, b, c, d = nod.replace('#Node#', ':').split(':')
+                a = changeNodeName[a]
+                c = changeNodeName[c]
+                tmp = listItems[editor.currentTab][a]
+                tmp.setSelected(1)
+                for lin in tmp.outputs:
+                    if type(lin) == Port and lin.name == b:
+                        fromPort = lin
+                        break
+                tmp = listItems[editor.currentTab][c]
+                tmp.setSelected(1)
+                for lin in tmp.inputs:
+                    if type(lin) == Port and lin.name == d:
+                        toPort = lin
+                        break
+#                 print(it, fromPort.unit, fromPort.name, toPort.unit, toPort.name)
+                NodeExist = True
+                inc = 0
+                while NodeExist:
+                    if 'N' + str(inc) in listNodes[editor.currentTab]:
+                        inc += 1
+                    else:
+                        NodeExist = False
+                unitLink = 'N' + str(inc)
+                listNodes[editor.currentTab][unitLink] = a + ':' + b + '#Node#' + c + ':' + d
+                startConnection = Connection(unitLink, fromPort, toPort, fromPort.format)
+                startConnection.setEndPos(toPort.scenePos())
+                startConnection.setToPort(toPort)
+
+        UpdateUndoRedo()
 
 class DiagramView(QGraphicsView):
 
@@ -1626,43 +1701,6 @@ class DiagramView(QGraphicsView):
 
     def returnBlockSystem(self):
         return self.ball
-
-    def keyPressEvent(self, event):
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
-            try:
-                posRe = (self.m_originX, self.m_originY, itemStored.boundingRect().width(), itemStored.boundingRect().height())
-            except Exception as e:
-                posRe = (0, 0, 100, 100)
-
-            if type(itemStored) == ConnectorItem:
-                if 'in' in itemStored.inout:
-                    self.scene().addInputConn(self.m_originX, self.m_originY)
-                else:
-                    self.scene().addOutputConn(self.m_originX, self.m_originY)
-                UpdateUndoRedo()
-
-            if type(itemStored) == BlockCreate:
-                if itemStored.category is not None:
-                    ind = 0
-                    for i, j in enumerate(editor.getlib()):
-                        if j[0] == itemStored.name:
-                            ind = i
-                            break
-                    self.loadBlock('newBlock', itemStored.name, itemStored.category, posRe, editor.getlib()[ind][2])
-                else:
-                    self.loadMod('newSubMod', itemStored.name, posRe)
-
-            if type(itemStored) == CommentsItem:
-                self.loadComments(posRe, itemStored.label.toPlainText())
-
-            if type(itemStored) == Constants:
-                self.loadConstant('newConstant', posRe, itemStored.val, itemStored.form, '')
-
-            if type(itemStored) == Probes:
-                self.loadProbe('new', itemStored.label, 'unkn', posRe)
-
-            UpdateUndoRedo()
-        return QGraphicsView.keyPressEvent(self, event)
 
 
 class PreviewBlock(QGraphicsView):
@@ -2678,7 +2716,6 @@ class BlockCreate(QGraphicsRectItem):
                 self.editParametersSubProcess()
 
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteBlocks()
         elif event.key() == QtCore.Qt.Key_Up:
@@ -2689,8 +2726,6 @@ class BlockCreate(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         elif event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
         elif event.key() == QtCore.Qt.Key_Plus and '_dyn' in self.name:
             self.addinput()
         elif event.key() == QtCore.Qt.Key_Minus and '_dyn' in self.name:
@@ -3127,7 +3162,6 @@ class Probes(QGraphicsPolygonItem):
         return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteProbe()
         if event.key() == QtCore.Qt.Key_Up:
@@ -3138,8 +3172,6 @@ class Probes(QGraphicsPolygonItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
 
     def deleteProbe(self):
         for elem in editor.diagramView[editor.currentTab].items():
@@ -3254,7 +3286,6 @@ class ConnectorItem(QGraphicsPolygonItem):
         return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteConnct()
         if event.key() == QtCore.Qt.Key_Up:
@@ -3265,8 +3296,6 @@ class ConnectorItem(QGraphicsPolygonItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
 
     def contextMenuEvent(self, event):
         if not self.isSelected():
@@ -3378,7 +3407,6 @@ class CommentsItem(QGraphicsRectItem):
         return w, h
 
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             editor.diagramScene[editor.currentTab].removeItem(self)
             UpdateUndoRedo()
@@ -3390,9 +3418,6 @@ class CommentsItem(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
-
 
 class LabelGroup(QGraphicsTextItem):
 
@@ -3543,7 +3568,6 @@ class Checkbox(QGraphicsRectItem):
         listConstants[editor.currentTab][self.unit] = (self.form, self.listItemsBox, self.label)
     
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteConstant()
         if event.key() == QtCore.Qt.Key_Up:
@@ -3554,8 +3578,6 @@ class Checkbox(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
 #         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
             
     def mouseDoubleClickEvent(self, event):
@@ -3819,8 +3841,6 @@ class Constants(QGraphicsRectItem):
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
     def hoverEnterEvent(self, event):
-        global itemStored
-        itemStored = None
         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
@@ -3849,8 +3869,6 @@ class Constants(QGraphicsRectItem):
 #             editor.blockSelection(self)
 
     def mouseDoubleClickEvent(self, event):
-        global itemStored
-        itemStored = None
         if self.isMod:
             if type(self.elemProxy) == Constants_Combo and self.form != 'bool':
                 AllItems = [self.elemProxy.itemText(i) for i in range(self.elemProxy.count())]
@@ -3886,7 +3904,6 @@ class Constants(QGraphicsRectItem):
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 
     def keyPressEvent(self, event):
-        global itemStored
         if event.key() == QtCore.Qt.Key_Delete:
             self.deleteConstant()
         if event.key() == QtCore.Qt.Key_Up:
@@ -3897,8 +3914,6 @@ class Constants(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            itemStored = self
 #         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
 
     def deleteConstant(self):
@@ -4656,6 +4671,7 @@ class ForLoopItem(QGraphicsRectItem):
 class ScriptItem(QGraphicsRectItem):
 
     def __init__(self, unit, name, w, h, isMod, *inout, parent=None):
+        global listItemStored
         super(ScriptItem, self).__init__(None)
         self.setBrush((QtGui.QBrush(QColor(80, 80, 80, 200))))
         self.setPen(QtGui.QPen(QColor(160, 160, 160, 255), 8))
@@ -4672,6 +4688,7 @@ class ScriptItem(QGraphicsRectItem):
         self.preview = False
         self.loopIf = False
         self.name = name
+        self.inout = inout
 
         self.setAcceptHoverEvents(True)
 
@@ -4718,6 +4735,7 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
+        self.elemProxy.mousePressEvent = self.eraseItemsStored
         PythonHighlighter(self.elemProxy)
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
@@ -4733,7 +4751,10 @@ class ScriptItem(QGraphicsRectItem):
             self.resize.setFlag(self.resize.ItemIsSelectable, True)
             self.resize.wmin = self.wmin
             self.resize.hmin = self.hmin
-
+            
+    def eraseItemsStored(self, event):
+        listItemStored.clear()
+    
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
             self.deleteScript()
@@ -4770,8 +4791,6 @@ class ScriptItem(QGraphicsRectItem):
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def hoverEnterEvent(self, event):
-        global itemStored
-        itemStored = None
         self.setSelected(True)
         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
@@ -4895,6 +4914,7 @@ class ScriptItem(QGraphicsRectItem):
                 listEnter = [[portIn.name, portIn.typeio, portIn.format]]
 
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
+            self.inout = [listEnter, listOut]
             UpdateUndoRedo()
 
     def add_Output(self):
@@ -4917,6 +4937,7 @@ class ScriptItem(QGraphicsRectItem):
                 listOut = [[portOut.name, portOut.typeio, portOut.format]]
 
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
+            self.inout = [listEnter, listOut]
             UpdateUndoRedo()
 
     def updateInput(self, inp):
@@ -5841,15 +5862,14 @@ class NodeEdit(QWidget):
         global previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, listProbes
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
-        global undoredoTyping, pointTyping, itemStored, listItemStored
+        global undoredoTyping, pointTyping, listItemStored
         global listConfigModul, currentpathwork
 
         editor = self
         textInf = textInfo
-        itemStored = None
+        listItemStored = {}
         listStand = []
         listImport = []
-        listItemStored = {}
 
         currentpathwork = os.path.dirname(os.path.realpath(__file__))
         currentpathwork = str(os.path.join(currentpathwork, '../examples'))
