@@ -69,6 +69,7 @@ class Menu(QMenuBar):
 
     def __init__(self, parent=None):
         QMenuBar.__init__(self, parent)
+        global undoredoTyping, pointTyping
         self.setFixedHeight(30)
         hist = Config().getPathHistories()
         self.Dictexamples = {}
@@ -519,8 +520,9 @@ class Menu(QMenuBar):
             ct = editor.currentTab
             if pointTyping[ct] > 0:
                 pointTyping[ct] -= 1
-                for item in editor.diagramScene[ct].items():
-                    editor.diagramScene[ct].removeItem(item)
+                editor.diagramScene[ct].clear()
+#                 for item in editor.diagramScene[ct].items():
+#                     editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -529,8 +531,9 @@ class Menu(QMenuBar):
             ct = editor.currentTab
             if pointTyping[ct] < len(undoredoTyping[ct]) - 1:
                 pointTyping[ct] += 1
-                for item in editor.diagramScene[ct].items():
-                    editor.diagramScene[ct].removeItem(item)
+                editor.diagramScene[ct].clear()
+#                 for item in editor.diagramScene[ct].items():
+#                     editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -937,8 +940,6 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
-        UpdateUndoRedo()
-
 
     def getValueInBrackets(self, line, args):
         res = []
@@ -1138,14 +1139,15 @@ class UpdateList:
         listConstants[editor.currentTab].clear()
         listTools[editor.currentTab].clear()
         libTools[editor.currentTab].clear()
+        listUnit = []
 
         for line in txt.splitlines():
-
+            unit=''
+            
             if line[0:4] == 'link':
-                nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('node=') + 6:len(line) - 1]
-
-                listNodes[editor.currentTab][nameNode] = line
+                listNodes[editor.currentTab][unit] = line
 
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -1155,7 +1157,6 @@ class UpdateList:
                 classs = line[0:line.index(']')]
                 line = line[line.index('valInputs=') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF=')]
-
                 listBlocks[editor.currentTab][unit] = (classs, cat, eval(Vinput))
 
             elif line[0:6] == 'submod':
@@ -1164,7 +1165,6 @@ class UpdateList:
                 nameMod = line[0:line.index(']')]
                 line = line[line.index('valInputs=') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF=')]
-
                 listSubMod[editor.currentTab][unit] = (nameMod, eval(Vinput))
 
             elif line[0:5] == 'connt':
@@ -1238,10 +1238,17 @@ class UpdateList:
                 line = line[line.index('code=') + 6:len(line)]
                 code = line[0:line.index('] RectF=')]
                 line = line[line.index('RectF=') + 7:len(line)]
-
                 listTools[editor.currentTab][unit] = code
                 libTools[editor.currentTab][unit] = [eval(inp), eval(outp)]
-
+            
+            if unit:   
+                listUnit.append(unit)
+        
+        listItemsTmp = listItems[editor.currentTab].copy()
+        for lstUnit in listItemsTmp.keys():
+            if not lstUnit in listUnit:
+                del listItems[editor.currentTab][lstUnit]
+           
 
 class UpdateUndoRedo:
 
@@ -1388,82 +1395,98 @@ class DiagramScene(QGraphicsScene):
         UpdateUndoRedo()
     
     def pastItems(self, list_It):
-        changeNodeName = {}
         edit = editor.diagramView[editor.currentTab]
-        UpdateUndoRedo()
-
-        for it, ins in list_It.items():
+        
+        listUnitOld = list_It.keys()
+        listUnitNew = []
+        changeUnit = {}
+  
+        listItemsTmp = list(listItems[editor.currentTab].keys())
+        listNodesTmp = list(listNodes[editor.currentTab].keys())
+                       
+        for k_un in listUnitOld:
+            lst = listItemsTmp + listNodesTmp + listUnitNew
+            new_unit = self.searchUnit(lst, k_un[0])
+            listUnitNew.append(new_unit)
+            changeUnit[k_un] = new_unit
+        
+        # print('changeUnit = ', changeUnit)
+        
+        for nameUnit, ins in list_It.items():
             try:
                 x_orig = edit.m_originX
                 y_orig = edit.m_originY
                 posRe = (ins.pos().x() + 100, ins.pos().y() + 100, ins.boundingRect().width(), ins.boundingRect().height())
             except Exception as e:
                 posRe = (0, 0, 100, 100)
-                
-            if type(ins) == ConnectorItem:
-                if 'in' in ins.inout:
-                    self.addInputConn(x_orig, y_orig)
-                else:
-                    self.addOutputConn(x_orig, y_orig)
-#                 ball = edit.returnBlockSystem()
-                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
-                
-            if type(ins) == BlockCreate:
-                if ins.category is not None:
-                    edit.loadBlock('newBlock', ins.name, ins.category, posRe, *ins.inout)
-                else:
-                    edit.loadMod('newSubMod', ins.name, posRe)
-                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
+            if nameUnit[0] in ['U', 'M']:
+                tmpVal1 = ins.inout[0][1]
+                newVal1 = []
+                for lst in tmpVal1:
+                    newV = lst
+                    try:
+                        if 'Node' in lst:
+                            unitNode = lst[lst.index('(')+1:lst.index(')')]
+                            if unitNode in listUnitNew:
+                                newV = lst.replace(unitNode, changeUnit[unitNode])
+                            else:
+                                newV = ''# searching in list library or yml
+                    except:
+                        pass
+                    newVal1.append(newV)
 
-            if type(ins) == ScriptItem:
-                edit.loadScriptItem('newScript', ins.name, posRe, ins.inout[0], ins.inout[1])
+                new_inout = ((ins.inout[0][0], newVal1, ins.inout[0][2], ins.inout[0][3]),)
+                if 'U' in nameUnit:
+                    edit.loadBlock(changeUnit[nameUnit], ins.name, ins.category, posRe,*new_inout)
+                else:
+                    edit.loadMod(changeUnit[nameUnit], ins.name, posRe, *new_inout)
+            if 'A' in nameUnit:
+                edit.loadConstant(changeUnit[nameUnit], posRe, ins.val, ins.form, ins.label)
+            if 'S' in nameUnit:
+                edit.loadScriptItem(changeUnit[nameUnit], ins.name, posRe, ins.inout[0], ins.inout[1])
                 ball = edit.returnBlockSystem()
                 ball.elemProxy.setText(ins.elemProxy.toPlainText())
-                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
- 
-            if type(ins) == CommentsItem:
-                edit.loadComments(posRe, ins.label.toPlainText())
- 
-            if type(ins) == Constants:
-                edit.loadConstant('newConstant', posRe, ins.val, ins.form, '')
-                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
- 
-            if type(ins) == Probes:
-                edit.loadProbe('new', ins.label, 'unkn', posRe)
-                changeNodeName[ins.unit] = edit.returnBlockSystem().unit
-
-        for it, nod in list_It.items():
-            if 'N' in it:
-                a, b, c, d = nod.replace('#Node#', ':').split(':')
-                a = changeNodeName[a]
-                c = changeNodeName[c]
+            if 'P' in nameUnit:
+                edit.loadProbe(changeUnit[nameUnit], ins.label, 'unkn', posRe)
+            
+            edit.returnBlockSystem().setSelected(1)
+        
+        for nameUnit, ins in list_It.items():
+            if 'N' in nameUnit:
+                a, b, c, d = ins.replace('#Node#', ':').split(':')
+                a = changeUnit[a]
+                c = changeUnit[c]
+                newNode = changeUnit[nameUnit]
+                listNodes[editor.currentTab][newNode] = a + ':' + b + '#Node#' + c + ':' + d
                 tmp = listItems[editor.currentTab][a]
-                tmp.setSelected(1)
-                for lin in tmp.outputs:
-                    if type(lin) == Port and lin.name == b:
-                        fromPort = lin
-                        break
+#                 tmp.setSelected(1)
+                if 'A' in a:
+                    fromPort = tmp.outputs[0]
+                else:
+                    for lin in tmp.outputs:
+                        if type(lin) == Port and lin.name == b:
+                            fromPort = lin
+                            break
                 tmp = listItems[editor.currentTab][c]
-                tmp.setSelected(1)
+#                 tmp.setSelected(1)
                 for lin in tmp.inputs:
                     if type(lin) == Port and lin.name == d:
                         toPort = lin
                         break
-#                 print(it, fromPort.unit, fromPort.name, toPort.unit, toPort.name)
-                NodeExist = True
-                inc = 0
-                while NodeExist:
-                    if 'N' + str(inc) in listNodes[editor.currentTab]:
-                        inc += 1
-                    else:
-                        NodeExist = False
-                unitLink = 'N' + str(inc)
-                listNodes[editor.currentTab][unitLink] = a + ':' + b + '#Node#' + c + ':' + d
-                startConnection = Connection(unitLink, fromPort, toPort, fromPort.format)
+                startConnection = Connection(newNode, fromPort, toPort, fromPort.format)
                 startConnection.setEndPos(toPort.scenePos())
                 startConnection.setToPort(toPort)
-
         UpdateUndoRedo()
+        
+    def searchUnit(self, list, char_unit):
+        NodeExist = True
+        inc = 0
+        while NodeExist:
+            if char_unit + str(inc) in list:
+                inc += 1
+            else:
+                NodeExist = False
+        return char_unit + str(inc)
 
 class DiagramView(QGraphicsView):
 
@@ -2241,7 +2264,7 @@ class SubProcessItem():
         wminIn = 0.0
         wminOut = 0.0
 
-        if unit in 'newSubMod':
+        if unit in 'newSubMod' or unit in 'pastSubmod':
             SubModExist = True
             inc = 0
             while SubModExist:
@@ -2256,7 +2279,8 @@ class SubProcessItem():
                 if j[0] == self.name:
                     indMod = i
                     break
-            inout = (libSubMod[indMod][1][0],)
+            if unit in 'newSubMod':
+                inout = (libSubMod[indMod][1][0],)
 
         else:
             self.unit = unit
@@ -6730,7 +6754,7 @@ class NodeEdit(QWidget):
                         listProbes[editor.currentTab][c] = (tmpformat, tmp[1])
 
                     listNodes[editor.currentTab][nt] = a + ':' + b + '#Node#' + c + ':' + d
-                    UpdateUndoRedo()
+#                     UpdateUndoRedo()
 
 # attribute constants combobox value automatically ######################
                     if 'A' in a and 'enumerate' in str(oldVal):
@@ -6778,5 +6802,6 @@ class NodeEdit(QWidget):
                     greenText = greenText + ('Connection ok')
                     greenText = greenText + ("</span><br>")
                     textEdit.append(greenText)
-
+                    
+                    UpdateUndoRedo()
             self.startConnection = None

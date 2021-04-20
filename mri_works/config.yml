@@ -25,9 +25,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams:
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Dicomifier2/Dicom_to_Nifti.dgr
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/SubMod/canny_3_modules.dgr
+  diagrams: []
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
