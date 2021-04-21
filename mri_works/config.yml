@@ -25,11 +25,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams:
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Dicomifier2/Dicom_to_Nifti.dgr
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/SubMod/canny_3_modules.dgr
+  diagrams: []
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
@@ -39,6 +36,7 @@ paths:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/Full_pipeline_2.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/4-Display.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/domicile-xubuntu/Desktop/test_copy_past.dgr
   modules: modules
   projects: ../data
-version: 21.02.25a
+version: 21.04.20a
