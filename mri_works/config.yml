@@ -25,16 +25,7 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-<<<<<<< HEAD
-<<<<<<< HEAD
   diagrams: []
-=======
-  diagrams:
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Others/Fibonacci.dgr
->>>>>>> devpt
-=======
-  diagrams: []
->>>>>>> devpt
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr
@@ -48,8 +39,4 @@ paths:
   - /home/domicile-xubuntu/Desktop/test_copy_past.dgr
   modules: modules
   projects: ../data
-<<<<<<< HEAD
-version: 21.04.20a
-=======
 version: 21.04.20b
->>>>>>> devpt
