@@ -521,8 +521,6 @@ class Menu(QMenuBar):
             if pointTyping[ct] > 0:
                 pointTyping[ct] -= 1
                 editor.diagramScene[ct].clear()
-#                 for item in editor.diagramScene[ct].items():
-#                     editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -532,8 +530,6 @@ class Menu(QMenuBar):
             if pointTyping[ct] < len(undoredoTyping[ct]) - 1:
                 pointTyping[ct] += 1
                 editor.diagramScene[ct].clear()
-#                 for item in editor.diagramScene[ct].items():
-#                     editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -1376,7 +1372,7 @@ class DiagramScene(QGraphicsScene):
             listItemStored.clear()
             for el in self.selectedItems():
                 if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox']:
-                    listItemStored[el.unit] = el
+                    listItemStored[el.unit] = listItems[editor.currentTab][el.unit]
             for elnd, nod in listNodes[editor.currentTab].items():
                 a, b, c, d = nod.replace('#Node#', ':').split(':')
                 if a in listItemStored.keys() and c in listItemStored.keys():
@@ -1410,8 +1406,6 @@ class DiagramScene(QGraphicsScene):
             listUnitNew.append(new_unit)
             changeUnit[k_un] = new_unit
         
-        # print('changeUnit = ', changeUnit)
-        
         for nameUnit, ins in list_It.items():
             try:
                 x_orig = edit.m_originX
@@ -1419,10 +1413,13 @@ class DiagramScene(QGraphicsScene):
                 posRe = (ins.pos().x() + 100, ins.pos().y() + 100, ins.boundingRect().width(), ins.boundingRect().height())
             except Exception as e:
                 posRe = (0, 0, 100, 100)
+#             if type(ins) == CommentsItem:
+#                 edit.loadComments(posRe, ins.label.toPlainText())
             if nameUnit[0] in ['U', 'M']:
                 tmpVal1 = ins.inout[0][1]
                 newVal1 = []
                 for lst in tmpVal1:
+                    print('lst = ', lst)
                     newV = lst
                     try:
                         if 'Node' in lst:
@@ -1430,7 +1427,8 @@ class DiagramScene(QGraphicsScene):
                             if unitNode in listUnitNew:
                                 newV = lst.replace(unitNode, changeUnit[unitNode])
                             else:
-                                newV = ''# searching in list library or yml
+                                searchInitialValueBlock(ins.name, lst)
+#                                 newV = '' # searching in list library or yml
                     except:
                         pass
                     newVal1.append(newV)
@@ -3128,7 +3126,20 @@ class BlockCreate(QGraphicsRectItem):
         LoadDiagram(txt)
         editor.diagramView[editor.currentTab].fitInView(editor.diagramScene[editor.currentTab].sceneRect(), QtCore.Qt.KeepAspectRatio)
 
-
+class searchInitialValueBlock:
+    def __init__(self, className, inputName):
+        for i, j in enumerate(self.getlib()):
+            if j[0] == name:
+                inds = i
+                break
+        inout = editor.getlib()[inds]
+        listEnter = inout[2][0]
+        listValDefault = inout[2][1]
+        print('listEnter, listValDefault : ',listEnter, listValDefault)
+#         if '_dyn' in className:
+            
+        
+        
 class Probes(QGraphicsPolygonItem):
     def __init__(self, unit='', format='unkn', label='', isMod=True, parent=None):
         super(Probes, self).__init__(parent)
@@ -6618,7 +6629,7 @@ class NodeEdit(QWidget):
                         ###################################################
                         del listBlocks[editor.currentTab][c]
                         listBlocks[editor.currentTab][c] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
-
+                        
                     if 'M' in c:
                         listVal = listSubMod[editor.currentTab][c]
 
