@@ -1263,7 +1263,7 @@ class UpdateUndoRedo:
 class DiagramScene(QGraphicsScene):
 
     def __init__(self, parent=None):
-        global listItemStored
+        global listItemStored, listBlSmStored
         super(DiagramScene, self).__init__(parent)
         self.prevItem = []
         self._selectedItemVec = deque()
@@ -1370,16 +1370,25 @@ class DiagramScene(QGraphicsScene):
     def keyPressEvent(self, event):
         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
             listItemStored.clear()
+            listBlSmStored.clear()
             for el in self.selectedItems():
                 if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox']:
-                    listItemStored[el.unit] = listItems[editor.currentTab][el.unit]
+                    listItemStored[el.unit] = el
+                    if 'U' in el.unit:
+                        listBlSmStored[el.unit] = listBlocks[editor.currentTab][el.unit]
+                    elif 'M' in el.unit:
+                        listBlSmStored[el.unit] = listSubMod[editor.currentTab][el.unit]
+                    elif 'A' in el.unit:
+                        listBlSmStored[el.unit] = listConstants[editor.currentTab][el.unit]
+                    elif 'S' in el.unit:
+                        listBlSmStored[el.unit] = el.elemProxy.toPlainText()
             for elnd, nod in listNodes[editor.currentTab].items():
                 a, b, c, d = nod.replace('#Node#', ':').split(':')
                 if a in listItemStored.keys() and c in listItemStored.keys():
                     listItemStored[elnd] = nod
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
             self.clearSelection()
-            self.pastItems(listItemStored)
+            self.pastItems(listItemStored, listBlSmStored)
         elif event.key() == QtCore.Qt.Key_Delete:
             self.deleteItems()
         return QGraphicsScene.keyPressEvent(self, event)
@@ -1390,7 +1399,7 @@ class DiagramScene(QGraphicsScene):
                 el.deleteItem()
         UpdateUndoRedo()
     
-    def pastItems(self, list_It):
+    def pastItems(self, list_It, list_Bl_Sm):
         edit = editor.diagramView[editor.currentTab]
         
         listUnitOld = list_It.keys()
@@ -1413,37 +1422,54 @@ class DiagramScene(QGraphicsScene):
                 posRe = (ins.pos().x() + 100, ins.pos().y() + 100, ins.boundingRect().width(), ins.boundingRect().height())
             except Exception as e:
                 posRe = (0, 0, 100, 100)
-#             if type(ins) == CommentsItem:
-#                 edit.loadComments(posRe, ins.label.toPlainText())
-            if nameUnit[0] in ['U', 'M']:
-                tmpVal1 = ins.inout[0][1]
-                newVal1 = []
-                for lst in tmpVal1:
-                    print('lst = ', lst)
-                    newV = lst
+                
+            if 'U' in nameUnit:
+                tmpVal = list_Bl_Sm[nameUnit][2]
+                newVal = []
+                for lst in range(len(tmpVal[0])):
+                    newV = tmpVal[1][lst]
                     try:
-                        if 'Node' in lst:
-                            unitNode = lst[lst.index('(')+1:lst.index(')')]
-                            if unitNode in listUnitNew:
-                                newV = lst.replace(unitNode, changeUnit[unitNode])
+                        if 'Node' in newV:
+                            unitNode = newV[newV.index('(')+1:newV.index(')')]
+                            if unitNode in listUnitOld:
+                                newV = newV.replace(unitNode, changeUnit[unitNode])
                             else:
-                                searchInitialValueBlock(ins.name, lst)
-#                                 newV = '' # searching in list library or yml
+                                newV = searchInitialValueBlock(ins.name, tmpVal[0][lst]).getValue()
                     except:
                         pass
-                    newVal1.append(newV)
-
-                new_inout = ((ins.inout[0][0], newVal1, ins.inout[0][2], ins.inout[0][3]),)
-                if 'U' in nameUnit:
-                    edit.loadBlock(changeUnit[nameUnit], ins.name, ins.category, posRe,*new_inout)
-                else:
-                    edit.loadMod(changeUnit[nameUnit], ins.name, posRe, *new_inout)
+                    newVal.append(newV)
+                new_inout = ((ins.inout[0][0], newVal, ins.inout[0][2], ins.inout[0][3]),)
+                edit.loadBlock(changeUnit[nameUnit], ins.name, ins.category, posRe,*new_inout)
+            if 'M' in nameUnit:
+                tmpVal = list_Bl_Sm[nameUnit][1]
+                newVal = []
+                for lst in range(len(tmpVal[0])):
+                    newV = tmpVal[1][lst]
+                    try:
+                        if 'Node' in newV:
+                            unitNode = newV[newV.index('(')+1:newV.index(')')]
+                            if unitNode in listUnitOld:
+                                newV = newV.replace(unitNode, changeUnit[unitNode])
+                            else:
+                                newV = searchInitialValueSubMod(ins.name, tmpVal[0][lst]).getValue()
+                    except:
+                        pass
+                    newVal.append(newV)
+                new_inout = ((ins.inout[0][0], newVal, ins.inout[0][2], ins.inout[0][3]),)
+                edit.loadMod(changeUnit[nameUnit], ins.name, posRe, *new_inout)
             if 'A' in nameUnit:
-                edit.loadConstant(changeUnit[nameUnit], posRe, ins.val, ins.form, ins.label)
+                values = list_Bl_Sm[nameUnit]
+                if ins.format == 'path':
+                    form = 'path'
+                    val = values[1][1:-1] # to remove guillemet
+                else:
+                    form = values[0]
+                    val = values[1]
+                edit.loadConstant(changeUnit[nameUnit], posRe, val, form, ins.label)
             if 'S' in nameUnit:
                 edit.loadScriptItem(changeUnit[nameUnit], ins.name, posRe, ins.inout[0], ins.inout[1])
                 ball = edit.returnBlockSystem()
-                ball.elemProxy.setText(ins.elemProxy.toPlainText())
+                ball.elemProxy.setText(list_Bl_Sm[nameUnit])
             if 'P' in nameUnit:
                 edit.loadProbe(changeUnit[nameUnit], ins.label, 'unkn', posRe)
             
@@ -3128,17 +3154,48 @@ class BlockCreate(QGraphicsRectItem):
 
 class searchInitialValueBlock:
     def __init__(self, className, inputName):
-        for i, j in enumerate(self.getlib()):
-            if j[0] == name:
+        inds = 0
+        for i, j in enumerate(editor.getlib()):
+            if j[0] == className:
                 inds = i
                 break
         inout = editor.getlib()[inds]
         listEnter = inout[2][0]
         listValDefault = inout[2][1]
-        print('listEnter, listValDefault : ',listEnter, listValDefault)
-#         if '_dyn' in className:
-            
-        
+        self.val = ''
+        if inputName in listEnter:
+            self.val = listValDefault[listEnter.index(inputName)]
+        else:
+            if '_dyn' in className:
+                self.val = listValDefault[-1]
+            else:
+                category = inout[1]
+                cat = category.split('.')
+                pathYml = os.path.dirname(os.path.realpath(__file__))
+                pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
+                if os.path.exists(pathYml):
+                    with open(pathYml, 'r', encoding='utf8') as stream:
+                        dicts = yaml.load(stream, yaml.FullLoader)
+                        self.val = dicts[className][inputName]
+
+    def getValue(self):
+        return self.val
+    
+class searchInitialValueSubMod:
+    def __init__(self, className, inputName):
+        inds = 0
+        for i, j in enumerate(libSubMod):
+            if j[0] == className:
+                inds = i
+                break
+        inout = libSubMod[inds]
+        listEnter = inout[1][0][0]
+        listValDefault = inout[1][0][1]
+        self.val = listValDefault[listEnter.index(inputName)]
+
+    def getValue(self):
+        return self.val
+
         
 class Probes(QGraphicsPolygonItem):
     def __init__(self, unit='', format='unkn', label='', isMod=True, parent=None):
@@ -4723,6 +4780,8 @@ class ScriptItem(QGraphicsRectItem):
         self.preview = False
         self.loopIf = False
         self.name = name
+        if not inout:
+            inout=[[],[]]
         self.inout = inout
 
         self.setAcceptHoverEvents(True)
@@ -5894,12 +5953,12 @@ class NodeEdit(QWidget):
         global previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, listProbes
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
-        global undoredoTyping, pointTyping, listItemStored
+        global undoredoTyping, pointTyping, listItemStored, listBlSmStored
         global listConfigModul, currentpathwork
 
         editor = self
         textInf = textInfo
-        listItemStored = {}
+        listItemStored, listBlSmStored = {}, {}
         listStand = []
         listImport = []
 
@@ -6629,6 +6688,7 @@ class NodeEdit(QWidget):
                         ###################################################
                         del listBlocks[editor.currentTab][c]
                         listBlocks[editor.currentTab][c] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
+                        
                         
                     if 'M' in c:
                         listVal = listSubMod[editor.currentTab][c]

@@ -26,10 +26,14 @@ packages:
 paths:
   data: /tmp/
 <<<<<<< HEAD
+<<<<<<< HEAD
   diagrams: []
 =======
   diagrams:
   - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Others/Fibonacci.dgr
+>>>>>>> devpt
+=======
+  diagrams: []
 >>>>>>> devpt
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
