@@ -25,7 +25,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
+  diagrams:
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Script/filtered_files.dgr
   histories:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr

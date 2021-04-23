@@ -936,6 +936,7 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
+        UpdateUndoRedo()
 
     def getValueInBrackets(self, line, args):
         res = []
@@ -1249,6 +1250,7 @@ class UpdateList:
 class UpdateUndoRedo:
 
     def __init__(self):
+        listItemStored.clear()
         for i in range(pointTyping[editor.currentTab] + 1, len(undoredoTyping[editor.currentTab])):
             del undoredoTyping[editor.currentTab][i]
         pointTyping[editor.currentTab] += 1
@@ -1387,8 +1389,9 @@ class DiagramScene(QGraphicsScene):
                 if a in listItemStored.keys() and c in listItemStored.keys():
                     listItemStored[elnd] = nod
         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
-            self.clearSelection()
-            self.pastItems(listItemStored, listBlSmStored)
+            if listItemStored:
+                self.clearSelection()
+                self.pastItems(listItemStored, listBlSmStored)
         elif event.key() == QtCore.Qt.Key_Delete:
             self.deleteItems()
         return QGraphicsScene.keyPressEvent(self, event)
@@ -1471,10 +1474,10 @@ class DiagramScene(QGraphicsScene):
                 ball = edit.returnBlockSystem()
                 ball.elemProxy.setText(list_Bl_Sm[nameUnit])
             if 'P' in nameUnit:
-                edit.loadProbe(changeUnit[nameUnit], ins.label, 'unkn', posRe)
-            
+                edit.loadProbe(changeUnit[nameUnit], ins.label, ins.format, posRe)
+
             edit.returnBlockSystem().setSelected(1)
-        
+
         for nameUnit, ins in list_It.items():
             if 'N' in nameUnit:
                 a, b, c, d = ins.replace('#Node#', ':').split(':')
@@ -1501,7 +1504,7 @@ class DiagramScene(QGraphicsScene):
                 startConnection.setEndPos(toPort.scenePos())
                 startConnection.setToPort(toPort)
         UpdateUndoRedo()
-        
+
     def searchUnit(self, list, char_unit):
         NodeExist = True
         inc = 0
@@ -1530,7 +1533,7 @@ class DiagramView(QGraphicsView):
         self.caseFinal = False
         self.currentLoop = None
         self.m_originX, self.m_originY = 0, 0
-        
+
 #         self.startPos = None
 
     def dragEnterEvent(self, event):
@@ -3180,7 +3183,7 @@ class searchInitialValueBlock:
 
     def getValue(self):
         return self.val
-    
+
 class searchInitialValueSubMod:
     def __init__(self, className, inputName):
         inds = 0
@@ -3203,6 +3206,7 @@ class Probes(QGraphicsPolygonItem):
 
         self.label = label
         self.isMod = isMod
+        self.format = format
         self.preview = False
         self.caseFinal = False
         self.currentLoop = None
@@ -3934,8 +3938,8 @@ class Constants(QGraphicsRectItem):
             menu.exec_(event.screenPos())
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
-    def hoverEnterEvent(self, event):
-        self.setSelected(True)
+#     def hoverEnterEvent(self, event):
+#         self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
 #     def hoverLeaveEvent(self, event):
@@ -4829,7 +4833,7 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
-        self.elemProxy.mousePressEvent = self.eraseItemsStored
+#         self.elemProxy.mousePressEvent = self.eraseItemsStored
         PythonHighlighter(self.elemProxy)
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
@@ -4846,8 +4850,8 @@ class ScriptItem(QGraphicsRectItem):
             self.resize.wmin = self.wmin
             self.resize.hmin = self.hmin
             
-    def eraseItemsStored(self, event):
-        listItemStored.clear()
+#     def eraseItemsStored(self, event):
+#         listItemStored.clear()
     
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Up:
@@ -4863,14 +4867,14 @@ class ScriptItem(QGraphicsRectItem):
     def mousePressEvent(self, event):
         if self.isMod:
             if event.button() == 1:
-                editor.diagramScene[editor.currentTab].clearSelection()
+#                 editor.diagramScene[editor.currentTab].clearSelection()
                 self.setSelected(True)
 
             if event.button() == 2:
                 self.setSelected(True)
 
             UpdateUndoRedo()
-#         return QGraphicsRectItem.mousePressEvent(self, event)
+        return QGraphicsRectItem.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, mouseEvent):
         mouseEvent.accept()
@@ -4881,13 +4885,13 @@ class ScriptItem(QGraphicsRectItem):
         editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
-    def hoverEnterEvent(self, event):
-        self.setSelected(True)
-        return QGraphicsRectItem.hoverEnterEvent(self, event)
-
-    def hoverLeaveEvent(self, event):
-        self.setSelected(False)
-        return QGraphicsRectItem.hoverLeaveEvent(self, event)
+#     def hoverEnterEvent(self, event):
+#         self.setSelected(True)
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)
+# 
+#     def hoverLeaveEvent(self, event):
+#         self.setSelected(False)
+#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def newSize(self, w, h):
         # Limit the block size:
