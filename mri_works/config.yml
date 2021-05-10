@@ -26,9 +26,8 @@ packages:
 paths:
   data: /tmp/
   diagrams:
-  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Script/filtered_files.dgr
+  - /home/domicile-xubuntu/Apps/mri_works_venv/mri_works/NodeEditor/examples/Generator/pwm.dgr
   histories:
-  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/7-Merge_a_bc_split.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/5-Split_ZTE_N4.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/10-Merge_orig_split.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/MotionCorrection.dgr
@@ -38,6 +37,7 @@ paths:
   - /home/domicile-xubuntu/Documents/mri_works_projects/Toff/4-Display.dgr
   - /home/domicile-xubuntu/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
   - /home/domicile-xubuntu/Desktop/test_copy_past.dgr
+  - /home/domicile-xubuntu/Desktop/test_afni_3dzcutup.dgr
   modules: modules
   projects: ../data
 version: 21.04.20b

@@ -58,6 +58,7 @@ from Config import Config
 
 currentpathwork = ''
 
+
 class getPathWork():
     global currentpathwork
 
@@ -192,7 +193,7 @@ class Menu(QMenuBar):
             hist = [path]
             Config().setPathHistories(hist)
             self.openRecent.addAction(path)
-            
+
     def saveDiagramsConfig(self, file):
         list_dgr = Config().getPathDiagrams()
         if list_dgr:
@@ -202,7 +203,7 @@ class Menu(QMenuBar):
         else:
             list_dgr = [file]
             Config().setPathDiagrams(list_dgr)
-        
+
     def load_previous_diagram(self):
         global currentpathwork
         last_exist_file = ''
@@ -221,9 +222,8 @@ class Menu(QMenuBar):
                         editor.pathDiagram[editor.currentTab] = elem
                         editor.diagramView[editor.currentTab].scene().clearSelection()
                         editor.diagramView[editor.currentTab]\
-                                                .fitInView(editor.diagramScene[editor.currentTab].
-                                                           sceneRect(),
-                                                           QtCore.Qt.KeepAspectRatio)
+                              .fitInView(editor.diagramScene[editor.currentTab]\
+                                               .sceneRect(), QtCore.Qt.KeepAspectRatio)
                         editor.diagramView[editor.currentTab].scale(10, 10)
                         textInf.setText(elem)
                         textEdit.clear()
@@ -244,12 +244,10 @@ class Menu(QMenuBar):
             textInf.setText('')
 
     def btnPressed(self, act):
-        
         global currentpathwork
-        
+
         tmpActText = act.text()
-#         ct = editor.currentTab
-        
+
         if tmpActText == 'load_previous_diagram':
             self.load_previous_diagram()
 
@@ -364,11 +362,11 @@ class Menu(QMenuBar):
         if tmpActText == 'Run this Pipeline':
             textEdit.clear()
             self.execute_pipeline('', False)
-            
+
         if tmpActText == 'Run this Pipeline in Threading mode':
             textEdit.clear()
             self.execute_pipeline('', True)
-            
+
         if tmpActText == 'Run multiple Pipelines':
             textEdit.clear()
             list_dgr = []
@@ -571,7 +569,7 @@ class Menu(QMenuBar):
         
         textEdit.append("<br><span style=\" font-size:10pt;"
                         "font-weight:600; color:#00CC00;"
-                        "\" >"+ title_dgr +"</span>")
+                        "\" >" + title_dgr + "</span>")
         if mode_th:
             txt = analyze(txt_raw, textEdit, True).\
                             getListForExecution()
@@ -587,6 +585,7 @@ class Menu(QMenuBar):
                         "font-weight:600; color:#0000CC;"
                         "\" >Pipeline running ......... </span>")
         execution(txt, textEdit)
+
 
 class ShowLegend:
 
@@ -1237,15 +1236,15 @@ class UpdateList:
                 line = line[line.index('RectF=') + 7:len(line)]
                 listTools[editor.currentTab][unit] = code
                 libTools[editor.currentTab][unit] = [eval(inp), eval(outp)]
-            
-            if unit:   
+
+            if unit:
                 listUnit.append(unit)
-        
+
         listItemsTmp = listItems[editor.currentTab].copy()
         for lstUnit in listItemsTmp.keys():
             if not lstUnit in listUnit:
                 del listItems[editor.currentTab][lstUnit]
-           
+
 
 class UpdateUndoRedo:
 
@@ -1464,7 +1463,10 @@ class DiagramScene(QGraphicsScene):
                 values = list_Bl_Sm[nameUnit]
                 if ins.format == 'path':
                     form = 'path'
-                    val = values[1][1:-1] # to remove guillemet
+                    if "'" in values[1]:
+                        val = values[1][1:-1] # to remove guillemet
+                    else:
+                        val = values[1]
                 else:
                     form = values[0]
                     val = values[1]
@@ -4090,6 +4092,8 @@ class Constants_text(QTextEdit):
 
     def focusInEvent(self, event):
         self.setCursorWidth(1)
+        listItemStored.clear()
+        listBlSmStored.clear()
 #         event.accept()
 
     def focusOutEvent(self, event):
@@ -6375,7 +6379,7 @@ class NodeEdit(QWidget):
         editor.currentTab = arg
         textInf.setText(editor.pathDiagram[editor.currentTab])
         currentpathwork = editor.pathDiagram[editor.currentTab]
-        
+
     def tabMoved(self):
         print('tab moved')
 
@@ -6692,8 +6696,7 @@ class NodeEdit(QWidget):
                         ###################################################
                         del listBlocks[editor.currentTab][c]
                         listBlocks[editor.currentTab][c] = (listVal[0], listVal[1], (listVal[2][0], newList, listVal[2][2], listVal[2][3]))
-                        
-                        
+
                     if 'M' in c:
                         listVal = listSubMod[editor.currentTab][c]
 
@@ -6764,7 +6767,7 @@ class NodeEdit(QWidget):
                     for types in TypeColor:
                         if types.name in self.fromPort.format:
                             color2 = types.value
-                            
+
                     if 'C' in a and b!= 'unkn' :
                         b = listConnects[editor.currentTab][a][1]
 
@@ -6877,6 +6880,6 @@ class NodeEdit(QWidget):
                     greenText = greenText + ('Connection ok')
                     greenText = greenText + ("</span><br>")
                     textEdit.append(greenText)
-                    
+
                     UpdateUndoRedo()
             self.startConnection = None
