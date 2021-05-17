@@ -7,6 +7,7 @@ Update on 08 jan. 2018
 '''
 import json
 import os, fnmatch
+from tkinter.ttk import Separator
 
 from PIL import Image, ImageEnhance  # image processing
 from PyQt5.Qt import QMenuBar
@@ -50,10 +51,10 @@ class DataBrowser(QWidget):
         self.browserFile()
         self.imgqLabel()
         self.boxSliders()
-
+        
         self.verticalLayout = QVBoxLayout(self)
-        self.horizontalLayout = QHBoxLayout(self)
-
+        self.horizontalLayout = QHBoxLayout()
+     
         self.textInfoTop = QTextEdit()
         self.textInfoTop.setEnabled(True)
         self.textInfoTop.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Ignored)
@@ -61,7 +62,7 @@ class DataBrowser(QWidget):
         self.textInfoTop.setStyleSheet("background-color: lightgray")
         #self.textInfoTop.adjustSize()
         self.textInfoTop.setText('Welcome to IRMaGe')
-
+        
         self.tableJson = QTableWidget()
         self.tableJson.setColumnCount(2)
         self.tableJson.setColumnWidth(0,150)
@@ -104,6 +105,11 @@ class DataBrowser(QWidget):
         self.scrollBrowser.setWidget(self.tableData)
         self.scrollBrowser.setWidgetResizable(True)
         
+        self.splitter0 = QSplitter(Qt.Vertical)
+        self.splitter0.addWidget(self.scrollText)
+        self.splitter0.addWidget(self.scrollTable)
+        self.splitter0.setSizes([100, 400])
+        
         self.scrollArea = QScrollArea()
         self.scrollArea.setBackgroundRole(QPalette.Dark)
         self.scrollArea.setWidget(self.imageLabel)
@@ -112,25 +118,27 @@ class DataBrowser(QWidget):
     
         self.adjustScrollBar(self.scrollArea.horizontalScrollBar(), 0.8)
         self.adjustScrollBar(self.scrollArea.verticalScrollBar(), 1.0)
-        
-        self.splitter0 = QSplitter(Qt.Horizontal)
-        self.splitter0.addWidget(self.browser)
-        self.splitter0.addWidget(self.scrollArea)
-        self.splitter0.setSizes([300, 300])
-               
-        self.splitter2 = QSplitter(Qt.Vertical)
-        self.splitter2.addWidget(self.splitter0)
-#         self.splitter2.addWidget(self.scrollBrowser)
-        self.splitter2.addWidget(self.scrollTable)
-        self.splitter2.setSizes([300, 300])
+
+        self.splitter1 = QSplitter(Qt.Horizontal)
+        self.splitter1.addWidget(self.splitter0)
+        self.splitter1.addWidget(self.scrollArea)
+        self.splitter1.addWidget(self.layoutSlide)
+        self.splitter1.setSizes([300, 400, 150])
         
         self.splitter3 = QSplitter(Qt.Horizontal)
-        self.splitter3.addWidget(self.splitter2)
-        self.splitter3.addWidget(self.layoutSlide)
-        self.splitter3.setSizes([300, 300])
+        self.splitter3.addWidget(self.browser)
+        self.splitter3.addWidget(self.scrollBrowser)
 
+        self.splitter2 = QSplitter(Qt.Vertical)
+        self.splitter2.addWidget(self.splitter1)
+        self.splitter2.addWidget(self.splitter3)
+        self.splitter2.setHandleWidth (15)
+        #=======================================================================
+        # self.splitter2.
+        #=======================================================================
+       
         self.verticalLayout.addWidget(self.menuToolBar)
-        self.verticalLayout.addWidget(self.splitter3)
+        self.verticalLayout.addWidget(self.splitter2)
        
         self.setWindowTitle("MRImage Viewer (IRMaGe)")
         self.resize(800,600)
@@ -201,12 +209,9 @@ class DataBrowser(QWidget):
                 # self.tableData.selectRow(0)
                 #===============================================================
                 for keys in data:
-                    try:
-                        stringValue = str(data[keys]['value'])
-                    except:
-                        stringValue = str(data[keys])
-#                     stringValue=stringValue.replace('[', '')
-#                     stringValue=stringValue.replace(']', '')
+                    stringValue = str(data[keys])
+                    stringValue=stringValue.replace('[', '')
+                    stringValue=stringValue.replace(']', '')
                     self.tableJson.insertRow(rowPosition)
                     self.tableJson.setItem(rowPosition,0,QTableWidgetItem(keys))
                     self.tableJson.setItem(rowPosition,1,QTableWidgetItem(stringValue))
@@ -403,7 +408,7 @@ class DataBrowser(QWidget):
         gridTransf.addWidget(self.buttonResetTransform,4,2)
         self.transformationGroup.setLayout(gridTransf)
 
-##############################################################################
+####################################################################################
         self.layoutSliders = QVBoxLayout()
         self.layoutSliders.addWidget(self.controlsGroup)
         self.layoutSliders.addWidget(self.contrastGroup)
@@ -534,11 +539,12 @@ class DataBrowser(QWidget):
         model.setNameFilterDisables(False)
         model.setReadOnly(True)
         
+        
         self.browser.setModel(model)
         self.browser.expandAll()
         self.browser.setColumnWidth(0,400)
+
         self.browser.selectionModel().selectionChanged.connect(self.select)
-        self.browser.AdjustIgnored
         
         Browser=self.browser
         Model=model

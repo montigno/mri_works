@@ -44,33 +44,3 @@ class fsl_SwapDimensions():
 
     def out_file(self: 'path'):
         return self.res.outputs.out_file
-
-##############################################################################
-
-
-class fsl_ExtractROI():
-    def __init__(self, in_file='path', **options):
-        from nipype.interfaces.fsl import ExtractROI
-        fslroi = ExtractROI()
-        fslroi.inputs.in_file = in_file
-        for ef in options:
-            setattr(fslroi.inputs, ef, options[ef])
-        self.res = fslroi.run()
-    
-    def roi_file(self:'path'):
-        return self.res.outputs.roi_file
-
-##############################################################################
-
-
-class fsl_ImageMaths():
-    def __init__(self, in_file='path', **options):
-        from nipype.interfaces.fsl import ImageMaths
-        fslmaths = ImageMaths()
-        fslmaths.inputs.in_file = in_file
-        for ef in options:
-            setattr(fslmaths.inputs, ef, options[ef])
-        self.res = fslmaths.run()
-        
-    def out_file(self:'path'):
-        return self.res.outputs.out_file    

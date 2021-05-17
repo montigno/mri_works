@@ -155,25 +155,6 @@ class spm_Realign():
 
 ##################################################################
 
-class spm_SliceTiming():
-    def __init__(self, in_files=['path'], num_slices=1, ref_slice=1, slice_order=[0], time_acquisition=1.0, time_repetition=1.0, **options):
-        from nipype.interfaces.spm import SliceTiming
-        st = SliceTiming()
-        st.inputs.in_files = in_files
-        st.inputs.num_slices=num_slices
-        st.inputs.ref_slice = ref_slice
-        st.inputs.slice_order = slice_order
-        st.inputs.time_acquisition = time_acquisition
-        st.inputs.time_repetition = time_repetition
-        for ef in options:
-            setattr(st.inputs, ef, options[ef])
-        self.res = st.run()
-        
-    def timecorrected_files(self:'list_path'):
-        return self.res.outputs.timecorrected_files
-
-##################################################################
-
 
 class spm_Smooth():
     def __init__(self, in_files=['path'], **options):

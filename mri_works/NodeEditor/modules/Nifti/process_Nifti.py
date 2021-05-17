@@ -47,13 +47,3 @@ class threshold_low_high():
         return self.outFile
     
 ################################################################################
-
-class transpose_3D():
-    def __init__(self, img=[[0.0]], x=0, y=0, z=0):
-        import numpy as np
-        self.img = np.array(img)
-        self.img = self.img.transpose(x,y,z)
-        
-    def out_transpose(self:'array_float'):
-        return self.img
-        

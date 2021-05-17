@@ -11,28 +11,18 @@ class Seg_conv3D:
         from scipy import ndimage
         import numpy as np
         
-        
-        img = Open_Nifti(file_in).image()
-        if len(img.shape) < 4:
-            image = img
-        else:
-            image = img[:, :, :, 0]
+        image = Open_Nifti(file_in).image()
         kern=[1.0, -1.0, -1.0, -1.0, 1.0, -1.0, -1.0, -1.0, 1.0]
-        imgtmp = Convolve3d(image, kern).Convol3d()
-        imgtmp = -imgtmp
-        imgtmp = Image_threshold(imgtmp, threshold, 'high').img_threshold()
+        img = Convolve3d(image, kern).Convol3d()
+        img = -img
+        img = Image_threshold(img, threshold, 'high').img_threshold()
         selem = ball(radius)
-        imgtmp = erosion(imgtmp, selem)
-        imgtmp = dilation(imgtmp, selem)
-        imgtmp = ndimage.binary_fill_holes(imgtmp, structure=np.ones((3,3,1)))
-        if len(img.shape) < 4:
-            imgtmp = np.multiply(image, imgtmp)
-        else:
-            for i in range(img.shape[3]):
-                img[:, :, :, i] = np.multiply(img[:, :, :, i], imgtmp)
-            imgtmp = img
+        img = erosion(img, selem)
+        img = dilation(img, selem)
+        img = ndimage.binary_fill_holes(img, structure=np.ones((3,3,1)))
+        img = np.multiply(image, img)
         hdr = Nifti_header(file_in).nii_hdr()
-        self.out_file = Save_Nifti_header(imgtmp, file_out_name, hdr, 'nii').pathFile()
+        self.out_file = Save_Nifti_header(img, file_out_name, hdr, 'nii').pathFile()
         
     def output_file(self:'path'):
         return self.out_file

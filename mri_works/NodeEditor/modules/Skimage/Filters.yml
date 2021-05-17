@@ -1,4 +1,0 @@
-sk_threshold_multiotsu:
-  classes: 0 # (int) Number of classes to be thresholded, i.e. the number of resulting regions.
-  nbins: 0 # (int) Number of bins used to calculate the histogram. This value is ignored for integer arrays.
-  

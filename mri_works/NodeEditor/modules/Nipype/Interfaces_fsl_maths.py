@@ -15,14 +15,14 @@ class fsl_ApplyMask():
 
 
 class fsl_BinaryMaths():
-    def __init__(self, in_file='path', operand_file='path',
+    def __init__(self, in_file='path', operand_value=0.0, operand_file='path',
                  operation="enumerate(('add','sub','mul','div',\
                                        'rem','max','min'))",
                  **options):
         from nipype.interfaces.fsl import BinaryMaths
         mf = BinaryMaths()
         mf.inputs.in_file = in_file
-#         mf.inputs.operand_value = operand_value
+        mf.inputs.operand_value = operand_value
         mf.inputs.operand_file = operand_file
         mf.inputs.operation = operation
         for ef in options:

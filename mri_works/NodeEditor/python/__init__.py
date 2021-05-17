@@ -23,4 +23,3 @@ from NodeEditor.python.configStandalone import ConfigModuls, windowConfig
 from NodeEditor.python.constantCombobox import editCombobox
 from NodeEditor.python.Capsul.export_Capsul import exportCapsul
 from NodeEditor.python.syntax import PythonHighlighter
-from NodeEditor.python.multiExecution import multiple_execution

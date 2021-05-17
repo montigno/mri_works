@@ -59,6 +59,7 @@ for elem in dict_cat_fct.keys():
                 if leading_spaces == 8:
                     label = ele[8:ele.index(':')]
                     list_inputs[label] = ''
+#                     print(label)
 
             b = dict()
 

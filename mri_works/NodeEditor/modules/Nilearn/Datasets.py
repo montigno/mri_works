@@ -1,20 +1,5 @@
 class fetch_atlas_harvard_oxford():
-    def __init__(self, atlas_name="enumerate(('cort-maxprob-thr0-1mm', \
-                                              'cort-maxprob-thr0-2mm', \
-                                              'cort-maxprob-thr25-1mm', \
-                                              'cort-maxprob-thr25-2mm', \
-                                              'cort-maxprob-thr50-1mm', \
-                                              'cort-maxprob-thr50-2mm', \
-                                              'sub-maxprob-thr0-1mm', \
-                                              'sub-maxprob-thr0-2mm', \
-                                              'sub-maxprob-thr25-1mm', \
-                                              'sub-maxprob-thr25-2mm', \
-                                              'sub-maxprob-thr50-1mm', \
-                                              'sub-maxprob-thr50-2mm', \
-                                              'cort-prob-1mm', \
-                                              'cort-prob-2mm', \
-                                              'sub-prob-1mm', \
-                                              'sub-prob-2mm'))", **options):
+    def __init__(self, atlas_name='', **options):
         from nilearn import datasets
         self.dataset = datasets.fetch_atlas_harvard_oxford(atlas_name,
                                                            **options)

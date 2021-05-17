@@ -29,11 +29,11 @@ class Convolve2d():
 ##############################################################################
 
 class Convolve3d():
-    def __init__(self, image=[[0.0]], kern=[[0.0]]):
+    def __init__(self, image=[[0.0]], kern=[0.0]):
         import numpy as np
         from scipy import ndimage
         img = np.array(image)
-        k1 = np.array(kern).flatten() #the kernel along the 1nd dimension
+        k1 = kern #the kernel along the 1nd dimension
         k2 = k1 #the kernel along the 2nd dimension
         k3 = k1 #the kernel along the 3nd dimension
 

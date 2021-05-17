@@ -1,4 +1,3 @@
-from os import popen
 class Open_Nifti:
     def __init__(self, fileSource='path'):
         import os.path
@@ -46,12 +45,6 @@ class DisplayImage:
         from NodeEditor.modules.Nifti.sources.DispNifti import DispNifti
         self.wid = DispNifti(image, [1.0, 1.0], title)
         self.wid.exec_()
-#         import subprocess as sp        
-#         process = sp.Popen(DispNifti(image, [1.0, 1.0], title), stdout=sp.PIPE, stderr=sp.PIPE)
-#         process = sp.Popen(["../sources/DispNifti.py", image, [1.0, 1.0], title], stdout=sp.PIPE, stderr=sp.PIPE)
-#         stdout, stderr = process.communicate()
-#         result = p.resultcode
-
 
 ###############################################################################
 

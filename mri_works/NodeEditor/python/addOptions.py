@@ -20,29 +20,35 @@ class chOptions(QDialog):
 
     def __init__(self, pathYaml, nameclass, ports, parent=None):
         super(chOptions, self).__init__(parent)
+
         doc = "No description"
-#         try:
-#             if '_' in nameclass:
-#                 firstAttr = nameclass[0:nameclass.index("_")]
-#                 secondAttr = nameclass[nameclass.index("_") + 1:]
-#                 TxtToExecute = firstAttr + "." + secondAttr + "().help(True)"
-#             else:
-#                 firstAttr = nameclass
-#                 secondAttr = ''
-#                 TxtToExecute = firstAttr + ".help(True)"
-#             TxtToImport = "from nipype.interfaces import " + firstAttr
-#             exec(TxtToImport)
-#             doc = eval(TxtToExecute)
-#             doc = doc[doc.index('[Optional]') + 11:doc.index('Outputs')]
-#         except Exception as e:
-#             doc = "No description"
+        try:
+            if '_' in nameclass:
+                firstAttr = nameclass[0:nameclass.index("_")]
+                secondAttr = nameclass[nameclass.index("_") + 1:]
+                TxtToExecute = firstAttr + "." + secondAttr + "().help(True)"
+
+            else:
+                firstAttr = nameclass
+                secondAttr = ''
+                TxtToExecute = firstAttr + ".help(True)"
+
+            TxtToImport = "from nipype.interfaces import " + firstAttr
+
+            exec(TxtToImport)
+            doc = eval(TxtToExecute)
+            doc = doc[doc.index('[Optional]') + 11:doc.index('Outputs')]
+
+        except Exception as e:
+            doc = "No description"
+
         self.nameclass = nameclass
         self.poqs = ports
 
         self.labels_inputs = self.poqs[0]
         self.values_inputs = self.poqs[1]
 
-        self.setWindowTitle(nameclass)
+        self.setWindowTitle('choose options input')
         self.setWindowFlags(self.windowFlags() &
                             QtCore.Qt.WindowCloseButtonHint)
 
@@ -58,7 +64,6 @@ class chOptions(QDialog):
         uncheckAll.triggered.connect(self.uncheckAllOptions)
 
         self.listCh = []
-        listLabels = []
 
         vbox = QVBoxLayout(self)
         vbox.addWidget(menubar)
@@ -104,7 +109,7 @@ class chOptions(QDialog):
 
         vbox2 = QVBoxLayout()
 
-        with open(pathYaml, 'r', encoding='utf8') as stream:
+        with open(pathYaml, 'r') as stream:
             try:
                 self.dicts = yaml.load(stream, yaml.FullLoader)
                 for el in self.dicts[nameclass]:
@@ -123,39 +128,27 @@ class chOptions(QDialog):
                     b.setChecked(checkedTo)
                     b.setEnabled(enableTo)
                     self.listCh.append(b)
-                    listLabels.append(b.text())
                     vbox2.addWidget(self.listCh[-1])
             except Exception as exc:
                 print('yamlerror', exc)
                 return
 
-        with open(pathYaml, 'r', encoding='utf8') as stream:
+        with open(pathYaml, 'r') as stream:
             rd = stream.readlines()
             rd = rd[rd.index(nameclass + ":\n") + 1:]
-#             rd = rd[:len(self.listCh)]
+            rd = rd[:len(self.listCh)]
             doc = ''
-            n = len(listLabels)
             for lst in rd:
-                tmp = ''
-                try:
-                    tmp = lst.rstrip()
-                    tmp = tmp[:tmp.index('#')]
-                    tmp = tmp[:tmp.index(':')]
-                    if  n == 0:
-                        break
-                    if tmp.strip() in listLabels:
-                        n = n - 1
-                    doc = doc + "<br><span style=\" font-size:10pt; font-weight:600; color:#222222;\" >" + tmp + " : </span><br>"
-                except Exception as e:
-                    pass                
+                tmp = lst.rstrip()
+                tmp = tmp[:tmp.index(':')]
                 comm = ''
                 try:
                     comm = lst[lst.index('#') + 1:]
-                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm + "</span><br>"
                 except Exception as e:
                     pass
-#                 if len(comm) != 0:
-                    
+                if len(comm) != 0:
+                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#222222;\" >" + tmp + " : </span>"
+                    doc = doc + "<span style=\" font-size:10pt; font-weight:600; color:#2222ee;\" >" + comm + "</span><br>"
             if len(doc) != 0:
                 desc.clear()
                 desc.append(doc)

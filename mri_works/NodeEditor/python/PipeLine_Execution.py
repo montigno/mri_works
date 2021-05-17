@@ -161,7 +161,7 @@ class execution:
 #                 print("thread lisdynamicvalue", self.listDynamicValue.keys())
             else:
                 if not threadcurrent:
-                    self.progress.setLabelText(execution + ' running')
+                    self.progress.setLabelText(execution+' running')
                 self.progress.setValue(i)
                 i += 100 / n
                 start_bb = time.time()

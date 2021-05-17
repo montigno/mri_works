@@ -1,5 +1,0 @@
-SplitNifti:
-  out_ext: '.nii.gz' # (a unicode string, nipype default value: .nii.gz) Determines output file type
-  out_format: '' # (a unicode string) String which can be formatted with meta data to create the output filename(s)
-  out_path: 'path' # (a directory name) output path, current working directory if not set
-  split_dim: 2 # (an integer (int or long)) Dimension to split along. If not specified, the last dimension is used.

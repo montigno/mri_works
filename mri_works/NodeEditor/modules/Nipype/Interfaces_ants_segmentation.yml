@@ -1,52 +1,62 @@
+ants_AntsJointFusion:
+  patch_radius: [2,2,2]
+  constrain_nonnegative: False
+  search_radius: [3,3,3]
+  out_label_fusion: 'path'
+  patch_metric: enumerate(('PC','MSQ'))
+  alpha: 0.1
+  dimension: enumerate(('2','3','4'))
+  mask_image: 'path'
+  retain_atlas_voting_images: False
+  verbose: False
+  exclusion_image_label: ['']
+  out_atlas_voting_weight_name_format: ''
+  exclusion_image: ['path']
+  environ: {}
+  num_threads: 1
+  out_intensity_fusion_name_format: ''
+  out_label_post_prob_name_format: ''
+  retain_label_posterior_images: False
+  beta: 2.0
+  args: ''
 ants_BrainExtraction:
-  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
-  debug: False # (a boolean) – If > 0, runs a faster version of the script. Only for testing. Implies -u 0. Requires single thread computation for complete reproducibility. Maps to a command-line argument: -z 1.
-  dimension: 3 # (3 or 2) – Image dimension (2 or 3). Maps to a command-line argument: -d %d. (Nipype default value: 3)
-  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
-  extraction_registration_mask: 'path' # (a pathlike object or string representing an existing file) – Mask (defined in the template space) used during registration for brain extraction. To limit the metric computation to a specific region. Maps to a command-line argument: -f %s.
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  image_suffix: 'nii.gz' # (a string) – Any of standard ITK formats, nii.gz is default. Maps to a command-line argument: -s %s. (Nipype default value: nii.gz)
-  keep_temporary_files: 0 # (an integer) – Keep brain extraction/segmentation warps, etc (default = 0). Maps to a command-line argument: -k %d.
-  num_threads: 1 # (an integer) – Number of ITK threads to use. (Nipype default value: 1)
-  out_prefix: 'highres001' # (a string) – Prefix that is prepended to all output files. Maps to a command-line argument: -o %s. (Nipype default value: highres001_)
-  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
-  use_floatingpoint_precision: 0 # (0 or 1) – Use floating point precision in registrations (default = 0). Maps to a command-line argument: -q %d.
-  use_random_seeding: 1 # (0 or 1) – Use random number generated from system clock in Atropos (default = 1). Maps to a command-line argument: -u %d.
+  dimension: 3
+  out_prefix: 'highres001'
+  extraction_registration_mask: 'path'
+  image_suffix: 'nii.gz'
+  use_random_seeding: 1
+  keep_temporary_files: 0
+  use_floatingpoint_precision: 0
+  debug: False
+  num_threads: 1
+  args: ''
+  environ: {}
 ants_JointFusion:
-  alpha: 0.1 # (a float) – Regularization term added to matrix Mx for calculating the inverse. Default = 0.1. Maps to a command-line argument: -a %s. (Nipype default value: 0.1)
-  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
-  beta: 2.0 # (a float) – Exponent for mapping intensity difference to the joint error. Default = 2.0. Maps to a command-line argument: -b %s. (Nipype default value: 2.0)
-  constrain_nonnegative: False # (a boolean) – Constrain solution to non-negative weights. Maps to a command-line argument: -c. (Nipype default value: False)
-  dimension: enumerate(('2','3','4')) # (3 or 2 or 4) – This option forces the image to be treated as a specified-dimensional image. If not specified, the program tries to infer the dimensionality from the input image. Maps to a command-line argument: -d %d.
-  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
-  exclusion_image: ['path'] # (a list of items which are a pathlike object or string representing an existing file) – Specify an exclusion region for the given label.
-  exclusion_image_label: [''] # (a list of items which are a string) – Specify a label for the exclusion region. Maps to a command-line argument: -e %s. Requires inputs: exclusion_image.
-  mask_image: 'path' # (a pathlike object or string representing an existing file) – If a mask image is specified, fusion is only performed in the mask region. Maps to a command-line argument: -x %s.
-  num_threads: 1 # (an integer) – Number of ITK threads to use. (Nipype default value: 1)
-  out_atlas_voting_weight_name_format: '' # (a string) – Optional atlas voting weight image file name format. Requires inputs: out_label_fusion, out_intensity_fusion_name_format, out_label_post_prob_name_format.
-  out_intensity_fusion_name_format: '' # (a string) – Optional intensity fusion image file name format. (e.g. “antsJointFusionIntensity_%d.nii.gz”).
-  out_label_fusion: 'path' # (a pathlike object or string representing a file) – The output label fusion image. Maps to a command-line argument: %s.
-  out_label_post_prob_name_format: '' # (a string) – Optional label posterior probability image file name format. Requires inputs: out_label_fusion, out_intensity_fusion_name_format.
-  patch_metric: enumerate(('PC','MSQ')) # (‘PC’ or ‘MSQ’) – Metric to be used in determining the most similar neighborhood patch. Options include Pearson’s correlation (PC) and mean squares (MSQ). Default = PC (Pearson correlation). Maps to a command-line argument: -m %s.
-  patch_radius: [2,2,2] # (a list of items which are a value of class ‘int’) – Patch radius for similarity measures. Default: 2x2x2. Maps to a command-line argument: -p %s.
-  retain_atlas_voting_images: False # (a boolean) – Retain atlas voting images. Default = false. Maps to a command-line argument: -f. (Nipype default value: False)
-  retain_label_posterior_images: False # (a boolean) – Retain label posterior probability images. Requires atlas segmentations to be specified. Default = false. Maps to a command-line argument: -r. Requires inputs: atlas_segmentation_image. (Nipype default value: False)
-  search_radius: [3,3,3] # (a list of from 1 to 3 items which are any value) – Search radius for similarity measures. Default = 3x3x3. One can also specify an image where the value at the voxel specifies the isotropic search radius at that voxel. Maps to a command-line argument: -s %s. (Nipype default value: [3, 3, 3])
-  verbose: False # (a boolean) – Verbose output. Maps to a command-line argument: -v.
+  atlas_group_weights: [0]
+  exclusion_region: 'path'
+  alpha: 0.0
+  atlas_group_id: [0]
+  num_threads: 1
+  beta: 0
+  search_radius: [0]
+  patch_radius: [0]
+  environ: {}
+  method: ''
+  args: ''
 ants_N4BiasFieldCorrection:
-  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
-  bias_image: 'path' # (a pathlike object or string representing a file) – Filename for the estimated bias.
-  bspline_fitting_distance: 0.0 # (a float) – Maps to a command-line argument: --bspline-fitting %s.
-  bspline_order: 0 # (an integer) – Requires inputs: bspline_fitting_distance.
-  convergence_threshold: 0.0 # (a float) – Requires inputs: n_iterations.
-  dimension: 3 # (3 or 2 or 4) – Image dimension (2, 3 or 4). Maps to a command-line argument: -d %d. (Nipype default value: 3)
-  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  mask_image: 'path' # (a pathlike object or string representing a file) – Image to specify region to perform final bias correction in. Maps to a command-line argument: --mask-image %s.
-  n_iterations: [0] # (a list of items which are an integer) – Maps to a command-line argument: --convergence %s.
-  num_threads: 1 # (an integer) – Number of ITK threads to use. (Nipype default value: 1)
-  output_image: 'path' # (a string) – Output file name. Maps to a command-line argument: --output %s.
-  shrink_factor: 0 # (an integer) – Maps to a command-line argument: --shrink-factor %d.
-  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
-  weight_image: 'path' # (a pathlike object or string representing a file) – Image for relative weighting (e.g. probability map of the white matter) of voxels during the B-spline fitting. . Maps to a command-line argument: --weight-image %s.
- 
+  dimension: 3
+  mask_image: 'path'
+  weight_image: 'path'
+  output_image: 'path'
+  bspline_fitting_distance: 0.0
+  bspline_order: 0
+  shrink_factor: 0
+  n_iterations: [0]
+  convergence_threshold: 0.0
+  bias_image: 'path'
+  num_threads: 1
+  args: ''
+  environ: {}
+  histogram_sharpening: (0.0, 0.0, 0)
+  rescale_intensities: False
+  

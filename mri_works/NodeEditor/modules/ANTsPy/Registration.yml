@@ -1,31 +1,26 @@
 ants_registration:
-  initial_transform: [['']] # (list of strings (optional)) – transforms to prepend
-  outprefix: 'prefix' #(string) – output will be named with this prefix.
-  mask: [[0.0]] # (ANTsImage (optional)) – mask the registration.
-  grad_step: 0.0 # (scalar) – gradient step size (not for all tx)
-  flow_sigma: 0.0 # (scalar) – smoothing for update field
-  total_sigma: 0.0 # (scalar) – smoothing for total field
-  aff_metric: enumerate(('GC', 'mattes', 'meansquares')) # (string) – the metric for the affine part (GC, mattes, meansquares)
-  aff_sampling: 0.0 # (scalar) – the nbins or radius parameter for the syn metric
-  syn_metric: enumerate(('CC', 'mattes', 'meansquares', 'demons')) # (string) – the metric for the syn part (CC, mattes, meansquares, demons)
-  syn_sampling: 0.0 # (scalar) – the nbins or radius parameter for the syn metric
-  reg_iterations: [0] # (list/tuple of python:integers) – vector of iterations for syn. we will set the smoothing and multi-resolution parameters based on the length of this vector.
-  verbose: False # (boolean) – request verbose output (useful for debugging)
+  initial_transform: [['']]
+  outprefix: 'prefix'
+  mask: [[0.0]]
+  grad_step: 0.0
+  flow_sigma: 0.0
+  total_sigma: 0.0
+  aff_metric: enumerate(('GC', 'mattes', 'meansquares'))
+  aff_sampling: 0.0
+  syn_metric: enumerate(('CC', 'mattes', 'meansquares', 'demons'))
+  syn_sampling: 0.0
+  reg_iterations: [0]
+  verbose: False
 ants_apply_transform:
-  interpolator: enumerate(('linear', 'nearestNeighbor', 'multiLabel', 'genericlabel', 'gaussian', 'bSpline', 'cosineWindowedSinc', 'welchWindowedSinc', 'hammingWindowedSinc', 'lanczosWindowedSinc')) # (string) – Choice of interpolator. Supports partial matching. linear nearestNeighbor multiLabel for label images but genericlabel is preferred gaussian bSpline cosineWindowedSinc welchWindowedSinc hammingWindowedSinc lanczosWindowedSinc genericLabel use this for label images 
-  imagetype: 0 # (integer) – choose 0/1/2/3 mapping to scalar/vector/tensor/time-series
-  whichtoinvert: [False] # (list of booleans (optional)) – Must be same length as transformlist. whichtoinvert[i] is True if transformlist[i] is a matrix, and the matrix should be inverted. If transformlist[i] is a warp field, whichtoinvert[i] must be False. If the transform list is a matrix followed by a warp field, whichtoinvert defaults to (True,False). Otherwise it defaults to [False]*len(transformlist)).
-  compose: '' # (string (optional)) – if it is a string pointing to a valid file location, this will force the function to return a composite transformation filename.
-  verbose: False # (boolean) – print command and run verbose application of transform.
+  interpolator: enumerate(('linear', 'nearestNeighbor', 'multiLabel', 'genericlabel', 'gaussian', 'bSpline', 'cosineWindowedSinc', 'welchWindowedSinc', 'hammingWindowedSinc', 'lanczosWindowedSinc'))
+  imagetype: 0
+  whichtoinvert: [False]
+  compose: ''
+  verbose: False
 ants_affine_initializer:
-  search_factor: 0.0 # (scalar) – degree of increments on the sphere to search
-  radian_fraction: 0.0 # (scalar) – between zero and one, defines the arc to search over
-  use_principal_axis: False # (boolean) – boolean to initialize by principal axis
-  local_search_iterations: 0.0 # (scalar) – gradient descent iterations
-  mask: [[0.0]] # (ANTsImage (optional)) – optional mask to restrict registration
-  txfn: 'path' # (string (optional)) – filename for the transformation
-ants_reorient_image:
-  axis2: (1, 0) # (list/tuple of python:integers) – vector of size dim for 3D
-  doreflection: False #  (boolean) – whether to reflect
-  doscale: (0.0) #  (scalar value) – 1 allows automated estimate of scaling
-  txfn: '' # (string) – file name for transformation
+  search_factor: 0.0
+  radian_fraction: 0.0
+  use_principal_axis: False
+  local_search_iterations: 0.0
+  mask: [[0.0]]
+  txfn: 'path'

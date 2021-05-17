@@ -134,13 +134,3 @@ class string_index_list:
 
     def out_element(self: 'str'):
         return self.res
-    
-###############################################################################
-
-
-class string_array_getcolumn:
-    def __init__(self, in_string_array=[['']], index_column=0):
-        self.res = [row[index_column] for row in in_string_array]
-
-    def out_column(self: 'list_str'):
-        return self.res

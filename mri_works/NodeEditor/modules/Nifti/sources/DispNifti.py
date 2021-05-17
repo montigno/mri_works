@@ -6,10 +6,6 @@ from PyQt5.QtWidgets import QSlider, QLabel, QSizePolicy, \
 from scipy.ndimage import rotate
 import numpy as np
 
- 
-# def run(args):
-#     print('args = ', args)
-#     DispNifti(args[1], args[2], args[3])
 
 class DispNifti(QDialog):
 
@@ -17,7 +13,6 @@ class DispNifti(QDialog):
         QDialog.__init__(self, parent)
         
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
-#         self.setWindowModality(Qt.NonModal)
 
         self.scaleFactor = 3
         self.img = np.array(img)
@@ -182,8 +177,3 @@ class DispNifti(QDialog):
      
     def changePosValue(self):
         self.navigImage()
- 
-# if __name__ == "__main__":
-#     import sys
-#     args = read_args()
-#     sys.exit(run(args))

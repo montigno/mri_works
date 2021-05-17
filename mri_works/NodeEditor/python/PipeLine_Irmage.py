@@ -7,8 +7,8 @@
 ##########################################################################
 
 '''
-Created on 14 December 2017
-Last modification on 18 Apr. 2021
+Created on 14 december 2017
+Modified on 21 oct. 2020
 @author: omonti
 '''
 
@@ -24,16 +24,16 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QByteArray, Qt, QStringListModel, QLineF, QPointF, \
     QRectF, QDir, QRect
 from PyQt5.QtGui import QStandardItemModel, QPixmap, QPainterPath, \
-    QCursor, QBrush, QStandardItem, QPainter, \
+    QCursor, QBrush, QStandardItem, QPen, QPainter, \
     QImage, QTransform, QColor, QFont, QPolygonF, QLinearGradient, \
-    QKeySequence, QIcon, QFontMetrics
+    QKeySequence, QIcon, QFontMetrics, QTextCursor
 from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QGraphicsView, QGraphicsPathItem, QGraphicsPolygonItem, \
     QGraphicsRectItem, QDialog, QSpinBox, QDoubleSpinBox, QComboBox, \
     QTreeView, QWidget, QVBoxLayout, QTabBar, QTabWidget, QSplitter, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
-    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem, QGridLayout, QCheckBox
+    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem
 
 from . import analyze
 from . import execution
@@ -52,25 +52,20 @@ from . import ConfigModuls, windowConfig
 from . import editCombobox
 from . import exportCapsul
 from . import PythonHighlighter
-from . import multiple_execution
 
 from Config import Config
 
 currentpathwork = ''
 
-
 class getPathWork():
     global currentpathwork
-
     def pathWork(self):
         return currentpathwork
-
 
 class Menu(QMenuBar):
 
     def __init__(self, parent=None):
         QMenuBar.__init__(self, parent)
-        global undoredoTyping, pointTyping
         self.setFixedHeight(30)
         hist = Config().getPathHistories()
         self.Dictexamples = {}
@@ -99,15 +94,12 @@ class Menu(QMenuBar):
         redo.setShortcut('Ctrl+Y')
         self.menu12.triggered[QAction].connect(self.btnPressed)
         self.menu2 = self.addMenu('Pipeline')
-        anaPipe = self.menu2.addAction('Analyze this Pipeline')
+        anaPipe = self.menu2.addAction('Analyze Pipeline')
         anaPipe.setShortcut('Ctrl+A')
-        runpipe = self.menu2.addAction('Run this Pipeline')
+        runpipe = self.menu2.addAction('Run Pipeline')
         runpipe.setShortcut('Ctrl+R')
-        runpipethreadless = self.menu2.addAction('Run this Pipeline in Threading mode')
+        runpipethreadless = self.menu2.addAction('Run Pipeline with Thread')
         runpipethreadless.setShortcut('Ctrl+T')
-        runmultipipe = self.menu2.addAction('Run multiple Pipelines')
-        runmultipipe.setShortcut('Ctrl+M')
-        self.menu2.addSeparator()
         listItm = self.menu2.addAction('See List Items')
         listItm.setShortcut('Ctrl+I')
         listLib = self.menu2.addAction('See List Libraries')
@@ -172,7 +164,7 @@ class Menu(QMenuBar):
         print('path_config = ', path_config)
         pathYml = os.path.join(QDir.currentPath(), "config.yml")
         if os.path.isdir(pathYml):
-            with open(pathYml, 'r', encoding='utf8') as stream:
+            with open(pathYml, 'r') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 return dicts['paths']['histories']
         else:
@@ -194,62 +186,10 @@ class Menu(QMenuBar):
             Config().setPathHistories(hist)
             self.openRecent.addAction(path)
 
-    def saveDiagramsConfig(self, file):
-        list_dgr = Config().getPathDiagrams()
-        if list_dgr:
-            if file not in list_dgr:
-                list_dgr.append(file)
-                Config().setPathDiagrams(list_dgr)
-        else:
-            list_dgr = [file]
-            Config().setPathDiagrams(list_dgr)
-
-    def load_previous_diagram(self):
-        global currentpathwork
-        last_exist_file = ''
-        lst_dgr = Config().getPathDiagrams()
-        if lst_dgr:
-            for i, elem in enumerate(lst_dgr):
-                if os.path.exists(elem):
-                    f = open(elem, 'r', encoding='utf8')
-                    txt = f.readlines()
-                    f.close()
-                    try:
-                        currentpathwork = elem
-                        editor.addTab(os.path.basename(elem))
-                        last_exist_file = elem
-                        LoadDiagram(txt)
-                        editor.pathDiagram[editor.currentTab] = elem
-                        editor.diagramView[editor.currentTab].scene().clearSelection()
-                        editor.diagramView[editor.currentTab]\
-                              .fitInView(editor.diagramScene[editor.currentTab]\
-                                               .sceneRect(), QtCore.Qt.KeepAspectRatio)
-                        editor.diagramView[editor.currentTab].scale(10, 10)
-                        textInf.setText(elem)
-                        textEdit.clear()
-                    except Exception as e:
-                        redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                        redText = redText + ('This diagram contains errors : ' + str(e))
-                        redText = redText + ("</span>")
-                        textEdit.clear()
-                        textEdit.append(redText)
-
-            textInf.setText(last_exist_file)
-            currentpathwork = last_exist_file
-            if not last_exist_file:
-                editor.addTab('')
-                textInf.setText('')
-        else:
-            editor.addTab('')
-            textInf.setText('')
-
     def btnPressed(self, act):
         global currentpathwork
-
         tmpActText = act.text()
-
-        if tmpActText == 'load_previous_diagram':
-            self.load_previous_diagram()
+        ct = editor.currentTab
 
         if tmpActText == 'New Diagram':
             editor.addTab('')
@@ -285,7 +225,7 @@ class Menu(QMenuBar):
                         fileNameonly = os.path.basename(file)
                 try:
                     if file:
-                        f = open(file, 'w', encoding='utf8')
+                        f = open(file, 'w')
                         f.write(txt.toPlainText())
                         f.write('\n[execution]\n')
                         f.write(analyze(txt.toPlainText(), textEdit, True)
@@ -295,7 +235,6 @@ class Menu(QMenuBar):
                         editor.tabsDiagram.setTabText(editor.currentTab,
                                                       fileNameonly)
                         textInf.setText(file)
-                        self.saveDiagramsConfig(file)
                         if 'NodeEditor/examples' not in file:
                             self.saveHistories(file)
                 except OSError as err:
@@ -316,10 +255,11 @@ class Menu(QMenuBar):
                                 QFileDialog.DontUseNativeDialog)
 
             if fileDiagram[0] != '':
+                currentpathwork = fileDiagram[0]
                 editor.addTab(os.path.basename(fileDiagram[0]))
                 editor.pathDiagram[editor.currentTab] = fileDiagram[0]
                 textInf.setText(fileDiagram[0])
-                f = open(fileDiagram[0], 'r', encoding='utf8')
+                f = open(fileDiagram[0], 'r')
                 txt = f.readlines()
                 f.close()
                 LoadDiagram(txt)
@@ -329,13 +269,8 @@ class Menu(QMenuBar):
                                  QtCore.Qt.KeepAspectRatio)
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
                 editor.diagramView[editor.currentTab].scene().clearSelection()
-                file = editor.pathDiagram[editor.currentTab]
-                fileNameonly = os.path.basename(file)
-                editor.tabsDiagram.setTabText(editor.currentTab,
-                                                  fileNameonly)
-                currentpathwork = file
                 self.saveHistories(fileDiagram[0])
-                self.saveDiagramsConfig(fileDiagram[0])
+
 
         if tmpActText == 'Close Diagram':
             editor.closeTab(editor.currentTab)
@@ -359,31 +294,34 @@ class Menu(QMenuBar):
             except Exception as err:
                 print('error Capsul execution : ', err)
 
-        if tmpActText == 'Run this Pipeline':
+        if (tmpActText == 'Run Pipeline' or
+                tmpActText == 'Run Pipeline with Thread'):
             textEdit.clear()
-            self.execute_pipeline('', False)
+            txt_raw = SaveDiagram().toPlainText()
+            txt_code = ''
+            for keyS, valS in listTools[editor.currentTab].items():
+                if 'S' in keyS:
+                    tmpS = 'source ' + keyS + ']'
+                    txt_code += txt_raw[txt_raw.index('[' +
+                                        tmpS):txt_raw.index('[/' +
+                                        tmpS) + len(tmpS) + 2] + '\n'
+            if 'with Thread' in tmpActText:
+                txt = analyze(txt_raw, textEdit, True).\
+                                getListForExecution()
+            else:
+                txt = analyze(txt_raw, textEdit, False).\
+                                getListForExecution()
+            if txt_code:
+                txt += txt_code
+            textEdit.append("<span style=\" font-size:10pt;"
+                            "font-weight:600; color:#0000CC;"
+                            "\" >Pipeline started ! </span>")
+            textEdit.append("<span style=\" font-size:10pt;"
+                            "font-weight:600; color:#0000CC;"
+                            "\" >Pipeline running ......... </span>")
+            execution(txt, textEdit)
 
-        if tmpActText == 'Run this Pipeline in Threading mode':
-            textEdit.clear()
-            self.execute_pipeline('', True)
-
-        if tmpActText == 'Run multiple Pipelines':
-            textEdit.clear()
-            list_dgr = []
-            for i in range(0, editor.tabsDiagram.count()):
-                list_dgr.append(editor.tabsDiagram.tabText(i))
-            c = multiple_execution(list_dgr)
-            c.exec_()
-            order_dgr = []
-            for lstdg in c.getNewValues()[0:-2]:
-                order_dgr.append(([index for index in range(editor.tabsDiagram.count()) if lstdg[0] == editor.tabsDiagram.tabText(index)],
-                                  lstdg[1]))
-            for i in order_dgr:
-                editor.tabsDiagram.setCurrentIndex(i[0][0])
-                currentpathwork = editor.pathDiagram[i[0][0]]
-                self.execute_pipeline(editor.tabsDiagram.tabText(i[0][0]), i[1])
-
-        if tmpActText == 'Analyze this Pipeline':
+        if tmpActText == 'Analyze Pipeline':
             txt = SaveDiagram()
             analyze(txt.toPlainText(), textEdit, True)
 
@@ -413,7 +351,7 @@ class Menu(QMenuBar):
                 try:
                     if '.mod' not in file and file:
                         file += '.mod'
-                    f = open(file, 'w', encoding='utf8')
+                    f = open(file, 'w')
                     f.write(txt.toPlainText())
                     f.write('\n[execution]\n')
                     f.write(analyze(txt.toPlainText(),
@@ -446,7 +384,7 @@ class Menu(QMenuBar):
             if connectPresent:
                 txt = SaveDiagram()
                 try:
-                    f = open(file, 'w', encoding='utf8')
+                    f = open(file, 'w')
                     f.write(txt.toPlainText())
                     f.write('\n[execution]\n')
                     f.write(analyze(txt.toPlainText(),
@@ -498,7 +436,7 @@ class Menu(QMenuBar):
 
         if tmpActText == 'See Raw file':
             if editor.pathDiagram[editor.currentTab]:
-                f = open(editor.pathDiagram[editor.currentTab], 'r', encoding='utf8')
+                f = open(editor.pathDiagram[editor.currentTab], 'r')
                 textEdit.append(f.read())
                 f.close()
 
@@ -507,7 +445,7 @@ class Menu(QMenuBar):
             tmp = str(os.path.join(path_html,
                                    '../../../docs',
                                    'index.html'))
-            webbrowser.open(tmp, encoding='utf8')
+            webbrowser.open(tmp)
 
         if tmpActText == 'Setting Standalone Paths':
             c = windowConfig()
@@ -518,7 +456,8 @@ class Menu(QMenuBar):
             ct = editor.currentTab
             if pointTyping[ct] > 0:
                 pointTyping[ct] -= 1
-                editor.diagramScene[ct].clear()
+                for item in editor.diagramScene[ct].items():
+                    editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -527,7 +466,8 @@ class Menu(QMenuBar):
             ct = editor.currentTab
             if pointTyping[ct] < len(undoredoTyping[ct]) - 1:
                 pointTyping[ct] += 1
-                editor.diagramScene[ct].clear()
+                for item in editor.diagramScene[ct].items():
+                    editor.diagramScene[ct].removeItem(item)
                 newDiagram = undoredoTyping[ct][pointTyping[ct]]
                 LoadDiagram(newDiagram.splitlines())
                 UpdateList(newDiagram)
@@ -539,7 +479,7 @@ class Menu(QMenuBar):
                 tmpActText = os.path.join(self.Dictexamples[tmpActText],
                                           tmpActText)
             editor.pathDiagram[editor.currentTab] = tmpActText
-            f = open(tmpActText, 'r', encoding='utf8')
+            f = open(tmpActText, 'r')
             txt = f.readlines()
             f.close()
             try:
@@ -548,43 +488,14 @@ class Menu(QMenuBar):
                                     editor.diagramScene[editor.currentTab].sceneRect(),
                                     QtCore.Qt.KeepAspectRatio)
                 editor.diagramView[editor.currentTab].scale(0.8, 0.8)
+#                 UpdateUndoRedo()
                 textEdit.clear()
-                self.saveDiagramsConfig(tmpActText)
             except Exception as e:
                 redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                redText = redText + ('This diagram contains errors : ' + str(e))
+                redText = redText + ('This diagram contains errors !')
                 redText = redText + ("</span>")
                 textEdit.clear()
                 textEdit.append(redText)
-
-    def execute_pipeline(self, title_dgr, mode_th):
-        txt_raw = SaveDiagram().toPlainText()
-        txt_code = ''
-        for keyS, valS in listTools[editor.currentTab].items():
-            if 'S' in keyS:
-                tmpS = 'source ' + keyS + ']'
-                txt_code += txt_raw[txt_raw.index('[' +
-                                    tmpS):txt_raw.index('[/' +
-                                    tmpS) + len(tmpS) + 2] + '\n'
-        
-        textEdit.append("<br><span style=\" font-size:10pt;"
-                        "font-weight:600; color:#00CC00;"
-                        "\" >" + title_dgr + "</span>")
-        if mode_th:
-            txt = analyze(txt_raw, textEdit, True).\
-                            getListForExecution()
-        else:
-            txt = analyze(txt_raw, textEdit, False).\
-                            getListForExecution()
-        if txt_code:
-            txt += txt_code
-        textEdit.append("<span style=\" font-size:10pt;"
-                        "font-weight:600; color:#0000CC;"
-                        "\" >Pipeline started ! </span>")
-        textEdit.append("<span style=\" font-size:10pt;"
-                        "font-weight:600; color:#0000CC;"
-                        "\" >Pipeline running ......... </span>")
-        execution(txt, textEdit)
 
 
 class ShowLegend:
@@ -627,19 +538,19 @@ class ShowLegend:
                             bisLine.setPen(QtGui.QPen(Qt.NoPen))
 
                         path = QPainterPath()
-                        start_x, start_y = pos1X, pos1Y
-                        end_x, end_y = pos2X, pos2Y
-                        ctrl1_x = pos1X + (pos2X - pos1X) * 0.7
-                        ctrl1_y = pos1Y
-                        ctrl2_x = pos2X + (pos1X - pos2X) * 0.7
-                        ctrl2_y = pos2Y
-                        path.moveTo(start_x, start_y)
-                        path.cubicTo(ctrl1_x,
-                                     ctrl1_y,
-                                     ctrl2_x,
-                                     ctrl2_y,
-                                     end_x,
-                                     end_y)
+                        self.start_x, self.start_y = pos1X, pos1Y
+                        self.end_x, self.end_y = pos2X, pos2Y
+                        self.ctrl1_x = pos1X + (pos2X - pos1X) * 0.7
+                        self.ctrl1_y = pos1Y
+                        self.ctrl2_x = pos2X + (pos1X - pos2X) * 0.7
+                        self.ctrl2_y = pos2Y
+                        path.moveTo(self.start_x, self.start_y)
+                        path.cubicTo(self.ctrl1_x,
+                                     self.ctrl1_y,
+                                     self.ctrl2_x,
+                                     self.ctrl2_y,
+                                     self.end_x,
+                                     self.end_y)
 
                         line.setPath(path)
                         bisLine.setPath(path)
@@ -732,11 +643,7 @@ class LoadCodeScript:
                 tmpVal = val[0:val.index('#Node#')]
                 if 'A' in tmpVal[0:1]:
                     tmpConstName = tmpVal[0:-1]
-                    tmpIt = listItems[editor.currentTab][tmpConstName]
-                    tmpVal = listConstants[editor.currentTab][tmpConstName][1]
-                    if type(tmpIt).__name__ == 'Checkbox':
-                        tmpVal = [i[0:-1] for i in tmpVal if '*' in i]
-                    tmpVal = repr(tmpVal)
+                    tmpVal = repr(listConstants[editor.currentTab][tmpConstName][1])
                 listInputVal.append(tmpIn + '=' + tmpVal)
         return listInputVal
 
@@ -744,7 +651,9 @@ class LoadCodeScript:
 class LoadDiagram:
 
     def __init__(self, txt):
+
         edit = DiagramView(editor.diagramScene[editor.currentTab])
+#         listItems[editor.currentTab] = {}
         listNd = {}
         listCn, listBl, listFo, listIf = {}, {}, {}, {}
         listSm, listCt, listSc, listPr = {}, {}, {}, {}
@@ -755,65 +664,112 @@ class LoadDiagram:
 
         for line in txt:
             if line[0:5] == 'connt':
-                args = ["connt", "name", "type", "format", "valOut", "RectF"]
-                unit, name, typ, form, Vinput, pos = self.getValueInBrackets(line, args)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('name=') + 6:len(line)]
+                name = line[0:line.index(']')]
+                line = line[line.index('type=') + 6:len(line)]
+                typ = line[0:line.index(']')]
+                line = line[line.index('format=') + 8:len(line)]
+                form = line[0:line.index(']')]
+                Vinput = ''
                 try:
-                    pos = edit.mapToScene(eval(pos))
+                    line = line[line.index('valOut=') + 8:len(line)]
+                    Vinput = line[0:line.index('] RectF=')]
                 except Exception as e:
-                    pos = eval(pos)
+                    pass
+                line = line[line.index('RectF=') + 7:len(line)]
+                try:
+                    pos = edit.mapToScene(eval(line[0:line.index(']')]))
+                except Exception as e:
+                    pos = eval(line[0:line.index(']')])
                 edit.loadConn(unit, name, pos, str(typ), form, Vinput)
                 listCn[unit] = edit.returnBlockSystem()
 
             elif line[0:5] == 'probe':
-                args = ["probe", "label", "format", "RectF"]
-                unit, label, form, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('label=') + 7:len(line)]
+                label = line[0:line.index(']')]
+                line = line[line.index('format=') + 8:len(line)]
+                form = line[0:line.index('] RectF')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadProbe(unit, label, form, pos)
                 listPr[unit] = edit.returnBlockSystem()
 
             elif line[0:5] == 'block':
-                args = ["block", "category", "class", "valInputs", "RectF"]
-                unit, cat, classs, Vinput, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('category=') + 10:len(line)]
+                cat = line[0:line.index(']')]
+                line = line[line.index('class=') + 7:len(line)]
+                classs = line[0:line.index(']')]
+                line = line[line.index('valInputs=') + 11:len(line)]
+                Vinput = line[0:line.index('] RectF=')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadBlock(unit, classs, cat, pos, eval(Vinput))
                 listBl[unit] = edit.returnBlockSystem()
 
             elif line[0:8] == 'comments':
-                args = ["comments", "RectF", "text"]
-                unit, pos, cmt = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
+                line = line[line.index('text=') + 6:len(line)]
+                cmt = line[0:line.index(']')]
                 cmt = cmt.replace("\\n", '\n')
                 cmt = cmt.replace("'", '')
                 cmt = cmt.replace('"', '')
                 edit.loadComments(pos, cmt)
 
             elif line[0:7] == 'loopFor':
-                args = ["loopFor", "inputs", "outputs", "listItems", "RectF"]
-                unit, inp, outp, listIt, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9*_]+)\]", line).group(1)
+                line = line[line.index('inputs=') + 8:len(line)]
+                inp = line[0:line.index('] outputs')]
+                line = line[line.index('outputs=') + 9:len(line)]
+                outp = line[0:line.index('] listItems=')]
+                line = line[line.index('listItems=') + 11:len(line)]
+                listIt = line[0:line.index('] RectF=')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
                 listFo[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = eval(listIt)
 
             elif line[0:6] == 'loopIf':
-                args = ["loopIf", "inputs", "outputs", "listItems", "RectF"]
-                unit, inp, outp, listIt, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('inputs=') + 8:len(line)]
+                inp = line[0:line.index('] outputs')]
+                line = line[line.index('outputs=') + 9:len(line)]
+                outp = line[0:line.index('] listItems=')]
+                line = line[line.index('listItems=') + 11:len(line)]
+                listIt = line[0:line.index('] RectF=')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadLoopFor(unit, pos, eval(inp), eval(outp))
                 listIf[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = eval(listIt)
 
             elif line[0:6] == 'submod':
-                args = ["submod", "nameMod", "valInputs", "RectF"]
-                unit, nameMod, Vinput, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('nameMod=') + 9:len(line)]
+                nameMod = line[0:line.index(']')]
+                line = line[line.index('valInputs=') + 11:len(line)]
+                Vinput = line[0:line.index('] RectF')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadMod(unit, nameMod, pos, eval(Vinput))
                 listSm[unit] = edit.returnBlockSystem()
 
             elif line[0:8] == 'constant':
-                args = ["constant", "value", "format", "label", "RectF"]
-                unit, vout, fort, lab, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('value=') + 7:len(line)]
+                vout = line[0:line.index('] format')]
+                line = line[line.index('format=') + 8:len(line)]
+                fort = line[0:line.index('] label')]
+                if not fort:
+                    fort = ''
+                line = line[line.index('label=') + 7:len(line)]
+                lab = line[0:line.index(']')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 try:
                     edit.loadConstant(unit, pos, eval(vout), fort, lab)
                 except Exception as e:
@@ -821,11 +777,17 @@ class LoadDiagram:
                 listCt[unit] = edit.returnBlockSystem()
 
             elif line[0:6] == 'script':
-                args = ["script", "title", "inputs", "outputs", "code", "RectF"]
-                unit, tit, inp, outp, code, pos = self.getValueInBrackets(line, args)
-                pos = eval(pos)
-                inp = "["+inp+"]"
-                outp = "["+outp+"]"
+                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('title=') + 7:len(line)]
+                tit = line[0:line.index('] inputs')]
+                line = line[line.index('inputs=') + 7:len(line)]
+                inp = line[0:line.index(' outputs')]
+                line = line[line.index('outputs=') + 8:len(line)]
+                outp = line[0:line.index(' code=')]
+                line = line[line.index('code=') + 6:len(line)]
+                code = line[0:line.index('] RectF=')]
+                line = line[line.index('RectF=') + 7:len(line)]
+                pos = eval(line[0:line.index(']')])
                 edit.loadScriptItem(unit, tit, pos, eval(inp), eval(outp))
                 listSc[unit] = edit.returnBlockSystem()
                 listTools[editor.currentTab][unit] = code
@@ -845,8 +807,9 @@ class LoadDiagram:
                 tmpValScript += line
 
             elif line[0:4] == 'link':
-                args = ["link", "node"]
-                nameNode, line = self.getValueInBrackets(line, args)
+                nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                line = line[line.index('node=') + 6:len(line)]
+                line = line[0:line.index(']')]
                 listNodes[editor.currentTab][nameNode] = line
                 listNd[nameNode] = line.replace('#Node#', ':').split(':')
 
@@ -918,16 +881,10 @@ class LoadDiagram:
                     if type(lout) == Port and lout.name == namePortEnd:
                         toPort = lout
                         break
-            try:
-                startConnection = Connection(lk, fromPort, toPort, fromPort.format)
-                startConnection.setEndPos(toPort.scenePos())
-                startConnection.setToPort(toPort)
-            except Exception as e:
-                redText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                redText = redText + ('This diagram contains errors : ' + lk)
-                redText = redText + ("</span>")
-                textEdit.clear()
-                textEdit.append(redText)
+
+            startConnection = Connection(lk, fromPort, toPort, fromPort.format)
+            startConnection.setEndPos(toPort.scenePos())
+            startConnection.setToPort(toPort)
 
         if listSc:
             for elem in editor.diagramView[editor.currentTab].items():
@@ -935,23 +892,38 @@ class LoadDiagram:
                     elem.elemProxy.setPlainText(listCode[elem.unit])
 
         ValueZ2()
-        UpdateUndoRedo()
 
-    def getValueInBrackets(self, line, args):
-        res = []
-        line = line.rstrip()
-        for i in range(len(args)-1):
-            tmp=''
+#         UpdateUndoRedo()
+
+
+class ValueZ:
+
+    def __init__(self):
+        listZ = {}
+        zref = len(listTools)
+        lst = listTools[editor.currentTab]
+        keyZ = list(lst.keys())
+        uniZ = lst.values()
+        uniZ = [item for sublist in uniZ for item in sublist]
+
+        listLowNivel = list(set(keyZ) - set(uniZ))
+
+        ind = 0
+        while uniZ:
+            for le in listLowNivel:
+                listZ[le] = ind
+                for le2 in lst[le]:
+                    listZ[le2] = ind + 1
+                    uniZ.remove(le2)
+                keyZ.remove(le)
+            listLowNivel = list(set(keyZ) - set(uniZ))
+            ind += 1
+
+        for its in editor.diagramView[editor.currentTab].items():
             try:
-                tmp = line[line.index(args[i]+'=')+len(args[i])+1:line.index(args[i+1]+'=')-1][1:-1]
+                its.setZValue(listZ[its.unit])
             except Exception as e:
-                try:
-                    tmp = line[line.index(args[i]+'=')+len(args[i])+1:line.index(args[i+2]+'=')-1][1:-1]
-                except Exception as e:
-                    pass
-            res.append(tmp)
-        res.append(line[line.index(args[-1]+'=')+len(args[-1])+1:][1:-1])
-        return res
+                pass
 
 
 class ValueZ2:
@@ -1092,7 +1064,7 @@ class SaveDiagram(QTextEdit):
                     except Exception as e:
                         pass
 
-            elif type(item) == Constants or type(item) ==Checkbox:
+            elif type(item) == Constants:
                 rect = item.rect()
                 if type(item.elemProxy) == Constants_Combo:
                     value = repr(item.elemProxy.currentText())
@@ -1100,8 +1072,6 @@ class SaveDiagram(QTextEdit):
                     value = repr(item.elemProxy.toPlainText())
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
-                elif type(item.elemProxy) == QWidget:
-                    value = item.listItemsBox
                 self.append('constant=[' + str(item.unit) +
                             '] value=[' + str(value) +
                             '] format=[' + str(item.form) +
@@ -1135,15 +1105,14 @@ class UpdateList:
         listConstants[editor.currentTab].clear()
         listTools[editor.currentTab].clear()
         libTools[editor.currentTab].clear()
-        listUnit = []
 
         for line in txt.splitlines():
-            unit=''
-            
+
             if line[0:4] == 'link':
-                unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
+                nameNode = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
                 line = line[line.index('node=') + 6:len(line) - 1]
-                listNodes[editor.currentTab][unit] = line
+
+                listNodes[editor.currentTab][nameNode] = line
 
             elif line[0:5] == 'block':
                 unit = re.search(r"\[([A-Za-z0-9_]+)\]", line).group(1)
@@ -1153,6 +1122,7 @@ class UpdateList:
                 classs = line[0:line.index(']')]
                 line = line[line.index('valInputs=') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF=')]
+
                 listBlocks[editor.currentTab][unit] = (classs, cat, eval(Vinput))
 
             elif line[0:6] == 'submod':
@@ -1161,6 +1131,7 @@ class UpdateList:
                 nameMod = line[0:line.index(']')]
                 line = line[line.index('valInputs=') + 11:len(line)]
                 Vinput = line[0:line.index('] RectF=')]
+
                 listSubMod[editor.currentTab][unit] = (nameMod, eval(Vinput))
 
             elif line[0:5] == 'connt':
@@ -1234,22 +1205,14 @@ class UpdateList:
                 line = line[line.index('code=') + 6:len(line)]
                 code = line[0:line.index('] RectF=')]
                 line = line[line.index('RectF=') + 7:len(line)]
+
                 listTools[editor.currentTab][unit] = code
                 libTools[editor.currentTab][unit] = [eval(inp), eval(outp)]
-
-            if unit:
-                listUnit.append(unit)
-
-        listItemsTmp = listItems[editor.currentTab].copy()
-        for lstUnit in listItemsTmp.keys():
-            if not lstUnit in listUnit:
-                del listItems[editor.currentTab][lstUnit]
 
 
 class UpdateUndoRedo:
 
     def __init__(self):
-        listItemStored.clear()
         for i in range(pointTyping[editor.currentTab] + 1, len(undoredoTyping[editor.currentTab])):
             del undoredoTyping[editor.currentTab][i]
         pointTyping[editor.currentTab] += 1
@@ -1264,7 +1227,6 @@ class UpdateUndoRedo:
 class DiagramScene(QGraphicsScene):
 
     def __init__(self, parent=None):
-        global listItemStored, listBlSmStored
         super(DiagramScene, self).__init__(parent)
         self.prevItem = []
         self._selectedItemVec = deque()
@@ -1274,6 +1236,40 @@ class DiagramScene(QGraphicsScene):
         self.addLine(crss, pen)
         crss = QLineF(0, -10, 0, 10)
         self.addLine(crss, pen)
+
+    def draw_grid(self):
+        WIDTH = 20
+        HEIGHT = 15
+        NUM_BLOCKS_X = 100
+        NUM_BLOCKS_Y = 140
+
+        width = NUM_BLOCKS_X * WIDTH
+        height = NUM_BLOCKS_Y * HEIGHT
+        self.setSceneRect(0, 0, width, height)
+        self.setItemIndexMethod(self.NoIndex)
+
+        pen = QPen(QColor(150, 150, 150), 1, Qt.SolidLine)
+
+        for x in range(-NUM_BLOCKS_X, NUM_BLOCKS_X + 1):
+            xc = x * WIDTH
+            self.lines.append(self.addLine(xc, -height, xc, height, pen))
+
+        for y in range(-NUM_BLOCKS_Y, NUM_BLOCKS_Y + 1):
+            yc = y * HEIGHT
+            self.lines.append(self.addLine(-width, yc, width, yc, pen))
+
+    def set_visible(self, visible=True):
+        for line in self.lines:
+            line.setVisible(visible)
+
+    def delete_grid(self):
+        for line in self.lines:
+            self.removeItem(line)
+        del self.lines[:]
+
+    def set_opacity(self, opacity):
+        for line in self.lines:
+            line.setOpacity(opacity)
 
     def mouseMoveEvent(self, mouseEvent):
         editor.sceneMouseMoveEvent(mouseEvent)
@@ -1313,6 +1309,7 @@ class DiagramScene(QGraphicsScene):
 #         UpdateUndoRedo()
 
     def mousePressEvent(self, mouseEvent):
+
         item = self.itemAt(mouseEvent.scenePos().x(),
                            mouseEvent.scenePos().y(),
                            QTransform(0, 0, 0, 0, 0, 0))
@@ -1368,154 +1365,23 @@ class DiagramScene(QGraphicsScene):
             .fitInView(self.sceneRect(), QtCore.Qt.KeepAspectRatio)
         editor.diagramView[editor.currentTab].scale(0.8, 0.8)
         
-    def keyPressEvent(self, event):
-        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
-            listItemStored.clear()
-            listBlSmStored.clear()
-            for el in self.selectedItems():
-                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox']:
-                    listItemStored[el.unit] = el
-                    if 'U' in el.unit:
-                        listBlSmStored[el.unit] = listBlocks[editor.currentTab][el.unit]
-                    elif 'M' in el.unit:
-                        listBlSmStored[el.unit] = listSubMod[editor.currentTab][el.unit]
-                    elif 'A' in el.unit:
-                        listBlSmStored[el.unit] = listConstants[editor.currentTab][el.unit]
-                    elif 'S' in el.unit:
-                        listBlSmStored[el.unit] = el.elemProxy.toPlainText()
-            for elnd, nod in listNodes[editor.currentTab].items():
-                a, b, c, d = nod.replace('#Node#', ':').split(':')
-                if a in listItemStored.keys() and c in listItemStored.keys():
-                    listItemStored[elnd] = nod
-        elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
-            if listItemStored:
-                self.clearSelection()
-                self.pastItems(listItemStored, listBlSmStored)
-        elif event.key() == QtCore.Qt.Key_Delete:
-            self.deleteItems()
-        return QGraphicsScene.keyPressEvent(self, event)
-    
-    def deleteItems(self):
-        for el in self.selectedItems():
-            if type(el) != LinkItem and type(el) != Wrist:
-                el.deleteItem()
-        UpdateUndoRedo()
-    
-    def pastItems(self, list_It, list_Bl_Sm):
-        edit = editor.diagramView[editor.currentTab]
-        
-        listUnitOld = list_It.keys()
-        listUnitNew = []
-        changeUnit = {}
-  
-        listItemsTmp = list(listItems[editor.currentTab].keys())
-        listNodesTmp = list(listNodes[editor.currentTab].keys())
-                       
-        for k_un in listUnitOld:
-            lst = listItemsTmp + listNodesTmp + listUnitNew
-            new_unit = self.searchUnit(lst, k_un[0])
-            listUnitNew.append(new_unit)
-            changeUnit[k_un] = new_unit
-        
-        for nameUnit, ins in list_It.items():
-            try:
-                x_orig = edit.m_originX
-                y_orig = edit.m_originY
-                posRe = (ins.pos().x() + 100, ins.pos().y() + 100, ins.boundingRect().width(), ins.boundingRect().height())
-            except Exception as e:
-                posRe = (0, 0, 100, 100)
-                
-            if 'U' in nameUnit:
-                tmpVal = list_Bl_Sm[nameUnit][2]
-                newVal = []
-                for lst in range(len(tmpVal[0])):
-                    newV = tmpVal[1][lst]
-                    try:
-                        if 'Node' in newV:
-                            unitNode = newV[newV.index('(')+1:newV.index(')')]
-                            if unitNode in listUnitOld:
-                                newV = newV.replace(unitNode, changeUnit[unitNode])
-                            else:
-                                newV = searchInitialValueBlock(ins.name, tmpVal[0][lst]).getValue()
-                    except:
-                        pass
-                    newVal.append(newV)
-                new_inout = ((ins.inout[0][0], newVal, ins.inout[0][2], ins.inout[0][3]),)
-                edit.loadBlock(changeUnit[nameUnit], ins.name, ins.category, posRe,*new_inout)
-            if 'M' in nameUnit:
-                tmpVal = list_Bl_Sm[nameUnit][1]
-                newVal = []
-                for lst in range(len(tmpVal[0])):
-                    newV = tmpVal[1][lst]
-                    try:
-                        if 'Node' in newV:
-                            unitNode = newV[newV.index('(')+1:newV.index(')')]
-                            if unitNode in listUnitOld:
-                                newV = newV.replace(unitNode, changeUnit[unitNode])
-                            else:
-                                newV = searchInitialValueSubMod(ins.name, tmpVal[0][lst]).getValue()
-                    except:
-                        pass
-                    newVal.append(newV)
-                new_inout = ((ins.inout[0][0], newVal, ins.inout[0][2], ins.inout[0][3]),)
-                edit.loadMod(changeUnit[nameUnit], ins.name, posRe, *new_inout)
-            if 'A' in nameUnit:
-                values = list_Bl_Sm[nameUnit]
-                if ins.format == 'path':
-                    form = 'path'
-                    if "'" in values[1]:
-                        val = values[1][1:-1] # to remove guillemet
-                    else:
-                        val = values[1]
-                else:
-                    form = values[0]
-                    val = values[1]
-                edit.loadConstant(changeUnit[nameUnit], posRe, val, form, ins.label)
-            if 'S' in nameUnit:
-                edit.loadScriptItem(changeUnit[nameUnit], ins.name, posRe, ins.inout[0], ins.inout[1])
-                ball = edit.returnBlockSystem()
-                ball.elemProxy.setText(list_Bl_Sm[nameUnit])
-            if 'P' in nameUnit:
-                edit.loadProbe(changeUnit[nameUnit], ins.label, ins.format, posRe)
-
-            edit.returnBlockSystem().setSelected(1)
-
-        for nameUnit, ins in list_It.items():
-            if 'N' in nameUnit:
-                a, b, c, d = ins.replace('#Node#', ':').split(':')
-                a = changeUnit[a]
-                c = changeUnit[c]
-                newNode = changeUnit[nameUnit]
-                listNodes[editor.currentTab][newNode] = a + ':' + b + '#Node#' + c + ':' + d
-                tmp = listItems[editor.currentTab][a]
-#                 tmp.setSelected(1)
-                if 'A' in a:
-                    fromPort = tmp.outputs[0]
-                else:
-                    for lin in tmp.outputs:
-                        if type(lin) == Port and lin.name == b:
-                            fromPort = lin
-                            break
-                tmp = listItems[editor.currentTab][c]
-#                 tmp.setSelected(1)
-                for lin in tmp.inputs:
-                    if type(lin) == Port and lin.name == d:
-                        toPort = lin
-                        break
-                startConnection = Connection(newNode, fromPort, toPort, fromPort.format)
-                startConnection.setEndPos(toPort.scenePos())
-                startConnection.setToPort(toPort)
-        UpdateUndoRedo()
-
-    def searchUnit(self, list, char_unit):
-        NodeExist = True
-        inc = 0
-        while NodeExist:
-            if char_unit + str(inc) in list:
-                inc += 1
-            else:
-                NodeExist = False
-        return char_unit + str(inc)
+#     def keyPressEvent(self, event):
+#         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+#             for elit, itm in listItems[editor.currentTab].items():
+#                 if itm.isSelected():
+#                     listItemStored[elit] = itm
+#             for elnd, nod in listNodes[editor.currentTab].items():
+#                 a, b, c, d = nod.replace('#Node#', ':').split(':')
+#                 if a in listItemStored.keys() and c in listItemStored.keys():
+#                     listItemStored[elnd] = nod
+#         elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
+#             self.pastItems(listItemStored)
+#         return QGraphicsScene.keyPressEvent(self, event)
+#     
+#     def pastItems(self, listItems):
+#         changeNodeName = {}
+#         for it, ins in listItems.items():
+#             print(it, ins)
 
 class DiagramView(QGraphicsView):
 
@@ -1535,8 +1401,6 @@ class DiagramView(QGraphicsView):
         self.caseFinal = False
         self.currentLoop = None
         self.m_originX, self.m_originY = 0, 0
-
-#         self.startPos = None
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasFormat('mod_SubMod')\
@@ -1644,11 +1508,6 @@ class DiagramView(QGraphicsView):
                 self.a1.setPos(self.mapToScene(event.pos()))
                 self.scene().addItem(self.a1)
                 self.addItemLoop(self.a1.unit)
-            elif "Checkbox" in name:
-                self.a1 = Checkbox('newCheckbox', ['Item1', 'Item2'], '', True )
-                self.a1.setPos(self.mapToScene(event.pos()))
-                self.scene().addItem(self.a1)
-                self.addItemLoop(self.a1.unit)
             try:
                 listItems[editor.currentTab][self.a1.unit] = self.a1
             except Exception as e:
@@ -1711,10 +1570,7 @@ class DiagramView(QGraphicsView):
         self.ball = self.b6
 
     def loadConstant(self, unit, pos, vout, format, label):
-        if format == 'list_str':
-            self.b7 = Checkbox(unit, vout, label, True)
-        else:
-            self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
+        self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
         self.b7.setPos(pos[0], pos[1])
         self.scene().addItem(self.b7)
         listItems[editor.currentTab][self.b7.unit] = self.b7
@@ -1738,31 +1594,74 @@ class DiagramView(QGraphicsView):
         if event.button() == Qt.MidButton:
             self.__prevMousePos = event.pos()
         elif event.button() == Qt.LeftButton:
-            self.m_originX, self.m_originY = self.mapToScene(event.pos()).x(), self.mapToScene(event.pos()).y()#             self.startPos = event.pos()
+            self.m_originX, self.m_originY = self.mapToScene(event.pos()).x(), self.mapToScene(event.pos()).y()
             return QGraphicsView.mousePressEvent(self, event)
         else:
             super(DiagramView, self).mousePressEvent(event)
+
 
     def mouseMoveEvent(self, event):
         if event.buttons() == Qt.MidButton:
             offset = self.__prevMousePos - event.pos()
             self.__prevMousePos = event.pos()
-            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() + offset.x())
             self.verticalScrollBar().setValue(self.verticalScrollBar().value() + offset.y())
+            self.horizontalScrollBar().setValue(self.horizontalScrollBar().value() + offset.x())
+#         elif event.buttons() == Qt.LeftButton:
+#             self.centerOn(self.mapToScene(event.pos()))
+#             super(DiagramView, self).mouseMoveEvent(event)
         else:
             super(DiagramView, self).mouseMoveEvent(event)
-            
+
     def wheelEvent(self, event):
         adj = 0.1777
         if event.angleDelta().y() < 0:
             adj = -adj
+
         self.scalefactor += adj
         self.scale(1 + adj, 1 + adj)
+
         rectBounds = self.scene().itemsBoundingRect()
         self.scene().setSceneRect(rectBounds.x() - 200, rectBounds.y() - 200, rectBounds.width() + 400, rectBounds.height() + 400)
 
     def returnBlockSystem(self):
         return self.ball
+
+    def keyPressEvent(self, event):
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+V"):
+            try:
+                posRe = (self.m_originX, self.m_originY, itemStored.boundingRect().width(), itemStored.boundingRect().height())
+            except Exception as e:
+                posRe = (0, 0, 100, 100)
+
+            if type(itemStored) == ConnectorItem:
+                if 'in' in itemStored.inout:
+                    self.scene().addInputConn(self.m_originX, self.m_originY)
+                else:
+                    self.scene().addOutputConn(self.m_originX, self.m_originY)
+                UpdateUndoRedo()
+
+            if type(itemStored) == BlockCreate:
+                if itemStored.category is not None:
+                    ind = 0
+                    for i, j in enumerate(editor.getlib()):
+                        if j[0] == itemStored.name:
+                            ind = i
+                            break
+                    self.loadBlock('newBlock', itemStored.name, itemStored.category, posRe, editor.getlib()[ind][2])
+                else:
+                    self.loadMod('newSubMod', itemStored.name, posRe)
+
+            if type(itemStored) == CommentsItem:
+                self.loadComments(posRe, itemStored.label.toPlainText())
+
+            if type(itemStored) == Constants:
+                self.loadConstant('newConstant', posRe, itemStored.val, itemStored.form, '')
+
+            if type(itemStored) == Probes:
+                self.loadProbe('new', itemStored.label, 'unkn', posRe)
+
+            UpdateUndoRedo()
+        return QGraphicsView.keyPressEvent(self, event)
 
 
 class PreviewBlock(QGraphicsView):
@@ -1839,55 +1738,55 @@ class Connection:
         self.pos2 = endpos
 
         path = QPainterPath()
-        start_x, start_y = self.pos1.x(), self.pos1.y() - 1
-        end_x, end_y = self.pos2.x(), self.pos2.y() - 1
-        ctrl1_x, ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
-        ctrl2_x, ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
-        path.moveTo(start_x, start_y)
+        self.start_x, self.start_y = self.pos1.x(), self.pos1.y() - 1
+        self.end_x, self.end_y = self.pos2.x(), self.pos2.y() - 1
+        self.ctrl1_x, self.ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
+        self.ctrl2_x, self.ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
+        path.moveTo(self.start_x, self.start_y)
 
-        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
+        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
 
         self.link.setPath(path)
         self.link.bislink.setPath(path)
-        self.link.setPositionTxt((start_x + end_x) / 2, (start_y + end_y) / 2)
+        self.link.setPositionTxt((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2)
         try:
-            theta = atan((ctrl2_y - ctrl1_y) / (ctrl2_x - ctrl1_x))
+            theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
         except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
-            QPointF((start_x + end_x) / 2, (1 + start_y + end_y) / 2),
-            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (start_x + end_x) / 2,
-                    self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2),
-            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (start_x + end_x) / 2,
-                    1 - self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2)])
+            QPointF((self.start_x + self.end_x) / 2, (1 + self.start_y + self.end_y) / 2),
+            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (self.start_x + self.end_x) / 2,
+                    self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2),
+            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (self.start_x + self.end_x) / 2,
+                    1 - self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2)])
         self.link.setPositionShow(polyhead)
 
     def setBeginPos(self, pos1):
         self.pos1 = pos1
 
         path = QPainterPath()
-        start_x, start_y = self.pos1.x(), self.pos1.y() - 1
-        end_x, end_y = self.pos2.x(), self.pos2.y() - 1
-        ctrl1_x, ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
-        ctrl2_x, ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
-        path.moveTo(start_x, start_y)
+        self.start_x, self.start_y = self.pos1.x(), self.pos1.y() - 1
+        self.end_x, self.end_y = self.pos2.x(), self.pos2.y() - 1
+        self.ctrl1_x, self.ctrl1_y = self.pos1.x() + (self.pos2.x() - self.pos1.x()) * 0.7, self.pos1.y()
+        self.ctrl2_x, self.ctrl2_y = self.pos2.x() + (self.pos1.x() - self.pos2.x()) * 0.7, self.pos2.y()
+        path.moveTo(self.start_x, self.start_y)
 
-        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
+        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
 
         self.link.setPath(path)
         self.link.bislink.setPath(path)
-        self.link.setPositionTxt((start_x + end_x) / 2, (start_y + end_y) / 2)
+        self.link.setPositionTxt((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2)
 
         try:
-            theta = atan((ctrl2_y - ctrl1_y) / (ctrl2_x - ctrl1_x))
+            theta = atan((self.ctrl2_y - self.ctrl1_y) / (self.ctrl2_x - self.ctrl1_x))
         except Exception as e:
             theta = 1.5708
         polyhead = QPolygonF([
-            QPointF((start_x + end_x) / 2, (start_y + end_y) / 2),
-            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (start_x + end_x) / 2,
-                    self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2),
-            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (start_x + end_x) / 2,
-                    -self.b * cos(theta) + self.a * sin(theta) + (start_y + end_y) / 2)])
+            QPointF((self.start_x + self.end_x) / 2, (self.start_y + self.end_y) / 2),
+            QPointF(-self.a * cos(theta) + self.b * sin(theta) + (self.start_x + self.end_x) / 2,
+                    self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2),
+            QPointF(-self.a * cos(theta) - self.b * sin(theta) + (self.start_x + self.end_x) / 2,
+                    -self.b * cos(theta) + self.a * sin(theta) + (self.start_y + self.end_y) / 2)])
         self.link.setPositionShow(polyhead)
 
     # if link connected nowhere
@@ -2064,24 +1963,24 @@ class LinkItem(QGraphicsPathItem):
                     pathYml = os.path.dirname(os.path.realpath(__file__))
                     pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                     if os.path.exists(pathYml):
-                        with open(pathYml, 'r', encoding='utf8') as stream:
-                            dicts = yaml.load(stream, yaml.FullLoader)
-                            for el in dicts[mod]:
+                        with open(pathYml, 'r') as stream:
+                            self.dicts = yaml.load(stream, yaml.FullLoader)
+                            for el in self.dicts[mod]:
                                 if el in listVal[2][0]:
                                     listEnter = (*listEnter, el)
-                                    if type(dicts[mod][el]).__name__ == 'str':
-                                        if 'enumerate' in dicts[mod][el]:
-                                            listValDefault = (*listValDefault, dicts[mod][el])
+                                    if type(self.dicts[mod][el]).__name__ == 'str':
+                                        if 'enumerate' in self.dicts[mod][el]:
+                                            listValDefault = (*listValDefault, self.dicts[mod][el])
                                         else:
                                             try:
-                                                listValDefault = (*listValDefault, eval(dicts[mod][el]))
+                                                listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
                                             except Exception as e:
-                                                listValDefault = (*listValDefault, dicts[mod][el])
+                                                listValDefault = (*listValDefault, self.dicts[mod][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, eval(dicts[mod][el]))
+                                            listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, dicts[mod][el])
+                                            listValDefault = (*listValDefault, self.dicts[mod][el])
             ################################################################
             newList = []
             for i in range(len(listEnter)):
@@ -2234,24 +2133,24 @@ class ProcessItem():
                 pathYml = os.path.dirname(os.path.realpath(__file__))
                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                 if os.path.exists(pathYml):
-                    with open(pathYml, 'r', encoding='utf8') as stream:
-                        dicts = yaml.load(stream, yaml.FullLoader)
-                        for el in dicts[name]:
+                    with open(pathYml, 'r') as stream:
+                        self.dicts = yaml.load(stream, yaml.FullLoader)
+                        for el in self.dicts[name]:
                             if el in listVal[0]:
                                 listEnter = (*listEnter, el)
-                                if type(dicts[name][el]).__name__ == 'str':
-                                    if 'enumerate' in dicts[name][el]:
-                                        listValDefault = (*listValDefault, dicts[name][el])
+                                if type(self.dicts[name][el]).__name__ == 'str':
+                                    if 'enumerate' in self.dicts[name][el]:
+                                        listValDefault = (*listValDefault, self.dicts[name][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, str(eval(dicts[name][el])))
+                                            listValDefault = (*listValDefault, str(eval(self.dicts[name][el])))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, str(dicts[name][el]))
+                                            listValDefault = (*listValDefault, str(self.dicts[name][el]))
                                 else:
                                     try:
-                                        listValDefault = (*listValDefault, eval(dicts[name][el]))
+                                        listValDefault = (*listValDefault, eval(self.dicts[name][el]))
                                     except Exception as e:
-                                        listValDefault = (*listValDefault, dicts[name][el])
+                                        listValDefault = (*listValDefault, self.dicts[name][el])
 
         ###############################################################################
         newVal = []
@@ -2293,7 +2192,7 @@ class SubProcessItem():
         wminIn = 0.0
         wminOut = 0.0
 
-        if unit in 'newSubMod' or unit in 'pastSubmod':
+        if unit in 'newSubMod':
             SubModExist = True
             inc = 0
             while SubModExist:
@@ -2308,8 +2207,7 @@ class SubProcessItem():
                 if j[0] == self.name:
                     indMod = i
                     break
-            if unit in 'newSubMod':
-                inout = (libSubMod[indMod][1][0],)
+            inout = (libSubMod[indMod][1][0],)
 
         else:
             self.unit = unit
@@ -2368,7 +2266,7 @@ class BlockCreate(QGraphicsRectItem):
         gradient = QLinearGradient(QPointF(0, 0), QPointF(0, 50))
         gradient.setColorAt(0.3, colorGradient)
 
-        self.setPen(QtGui.QPen(colorPen, 3))
+        self.setPen(QtGui.QPen(colorPen, 2))
         self.setBrush(QBrush(gradient))
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
@@ -2495,9 +2393,9 @@ class BlockCreate(QGraphicsRectItem):
         event.accept()
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
-#     def hoverLeaveEvent(self, event):
-#         self.setSelected(False)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
+    def hoverLeaveEvent(self, event):
+        self.setSelected(False)
+        return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def contextMenuEvent(self, event):
         menu = QMenu()
@@ -2516,7 +2414,7 @@ class BlockCreate(QGraphicsRectItem):
             ad.triggered.connect(self.addConnectorOutputs)
             menu.addSeparator()
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteItem)
+            de.triggered.connect(self.deleteBlocks)
             pa = menu.addAction('Parameters')
             if self.category:
                 pa.triggered.connect(self.editParametersProcess)
@@ -2638,24 +2536,24 @@ class BlockCreate(QGraphicsRectItem):
             pathYml = os.path.dirname(os.path.realpath(__file__))
             pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
             if os.path.exists(pathYml):
-                with open(pathYml, 'r', encoding='utf8') as stream:
-                    dicts = yaml.load(stream, yaml.FullLoader)
+                with open(pathYml, 'r') as stream:
+                    self.dicts = yaml.load(stream, yaml.FullLoader)
                     try:
-                        for el in dicts[self.name]:
+                        for el in self.dicts[self.name]:
                             if el in listBlocks[editor.currentTab][self.unit][2][0]:
-                                if type(dicts[self.name][el]).__name__ == 'str':
-                                    if 'enumerate' in dicts[self.name][el]:
-                                        listValDefault = (*listValDefault, dicts[self.name][el])
+                                if type(self.dicts[self.name][el]).__name__ == 'str':
+                                    if 'enumerate' in self.dicts[self.name][el]:
+                                        listValDefault = (*listValDefault, self.dicts[self.name][el])
                                     else:
                                         try:
-                                            listValDefault = (*listValDefault, eval(dicts[self.name][el]))
+                                            listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
                                         except Exception as e:
-                                            listValDefault = (*listValDefault, dicts[self.name][el])
+                                            listValDefault = (*listValDefault, self.dicts[self.name][el])
                                 else:
                                     try:
-                                        listValDefault = (*listValDefault, eval(dicts[self.name][el]))
+                                        listValDefault = (*listValDefault, eval(self.dicts[self.name][el]))
                                     except Exception as e:
-                                        listValDefault = (*listValDefault, dicts[self.name][el])
+                                        listValDefault = (*listValDefault, self.dicts[self.name][el])
                     except Exception as e:
                         pass                    
         c = editParam(self.name, self.unit, listBlocks[editor.currentTab][self.unit][2], listValDefault)
@@ -2779,7 +2677,10 @@ class BlockCreate(QGraphicsRectItem):
                 self.editParametersSubProcess()
 
     def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Up:
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.deleteBlocks()
+        elif event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         elif event.key() == QtCore.Qt.Key_Down:
             self.setPos(self.x(), self.y() + 1)
@@ -2787,6 +2688,8 @@ class BlockCreate(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         elif event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+        elif QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
         elif event.key() == QtCore.Qt.Key_Plus and '_dyn' in self.name:
             self.addinput()
         elif event.key() == QtCore.Qt.Key_Minus and '_dyn' in self.name:
@@ -2800,35 +2703,33 @@ class BlockCreate(QGraphicsRectItem):
         path_blockdoc = os.path.dirname(os.path.realpath(__file__))
         docYml = os.path.join(path_blockdoc, '../blocsdoc', "BlocsDoc.yml")
         if os.path.exists(docYml):
-            with open(docYml, 'r', encoding='utf8') as stream:
+            with open(docYml, 'r') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
                 if classUnit in dicts.keys():
-                    functiona = dicts[classUnit]['functionality']
-                    link_web = ''
-                    try:
-                        link_web = dicts[classUnit]['link_web']
-                        if 'http://' in link_web or 'https://' in link_web:
-                            self.link = link_web
-                    except Exception as err:
-                        pass
-                    image_png = os.path.join(path_blockdoc,
-                                                        '../blocsdoc',
-                                                        classUnit+'.png')
+                    txtFunctionalité = dicts[classUnit]['functionality']
+                    if 'http://' in txtFunctionalité or 'https://' in txtFunctionalité:
+                        self.link = txtFunctionalité
                     txt = "<p style=\"background-color: #ffffff;\">"
                     txt += "<span style=\" \
                             font-size:12pt; \
                             font-weight:1000; \
                             color:#000000; \" >" + classUnit + " : <br><br></span>"
-                    if os.path.exists(image_png):
-                        txt += " <img src='" + image_png + \
+                    txt += " <img src='" + os.path.join(path_blockdoc,
+                                                        '../blocsdoc',
+                                                        classUnit+'.png') + \
                            "'><br>"
-                    if functiona:
+                    txt += "<span style=\" \
+                            font-size:10pt; \
+                            font-weight:600; \
+                            color:#3060FF;\" >" + txtFunctionalité + "<br>"
+                    if self.link:
                         txt += "<span style=\" \
                                 font-size:10pt; \
-                                font-weight:600; \
-                                color:#3060FF;\" >" + functiona + "<br><br>"
+                                font-weight:1000; \
+                                color:#000000; \" > (type Ctrl+U to go to this link)<br>"
+                    txt += "<br></span>"
                     for ks, vl in dicts[classUnit].items():
-                        if ks not in ['functionality', 'dependencies', 'link_web']:
+                        if ks not in ['functionality', 'dependencies']:
                             txt += "<span style=\" \
                                     font-size:10pt; \
                                     font-weight:800; \
@@ -2848,16 +2749,6 @@ class BlockCreate(QGraphicsRectItem):
                                 color:#AA1100;\" >" + dicts[classUnit]['dependencies'] + "<br></span>"
                     except Exception as e:
                         pass
-                    if self.link:
-                        txt += "<br><span style=\" \
-                            font-size:8pt; \
-                            font-weight:600; \
-                            color:#AA1100;\" >" + link_web + "<br>"
-                        txt += "<span style=\" \
-                                font-size:8pt; \
-                                font-weight:1000; \
-                                color:#AA1100; \" > (type Ctrl+U to go to this link)<br>"
-                        txt += "<br></span>"
                     txt += "</p>"
                     self.setToolTip(txt)
 
@@ -2868,7 +2759,7 @@ class BlockCreate(QGraphicsRectItem):
 
         if os.path.exists(pathYml):
             lvl = listBlocks.copy()[editor.currentTab][self.unit]
-            with open(pathYml, 'r', encoding='utf8') as stream:
+            with open(pathYml, 'r') as stream:
                 dicts = yaml.load(stream, yaml.FullLoader)
             try:
                 dicts[self.name]
@@ -2876,9 +2767,9 @@ class BlockCreate(QGraphicsRectItem):
                 c.exec_()
                 if c.getAnswer() == "cancel":
                     return
-                UpdateUndoRedo()
                 asq = (c.getNewValues()[0],)
                 self.updateBlock(asq)
+
             except (OSError, KeyError) as err:
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + (' No options available ')
@@ -2889,8 +2780,6 @@ class BlockCreate(QGraphicsRectItem):
             greenText = greenText + (' No options available ')
             greenText = greenText + ("</span>")
             textEdit.append(greenText)
-
-        UpdateUndoRedo()
 
     def addinput(self):
         ind = 0
@@ -2980,7 +2869,7 @@ class BlockCreate(QGraphicsRectItem):
         UpdateList(diagram)
         undoredoTyping[editor.currentTab][len(undoredoTyping[editor.currentTab])] = diagram
 
-    def deleteItem(self):
+    def deleteBlocks(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -2995,7 +2884,7 @@ class BlockCreate(QGraphicsRectItem):
             listSubMod[editor.currentTab] = ReorderList(listSubMod[editor.currentTab]).getNewList()
         editor.deleteItemsLoop(self)
         listNodes[editor.currentTab] = ReorderList(listNodes[editor.currentTab]).getNewList()
-#         UpdateUndoRedo()
+        UpdateUndoRedo()
 
     def deletelink(self, linkEle, unt):
         nameItem = listNodes[editor.currentTab][linkEle.name]
@@ -3079,24 +2968,24 @@ class BlockCreate(QGraphicsRectItem):
                         pathYml = os.path.dirname(os.path.realpath(__file__))
                         pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                         if os.path.exists(pathYml):
-                            with open(pathYml, 'r', encoding='utf8') as stream:
-                                dicts = yaml.load(stream, yaml.FullLoader)
-                                for el in dicts[mod]:
+                            with open(pathYml, 'r') as stream:
+                                self.dicts = yaml.load(stream, yaml.FullLoader)
+                                for el in self.dicts[mod]:
                                     if el in listVal[2][0]:
                                         listEnter = (*listEnter, el)
-                                        if type(dicts[mod][el]).__name__ == 'str':
-                                            if 'enumerate' in dicts[mod][el]:
-                                                listValDefault = (*listValDefault, dicts[mod][el])
+                                        if type(self.dicts[mod][el]).__name__ == 'str':
+                                            if 'enumerate' in self.dicts[mod][el]:
+                                                listValDefault = (*listValDefault, self.dicts[mod][el])
                                             else:
                                                 try:
-                                                    listValDefault = (*listValDefault, eval(dicts[mod][el]))
+                                                    listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
                                                 except Exception as e:
-                                                    listValDefault = (*listValDefault, dicts[mod][el])
+                                                    listValDefault = (*listValDefault, self.dicts[mod][el])
                                         else:
                                             try:
-                                                listValDefault = (*listValDefault, eval(dicts[mod][el]))
+                                                listValDefault = (*listValDefault, eval(self.dicts[mod][el]))
                                             except Exception as e:
-                                                listValDefault = (*listValDefault, dicts[mod][el])
+                                                listValDefault = (*listValDefault, self.dicts[mod][el])
                 ###############################################################################
                 newList = []
                 for i in range(len(listEnter)):
@@ -3151,64 +3040,19 @@ class BlockCreate(QGraphicsRectItem):
         file = os.path.join(path_submod, '../submodules', self.name + '.mod')
         editor.pathDiagram[editor.currentTab] = file
         textInf.setText(file)
-        f = open(file, 'r', encoding='utf8')
+        f = open(file, 'r')
         txt = f.readlines()
         f.close()
         LoadDiagram(txt)
         editor.diagramView[editor.currentTab].fitInView(editor.diagramScene[editor.currentTab].sceneRect(), QtCore.Qt.KeepAspectRatio)
 
-class searchInitialValueBlock:
-    def __init__(self, className, inputName):
-        inds = 0
-        for i, j in enumerate(editor.getlib()):
-            if j[0] == className:
-                inds = i
-                break
-        inout = editor.getlib()[inds]
-        listEnter = inout[2][0]
-        listValDefault = inout[2][1]
-        self.val = ''
-        if inputName in listEnter:
-            self.val = listValDefault[listEnter.index(inputName)]
-        else:
-            if '_dyn' in className:
-                self.val = listValDefault[-1]
-            else:
-                category = inout[1]
-                cat = category.split('.')
-                pathYml = os.path.dirname(os.path.realpath(__file__))
-                pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
-                if os.path.exists(pathYml):
-                    with open(pathYml, 'r', encoding='utf8') as stream:
-                        dicts = yaml.load(stream, yaml.FullLoader)
-                        self.val = dicts[className][inputName]
 
-    def getValue(self):
-        return self.val
-
-class searchInitialValueSubMod:
-    def __init__(self, className, inputName):
-        inds = 0
-        for i, j in enumerate(libSubMod):
-            if j[0] == className:
-                inds = i
-                break
-        inout = libSubMod[inds]
-        listEnter = inout[1][0][0]
-        listValDefault = inout[1][0][1]
-        self.val = listValDefault[listEnter.index(inputName)]
-
-    def getValue(self):
-        return self.val
-
-        
 class Probes(QGraphicsPolygonItem):
     def __init__(self, unit='', format='unkn', label='', isMod=True, parent=None):
         super(Probes, self).__init__(parent)
 
         self.label = label
         self.isMod = isMod
-        self.format = format
         self.preview = False
         self.caseFinal = False
         self.currentLoop = None
@@ -3261,13 +3105,16 @@ class Probes(QGraphicsPolygonItem):
     def mouseMoveEvent(self, mouseEvent):
         mouseEvent.accept()
         editor.loopMouseMoveEvent(self, mouseEvent.scenePos())
-        return QGraphicsPolygonItem.mouseMoveEvent(self, mouseEvent)
+        return QGraphicsRectItem.mouseMoveEvent(self, mouseEvent)
 
     def mouseReleaseEvent(self, event):
         editor.loopMouseReleaseEvent(self)
-        return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
+        return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.deleteProbe()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3276,8 +3123,10 @@ class Probes(QGraphicsPolygonItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
 
-    def deleteItem(self):
+    def deleteProbe(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -3285,7 +3134,7 @@ class Probes(QGraphicsPolygonItem):
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listProbes[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-#         UpdateUndoRedo()
+        UpdateUndoRedo()
 
     def hoverLeaveEvent(self, event):
         self.setSelected(0)
@@ -3376,20 +3225,23 @@ class ConnectorItem(QGraphicsPolygonItem):
         if self.inout in 'out':
             if self.input.label.toPlainText() not in 'unkn':
                 self.changelabel()
-        return QGraphicsPolygonItem.mouseDoubleClickEvent(self, event)
+        return QGraphicsRectItem.mouseDoubleClickEvent(self, event)
 
     def mouseMoveEvent(self, event):
         self.moved = True
         event.accept()
-        return QGraphicsPolygonItem.mouseMoveEvent(self, event)
+        return QGraphicsRectItem.mouseMoveEvent(self, event)
 
     def mouseReleaseEvent(self, event):
         if self.moved:
             UpdateUndoRedo()
             self.moved = False
-        return QGraphicsPolygonItem.mouseReleaseEvent(self, event)
+        return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
     def keyPressEvent(self, event):
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.deleteConnct()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3398,13 +3250,15 @@ class ConnectorItem(QGraphicsPolygonItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
 
     def contextMenuEvent(self, event):
         if not self.isSelected():
             return
         menu = QMenu()
         de = menu.addAction('Delete')
-        de.triggered.connect(self.deleteItem)
+        de.triggered.connect(self.deleteConnct)
         pa = menu.addAction('Change label')
         if self.inout in 'in':
             if self.output.label.toPlainText() == 'unkn':
@@ -3450,7 +3304,7 @@ class ConnectorItem(QGraphicsPolygonItem):
             print('error change label : ', str(err))
             listConnects[editor.currentTab][self.connct] = listVal
 
-    def deleteItem(self):
+    def deleteConnct(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.connct + ':') != -1:
@@ -3458,7 +3312,7 @@ class ConnectorItem(QGraphicsPolygonItem):
         editor.diagramScene[editor.currentTab].removeItem(self)
         del listConnects[editor.currentTab][self.connct]
         listConnects[editor.currentTab] = ReorderList(listConnects[editor.currentTab]).getNewList()
-#         UpdateUndoRedo()
+        UpdateUndoRedo()
 
     def hoverEnterEvent(self, event):
         self.setSelected(1)
@@ -3509,6 +3363,10 @@ class CommentsItem(QGraphicsRectItem):
         return w, h
 
     def keyPressEvent(self, event):
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            editor.diagramScene[editor.currentTab].removeItem(self)
+            UpdateUndoRedo()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -3517,9 +3375,9 @@ class CommentsItem(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
-            
-    def deleteItem(self):
-        editor.diagramScene[editor.currentTab].removeItem(self)
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
+
 
 class LabelGroup(QGraphicsTextItem):
 
@@ -3579,204 +3437,6 @@ class LabelGroup(QGraphicsTextItem):
         if event.key() == Qt.Key_Right:
             self.setPos(self.x() + 2, self.y())
 
-###############################################################################
-
-class Checkbox(QGraphicsRectItem):
-    
-    def __init__(self, unit='', listItems=[], label='', isMod=True, parent=None):
-        super(Checkbox, self).__init__(parent)
-       
-        self.isMod = isMod
-        self.form = 'list_str'
-                
-        self.setZValue(2)
-        if self.isMod:
-            self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
-            self.setFlag(self.ItemIsFocusable, True)
-            self.setAcceptHoverEvents(True)
-            
-        if unit in 'newCheckbox':
-            ConstantExist = True
-            inc = 0
-            while ConstantExist:
-                if 'A' + str(inc) in listConstants[editor.currentTab]:
-                    inc += 1
-                else:
-                    ConstantExist = False
-            self.unit = 'A' + str(inc)
-        else:
-            self.unit = unit
-        
-        if label:
-            self.label = label
-        else:    
-            self.label = self.unit
-
-        
-        self.listCheckBox = []
-        self.listItemsBox = listItems
-        self.grid = QGridLayout()
-        self.elemProxy = QWidget()
-
-        for i, v in enumerate(listItems):
-            if '*' in v:
-                self.listCheckBox.append(QCheckBox(v[0:-1]))
-                self.listCheckBox[-1].setChecked(True)
-            else:
-                self.listCheckBox.append(QCheckBox(v))
-            self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
-            self.grid.addWidget(self.listCheckBox[-1], i, 0)
-        
-        self.elemProxy.setLayout(self.grid)
-
-        self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
-        self.proxyWidget.setWidget(self.elemProxy)
-        self.proxyWidget.setPos(3, 3)
-        self.proxyWidget.setZValue(3)
-        
-        self.w = self.proxyWidget.boundingRect().size().width() + 15
-        self.h = self.proxyWidget.boundingRect().size().height() + 6
-        
-        self.lab = QGraphicsTextItem(self.label, self)
-        self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
-        self.lab.setFont(QFont("Times", 12, QFont.Bold))
-        self.lab.setPos(0, -30)
-        self.lab.setVisible(True)
-       
-        self.setPen(QtGui.QPen(ItemColor.frame_constants.value, 3))
-        color = TypeColor.str.value
-        self.setBrush(QtGui.QBrush(color))
-        self.setRect(0.0, 0.0, self.w, self.h)
-        
-        self.inputs = []
-        self.outputs = []
-        self.outputs.append(Port('', 'out', 'list_str', self.unit, True, self.isMod, 80, -12, self))
-        self.outputs[0].setPos(self.w + 2, self.h / 2)
-        if self.isMod:
-            self.updateListItems()
-            
-    def checkboxChanged(self):
-        self.listItemsBox = []
-        for lstCh in self.listCheckBox:
-            tmp = lstCh.text().replace('*','')
-            if lstCh.checkState():
-                self.listItemsBox.append(tmp+'*')
-            else:
-                self.listItemsBox.append(tmp)
-        if self.isMod:
-            self.updateListItems()
-                
-    def updateListItems(self):
-        listConstants[editor.currentTab][self.unit] = (self.form, self.listItemsBox, self.label)
-    
-    def keyPressEvent(self, event):
-        if event.key() == QtCore.Qt.Key_Up:
-            self.setPos(self.x(), self.y() - 1)
-        if event.key() == QtCore.Qt.Key_Down:
-            self.setPos(self.x(), self.y() + 1)
-        if event.key() == QtCore.Qt.Key_Left:
-            self.setPos(self.x() - 1, self.y())
-        if event.key() == QtCore.Qt.Key_Right:
-            self.setPos(self.x() + 1, self.y())
-#         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
-            
-    def mouseDoubleClickEvent(self, event):
-        if self.isMod:
-            tmp = []
-            for el in self.listItemsBox:
-                tmp.append(el.replace('*',''))
-            p = editCombobox(tmp)
-            p.exec_()
-            if p.getAnswer() == 'ok':
-                newList = p.getNewList()
-                del self.listCheckBox
-                self.listCheckBox = []
-                self.listItemsBox = []
-                self.elemProxy.deleteLater()
-                self.proxyWidget.deleteLater()
-                self.grid.deleteLater()
-                self.grid = QGridLayout()
-                for i, v in enumerate(newList):
-                    if v:
-                        self.listItemsBox.append(v)
-                        self.listCheckBox.append(QCheckBox(v))
-                        self.listCheckBox[-1].clicked.connect(self.checkboxChanged)
-                        self.grid.addWidget(self.listCheckBox[-1], i, 0)
-                self.elemProxy = QWidget()
-                self.elemProxy.setLayout(self.grid)
-                self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
-                self.proxyWidget.setWidget(self.elemProxy)
-                self.proxyWidget.setPos(3, 3)
-                self.proxyWidget.setZValue(3)
-                w = self.proxyWidget.boundingRect().size().width() + 15
-                h = self.proxyWidget.boundingRect().size().height() + 6    
-                self.setRect(0.0, 0.0, w, h)
-                self.outputs[0].setPos(w + 2, h / 2)
-                self.updateListItems()
-               
-    def contextMenuEvent(self, event):
-        if self.isMod:
-            menu = QMenu()
-            de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteItem)
-            ca = menu.addAction('Check on all items')
-            ca.triggered.connect(self.checkOn)
-            fa = menu.addAction('Check off all items')
-            fa.triggered.connect(self.checkOff)
-            pa = menu.addAction('Change label')
-            pa.triggered.connect(self.changeLabel)
-            menu.exec_(event.screenPos())
-            
-    def deleteItem(self):
-        for elem in editor.diagramView[editor.currentTab].items():
-            if type(elem) == LinkItem:
-                if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
-                    BlockCreate.deletelink(self, elem, self.unit)
-        editor.diagramScene[editor.currentTab].removeItem(self)
-        del listConstants[editor.currentTab][self.unit]
-        del listItems[editor.currentTab][self.unit]
-        editor.deleteItemsLoop(self)
-#         UpdateUndoRedo()
-        
-    def checkOn(self):
-        self.listItemsBox = []
-        for lstCh in self.listCheckBox:
-            if not lstCh.checkState():
-                lstCh.setChecked(True)
-            self.listItemsBox.append(lstCh.text()+'*')
-        if self.isMod:
-            self.updateListItems()
-    
-    def checkOff(self):
-        self.listItemsBox = []
-        for lstCh in self.listCheckBox:
-            if lstCh.checkState():
-                lstCh.setChecked(False)
-            self.listItemsBox.append(lstCh.text())
-        if self.isMod:
-            self.updateListItems()
-            
-    def changeLabel(self):
-        listLabCts = []
-        for x, y in listConstants[editor.currentTab].items():
-            listLabCts.append(y[2])
-        listVal = listConstants[editor.currentTab][self.unit]
-        oldVal = listVal[2]
-        c = changeLabel('Const', self.unit, oldVal)
-        c.exec_()
-        try:
-            self.label = c.getNewLabel()
-            if self.label in listLabCts:
-                self.label += '-b'
-            self.lab.setPlainText(self.label)
-            del listConstants[editor.currentTab][self.unit]
-            listConstants[editor.currentTab][self.unit] = (listVal[0], listVal[1], self.label)
-            UpdateUndoRedo()
-        except OSError as err:
-            print("OS error: {0}".format(err))
-        if self.isMod:
-            self.updateListItems()
-            
 ###############################################################################
 
 
@@ -3855,11 +3515,11 @@ class Constants(QGraphicsRectItem):
         self.w = self.proxyWidget.boundingRect().size().width() + 15
         self.h = self.proxyWidget.boundingRect().size().height() + 6
 
-#         self.nameUnit = QGraphicsTextItem(self.unit, self)
-#         self.nameUnit.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
-#         self.nameUnit.setFont(QFont("Times", 12, QFont.Bold))
-#         self.nameUnit.setPos(0, 60)
-#         self.nameUnit.setVisible(False)
+        self.nameUnit = QGraphicsTextItem(self.unit, self)
+        self.nameUnit.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
+        self.nameUnit.setFont(QFont("Times", 12, QFont.Bold))
+        self.nameUnit.setPos(0, 60)
+        self.nameUnit.setVisible(False)
 
         self.lab = QGraphicsTextItem(self.label, self)
         self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
@@ -3934,18 +3594,20 @@ class Constants(QGraphicsRectItem):
         if self.isMod:
             menu = QMenu()
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteItem)
+            de.triggered.connect(self.deleteConstant)
             pa = menu.addAction('Change label')
             pa.triggered.connect(self.changeLabel)
             menu.exec_(event.screenPos())
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
-#     def hoverEnterEvent(self, event):
-#         self.setSelected(True)
+    def hoverEnterEvent(self, event):
+        global itemStored
+        itemStored = None
+        self.setSelected(True)
 #         return QGraphicsRectItem.hoverEnterEvent(self, event)
 
-#     def hoverLeaveEvent(self, event):
-#         self.setSelected(False)
+    def hoverLeaveEvent(self, event):
+        self.setSelected(False)
 #         return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def mouseMoveEvent(self, event):
@@ -3969,6 +3631,8 @@ class Constants(QGraphicsRectItem):
 #             editor.blockSelection(self)
 
     def mouseDoubleClickEvent(self, event):
+        global itemStored
+        itemStored = None
         if self.isMod:
             if type(self.elemProxy) == Constants_Combo and self.form != 'bool':
                 AllItems = [self.elemProxy.itemText(i) for i in range(self.elemProxy.count())]
@@ -3997,13 +3661,13 @@ class Constants(QGraphicsRectItem):
                                                      QFileDialog.DontUseNativeDialog)
                 if fileCh[0]:
                     self.elemProxy.setPlainText(fileCh[0])
-                    del listConstants[editor.currentTab][self.unit]
-                    listConstants[editor.currentTab][self.unit] = ('path', self.elemProxy.toPlainText(), self.label)
-
             UpdateUndoRedo()
 #         return QGraphicsRectItem.mouseDoubleClickEvent(self,event)
 
     def keyPressEvent(self, event):
+        global itemStored
+        if event.key() == QtCore.Qt.Key_Delete:
+            self.deleteConstant()
         if event.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if event.key() == QtCore.Qt.Key_Down:
@@ -4012,9 +3676,11 @@ class Constants(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+        if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+            itemStored = self
 #         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
 
-    def deleteItem(self):
+    def deleteConstant(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
                 if listNodes[editor.currentTab][elem.name].find(self.unit + ':') != -1:
@@ -4023,7 +3689,7 @@ class Constants(QGraphicsRectItem):
         del listConstants[editor.currentTab][self.unit]
         del listItems[editor.currentTab][self.unit]
         editor.deleteItemsLoop(self)
-#         UpdateUndoRedo()
+        UpdateUndoRedo()
 
 ###############################################################################
 
@@ -4092,8 +3758,6 @@ class Constants_text(QTextEdit):
 
     def focusInEvent(self, event):
         self.setCursorWidth(1)
-        listItemStored.clear()
-        listBlSmStored.clear()
 #         event.accept()
 
     def focusOutEvent(self, event):
@@ -4771,7 +4435,6 @@ class ForLoopItem(QGraphicsRectItem):
 class ScriptItem(QGraphicsRectItem):
 
     def __init__(self, unit, name, w, h, isMod, *inout, parent=None):
-        global listItemStored
         super(ScriptItem, self).__init__(None)
         self.setBrush((QtGui.QBrush(QColor(80, 80, 80, 200))))
         self.setPen(QtGui.QPen(QColor(160, 160, 160, 255), 8))
@@ -4788,9 +4451,6 @@ class ScriptItem(QGraphicsRectItem):
         self.preview = False
         self.loopIf = False
         self.name = name
-        if not inout:
-            inout=[[],[]]
-        self.inout = inout
 
         self.setAcceptHoverEvents(True)
 
@@ -4837,7 +4497,6 @@ class ScriptItem(QGraphicsRectItem):
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable | self.ItemIsFocusable)
         self.elemProxy = QTextEdit()
-#         self.elemProxy.mousePressEvent = self.eraseItemsStored
         PythonHighlighter(self.elemProxy)
         self.elemProxy.setLineWrapMode(QTextEdit.NoWrap)
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
@@ -4853,11 +4512,11 @@ class ScriptItem(QGraphicsRectItem):
             self.resize.setFlag(self.resize.ItemIsSelectable, True)
             self.resize.wmin = self.wmin
             self.resize.hmin = self.hmin
-            
-#     def eraseItemsStored(self, event):
-#         listItemStored.clear()
-    
+
     def keyPressEvent(self, keyEvent):
+        if keyEvent.key() == QtCore.Qt.Key_Delete:
+            self.deleteScript()
+            UpdateUndoRedo()
         if keyEvent.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
         if keyEvent.key() == QtCore.Qt.Key_Down:
@@ -4871,14 +4530,14 @@ class ScriptItem(QGraphicsRectItem):
     def mousePressEvent(self, event):
         if self.isMod:
             if event.button() == 1:
-#                 editor.diagramScene[editor.currentTab].clearSelection()
+                editor.diagramScene[editor.currentTab].clearSelection()
                 self.setSelected(True)
 
             if event.button() == 2:
                 self.setSelected(True)
 
             UpdateUndoRedo()
-        return QGraphicsRectItem.mousePressEvent(self, event)
+#         return QGraphicsRectItem.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, mouseEvent):
         mouseEvent.accept()
@@ -4889,13 +4548,15 @@ class ScriptItem(QGraphicsRectItem):
         editor.loopMouseReleaseEvent(self)
         return QGraphicsRectItem.mouseReleaseEvent(self, event)
 
-#     def hoverEnterEvent(self, event):
-#         self.setSelected(True)
-#         return QGraphicsRectItem.hoverEnterEvent(self, event)
-# 
-#     def hoverLeaveEvent(self, event):
-#         self.setSelected(False)
-#         return QGraphicsRectItem.hoverLeaveEvent(self, event)
+    def hoverEnterEvent(self, event):
+        global itemStored
+        itemStored = None
+        self.setSelected(True)
+        return QGraphicsRectItem.hoverEnterEvent(self, event)
+
+    def hoverLeaveEvent(self, event):
+        self.setSelected(False)
+        return QGraphicsRectItem.hoverLeaveEvent(self, event)
 
     def newSize(self, w, h):
         # Limit the block size:
@@ -4968,14 +4629,14 @@ class ScriptItem(QGraphicsRectItem):
             outtu = menu.addAction('Add output')
             outtu.triggered.connect(self.add_Output)
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteItem)
+            de.triggered.connect(self.deleteScript)
             ct = menu.addAction('Change title')
             ct.triggered.connect(self.changeTitle)
             menu.exec_(event.screenPos())
 #             event.accept()
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
-    def deleteItem(self):
+    def deleteScript(self):
         editor.diagramScene[editor.currentTab].removeItem(self)
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
@@ -5013,7 +4674,6 @@ class ScriptItem(QGraphicsRectItem):
                 listEnter = [[portIn.name, portIn.typeio, portIn.format]]
 
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
-            self.inout = [listEnter, listOut]
             UpdateUndoRedo()
 
     def add_Output(self):
@@ -5036,7 +4696,6 @@ class ScriptItem(QGraphicsRectItem):
                 listOut = [[portOut.name, portOut.typeio, portOut.format]]
 
             libTools[editor.currentTab][self.unit] = [listEnter, listOut]
-            self.inout = [listEnter, listOut]
             UpdateUndoRedo()
 
     def updateInput(self, inp):
@@ -5742,9 +5401,9 @@ class Port(QGraphicsRectItem):
         pathYml = os.path.dirname(os.path.realpath(__file__))
         pathYml = os.path.join(pathYml, '../modules', pathBlock[0], pathBlock[1] + ".yml")
         if os.path.exists(pathYml):
-            with open(pathYml, 'r', encoding='utf8') as stream:
-                dicts = yaml.load(stream, yaml.FullLoader)
-        en = dicts[classBlock][self.name]
+            with open(pathYml, 'r') as stream:
+                self.dicts = yaml.load(stream, yaml.FullLoader)
+        en = self.dicts[classBlock][self.name]
         return en
 
 
@@ -5849,8 +5508,6 @@ class TreeLibrary(QTreeView):
                     bc = ForLoopItem('', name, 200, 200, False)
                 elif 'Script' in name:
                     bc = ScriptItem('', name, 200, 200, False)
-                elif 'Checkbox' in name:
-                    bc = Checkbox('', ['item1', 'item2'], '', False)
                 elif name in ['Value', 'Type', 'Length']:
                     bc = Probes('', 'int', name, False)
 
@@ -5922,12 +5579,12 @@ class TreeLibrary(QTreeView):
         path = QPainterPath()
         pos2X, pos2Y = inp.scenePos().x(), inp.scenePos().y() - 1
         pos1X, pos1Y = pos2X + posX, pos2Y - posY
-        start_x, start_y = pos1X, pos1Y
-        end_x, end_y = pos2X, pos2Y
-        ctrl1_x, ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
-        ctrl2_x, ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
-        path.moveTo(start_x, start_y)
-        path.cubicTo(ctrl1_x, ctrl1_y, ctrl2_x, ctrl2_y, end_x, end_y)
+        self.start_x, self.start_y = pos1X, pos1Y
+        self.end_x, self.end_y = pos2X, pos2Y
+        self.ctrl1_x, self.ctrl1_y = pos1X + (pos2X - pos1X) * 0.7, pos1Y
+        self.ctrl2_x, self.ctrl2_y = pos2X + (pos1X - pos2X) * 0.7, pos2Y
+        path.moveTo(self.start_x, self.start_y)
+        path.cubicTo(self.ctrl1_x, self.ctrl1_y, self.ctrl2_x, self.ctrl2_y, self.end_x, self.end_y)
 
         link.setPath(path)
         bislink.setPath(path)
@@ -5961,14 +5618,15 @@ class NodeEdit(QWidget):
         global previewDiagram, previewScene, legendDiagram, legendScene, editor, textInf, currentTab
         global listItems, listBlocks, listNodes, listConnects, listSubMod, listTools, listConstants, listProbes
         global listCategory, libSubMod, listCategorySubMod, libTools, listCategoryTools
-        global undoredoTyping, pointTyping, listItemStored, listBlSmStored
+        global undoredoTyping, pointTyping, itemStored, listItemStored
         global listConfigModul, currentpathwork
 
         editor = self
         textInf = textInfo
-        listItemStored, listBlSmStored = {}, {}
+        itemStored = None
         listStand = []
         listImport = []
+        listItemStored = {}
 
         currentpathwork = os.path.dirname(os.path.realpath(__file__))
         currentpathwork = str(os.path.join(currentpathwork, '../examples'))
@@ -6013,6 +5671,8 @@ class NodeEdit(QWidget):
         self.icon1 = LibIcon(Qt.darkYellow)
         self.icon2 = LibIcon(ItemColor.process.value)
         self.icon3 = LibIcon(ItemColor.subprocess.value)
+
+#         self.libMod2 = []
 
         self.libMod3 = LibMod('blocks_subModules')
         self.libMod3.setColumnCount(1)
@@ -6091,7 +5751,7 @@ class NodeEdit(QWidget):
         self.tabLib.addTab(TreeLibrary(), ' ')
 
         libTools = []
-        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'CheckBox', 'Script', 'Probes']
+        listCategoryTools = ['Loop', 'Condition', 'Tools', 'Constants', 'Script', 'Probes']
         self.libMod1 = LibMod('structures_tools')
         self.libMod1.setColumnCount(1)
 
@@ -6138,16 +5798,8 @@ class NodeEdit(QWidget):
             self.libMod1.appendRow(self.stdItem1)
             branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
-        
-        branch1 = QStandardItem(listCategoryTools[4])
-        branch1.setEditable(False)
-        self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Checkbox')
-        self.stdItem1.setEditable(False)
-        self.libMod1.appendRow(self.stdItem1)
-        branch1.appendRow([QStandardItem(self.stdItem1), None])
-        self.rootNode1.appendRow([branch1, None])
 
-        branch1 = QStandardItem(listCategoryTools[5])
+        branch1 = QStandardItem(listCategoryTools[4])
         branch1.setEditable(False)
         self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Script_editor')
         self.stdItem1.setEditable(False)
@@ -6155,7 +5807,7 @@ class NodeEdit(QWidget):
         branch1.appendRow([QStandardItem(self.stdItem1), None])
         self.rootNode1.appendRow([branch1, None])
 
-        branch1 = QStandardItem(listCategoryTools[6])
+        branch1 = QStandardItem(listCategoryTools[5])
         branch1.setEditable(False)
         self.stdItem1 = QStandardItem(QIcon(self.icon1), 'Value')
         self.stdItem1.setEditable(False)
@@ -6183,14 +5835,14 @@ class NodeEdit(QWidget):
 
 # library of submodules ##########################################################
 
-#         infoSubModules = getlistSubModules().listSubModules()
+        infoSubModules = getlistSubModules().listSubModules()
         libSubMod = []
         listCategorySubMod = []
         branch1 = QStandardItem('SubModules')
         branch1.setEditable(False)
         branch1.setSelectable(False)
         listCategorySubMod.append('SubModules')
-        for submod in getlistSubModules().listSubModules():
+        for submod in infoSubModules:
             self.stdItem3 = QStandardItem(QIcon(self.icon3), submod[0])
             self.stdItem3.setEditable(False)
             libSubMod.append(submod)
@@ -6281,12 +5933,13 @@ class NodeEdit(QWidget):
 
         self.verticalLayout.addWidget(self.menub)
         self.verticalLayout.addWidget(self.splitter4)
-       
+
+        self.addTab('')
+        textInf.setText('')
+
         self.startConnection = None
         self.startSelection = None
 
-        self.menub.btnPressed(QAction('load_previous_diagram'))
-        
     def getlib(self):
         return self.libBlocks
 
@@ -6353,12 +6006,6 @@ class NodeEdit(QWidget):
 
             if self.tabsDiagram.count() == 0:
                 self.addTab('')
-        list_dgr = Config().getPathDiagrams()
-        if list_dgr:
-            for elem in list_dgr:
-                if currentTitle in elem:
-                    list_dgr.remove(elem)
-        Config().setPathDiagrams(list_dgr)
 
     def saveDiagramDialog(self, title):
         choice = QMessageBox.question(self, 'Save resource',
@@ -6375,11 +6022,9 @@ class NodeEdit(QWidget):
 
     def tabSelected(self, arg=None):
         global textInf
-        global currentpathwork
         editor.currentTab = arg
         textInf.setText(editor.pathDiagram[editor.currentTab])
-        currentpathwork = editor.pathDiagram[editor.currentTab]
-
+        
     def tabMoved(self):
         print('tab moved')
 
@@ -6406,12 +6051,12 @@ class NodeEdit(QWidget):
         self.model3.setColumnCount(1)
         self.rootNode3 = self.model3.invisibleRootItem()
 
-#         infoSubModules = getlistSubModules().listSubModules()
+        infoSubModules = getlistSubModules().listSubModules()
         libSubMod = []
         branch1 = QStandardItem('SubModules')
         branch1.setEditable(False)
         branch1.setSelectable(False)
-        for submod in getlistSubModules().listSubModules():
+        for submod in infoSubModules:
             self.stdItem3 = QStandardItem(QIcon(self.icon3), submod[0])
             self.stdItem3.setEditable(False)
             libSubMod.append(submod)
@@ -6542,9 +6187,11 @@ class NodeEdit(QWidget):
         if self.startConnection:
             pos = event.scenePos()
             self.startConnection.setEndPos(pos)
+#             self.diagramView[editor.currentTab].centerOn(pos)
+#             valH = self.diagramView[editor.currentTab].horizontalScrollBar().value()
 
     def sceneMouseReleaseEvent(self, event):
-        touchF = (int(event.modifiers()) == (Qt.ControlModifier))
+        self.touchF = (int(event.modifiers()) == (Qt.ControlModifier))
 
         if self.startConnection:
             pos = event.scenePos()
@@ -6562,8 +6209,8 @@ class NodeEdit(QWidget):
                     tmpunit = item.unit
                     tmptypeio = item.typeio
                     tmpformat = item.format
-#                     print(tmpname,tmpunit,tmptypeio,tmpformat)
-#                     print(self.fromPort.name,self.fromPort.unit,self.fromPort.typeio,self.fromPort.format)
+                    # print(tmpname,tmpunit,tmptypeio,tmpformat)
+                    # print(self.fromPort.name,self.fromPort.unit,self.fromPort.typeio,self.fromPort.format)
                     if 'enumerate' in tmpformat:
                         tmpformat = tmpformat[10:]
                     textEdit.setStyleSheet("background-color : lightgray")
@@ -6598,14 +6245,7 @@ class NodeEdit(QWidget):
                 greenText = greenText + ('Connection impossible : constant to connector ')
                 greenText = greenText + ("</span><br>")
                 textEdit.append(greenText)
-            elif ('A' in self.fromPort.unit and 'F' in tmpunit) or (
-                    'F' in self.fromPort.unit and 'A' in tmpunit):
-                self.startConnection.delete()
-                greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
-                greenText = greenText + ('Connection impossible : constant to loopFor ')
-                greenText = greenText + ("</span><br>")
-                textEdit.append(greenText)
-            elif not touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
+            elif not self.touchF and tmpformat != 'unkn' and self.fromPort.format != 'unkn' and tmpformat != self.fromPort.format:
                 self.startConnection.delete()
                 greenText = "<span style=\" font-size:10pt; font-weight:600; color:#ff0000;\" >"
                 greenText = greenText + ('Connection not recommended due to different formats')
@@ -6666,24 +6306,24 @@ class NodeEdit(QWidget):
                                 pathYml = os.path.dirname(os.path.realpath(__file__))
                                 pathYml = os.path.join(pathYml, '../modules', cat[0], cat[1] + ".yml")
                                 if os.path.exists(pathYml):
-                                    with open(pathYml, 'r', encoding='utf8') as stream:
-                                        dicts = yaml.load(stream, yaml.FullLoader)
-                                        for el in dicts[name]:
+                                    with open(pathYml, 'r') as stream:
+                                        self.dicts = yaml.load(stream, yaml.FullLoader)
+                                        for el in self.dicts[name]:
                                             if el in listVal[2][0]:
                                                 listEnter = (*listEnter, el)
-                                                if type(dicts[name][el]).__name__ == 'str':
-                                                    if 'enumerate' in dicts[name][el]:
-                                                        listValDefault = (*listValDefault, dicts[name][el])
+                                                if type(self.dicts[name][el]).__name__ == 'str':
+                                                    if 'enumerate' in self.dicts[name][el]:
+                                                        listValDefault = (*listValDefault, self.dicts[name][el])
                                                     else:
                                                         try:
-                                                            listValDefault = (*listValDefault, eval(dicts[name][el]))
+                                                            listValDefault = (*listValDefault, eval(self.dicts[name][el]))
                                                         except Exception as e:
-                                                            listValDefault = (*listValDefault, dicts[name][el])
+                                                            listValDefault = (*listValDefault, self.dicts[name][el])
                                                 else:
                                                     try:
-                                                        listValDefault = (*listValDefault, eval(dicts[name][el]))
+                                                        listValDefault = (*listValDefault, eval(self.dicts[name][el]))
                                                     except Exception as e:
-                                                        listValDefault = (*listValDefault, dicts[name][el])
+                                                        listValDefault = (*listValDefault, self.dicts[name][el])
 
                         ###################################################
                         newList = []
@@ -6767,7 +6407,7 @@ class NodeEdit(QWidget):
                     for types in TypeColor:
                         if types.name in self.fromPort.format:
                             color2 = types.value
-
+                            
                     if 'C' in a and b!= 'unkn' :
                         b = listConnects[editor.currentTab][a][1]
 
@@ -6832,7 +6472,7 @@ class NodeEdit(QWidget):
                         listProbes[editor.currentTab][c] = (tmpformat, tmp[1])
 
                     listNodes[editor.currentTab][nt] = a + ':' + b + '#Node#' + c + ':' + d
-#                     UpdateUndoRedo()
+                    UpdateUndoRedo()
 
 # attribute constants combobox value automatically ######################
                     if 'A' in a and 'enumerate' in str(oldVal):
@@ -6881,5 +6521,4 @@ class NodeEdit(QWidget):
                     greenText = greenText + ("</span><br>")
                     textEdit.append(greenText)
 
-                    UpdateUndoRedo()
             self.startConnection = None

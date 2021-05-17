@@ -1,2 +1,0 @@
-fslmerge:
-  -tr: 0.0 # concatenate images in time and set the output image tr to the final option value

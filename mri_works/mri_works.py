@@ -9,6 +9,7 @@
 '''
 Created on 11 jan. 2018
 @author: omonti
+
 '''
 
 import sys
@@ -19,7 +20,6 @@ from PyQt5.QtWidgets import QWidget, QTabWidget, QApplication, QVBoxLayout, \
 from Config import Config
 from About import AboutSoft
 from NodeEditor.python.PipeLine_Irmage import NodeEdit
-from ImageBrowser.DataBrowser import DataBrowser
 from PyQt5.QtGui import QIcon
 
 
@@ -40,7 +40,7 @@ class Project_Irmage(QMainWindow):
         mhelp = self.menuBar().addMenu('Help')
 
         exitAct = QAction(QIcon('sources_images/exit.png'), 'Exit', self)
-        exitAct.triggered.connect(self.closeWindow)
+        exitAct.triggered.connect(qApp.quit)
         mfile.addAction(exitAct)
 
         about = QAction(QIcon(), 'About mriWorks', self)
@@ -70,16 +70,6 @@ class Project_Irmage(QMainWindow):
 
         if box == QMessageBox.Yes:
             event.accept()
-            
-    def closeWindow(self):
-        box = QMessageBox.question(self,
-                                   "Confirm Exit...",
-                                   "Do you want quit mri_works ? \n" +
-                                   "your projects are saved ? ",
-                                   QMessageBox.Yes | QMessageBox.No,
-                                   QMessageBox.No)
-        if box == QMessageBox.Yes:
-            qApp.quit()
 
 
 class CreateTabs(QWidget):
@@ -102,7 +92,6 @@ class CreateTabs(QWidget):
         self.textInfo.setText('Welcome to Irmage')
 
         self.tabs.addTab(NodeEdit(self.textInfo), "PipeLine Manager")
-#         self.tabs.addTab(DataBrowser(self.textInfo), "Image Browser")
         self.tabs.setCurrentIndex(0)
 
         self.verticalLayout = QVBoxLayout(self)

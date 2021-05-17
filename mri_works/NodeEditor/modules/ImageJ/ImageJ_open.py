@@ -23,6 +23,7 @@ class ImageJ_load_multiImages():
 
 class openImageJ():
     def __init__(self, file='path'):
+        import subprocess
         from subprocess import Popen
         import os
         if file == 'path':
@@ -30,7 +31,7 @@ class openImageJ():
         script_macro = "run(\"Appearance...\", \"interpolate auto menu=15 gui=1 16-bit=Automatic\");"\
                        "run(\"Brightness/Contrast...\");"\
                        "run(\"Enhance Contrast\", \"saturated=0.35\");"
-        Popen(['ImageJ', file, '-eval', script_macro], shell=False)
+        subprocess.Popen(['ImageJ', file, '-eval', script_macro], shell=False)
         tmp = os.path.basename(file)
         self.currentImg = ('.').join(tmp.split('.')[:-1])
 
@@ -42,6 +43,7 @@ class openImageJ():
 
 class openImagej_multiFiles():
     def __init__(self, file=['path']):
+        import subprocess
         from subprocess import Popen
         import os
         list_files = '|||'.join(file)
@@ -53,27 +55,29 @@ class openImagej_multiFiles():
                         "open(list[i]);"\
                         "run(\"Enhance Contrast\", \"saturated=0.35\");"\
                         "};"
-        proc = Popen(['ImageJ', '-eval', script_macro1 + script_macro])
+        proc = subprocess.Popen(['ImageJ', '-eval', script_macro1 + script_macro])
 
 ##########################################################################################
 
 
 class ImageJ_macro():
     def __init__(self, file_macro='path'):
+        import subprocess
         from subprocess import Popen
         import os
         option = '-macro'
-        Popen(['ImageJ', option, file_macro])
+        subprocess.Popen(['ImageJ', option, file_macro])
 
 ##############################################################################
 
 
 class ImageJ_macrofile():
     def __init__(self, pathImage='path', filemacro='path'):
+        import subprocess
         from subprocess import Popen
         import os
         option = '-macro'
 #         subprocess.call(['java','-jar',pathImageJ,pathImage,option,filemacro], shell=False)
-        Popen(['ImageJ', pathImage, option, filemacro])
+        subprocess.Popen(['ImageJ', pathImage, option, filemacro])
 
 ##############################################################################

@@ -1,56 +1,54 @@
 spm_Coregister:
-  apply_to_files: ['path'] # (a list of items which are an existing file name) files to apply transformation to
-  cost_function: enumerate(('mi','nmi','ecc','ncc')) #  ('mi' or 'nmi' or 'ecc' or 'ncc') cost function, one of: 'mi' - Mutual Information, 'nmi' - Normalised Mutual Information, 'ecc' - Entropy Correlation Coefficient, 'ncc' - Normalised Cross Correlation
-  fwhm: [0.0] # (a list of from 2 to 2 items which are a float) gaussian smoothing kernel width (mm)
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  jobtype: enumerate(('estwrite','estimate','write')) # ('estwrite' or 'estimate' or 'write', nipype default value estwrite) one of: estimate, write, estwrite
-  matlab_cmd: '' # (a string) matlab command to use
-  mfile: True # (a boolean, nipype default value: True) Run m-code using m-file
-  out_prefix: 'r' # (a string, nipype default value: r) coregistered output prefix
-  paths: ['path'] # (a list of items which are a directory name) Paths to add to matlabpath
-  separation: [0.0] # (a list of items which are a float) sampling separation in mm
-  tolerance: [0.0] # (a list of items which are a float) acceptable tolerance for each of 12 params
-  use_mcr: True # (a boolean) Run m-code using SPM MCR
-  use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
-  write_interp: 0 # (0 ≤ an integer ≤ 7) degree of b-spline used for interpolation
-  write_mask: True # (a boolean) True/False mask output image
-  write_wrap: [0,0,0] # (a list of from 3 to 3 items which are an integer (int or long)) Check if interpolation should wrap in [x,y,z]
+  paths: ['path']
+  matlab_cmd: ''
+  write_mask: True
+  out_prefix: 'r'
+  use_mcr: True
+  cost_function: enumerate(('mi','nmi','ecc','ncc'))
+  fwhm: [0.0]
+  tolerance: [0.0]
+  write_wrap: [0,0,0]
+  jobtype: enumerate(('estwrite','estimate','write'))
+  use_v8struct: True
+  separation: [0.0]
+  apply_to_files: ['path']
+  mfile: True
+  write_interp: 0
+  output_directory: 'path'
 spm_Normalize:
-  DCT_period_cutoff: 0.0 # (a float) Cutoff of for DCT bases
-  affine_regularization_type: enumerate(('mni','size','none')) # ('mni' or 'size' or 'none') mni, size, none
-  apply_to_files: ['path'] # (a list of items which are an existing file name or a list of items which are an existing file name) files to apply transformation to
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  jobtype: enumerate(('estwrite','est','write')) # ('estwrite' or 'est' or 'write', nipype default value estwrite) Estimate, Write or do both
-  matlab_cmd: '' # (a string) matlab command to use
-  mfile: True # (a boolean, nipype default value: True) Run m-code using m-file
-  nonlinear_iterations: 0 # (an integer (int or long)) Number of iterations of nonlinear warping
-  nonlinear_regularization: 0.0 # (a float) the amount of the regularization for the nonlinear part of the normalization
-  out_prefix: '' # (a string, nipype default value: w) normalized output prefix
-  paths: ['path'] # (a list of items which are a directory name) Paths to add to matlabpath
-  source_image_smoothing: 0.0 # (a float) source smoothing
-  source_weight: 'path' # (a file name) name of weighting image for source
-  template_image_smoothing: 0.0 # (a float) template smoothing
-  template_weight: 'path' # (a file name) name of weighting image for template
-  use_mcr: True # (a boolean) Run m-code using SPM MCR
-  use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
-  write_bounding_box: [[0.0,0.0],[0.0,0.0],[0.0,0.0]] # (a list of from 2 to 2 items which are a list of from 3 to 3 items which are a float) 3x2-element list of lists
-  write_interp: 0 # (0 ≤ an integer ≤ 7) degree of b-spline used for interpolation
-  write_preserve: True # (a boolean) True/False warped images are modulated
-  write_voxel_sizes: [[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]] # (a list of from 3 to 3 items which are a float) 3-element list
-  write_wrap: [0] # (a list of items which are an integer (int or long)) Check if interpolation should wrap in [x,y,z]- list of bools
+  DCT_period_cutoff: 0.0
+  affine_regularization_type: enumerate(('mni','size','none'))
+  apply_to_files: ['path']
+  jobtype: enumerate(('estwrite','est','write'))
+  matlab_cmd: ''
+  mfile: True
+  nonlinear_iterations: 0
+  nonlinear_regularization: 0.0
+  out_prefix: ''
+  paths: ['path']
+  source_image_smoothing: 0.0
+  source_weight: 'path'
+  template_image_smoothing: 0.0
+  template_weight: 'path'
+  use_mcr: True
+  use_v8struct: True
+  write_bounding_box: [[0.0,0.0],[0.0,0.0],[0.0,0.0]]
+  write_interp: 0
+  write_preserve: True
+  write_voxel_sizes: [[0.0,0.0,0.0],[0.0,0.0,0.0],[0.0,0.0,0.0]]
+  write_wrap: [0]
 spm_NewSegment:
-  affine_regularization: enumerate(('mni','eastern','subj','none')) # ('mni' or 'eastern' or 'subj' or 'none') mni, eastern, subj, none
-  channel_info: (0.0,0.0,(True,True)) # (a tuple of the form: (a float, a float, a tuple of the form (a boolean, a boolean))) A tuple with the following fields - bias reguralisation (0-10) - FWHM of Gaussian smoothness of bias - which maps to save (Corrected, Field) - a tuple of two boolean values
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  matlab_cmd: ''   # (a string) matlab command to use
-  mfile: True # (a boolean, nipype default value: True) Run m-code using m-file
-  paths: ['path'] # (a list of items which are a directory name) Paths to add to matlabpath
-  sampling_distance: 0.0 # (a float) Sampling distance on data for parameter estimation
-  tissues: ('path',) # (a list of items which are a tuple of the form: (a tuple of the form: (an existing file name, an integer (int or long)), an integer (int or long), a tuple of the form: (a boolean, a boolean), a tuple of the form: (a boolean, a boolean))) A list of tuples (one per tissue) with the following fields - tissue probability map (4D), 1-based index to frame - number of gaussians - which maps to save [Native, DARTEL] - a tuple of two boolean values - which maps to save [Unmodulated, Modulated] - a tuple of two boolean values
-  use_mcr: True # (a boolean) Run m-code using SPM MCR
-  use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
-  warping_regularization: [0.0] # (a float) Aproximate distance between sampling points.
-  mri_c  write_deformation_fields: [True,True] # (a list of from 2 to 2 items which are a boolean) Which deformation fields to write:[Inverse, Forward]
+  paths: ['path']
+  write_deformation_fields: [True,True]
+  tissues: ('path',)
+  matlab_cmd: ''  
+  use_v8struct: True
+  channel_info: (0.0,0.0,(True,True))
+  use_mcr: True
+  affine_regularization: enumerate(('mni','eastern','subj','none'))
+  warping_regularization: [0.0]
+  mfile: True
+  sampling_distance: 0.0
 spm_Segment:
   affine_regularization: enumerate(('mni','eastern','subj','none',''))
   bias_fwhm: 0
@@ -90,21 +88,13 @@ spm_Realign:
   mfile: True
   use_mcr: False
   use_v8struct: True
-spm_SliceTiming:
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  matlab_cmd: '' # (a string) matlab command to use mfile: (a boolean, nipype default value: True) Run m-code using m-file
-  out_prefix: 'a' # (a string, nipype default value: a) slicetimed output prefix
-  paths: ['path'] # (a list of items which are a directory name) Paths to add to matlabpath
-  use_mcr: True # (a boolean) Run m-code using SPM MCR
-  use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
 spm_Smooth:
-  fwhm: [0.0,0.0,0.0] # (a list of from 3 to 3 items which are a float or a float) 3-list of fwhm for each dimension
-  data_type: 0 # (an integer (int or long)) Data type of the output images
-  implicit_masking: False # (a boolean) A mask implied by a particularvoxel value
-  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
-  out_prefix: 's' # (a string, nipype default value: s) smoothed output prefix
-  matlab_cmd: '' # (a string) matlab command to use
-  paths: ['path'] # (a list of items which are a directory name) Paths to add to matlabpath
-  mfile: True # (a boolean, nipype default value: True) Run m-code using m-file
-  use_mcr: False # (a boolean) Run m-code using SPM MCR
-  use_v8struct: True # (a boolean, nipype default value: True) Generate SPM8 and higher compatible jobs
+  fwhm: [0.0,0.0,0.0]
+  data_type: 0
+  implicit_masking: False
+  out_prefix: 's'
+  matlab_cmd: ''
+  paths: ['path']
+  mfile: True
+  use_mcr: False
+  use_v8struct: True

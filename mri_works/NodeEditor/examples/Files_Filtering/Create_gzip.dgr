@@ -1,0 +1,25 @@
+[diagram]
+link=[N4] node=[F0:out0#Node#U2:in_list_Path]
+link=[N3] node=[U1:out_file#Node#F0:out0]
+link=[N2] node=[A0:#Node#U1:delete_file]
+link=[N1] node=[F0:in0#Node#U1:file_in]
+block=[U1] category=[File_IO.Save_image_nii_gz] class=[Create_gzip] valInputs=[(['file_in', 'delete_file'], ['Node(N1)', 'Node(N2)'], ['out_file'], ['path'])] RectF=[(70.79472843450479, -21.114217252396166, 150.0, 80.0)]
+link=[N0] node=[U0:filesPath#Node#F0:in0]
+constant=[A0] value=['True'] format=[bool] label=[delete_file] RectF=[(-67.5, 62.83333333333334, 73.0, 31.0)]
+block=[U2] category=[Tools.Print] class=[Print_list_path] valInputs=[(['comment', 'in_list_Path'], ['', 'Node(N4)'], [], [])] RectF=[(380.4041533546326, -32.865415335463254, 150.0, 80.0)]
+loopFor=[F0] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[[['out0', 'in', 'path'], ['out0', 'out', 'list_path']]]] listItems=[['U1', 'A0']] RectF=[(-101.0, -109.0, 390.56629392971246, 247.2420127795527)]
+block=[U0] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-398.0, -12.0, 206.59375, 80.0)]
+[execution]
+[]
+['U0', 'F0', 'U2']
+{'U0': ('File_IO.Dialog_files_directories', 'Choose_multi_files', "(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])"), 'U2': ('Tools.Print', 'Print_list_path', "(['comment', 'in_list_Path'], ['', 'F0:out0'], [], [])")}
+['U0:filesPath', 'F0:in0', 'A0:', 'F0:out0']
+{}
+[]
+[loopfor F0]
+['F0:in0=U0:filesPath']
+['U1']
+{'U1': ('File_IO.Save_image_nii_gz', 'Create_gzip', "(['file_in', 'delete_file'], ['F0:in0', True], ['out_file'], ['path'])")}
+['F0:in0', 'U1:out_file']
+{}
+['F0:out0=U1:out_file']
