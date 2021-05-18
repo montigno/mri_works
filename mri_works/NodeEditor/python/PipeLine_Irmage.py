@@ -1465,7 +1465,16 @@ class DiagramScene(QGraphicsScene):
                 values = list_Bl_Sm[nameUnit]
                 if ins.format == 'path':
                     form = 'path'
-                    val = values[1][1:-1] # to remove guillemet
+                    if "'" in values[1]:
+                        val = values[1][1:-1] # to remove guillemet
+                    else:
+                        val = values[1]
+                elif ins.format == 'str':
+                    form = values[0]
+                    if "'" in values[1]:
+                        val = values[1][1:-1] # to remove guillemet
+                    else:
+                        val = values[1]
                 else:
                     form = values[0]
                     val = values[1]
@@ -4011,6 +4020,9 @@ class Constants(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+#         if QKeySequence(event.key() + int(event.modifiers())) == QKeySequence("Ctrl+C"):
+#             listItemStored.clear()
+#             listBlSmStored.clear()
 #         return QGraphicsRectItem.keyPressEvent(self, *args, **kwargs)
 
     def deleteItem(self):
@@ -4091,6 +4103,8 @@ class Constants_text(QTextEdit):
 
     def focusInEvent(self, event):
         self.setCursorWidth(1)
+        listItemStored.clear()
+        listBlSmStored.clear()
 #         event.accept()
 
     def focusOutEvent(self, event):
