@@ -1,21 +1,29 @@
 afni_Seg:
-  args: ''
-  bias_classes: ''
-  bias_fwhm: 0.0
-  blur_meth: enumerate(('BFT','BIM'))
-  bmrf: 0.0
-  classes: ''
-  environ: {}
-  ignore_exception: False
-  main_N: 0
-  mixfloor: 0.0
-  mixfrac: ''
-  prefix: ''
-  terminal_output: enumerate(('stream','allatonce','file','none'))
+  args: '' #(a string) Additional parameters to the command. flag: %s.
+  bias_classes: '' # (a string) A semcolon demlimited string of classes that contribute to the estimation of the bias field. flag: -bias_classes %s.
+  bias_fwhm: 0.0 # (a float) The amount of blurring used when estimating the field bias with the Wells method. flag: -bias_fwhm %f.
+  blur_meth: enumerate(('BFT','BIM')) # ('BFT' or 'BIM') set the blurring method for bias field estimation. flag: -blur_meth %s.
+  bmrf: 0.0 # (a float). Weighting factor controlling spatial homogeneity of the. classifications. flag: -bmrf %f.
+  classes: '' # (a string). CLASS_STRING is a semicolon delimited string of class labels. flag: -classes %s.
+  environ: {} # (a dictionary with keys which are a value of type 'str' and.  with values which are a value of type 'str', nipype default value: {}). Environment variables.
+  ignore_exception: False # (a boolean, nipype default value: False). Print an error message instead of throwing an exception in case the. interface fails to run.
+  main_N: 0 # (an integer (int or long)). Number of iterations to perform.. flag: -main_N %d.
+  mixfloor: 0.0 # (a float). Set the minimum value for any class's mixing fraction. flag: -mixfloor %f.
+  mixfrac: '' # (a string). MIXFRAC sets up the volume-wide (within mask) tissue fractions while. initializing the segmentation (see IGNORE for exception). flag: -mixfrac %s.
+  prefix: '' # (a string). the prefix for the output folder containing all output volumes. flag: -prefix %s.
+  terminal_output: enumerate(('stream','allatonce','file','none')) # ('stream' or 'allatonce' or 'file' or 'none'). Control terminal output: `stream` - displays to terminal immediately. (default), `allatonce` - waits till command is finished to display. output, `file` - writes output to file, `none` - output is ignored. 
 afni_SkullStrip:
-  args: ''
-  environ: {}
-  ignore_exception: False
-  out_file: 'path'
-  outputtype: enumerate(('NIFTI_GZ', 'AFNI', 'NIFTI'))
-  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')
+  args: '' # (a string). Additional parameters to the command. flag: %s
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value: {}). Environment variables.
+  ignore_exception: False # (a boolean, nipype default value: False). Print an error message instead of throwing an exception in case the interface fails to run.
+  out_file: 'path' # (a file name). output image file name. flag: -prefix %s.
+  outputtype: enumerate(('NIFTI_GZ', 'AFNI', 'NIFTI')) # ('NIFTI_GZ' or 'AFNI' or 'NIFTI'). AFNI output filetype.
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none'). Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored.
+afni_Fourier:
+  args: '' # (a string). Additional parameters to the command. flag: %s
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value: {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False). Print an error message instead of throwing an exception in case the interface fails to run
+  out_file: 'path' # (a file name). output image file name. flag: -prefix %s
+  outputtype: enumerate(('NIFTI', 'AFNI', 'NIFTI_GZ')) # ('NIFTI_GZ' or 'AFNI' or 'NIFTI'). AFNI output filetype
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none'). Control terminal output: `stream` - displays to terminal immediately. (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
+  

@@ -14,7 +14,7 @@ class bruker_to_dicom():
         except Exception as e:
             self.output_directory = ''
 
-    def out_diretory(self: 'path'):
+    def out_directory(self: 'path'):
         return self.output_directory
 
 ##############################################################################
@@ -36,7 +36,7 @@ class dicom_to_nifti():
         except Exception as e:
             self.output_directory = ''
 
-    def out_diretory(self: 'path'):
+    def out_directory(self: 'path'):
         return self.output_directory
 
 ##############################################################################

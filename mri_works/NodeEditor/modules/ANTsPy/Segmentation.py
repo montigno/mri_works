@@ -49,19 +49,7 @@ class ants_atropos():
     def ants_atropos_probabilities(self:'array_float'):
         return self.atropos['probabilityimages']
 
-##############################################################################
 
-class ants_reorient_image():
-    def __init__(self,
-                 ants_image=[[0.0]],
-                 axis1=(1,0),
-                 **options):
-        import ants
-        ants.reorient_image(ants_image, axis1, **options)
-        self.img_oriented = ants_image
-        
-    def ants_image_reoriented(self:'array_float'):
-        return self.img_oriented
         
         
         

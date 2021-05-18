@@ -1,20 +1,23 @@
+from prompt_toolkit import print_formatted_text, ANSI
+
+
 class printProbe():
     def __init__(self, unit, lab, format, label, val):
 
         if 'int' in format:
-            col = '\33[38;5;33m'
+            col = '\x1b[94m'
         elif 'float' in format:
-            col = '\33[38;5;208m'
-        elif 'str' in format:
-            col = '\33[38;5;201m'
-        elif 'bool' in format:
-            col = '\33[38;5;46m'
-        elif 'path' in format:
-            col = '\33[38;5;210m'
+            col = '\x1b[33m'
         elif 'tuple' in format:
-            col = '\33[38;5;245m'
+            col = '\x1b[98m'
+        elif 'str' in format:
+            col = '\x1b[35m'
+        elif 'bool' in format:
+            col = '\x1b[92m'
+        elif 'path' in format:
+            col = '\x1b[91m'
         elif 'dict' in format:
-            col = '\33[38;5;226m'
+            col = '\x1b[93m'
 
         if label == 'Type':
             tmpval = val
@@ -54,5 +57,4 @@ class printProbe():
                     val = tmptxt
             else:
                 val = '1'
-        print(col+unit+'('+lab+')', ' : ', label+' = ', val)
-        print('\033[0m')
+        print_formatted_text(ANSI(col+unit+'('+lab+')' + ' : ' + label+' = ' + str(val)))

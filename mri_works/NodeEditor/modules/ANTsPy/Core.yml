@@ -1,9 +1,9 @@
 ants_image_read:
-  dimension: 2
-  pixeltype: enumerate(('unsigned char', 'unsigned int', 'float', 'double'))
-  reorient: ''
+  dimension: 2 # (int) – Number of dimensions of the image read. This need not be the same as the dimensions of the image in the file. Allowed values: 2, 3, 4. If not provided, the dimension is obtained from the image file
+  pixeltype: enumerate(('unsigned char', 'unsigned int', 'float', 'double')) # (string) – C++ datatype to be used to represent the pixels read. This datatype need not be the same as the datatype used in the file. Options: unsigned char, unsigned int, float, double
+  reorient: '' # (boolean | string) – if True, the image will be reoriented to RPI if it is 3D if False, nothing will happen if string, this should be the 3-letter orientation to which the input image will reoriented if 3D. if the image is 2D, this argument is ignored
 ants_image_write:
-  ri: False
+  ri: False # (boolean) – if True, return image. This allows for using this function in a pipeline: >>> img2 = img.smooth_image(2.).image_write(file1, ri=True).threshold_image(0,20).image_write(file2, ri=True). if False, do not return image
 ants_read_transform:
-  dimension: 2
-  precision: 'float'
+  dimension: 2 # (integer) – spatial dimension of transform
+  precision: 'float' # (string) – numerical precision of transform

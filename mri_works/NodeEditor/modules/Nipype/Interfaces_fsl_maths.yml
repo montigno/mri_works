@@ -1,35 +1,44 @@
 fsl_ApplyMask:
-  out_file: 'path'
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
-  environ: {}
-  internal_datatype: enumerate(('float','char','int','short','double','input'))
-  nan2zeros: True
-  args: ''
-  output_datatype: enumerate(('float','char','int','short','double','input'))
+  args: '' # (a string) Additional parameters to the command. flag: %s
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value: {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False). Print an error message instead of throwing an exception in case the interface fails to run
+  internal_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input'). datatype to use for calculations (default is float). flag: -dt %s, position: 1
+  nan2zeros: True # (a boolean) change NaNs to zeros before doing anything. flag: -nan, position: 3
+  out_file: 'path' # (a file name). image to write. flag: %s, position: -2
+  output_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input'). datatype to use for output (default uses input type). flag: -odt %s, position: -1
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # ('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI'). FSL output type
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none'). Control terminal output: `stream` - displays to terminal immediately. (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
 fsl_BinaryMaths:
-  out_file: 'path'
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
-  environ: {}
-  output_datatype: enumerate(('float','char','int','short','double','input'))
-  nan2zeros: True
-  internal_datatype: enumerate(('float','char','int','short','double','input'))
-  args: ''
+  args: '' # (a string) Additional parameters to the command. flag: %s
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
+  internal_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for calculations (default is float). flag: -dt %s, position: 1
+  nan2zeros: True # (a boolean) change NaNs to zeros before doing anything. flag: -nan, position 3
+  operand_value: 0.0 # (a float) value to perform operation with. flag: %.8f, position 5 mutually_exclusive operand_file
+  out_file: 'path' # (a file name) image to write. flag: %s, position: -2
+  output_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for output (default uses input type). flag: -odt %s, position: -1
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # ('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI') FSL output type.
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored
 fsl_Threshold:
-  args: ''
-  direction: enumerate(('below','above'))
-  environ: {}
-  internal_datatype: 0.0
-  nan2zeros: True
-  out_file: 'path'
-  output_datatype: 0.0
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
-  use_nonzero_voxels: True
-  use_robust_range: True
+  args: '' # (a string) Additional parameters to the command. flag: %s
+  direction: enumerate(('below','above')) #  ('below' or 'above', nipype default value: below) zero-out either below or above thresh value
+  environ: {} # (a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value {}). Environment variables 
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
+  internal_datatype: 0.0 # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for calculations (default is float). flag: -dt %s, position: 1
+  nan2zeros: True # (a boolean) change NaNs to zeros before doing anything. flag -nan, position: 3
+  out_file: 'path' # (a file name) image to write. flag: %s, position -2
+  output_datatype: 0.0 # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for output (default uses input type). flag -odt %s, position: -1
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # ('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI') FSL output type. use_nonzero_voxels: True # 
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or  'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display. output, `file` - writes output to file, `none` - output is ignored
+  use_nonzero_voxels: True # (a boolean) use nonzero voxels to calculate robust range. requires: use_robust_range
+  use_robust_range: True # (a boolean) interpret thresh as percentage (0-100) of robust range
 fsl_UnaryMaths:
-  out_file: 'path'
-  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI'))
-  environ: {}
-  internal_datatype: enumerate(('float','char','int','short','double','input'))
-  output_datatype: enumerate(('float','char','int','short','double','input'))
-  nan2zeros: True
-  args: ''
+  args: '' # (a string) Additional parameters to the command. flag %s
+  environ: {} # }(a dictionary with keys which are a value of type 'str' and with values which are a value of type 'str', nipype default value {}). Environment variables
+  ignore_exception: False # (a boolean, nipype default value: False) Print an error message instead of throwing an exception in case the interface fails to run
+  internal_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for calculations (default is float). flag -dt %s, position 1
+  nan2zeros: True # (a boolean) change NaNs to zeros before doing anything. flag -nan, position: 3
+  out_file: 'path' # (a file name) image to write. flag %s, position -2
+  output_datatype: enumerate(('float','char','int','short','double','input')) # ('float' or 'char' or 'int' or 'short' or 'double' or 'input') datatype to use for output (default uses input type). flag: -odt %s, position: -1
+  output_type: enumerate(('NIFTI_GZ','NIFTI_PAIR','NIFTI_PAIR_GZ','NIFTI')) # ('NIFTI_PAIR' or 'NIFTI_PAIR_GZ' or 'NIFTI_GZ' or 'NIFTI') FSL output type.
+  terminal_output: enumerate(('stream', 'allatonce', 'file', 'none')) # ('stream' or 'allatonce' or 'file' or 'none') Control terminal output: `stream` - displays to terminal immediately (default), `allatonce` - waits till command is finished to display output, `file` - writes output to file, `none` - output is ignored

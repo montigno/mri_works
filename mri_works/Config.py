@@ -5,7 +5,6 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
-
 '''
 Created on 11 feb. 2020
 @author: omonti
@@ -22,7 +21,8 @@ class Config():
 
     def loadConfig(self):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        with open(dir_path+"/config.yml", 'r') as stream:
+        config_path = os.path.join(dir_path, 'config.yml')
+        with open(config_path, 'r') as stream:
             try:
                 return yaml.load(stream, yaml.FullLoader)
             except yaml.YAMLError as exc:
@@ -52,9 +52,10 @@ class Config():
     def getPathHistories(self):
         hist = self.config["paths"]["histories"]
         newHist = []
-        for h in hist:
-            if os.path.exists(h):
-                newHist.append(h)
+        if hist:
+            for h in hist:
+                if os.path.exists(h):
+                    newHist.append(h)
         self.setPathHistories(newHist)
         return newHist
 
@@ -68,3 +69,17 @@ class Config():
 
     def getPathLibraries(self):
         return self.config['packages']
+    
+    def getPathDiagrams(self):
+        diag = self.config["paths"]["diagrams"]
+        newDiag = []
+        if diag:
+            for d in diag:
+                if os.path.exists(d):
+                    newDiag.append(d)
+        self.setPathDiagrams(newDiag)
+        return newDiag
+        
+    def setPathDiagrams(self, diag):
+        self.config["paths"]["diagrams"] = diag
+        self.saveConfig()

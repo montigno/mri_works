@@ -1,6 +1,8 @@
 fetch_atlas_harvard_oxford:
-  data_dir: 'path'
-  symmetric_split: True
+  data_dir: 'path' # Path of data directory where data will be stored. Optionally, it can also be a FSL installation directory (which is dependent on your installation). Example, if FSL is installed in /usr/share/fsl/ then specifying as ‘/usr/share/’ can get you Harvard Oxford atlas from your installed directory. Since we mimic same root directory as FSL to load it easily from your installation.
+  symmetric_split: True # If True, lateralized atlases of cort or sub with maxprob will be returned. For subcortical types (sub-maxprob), we split every symmetric region in left and right parts. Effectively doubles the number of regions. NOTE Not implemented for full probabilistic atlas (-prob- atlases). Default=False.
+  resumebool: True # (bool) Whether to resumed download of a partly-downloaded file. Default=True.
+  verbose: 1 # (int) Verbosity level (0 means no message). Default=1.
 fetch_atlas_smith_2009:
   data_dir: 'path'
   mirror: ''

@@ -1,0 +1,12 @@
+active_contour:
+  alpha: 0.0 # Snake length shape parameter. Higher values makes snake contract faster.
+  beta: 0.0 # Snake smoothness shape parameter. Higher values makes snake smoother.
+  w_line: 0.0 # Controls attraction to brightness. Use negative values to attract toward dark regions.
+  w_edge: 0.0 # Controls attraction to edges. Use negative values to repel snake from edges.
+  gamma: 0.0 # Explicit time stepping parameter.
+  max_px_move: 0.0 # Maximum pixel distance to move per iteration.
+  max_iterations: 0 # Maximum iterations to optimize snake shape.
+  convergence: 0.0 # Convergence criteria.
+  boundary_condition: enumerate(('periodic', 'free', 'fixed', 'free-fixed', 'fixed-free')) # Boundary conditions for the contour.Can be one of ‘periodic’, ‘free’, ‘fixed’, ‘free-fixed’, or ‘fixed-free’. ‘periodic’ attaches the two ends of the snake, ‘fixed’ holds the end-points in place, and ‘free’ allows free movement of the ends. ‘fixed’ and ‘free’ can be combined by parsing ‘fixed-free’, ‘free-fixed’. Parsing ‘fixed-fixed’ or ‘free-free’ yields same behaviour as ‘fixed’ and ‘free’, respectively.
+  coordinates: {‘rc’} # This option remains for compatibility purpose only and has no effect. It was introduced in 0.16 with the 'xy' option, but since 0.18, only the 'rc' option is valid. Coordinates must be set in a row-column format.
+  

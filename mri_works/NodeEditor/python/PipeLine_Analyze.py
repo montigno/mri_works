@@ -17,6 +17,8 @@ from NodeEditor.python.analyze_loopIf import analyzeLoopIf
 class analyze:
 
     def __init__(self, txt, textEditor, mode):
+        
+#         print(txt)
 
         # initialize variables ##########################
         listArrow = {}
@@ -173,6 +175,13 @@ class analyze:
                     vout = vout.replace('\\n', '')
                 elif fort == 'bool':
                     vout = eval(vout)
+                elif fort == 'list_str':
+                    vout = eval(vout)
+                    tmp = []
+                    for lstVal in vout:
+                        if '*' in lstVal:
+                            tmp.append(lstVal[0:-1])
+                    vout = tmp
                 try:
                     listConstant[unit] = (eval(vout), fort)
                 except Exception as e:
@@ -719,7 +728,7 @@ class analyze:
 
 ######################################################################
 
-        textEditor.clear()
+#         textEditor.clear()
         textEditor.append("<span style=\" \
                            font-size:10pt; \
                            font-weight:600; \

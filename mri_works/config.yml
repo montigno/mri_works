@@ -9,6 +9,7 @@ packages:
   matplotlib: pip3 install matplotlib
   nibabel: pip3 install nibabel
   nilearn: pip3 install nilearn
+  nipy: pip3 install nipy
   nipype: pip3 install nipype
   niwidgets: pip3 install niwidgets
   nose: pip3 install nose
@@ -25,7 +26,17 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  histories: []
-  modules: modules
+  diagrams: []
+  histories:
+  - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_Bruker_br.dgr
+  - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_mriconv.dgr
+  - /home/omontigon/Bureau/test_mri_works/test_DicomToNifti.dgr
+  - /home/omontigon/Bureau/test_mri_works/test_BrukerToNifti.dgr
+  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
+  - /home/omontigon/Documents/mri_works_projects/Toff/test-RegistrationLinear_Atlas.dgr
+  - /home/omontigon/Documents/mri_works_projects/Toff/1-N4bias.dgr
+  - /home/omontigon/Documents/mri_works_projects/Toff/3-Registration_Atlas.dgr
+  - /home/omontigon/Documents/mri_works_projects/Toff/4-Calcul_ROI.dgr
+  - /home/omontigon/Documents/mri_works_projects/Toff/2-ExtractionBrain.dgr
   projects: ../data
-version: 21.05.17a
+version: 21.05.07a

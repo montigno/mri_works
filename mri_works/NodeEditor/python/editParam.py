@@ -23,7 +23,7 @@ class editParam(QDialog):
         self.setWindowTitle('Input parameters')
         self.setWindowFlags(self.windowFlags() &
                             QtCore.Qt.WindowCloseButtonHint)
-        self.adjustSize()
+        self.setMinimumWidth(280)
 
         nIn = len(inout[0])
         self.listField = {}
@@ -55,8 +55,10 @@ class editParam(QDialog):
         scrollwidget.setLayout(scrolllayout)
 
         scroll = QScrollArea()
+#         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         scroll.setWidgetResizable(True)
         scroll.setWidget(scrollwidget)
+        scroll.setMinimumWidth(200)
 
         self.label = []
         self.zoneline = []
@@ -118,7 +120,9 @@ class editParam(QDialog):
 
         self.vbox.addLayout(hbox4)
 
-        self.setLayout(self.vbox)
+#         self.setLayout(self.vbox)
+
+        self.adjustSize()
 
         buttonOk.clicked.connect(self.OK)
         buttonCancel.clicked.connect(self.CANCEL)
@@ -165,11 +169,14 @@ class editParam(QDialog):
                     else:
                         self.listVal.append(tmp)
 
+                elif self.listField[self.label[index]] == 'str':
+                    self.listVal.append(str(tmp))
+
                 elif (DefinitType(tmp).returntype() !=
                         self.listField[self.label[index]]):
                     self.info.setText("<span style=\" \
                                         font-size:10pt; \
-                                        color:#cc0000;\" > error :"
+                                        color:#cc0000;\" > error : "
                                       + self.label[index] + " must be "
                                       + self.listField[self.label[index]]
                                       + "</span>")

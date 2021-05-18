@@ -1,3 +1,8 @@
+# class:
+#  functionality: 
+#  link_web: 
+#  dependencies: 
+
 AbsX:
   functionality: "Generate an abscissa list from xmin to xmax in steps of delta_x.
                   Example (xmin=0.0, xmax=10.0, delta_x=0.1) --> [0.0, 0.1, ...., 9.9, 10.0]"
@@ -6,42 +11,191 @@ AbsX:
   delta_x: (float) deviation of x
   outAbscissa: (list of float) list of abscissa of x
   dependencies: Numpy
+  
+afni_Fourier:
+  functionality: Wraps command 3dFourier. Program to lowpass and/or highpass each voxel time series in a dataset, via the FFT
+  highpass: (a float) highpass. flag -highpass %f, position 1.
+  in_file: (an existing file name) input file to 3dFourier. flag %s, position -1.
+  lowpass: (a float) lowpass. flag -lowpass %f, position 0
+  out_file: (an existing file name) output file
+  dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#fourier
 
-ants_AntsJointFusion:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
-  dependencies: Nipype, ANTs
+afni_ZcutUp:
+  functionality: 
+  link_web: 
+  dependencies: 
+
+afni_Seg:
+  functionality: "3dSeg segments brain volumes into tissue classes. The program allows
+                  for adding a variety of global and voxelwise priors. However for the moment, only mixing fractions and MRF are documented.
+                  For complete details, see the `3dSeg Documentation (https://afni.nimh.nih.gov/pub/dist/doc/program_help/3dSeg.html>)"
+  in_file: (an existing file name). ANAT is the volume to segment. argument ``-anat %s``, position -1
+  mask: ('AUTO' or an existing file name). only non-zero voxels in mask are analyzed. mask can either be a dataset or the string "AUTO" which would use AFNI's automask function to create the mask. argument ``-mask %s``, position -2.
+  dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#seg
+  
+afni_SkullStrip:
+  functionality: "Wraps command 3dSkullStrip.
+                  A program to extract the brain from surrounding tissue from MRI T1-weighted images
+                  For complete details, see the 3dSkullStrip Documentation."
+  in_file: (an existing file name). input file to 3dSkullStrip. flag -input %s, position 1
+  dependencies: Nipype, AFNI
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.afni.preprocess.html#skullstrip
+  
+ants_atropos:
+  functionality: "A finite mixture modeling (FMM) segmentation approach with possibilities 
+                 for specifying prior constraints.
+                 These prior constraints include the specification of a prior label image, 
+                 prior probability images (one for each class), 
+                 and/or an MRF prior to enforce spatial smoothing of the labels. 
+                 Similar algorithms include FAST and SPM. 
+                 atropos can also perform multivariate segmentation if you pass a list of images in e.g. a=(img1,img2)."
+  ants_image: "(ANTsImage or list/tuple of ANTsImage python:types) – One or more scalar images to segment.
+                If priors are not used, the intensities of the first image are used to order the classes in the segmentation output, from lowest to highest intensity.
+                Otherwise the order of the classes is dictated by the order of the prior images."
+  mask_ants: (ANTsImage) – mask image.
+  dependencies: ANTsPy
 
 ants_BrainExtraction:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: Wraps command antsBrainExtraction.sh
+  anatomical_image: "(an existing file name)
+                     Structural image, typically T1. If more than oneanatomical image is
+                     specified, subsequently specifiedimages are used during the
+                     segmentation process. However,only the first image is used in the
+                     registration of priors.Our suggestion would be to specify the T1 as
+                     the first image.Anatomical template created using e.g. LPBA40 data
+                     set withbuildtemplateparallel.sh in ANTs.
+                     flag: -a %s"
+  brain_probability_mask: "(an existing file name)
+                           Brain probability mask created using e.g. LPBA40 data set whichhave
+                           brain masks defined, and warped to anatomical template andaveraged
+                           resulting in a probability image.
+                           flag: -m %s"
+  brain_template: "(an existing file name)
+                   Anatomical template created using e.g. LPBA40 data set
+                   withbuildtemplateparallel.sh in ANTs.
+                   flag: -e %s"
+  BrainExtractionBrain: (an existing file name) brain extraction image
+  BrainExtractionMask: (an existing file name) brain extraction mask
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#brainextraction
   
 ants_image_read:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  functionality: Read an ANTsImage from file
+  filename: (string) – Name of the file to read the image from.
+  ants_image: return ANTsImage
   dependencies: ANTsPy
-  
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
+
 ants_image_write:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  functionality: Write an ANTsImage to file
+  image: (ANTsImage) – image to save to file
+  filename: (string) – name of file to which image will be saved
+  outfile_image: file in which the image is saved
   dependencies: ANTsPy
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
 
 ants_JointFusion:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: Wraps command antsJointFusion
+  atlas_image: "(a list of items which are a list of items which are an
+                existing file name)
+                The atlas image (or multimodal atlas images) assumed to be aligned
+                to a common image domain.
+                flag: -g %s..."
+  atlas_segmentation_image: "(a list of items which are an existing file
+                             name)
+                             The atlas segmentation images. For performing label fusion the
+                             number of specified segmentations should be identical to the number
+                             of atlas image sets.
+                             flag: -l %s..."
+  target_image: "(a list of items which are a list of items which are an
+                 existing file name)
+                 The target image (or multimodal target images) assumed to be aligned
+                 to a common image domain.
+                 flag: -t %s"
+  out_atlas_voting_weight_name_format: (a string)
+  out_intensity_fusion_name_format: (a string)
+  out_label_fusion: (an existing file name)
+  out_label_post_prob_name_format: (a string)
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#antsjointfusion
 
 ants_MeasureImageSimilarity:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
+  functionality: Wrapped executable MeasureImageSimilarity.
+  fixed_image: (a pathlike object or string representing an existing file) – Image to which the moving image is warped.
+  metric: (‘CC’ or ‘MI’ or ‘Mattes’ or ‘MeanSquares’ or ‘Demons’ or ‘GC’) – Maps to a command-line argument %s.
+  moving_image: (a pathlike object or string representing an existing file) – Image to apply transformation to (generally a coregistered functional).
+  radius_or_number_of_bins: (an integer) – The number of bins in each stage for the MI and Mattes metric, or the radius for other metrics. Requires inputs metric.
+  sampling_percentage: (0.0 ≤ a floating point number ≤ 1.0) – Percentage of points accessible to the sampling strategy over which to optimize the metric. Requires inputs metric.
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#measureimagesimilarity
 
 ants_N4BiasFieldCorrection:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html
+  functionality: "N4 is a variant of the popular N3 (nonparameteric nonuniform normalization) retrospective bias correction algorithm.
+                  Based on the assumption that the corruption of the low frequency bias field can be modeled as a convolution of the intensity histogram by a Gaussian,
+                  the basic algorithmic protocol is to iterate between deconvolving the intensity histogram by a Gaussian,
+                  remapping the intensities, and then spatially smoothing this result by a B-spline modeling of the bias field itself.
+                  The modifications from and improvements obtained over the original N3 algorithm are described in [Tustison2010]."
+  input_image: (a file name) image to apply transformation to (generally a coregistered functional). flag --input-image %s
+  save_bias: (a boolean) – True if the estimated bias should be saved to file. Mutually exclusive with inputs bias_image. (Nipype default value False)
+  copy_header: (a boolean) – Copy headers of the original image into the output (corrected) file. (Nipype default value False)
+  output_image: (an existing file name) Warped image
+  bias_image: (an existing file name) Estimated bias
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.ants.segmentation.html#n4biasfieldcorrection
 
 ants_Registration:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
+  functionality: ANTs Registration command for registration of images.
+  fixed_image: (a list of items which are an existing file name). Image to which the moving_image should be transformed(usually a structural image).
+  moving_image: (a list of items which are an existing file name). Image that will be registered to the space of fixed_image. This is the image on which the transformations will be applied to
+  metric: "(a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes' 
+           or a list of items which are 'CC' or 'MeanSquares' or 'Demons' or 'GC' or 'MI' or 'Mattes').
+           the metric(s) to use for each stage. Note that multiple metrics per stage are not supported in ANTS 1.9.1 and earlier."
+  metric_weight: (a list of items which are a float or a list of items which are a float, nipype default value [1.0]). the metric weight(s) for each stage. The weights must sum to 1 per stage. requires metric.
+  shrink_factors: (a list of items which are a list of items which are an integer (int or long))
+  smoothing_sigmas: (a list of items which are a list of items which are a float).
+  transforms: "(a list of items which are 'Rigid' or 'Affine' or 'CompositeAffine' or 'Similarity' or 'Translation' or 'BSpline' 
+               or 'GaussianDisplacementField' or 'TimeVaryingVelocityField' or 'TimeVaryingBSplineVelocityField' or 'SyN' or 'BSplineSyN' or 'Exponential' or 'BSplineExponential'). argument ``%s``."
   dependencies: Nipype, ANTs
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.ants.registration.html#registration
   
 ants_set_spacing:
-  functionality: https://antspy.readthedocs.io/en/latest/core.html
+  functionality: Set image spacing
+  ants_image: AntsImage to read
+  new_spacing: (tuple or list) – updated spacing for the image. should have one value for each dimension
+  ants_image_spacing: return ANTsImage with spacing
   dependencies: ANTsPy
+  link_web: https://antspy.readthedocs.io/en/latest/core.html
+
+antsMotionCorr:
+  functionality:
+  output: "[outputTransformPrefix,<outputWarpedImage>,<outputAverageImage>] 
+           Specify the output transform prefix (output format is .nii.gz ).Optionally, one 
+           can choose to warp the moving image to the fixed space and, if the inverse 
+           transform exists, one can also output the warped fixed image."
+  outputWarpedImage: warped image
+  outputAverageImage: fixed image
+  dependencies: Ants
+
+antsRegistration:
+ functionality: "This program is a user-level registration application meant to utilize 
+                ITKv4-only classes. The user can specify any number of 'stages' where a stage 
+                consists of a transform; an image metric; and iterations, shrink factors, and 
+                smoothing sigmas for each level.Note that dimensionality, metric, transform, 
+                output, convergence, shrink-factors and smoothing-sigmas parameters are 
+                mandatory."
+ output: "outputTransformPrefix
+          [outputTransformPrefix,<outputWarpedImage>,<outputInverseWarpedImage>]
+          Specify the output transform prefix (output format is .nii.gz ). Optionally, one 
+          can choose to warp the moving image to the fixed space and, if the inverse 
+          transform exists, one can also output the warped fixed image. Note that only the 
+          images specified in the first metric call are warped. Use antsApplyTransforms to 
+          warp other images using the resultant transform(s)."
+ outputWarpedImage: the warped fixed image output
+ outputInverseWarpedImage: the inverse warped fixed image output
+ link_web: 
+ dependencies: ANTs 
 
 Array_3D_random:
   functionality: Generate a random image 3D (row, column and slice)
@@ -119,19 +273,28 @@ fact:
   dependencies: Numpy
 
 fetch_atlas_harvard_oxford:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
+  functionality:
+  atlas_name: "(string) Name of atlas to load. Can be: cort-maxprob-thr0-1mm, cort-maxprob-thr0-2mm, cort-maxprob-thr25-1mm,
+               cort-maxprob-thr25-2mm, cort-maxprob-thr50-1mm, cort-maxprob-thr50-2mm, sub-maxprob-thr0-1mm, sub-maxprob-thr0-2mm,
+               sub-maxprob-thr25-1mm, sub-maxprob-thr25-2mm, sub-maxprob-thr50-1mm, sub-maxprob-thr50-2mm, cort-prob-1mm,
+               cort-prob-2mm, sub-prob-1mm, sub-prob-2mm"
   dependencies: Nipype, Nilearn
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_harvard_oxford.html
 
 fetch_atlas_msdl:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
+  functionality: 
   dependencies: Nipype, Nilearn
+  
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_msdl.html
 
 fetch_atlas_smith_2009:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
+  functionality: 
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_atlas_smith_2009.html
   dependencies: Nipype, Nilearn
 
 fetch_neurovault_motor_task:
-  functionality: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
+  functionality: 
+  link_web: https://nilearn.github.io/modules/generated/nilearn.datasets.fetch_neurovault_motor_task.html
   dependencies: Nipype, Nilearn
 
 FloatToInt_array:
@@ -159,48 +322,177 @@ FloatToString:
   outString: (string) string of float number
 
 fsl_ApplyMask:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Use fslmaths to apply a binary mask to another image.
+  in_file: "(an existing file name)
+            image to operate on
+            flag: %s, position: 2"
+  mask_file: "(an existing file name)
+              binary image defining mask space
+              flag: -mas %s, position: 4"
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#applymask
 
 fsl_BET:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable bet. FSL BET wrapper for skull stripping
+  in_file: (a pathlike object or string representing an existing file) – Input file to skull strip. Maps to a command-line argument %s (position 0).
+  out_file: (a pathlike object or string representing a file) – Path/name of skullstripped file (if generated).
+  mask_file: (a pathlike object or string representing a file) – Path/name of binary brain mask (if generated).
+  outline_file: (a pathlike object or string representing a file) – Path/name of outline file (if generated).
+  meshfile: (a pathlike object or string representing a file) – Path/name of vtk mesh file (if generated).
+  inskull_mask_file: (a pathlike object or string representing a file) – Path/name of inskull mask (if generated).
+  inskull_mesh_file: (a pathlike object or string representing a file) – Path/name of inskull mesh outline (if generated).
+  outskin_mask_file: (a pathlike object or string representing a file) – Path/name of outskin mask (if generated).
+  outskin_mesh_file: (a pathlike object or string representing a file) – Path/name of outskin mesh outline (if generated).
+  outskull_mask_file: (a pathlike object or string representing a file) – Path/name of outskull mask (if generated).
+  outskull_mesh_file: (a pathlike object or string representing a file) – Path/name of outskull mesh outline (if generated).
+  skull_file: (a pathlike object or string representing a file) – Path/name of skull file (if generated).
+  skull_mask_file: (a pathlike object or string representing a file) – Path/name of skull mask (if generated).
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#bet
 
 fsl_BinaryMaths:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Wraps command fslmaths Use fslmaths to perform mathematical operations using a second image or a numeric value.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  operand_file: (an existing file name) second image to perform operation with. flag %s, position 5. mutually_exclusive operand_value
+  operand_value: (a float) value to perform operation with. flag %.8f, position 5. mutually_exclusive operand_file
+  operation: ('add' or 'sub' or 'mul' or 'div' or 'rem' or 'max' or 'min') operation to perform. flag -%s, position 4. 
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#binarymaths
+
+fsl_ExtractROI:
+  functionality: "Wraps command fslroi
+                  Uses FSL Fslroi command to extract region of interest (ROI) from an image.
+                  You can 
+                  a) take a 3D ROI from a 3D data set (or if it is 4D, the same ROI is taken from each time point and a new 4D data set is created),
+                  b) extract just some time points from a 4D data set, or 
+                  c) control time and space limits to the ROI. Note that the arguments are minimum index and size (not maximum index). So to extract voxels 10 to 12 inclusive you would specify 10 and 3 (not 10 and 12)."
+  in_file: (an existing file name) input file flag %s, position 0
+  roi_file: (an existing file name)
+  dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.fsl.utils.html#extractroi
 
 fsl_FAST:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable fast. FSL FAST wrapper for segmentation and bias correction
+  in_files: "(a list of items which are a pathlike object or string representing an existing file)
+             Image, or multi-channel set of images, to be segmented. Maps to a command-line argument: %s (position: -1)."
+  bias_field: (a list of items which are a pathlike object or string representing a file)
+  mixeltype: (a pathlike object or string representing a file) – Path/name of mixeltype volume file _mixeltype.
+  partial_volume_files: (a list of items which are a pathlike object or string representing a file)
+  partial_volume_map: (a pathlike object or string representing a file) – Path/name of partial volume file _pveseg.
+  probability_maps: (a list of items which are a pathlike object or string representing a file)
+  restored_image: (a list of items which are a pathlike object or string representing a file)
+  tissue_class_files: (a list of items which are a pathlike object or string representing a file)
+  tissue_class_map: (a pathlike object or string representing an existing file) – Path/name of binary segmented volume file one val for each class _seg.
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#fast
 
 fsl_FLIRT:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable flirt. FSL FLIRT wrapper for coregistration
+  in_file: (a pathlike object or string representing an existing file) – Input file. Maps to a command-line argument -in %s (position 0).
+  reference: (a pathlike object or string representing an existing file) – Reference file. Maps to a command-line argument -ref %s (position 1).
+  out_file: (a pathlike object or string representing an existing file) – Path/name of registered file (if generated).
+  out_log: (a pathlike object or string representing a file) – Path/name of output log (if generated).
+  out_matrix_file: (a pathlike object or string representing an existing file) – Path/name of calculated affine transform (if generated).
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#flirt
 
 fsl_FNIRT:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html
+  functionality: Bases FSLCommand. Wrapped executable fnirt. FSL FNIRT wrapper for non-linear registration
+  in_file: (a pathlike object or string representing an existing file) – Name of input image. Maps to a command-line argument --in=%s.
+  ref_file: (a pathlike object or string representing an existing file) – Name of reference image. Maps to a command-line argument --ref=%s.
+  field_file: (a pathlike object or string representing a file) – File with warp field.
+  fieldcoeff_file: (a pathlike object or string representing an existing file) – File with field coefficients.
+  jacobian_file: (a pathlike object or string representing a file) – File containing Jacobian of the field.
+  log_file: (a pathlike object or string representing a file) – Name of log-file.
+  modulatedref_file: (a pathlike object or string representing a file) – File containing intensity modulated –ref.
+  out_intensitymap_file: (a list of from 2 to 2 items which are a pathlike object or string representing a file) – Files containing info pertaining to intensity mapping.
+  warped_file: (a pathlike object or string representing an existing file) – Warped image.
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.preprocess.html#fnirt
+
+fsl_ImageMaths:
+  functionality: Wraps command fslmaths. Use FSL fslmaths command to allow mathematical manipulation of images FSL info
+  in_file: (an existing file name) flag %s, position 1
+  out_file: (an existing file name)
+  dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.fsl.utils.html#imagemaths
 
 fsl_Merge:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: "Bases: FSLCommand. Wrapped executable fslmerge. Use fslmerge to concatenate images
+                  Images can be concatenated across time, x, y, or z dimensions.
+                  Across the time (t) dimension the TR is set by default to 1 sec.
+                  Note to set the TR to a different value, specify ‘t’ for dimension and specify the TR value in seconds for the tr input.
+                  The dimension will be automatically updated to ‘tr’."
+  dimension: (‘t’ or ‘x’ or ‘y’ or ‘z’ or ‘a’) – Dimension along which to merge, optionally set tr input when dimension is t. Maps to a command-line argument -%s (position 0).
+  in_files: (a list of items which are a pathlike object or string representing an existing file) – Maps to a command-line argument %s (position 2).
+  merged_file: (a pathlike object or string representing an existing file)
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#merge
 
 fsl_Split:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: Wrapped executable fslsplit. Uses FSL Fslsplit command to separate a volume into images in time, x, y or z dimension.
+  dimension: (‘t’ or ‘x’ or ‘y’ or ‘z’) – Dimension along which the file will be split. Maps to a command-line argument -%s (position 2).
+  in_file: (a pathlike object or string representing an existing file) – Input filename. Maps to a command-line argument %s (position 0).
+  out_files: (a list of items which are a pathlike object or string representing an existing file)
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#split
 
 fsl_SwapDimensions:
-  functionality: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html
+  functionality: "Wrapped executable: fslswapdim. Use fslswapdim to alter the orientation of an image.
+                  This interface accepts a three-tuple corresponding to the new orientation. You may either provide dimension ids in the form of (-)x, (-)y, or (-z), or nifti-syle dimension codes (RL, LR, AP, PA, IS, SI)."
+  in_file: (a pathlike object or string representing an existing file) – Input image. Maps to a command-line argument %s (position 1).
+  new_dims: (a tuple of the form (‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’, ‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’, ‘x’ or ‘-x’ or ‘y’ or ‘-y’ or ‘z’ or ‘-z’ or ‘RL’ or ‘LR’ or ‘AP’ or ‘PA’ or ‘IS’ or ‘SI’)) – 3-tuple of new dimension order. Maps to a command-line argument %s %s %s.
+  out_file: (a pathlike object or string representing an existing file) – Image with new dimensions.
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.fsl.utils.html#swapdimensions
 
 fsl_Threshold:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Wraps command fslmaths. Use fslmaths to apply a threshold to an image in a variety of ways.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  thresh: (a float) threshold value. flag %s, position 4
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#threshold
 
 fsl_UnaryMaths:
-  functionality: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html
+  functionality: Wraps command fslmaths. Use fslmaths to perorm a variety of mathematical operations on an image.
+  in_file: (an existing file name) image to operate on. flag %s, position 2
+  operation: "('exp' or 'log' or 'sin' or 'cos' or 'tan' or 'asin' or
+               'acos' or 'atan' or 'sqr' or 'sqrt' or 'recip' or 'abs' or 'bin' or
+               'binv' or 'fillh' or 'fillh26' or 'index' or 'edge' or 'nan' or
+               'nanm' or 'rand' or 'randn' or 'range')
+               operation to perform
+               flag: -%s, position: 4"
+  out_file: (an existing file name) image written after calculations
   dependencies: Nipype, fsl
+  link_web: https://nipype.readthedocs.io/en/0.12.0/interfaces/generated/nipype.interfaces.fsl.maths.html#unarymaths
+
+image_Reorient:
+  functionality: "Conform an image to a given orientation
+                  Flips and reorder the image data array so that the axes match the directions indicated in orientation.
+                  The default RAS orientation corresponds to the first axis being ordered from left to right, the second axis from posterior to anterior, and the third axis from inferior to superior.
+                  For oblique images, the original orientation is considered to be the closest plumb orientation.
+                  No resampling is performed, and thus the output image is not de-obliqued or registered to any other image or template.
+                  The effective transform is calculated from the original affine matrix to the reoriented affine matrix."
+  in_file: (a pathlike object or string representing an existing file) – Input image.
+  out_file: (a pathlike object or string representing an existing file) – Reoriented image.
+  transform: (a pathlike object or string representing an existing file) – Affine transform from input orientation to output.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.image.html#reorient
+
+image_rescale:
+  functionality: "Rescale an image
+                  Rescales the non-zero portion of in_file to match the bounds of the non-zero portion of ref_file.
+                  Reference values in the input and reference images are defined by the percentile parameter,
+                  and the reference values in each image are identified and the remaining values are scaled accordingly.
+                  In the case of percentile == 0, the reference values are the maxima and minima of each image.
+                  If the invert parameter is set, the input file is inverted prior to rescaling."
+  in_file: (a pathlike object or string representing an existing file) – Skull-stripped image to rescale.
+  ref_file: (a pathlike object or string representing an existing file) – Skull-stripped reference image.
+  out_file: (a pathlike object or string representing an existing file) – Rescaled image.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.image.html#rescale
 
 IntToFloat_array:
   functionality: "Allows the conversion of an integer array to a floating array.
@@ -230,6 +522,13 @@ ListOfInt:
   functionality: Create a list of integer number 0 to n-1.
   n: (integer) an integer number
   serie_int: (list of integer) a list of integer number 0 to n-1
+  
+meshfix_MeshFix:
+  functionality: Wrapped executable meshfix. MeshFix v1.2-alpha - by Marco Attene, Mirko Windhoff, Axel Thielscher.
+  in_file1: (a pathlike object or string representing an existing file) – Maps to a command-line argument %s (position 1).
+  mesh_file: (a pathlike object or string representing an existing file) – The output mesh file.
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/latest/api/generated/nipype.interfaces.meshfix.html#meshfix
 
 MP3_T2map:
   functionality: Create a T2 map from a multi-echo time data.
@@ -237,10 +536,43 @@ MP3_T2map:
   file_in: (path) path of your Nifti file (with JSON)
   file_out: (path) recording Nifti file path (a JSON file with the same name will also be created)
   dependencies: Matlab engine
-  
-mrtrix3_DWIExtract:
-  functionality: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
+ 
+mrtrix3_DWIDenoise:
+  functionality: "Denoise DWI data and estimate the noise level based on the optimal threshold for PCA.
+                  DWI data denoising and noise map estimation by exploiting data redundancy in the PCA domain using the prior knowledge
+                  that the eigenspectrum of random covariance matrices is described by the universal Marchenko Pastur distribution.
+                  Important note, image denoising must be performed as the first step of the image processing pipeline.
+                  The routine will fail if interpolation or smoothing has been applied to the data prior to denoising.
+                  Note that this function does not correct for non-Gaussian noise biases."
+  in_file: (an existing file name) input DWI image. argument ``%s``, position -2
+  out_file: (an existing file name) the output denoised DWI image
   dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/preprocess.html#dwidenoise
+
+mrtrix3_DWIExtract:
+  functionality: Wraps the executable command dwiextract. Extract diffusion-weighted volumes, b=0 volumes, or certain shells from a DWI dataset
+  in_file: (an existing file name) input image. argument ``%s``, position -2
+  out_file: (a file name) output image. argument ``%s``, position -1
+  out_file: (an existing file name) output image
+  dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#dwiextract
+  
+mrtrix3_MRConvert:
+  functionality: Perform conversion between different file types and optionally extract a subset of the input image
+  in_file: (an existing file name) input image. argument ``%s``, position -2
+  out_file: (a file name, nipype default value dwi.mif) output image. argument ``%s``, position -1
+  out_file: (an existing file name) output image
+  dependencies: Nipype, MRtrix3
+  link_web: https://nipype.readthedocs.io/en/1.1.8/interfaces/generated/interfaces.mrtrix3/utils.html#mrconvert
+
+nipy_FmriRealign4d:
+  functionality: Simultaneous motion and slice timing correction algorithm. This interface wraps nipy’s FmriRealign4d algorithm.
+  in_file: (a list of items which are an existing file name) File to realign
+  tr: (a float) TR in seconds
+  out_file: (a list of items which are an existing file name) Realigned files
+  par_file: (a list of items which are an existing file name) Motion parameter files
+  dependencies: Nipype
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.nipy.preprocess.html#fmrirealign4d
 
 NlargestInArray:
   functionality: Check the n largest value in array input.
@@ -394,6 +726,88 @@ pyPlot2:
   title: (str or None) the legend’s title
   dependencies: matplotlib
 
+skimage_black_tophat:
+  functionality: Return black top hat of an image. The black top hat of an image is defined as its morphological closing minus the original image. This operation returns the dark spots of the image that are smaller than the structuring element. Note that dark spots in the original image are bright spots after the black top hat.
+  image: (ndarray) Image array.
+  sk_black_tophat: (array, same shape and type as image) The result of the morphological black top hat.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.black_tophat
+  dependencies: skimage
+
+skimage_dilation:
+  functionality: Return greyscale morphological dilation of an image. Morphological dilation sets a pixel at (i,j) to the maximum over all pixels in the neighborhood centered at (i,j). Dilation enlarges bright regions and shrinks dark regions.
+  image: (ndarray) Image array.
+  sk_dilation: (uint8 array, same shape and type as image) The result of the morphological dilation.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.dilation
+  dependencies: skimage
+
+skimage_erosion:
+  functionality: Return greyscale morphological erosion of an image. Morphological erosion sets a pixel at (i,j) to the minimum over all pixels in the neighborhood centered at (i,j). Erosion shrinks bright regions and enlarges dark regions.
+  image: (ndarray) Image array.
+  sk_erosion: (array, same shape as image) The result of the morphological erosion.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.erosion
+  dependencies: skimage
+
+skimage_white_tophat:
+  functionality: Return white top hat of an image. The white top hat of an image is defined as the image minus its morphological opening. This operation returns the bright spots of the image that are smaller than the structuring element.
+  image: (ndarray) Image array.
+  sk_white_tophat: (array, same) shape and type as image. The result of the morphological white top hat.
+  link_web: https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.white_tophat
+  dependencies: skimage
+
+spm_Coregister:
+  functionality: Use spm_coreg for estimating cross-modality rigid body alignment
+  source: (a list of items which are an existing file name) file to register to target
+  target: (an existing file name) reference file to register to
+  coregistered_files: (a list of items which are an existing file name) Coregistered other files
+  coregistered_source: (a list of items which are an existing file name) Coregistered source files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#coregister
+
+spm_Normalize:
+  functionality: use spm_normalise for warping an image to a template
+  parameter_file: (a file name) normalization parameter file*_sn.mat. mutually_exclusive source, template
+  source: (a list of items which are an existing file name) file to normalize to template. mutually_exclusive parameter_file
+  template: (an existing file name) template file to normalize to. mutually_exclusive parameter_file 
+  normalization_parameters: (a list of items which are an existing file name) MAT files containing the normalization parameters
+  normalized_files: (a list of items which are an existing file name) Normalized other files 
+  normalized_source: (a list of items which are an existing file name) Normalized source files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#normalize
+
+spm_NewSegment:
+  functionality: Use spm_preproc8 (New Segment) to separate structural images into different tissue classes. Supports multiple modalities. NOTE This interface currently supports single channel input only
+  channel_files: (a list of items which are an existing file name) A list of files to be segmented
+  bias_corrected_images: (a list of items which are an existing file name) bias corrected images
+  bias_field_images: (a list of items which are an existing file name) bias field images
+  dartel_input_images: (a list of items which are a list of items which are an existing file name) dartel imported class images
+  forward_deformation_field: (a list of items which are an existing file name)
+  inverse_deformation_field: (a list of items which are an existing file name)
+  modulated_class_images: (a list of items which are a list of items which are an existing file name) modulated+normalized class images
+  native_class_images: (a list of items which are a list of items which are an existing file name) native space probability maps
+  normalized_class_images: (a list of items which are a list of items which are an existing file name) normalized class images
+  transformation_mat: (a list of items which are an existing file name) Normalization transformation
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#newsegment
+
+spm_SliceTiming:
+  functionality: Use spm to perform slice timing correction.
+  in_files: (a list of items which are a list of items which are an existing file name or an existing file name) list of filenames to apply slice timing
+  num_slices: (an integer (int or long)) number of slices in a volume
+  ref_slice: (an integer (int or long)) 1-based Number of the reference slice
+  slice_order: (a list of items which are an integer (int or long)) 1-based order in which slices are acquired
+  time_acquisition: (a float) time of volume acquisition. usuallycalculated as TR-(TR/num_slices)
+  time_repetition: (a float) time between volume acquisitions(start to start time)
+  timecorrected_files: (a list of items which are a list of items which are an existing file name or an existing file name) slice time corrected files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#slicetiming
+
+spm_Smooth:
+  functionality: Use spm_smooth for 3D Gaussian smoothing of image volumes.
+  in_files: (a list of items which are an existing file name) list of files to smooth
+  smoothed_files: (a list of items which are an existing file name) smoothed files
+  dependencies: Nipype, SPM
+  link_web: https://nipype.readthedocs.io/en/0.12.1/interfaces/generated/nipype.interfaces.spm.preprocess.html#smooth
+  
 trigonometric:
   functionality: "Generate a trigonometric function (cos, sin, tan, arccos, arcsin, arctan). 
                      y = f(x+angle)"

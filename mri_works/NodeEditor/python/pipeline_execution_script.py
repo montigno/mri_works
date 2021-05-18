@@ -13,9 +13,11 @@ class executionScript:
         textScript = '\n'.join(txt.split('\n')[1:-2])
         outputsList = eval(txt.splitlines()[-1])
         code = ''
+        
         for lst in inputsList:
             az = lst.split('=')
-            if ':' in az[1]:
+            ispath = ':/' in az[1]
+            if ':' in az[1] and not ispath:
                 if type(listDynamicValue[az[1]]).__name__ == 'str':
                     code += az[0]+' = "'+str(listDynamicValue[az[1]])+'"\n'
                 elif type(listDynamicValue[az[1]]).__name__ in ['float', 'int', 'bool', 'list', 'range', 'array']:

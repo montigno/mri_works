@@ -1,25 +1,33 @@
 meshfix_MeshFix:
-  uniform_remeshing_vertices: 0
-  output_type: enumerate(('stl','msh','wrl','vrml','fs','off'))
-  remove_handles: True
-  uniform_remeshing_steps: 0
-  dont_clean: True
-  decouple_outin: 0
-  save_as_vrml: True
-  inetuning_distance: 0.0
-  cut_inner: 0.0 
-  set_intersections_to_one: True
-  save_as_freesurfer_mesh: True
-  laplacian_smoothing_steps: 0
-  join_overlapping_largest_components: True
-  dilation: 0
-  environ: {}
-  in_file2: 'path'
-  number_of_biggest_shells: 0  
-  quiet_mode: True
-  out_filename: 'path'
-  epsilon_angle: 0.0
-  args: ''
-  finetuning_substeps: 0
-  decouple_inin: 0
-  cut_outer: 0
+  args: '' # (a string) – Additional parameters to the command. Maps to a command-line argument: %s.
+  cut_inner: 0.0 # (an integer) – Remove triangles of 1st that are inside of the 2nd shell. Dilate 2nd by N; Fill holes and keep only 1st afterwards. Maps to a command-line argument: --cut-inner %d.
+  cut_outer: 0 # (an integer) – Remove triangles of 1st that are outside of the 2nd shell. Maps to a command-line argument: --cut-outer %d.
+  decouple_inin: 0 # (an integer) – Treat 1st file as inner, 2nd file as outer component.Resolve overlaps by moving inners triangles inwards. Constrain the min distance between the components > d. Maps to a command-line argument: --decouple-inin %d.
+  decouple_outin: 0 # (an integer) – Treat 1st file as outer, 2nd file as inner component.Resolve overlaps by moving outers triangles inwards. Constrain the min distance between the components > d. Maps to a command-line argument: --decouple-outin %d.
+  decouple_outout: 0 # (an integer) – Treat 1st file as outer, 2nd file as inner component.Resolve overlaps by moving outers triangles outwards. Constrain the min distance between the components > d. Maps to a command-line argument: --decouple-outout %d.
+  dilation: 0 # (an integer) – Dilate the surface by d. d < 0 means shrinking. Maps to a command-line argument: --dilate %d.
+  dont_clean: True # (a boolean) – Don’t Clean. Maps to a command-line argument: --no-clean.
+  environ: {} # (a dictionary with keys which are a bytes or None or a value of class ‘str’ and with values which are a bytes or None or a value of class ‘str’) – Environment variables. (Nipype default value: {})
+  epsilon_angle: 0.0 # (0.0 ≤ a floating point number ≤ 2.0) – Epsilon angle in degrees (must be between 0 and 2). Maps to a command-line argument: -a %f.
+  finetuning_distance: 0.0 # (a float) – Used to fine-tune the minimal distance between surfaces.A minimal distance d is ensured, and reached in n substeps. When using the surfaces for subsequent volume meshing by gmsh, this step prevent too flat tetrahedra2). Maps to a command-line argument: %f (position: -2). Requires inputs: finetuning_substeps.
+  finetuning_inwards: True # (a boolean) – Used to fine-tune the minimal distance between surfaces. Maps to a command-line argument: --fineTuneIn (position: -3). Requires inputs: finetuning_distance, finetuning_substeps.
+  finetuning_outwards: True # (a boolean) – Similar to finetuning_inwards, but ensures minimal distance in the other direction. Maps to a command-line argument: --fineTuneOut (position: -3). Mutually exclusive with inputs: finetuning_inwards. Requires inputs: finetuning_distance, finetuning_substeps.
+  finetuning_substeps: 0 # (an integer) – Used to fine-tune the minimal distance between surfaces.A minimal distance d is ensured, and reached in n substeps. When using the surfaces for subsequent volume meshing by gmsh, this step prevent too flat tetrahedra2). Maps to a command-line argument: %d (position: -1). Requires inputs: finetuning_distance.
+  in_file2: 'path' # (a pathlike object or string representing an existing file) – Maps to a command-line argument: %s (position: 2).
+  join_closest_components: True # (a boolean) – Join the closest pair of components. Maps to a command-line argument: -jc. Mutually exclusive with inputs: join_closest_components.
+  join_overlapping_largest_components: True # (a boolean) – Join 2 biggest components if they overlap, remove the rest. Maps to a command-line argument: -j. Mutually exclusive with inputs: join_closest_components.
+  laplacian_smoothing_steps: 0 # (an integer) – The number of laplacian smoothing steps to apply. Maps to a command-line argument: --smooth %d.
+  number_of_biggest_shells: 0 # (an integer) – Only the N biggest shells are kept. Maps to a command-line argument: --shells %d.
+  out_filename: 'path' # (a pathlike object or string representing a file) – The output filename for the fixed mesh file. Maps to a command-line argument: -o %s.
+  output_type: enumerate(('stl','msh','wrl','vrml','fs','off')) # (‘stl’ or ‘msh’ or ‘wrl’ or ‘vrml’ or ‘fs’ or ‘off’) – The output type to save the file as. (Nipype default value: off)
+  quiet_mode: True # (a boolean) – Quiet mode, don’t write much to stdout. Maps to a command-line argument: -q.
+  remove_handles: True # (a boolean) – Remove handles. Maps to a command-line argument: --remove-handles.
+  save_as_freesurfer_mesh: True # (a boolean) – Result is saved in freesurfer mesh format. Maps to a command-line argument: --fsmesh. Mutually exclusive with inputs: save_as_vrml, save_as_stl.
+  save_as_stl: True # (a boolean) – Result is saved in stereolithographic format (.stl). Maps to a command-line argument: --stl. Mutually exclusive with inputs: save_as_vrml, save_as_freesurfer_mesh.
+  save_as_vrml: True # (a boolean) – Result is saved in VRML1.0 format (.wrl). Maps to a command-line argument: --wrl. Mutually exclusive with inputs: save_as_stl, save_as_freesurfer_mesh.
+  set_intersections_to_one: True # (a boolean) – If the mesh contains intersections, return value = 1.If saved in gmsh format, intersections will be highlighted. Maps to a command-line argument: --intersect.
+  uniform_remeshing_steps: 0 # (an integer) – Number of steps for uniform remeshing of the whole mesh. Maps to a command-line argument: -u %d. Requires inputs: uniform_remeshing_vertices.
+  uniform_remeshing_vertices: 0 # (an integer) – Constrains the number of vertices.Must be used with uniform_remeshing_steps. Maps to a command-line argument: --vertices %d. Requires inputs: uniform_remeshing_steps.
+  x_shift: 0 # (an integer) – Shifts the coordinates of the vertices when saving. Output must be in FreeSurfer format. Maps to a command-line argument: --smooth %d.
+
+  

@@ -95,6 +95,7 @@ class BidsToNifti:
                   ' BidsToNifti \"' + listBids + \
                   '\" ' + path_export + ' ' + naming + \
                   ' [ExportOptions]' + options_export
+        print('BIDS : ', command)
         p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
         txt, error = p.communicate()
         rc = p.returncode
@@ -106,3 +107,42 @@ class BidsToNifti:
 
     def list_files_exported(self: 'list_path'):
         return self.output
+    
+############################################################################################################################
+
+
+class DicomToNifti:
+    def __init__(self,
+                 Dicom_dir=['path'],
+                 naming='PatientName/StudyName/CreationDate-SeqNumber-Protocol-SequenceName-AcquisitionTime',
+                 path_export='path',
+                 bvals_bvecs=False):
+        import os
+        import sys
+        from subprocess import Popen, PIPE
+#         from NodeEditor.python.configStandalone import ConfigModuls
+        listDicom = ''
+        for ls in Dicom_dir:
+            listDicom += ls + ";"
+        listDicom = listDicom[0:-1]
+        options_export = "00000"
+        if bvals_bvecs:
+            options_export = "00013"
+#         command = 'java -classpath ' + ConfigModuls().getPathConfig('MRIFileManager') + \
+        command = 'java -classpath $MRIFilePATH' + \
+                  ' DicomToNifti \"' + listDicom + \
+                  '\" ' + path_export + ' ' + naming + \
+                  ' [ExportOptions]' + options_export
+        print('Dicom : ', command)
+        p = Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
+        txt, error = p.communicate()
+        rc = p.returncode
+        txt = txt.decode("utf-8")
+        txt = txt[txt.index("exported to ") + 12:]
+        self.output = []
+        for val in txt.split("exported to "):
+            self.output.append(val[0:val.index("\n")])
+
+    def list_files_exported(self: 'list_path'):
+        return self.output
+

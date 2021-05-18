@@ -20,8 +20,29 @@ class separatePath():
         import os
         self.dir = os.path.dirname(inPath)
         tmp = os.path.basename(inPath)
-        self.name = ('.').join(tmp.split('.')[:-1])
-        self.ext = tmp.split('.')[-1]
+        lst_fd = tmp.split('.')
+        self.name = ('.').join(lst_fd[:-1])
+        self.ext = lst_fd[-1]
+
+    def directory(self: 'path'):
+        return self.dir
+
+    def nameFile(self: 'str'):
+        return self.name
+
+    def extension(self: 'str'):
+        return self.ext
+
+###############################################################################
+
+class separatePath_2ext():
+    def __init__(self, inPath="path"):
+        import os
+        self.dir = os.path.dirname(inPath)
+        tmp = os.path.basename(inPath)
+        lst_fd = tmp.split('.')
+        self.name = ('.').join(lst_fd[:-2])
+        self.ext = ('.').join(lst_fd[-2:])
 
     def directory(self: 'path'):
         return self.dir
@@ -106,6 +127,19 @@ class change_extension:
 
     def newPath(self: 'path'):
         return self.outPath
+    
+###############################################################################
+
+
+class change_extension_2ext:
+    def __init__(self, file_path='path', new_extension='.txt'):
+        import os
+        pre, ext1 = os.path.splitext(file_path)
+        pre, ext2 = os.path.splitext(pre)
+        self.outPath = os.path.join(pre + new_extension)
+
+    def newPath(self: 'path'):
+        return self.outPath
 
 ###############################################################################
 
@@ -128,6 +162,39 @@ class add_suffixprefix_file:
     def newPath(self: 'path'):
         return self.outPath
     
+###############################################################################
+
+
+class add_suffixprefix_2ext:
+    def __init__(self,
+                 file_path='path',
+                 new_str='',
+                 place="enumerate(('suffix','prefix'))"):
+        import os
+        dir = os.path.dirname(file_path)
+        tmp = os.path.basename(file_path)
+        lsfield = tmp.split('.')
+        name = ('.').join(lsfield[:-2])
+        ext = lsfield[-2] + '.' + lsfield[-1]
+        if place == 'suffix':
+            self.outPath = os.path.join(dir, name + new_str + '.'+ext)
+        elif place == 'prefix':
+            self.outPath = os.path.join(dir, new_str + name + '.'+ext)
+
+    def newPath(self: 'path'):
+        return self.outPath
+    
+###############################################################################
+
+class change_name_file:
+    def __init__(self, file_path='path', new_name='myname.txt'):
+        import os
+        dir = os.path.dirname(file_path)
+        self.newPath = os.path.join(dir, new_name)
+        
+    def out_new_file(self:'path'):
+        return self.newPath
+
 ###############################################################################
 
 
