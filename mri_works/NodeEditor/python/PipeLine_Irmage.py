@@ -53,8 +53,7 @@ from . import editCombobox
 from . import exportCapsul
 from . import PythonHighlighter
 from . import multiple_execution
-
-from Config import Config
+from . import Config
 
 currentpathwork = ''
 

@@ -26,7 +26,8 @@ packages:
   traits: pip3 install traits==5.2.0
 paths:
   data: /tmp/
-  diagrams: []
+  diagrams:
+  - /home/omontigon/Bureau/test_mri_works/test_BrukerToNifti.dgr
   histories:
   - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_Bruker_br.dgr
   - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_mriconv.dgr
