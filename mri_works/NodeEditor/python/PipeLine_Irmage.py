@@ -1092,7 +1092,7 @@ class SaveDiagram(QTextEdit):
                     except Exception as e:
                         pass
 
-            elif type(item) == Constants or type(item) ==Checkbox:
+            elif type(item) == Constants or type(item) == Checkbox or type(item) == Imagebox:
                 rect = item.rect()
                 if type(item.elemProxy) == Constants_Combo:
                     value = repr(item.elemProxy.currentText())
@@ -1101,7 +1101,10 @@ class SaveDiagram(QTextEdit):
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
                 elif type(item.elemProxy) == QWidget:
-                    value = item.listItemsBox
+                    if type(item) == Checkbox:
+                        value = item.listItemsBox
+                    else:
+                        value = item.pathImage
                 self.append('constant=[' + str(item.unit) +
                             '] value=[' + str(value) +
                             '] format=[' + str(item.form) +
@@ -1726,6 +1729,8 @@ class DiagramView(QGraphicsView):
     def loadConstant(self, unit, pos, vout, format, label):
         if format == 'list_str':
             self.b7 = Checkbox(unit, vout, label, True)
+        elif format == 'path_box':
+            self.b7 = Imagebox(unit, vout, label, True)
         else:
             self.b7 = Constants(unit, pos[2], pos[3], vout, format, label, True)
         self.b7.setPos(pos[0], pos[1])
@@ -3599,10 +3604,12 @@ class Imagebox(QGraphicsRectItem):
     def __init__(self, unit='', pathImage='path', label='', isMod=True, parent=None):
         super(Imagebox, self).__init__(parent)
 
-        pathbkg = os.path.dirname(os.path.realpath(__file__))
-        pathbkg = os.path.dirname(pathbkg)
-        pathbkg = os.path.join(pathbkg, '../mri_works.png')
-        self.pathImage = pathbkg
+        self.sh=("")
+        self.form = 'path_box'
+#         pathbkg = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#         pathbkg = os.path.join(pathbkg, 'no_img.png')
+#         self.pathImage = pathbkg
+        
         self.isMod = isMod
         self.setZValue(2)
         if self.isMod:
@@ -3628,14 +3635,14 @@ class Imagebox(QGraphicsRectItem):
             self.label = self.unit
             
         self.elemProxy = QWidget()
-        self.elemProxy.setGeometry(0,0,150,150)
-        oImage = QImage(self.pathImage)
-        palette = QPalette()
-        palette.setBrush(QPalette.Window, QBrush(oImage))                    
-        self.elemProxy.setPalette(palette)
+#         self.elemProxy.setGeometry(5,5,128,128)
+#         oImage = QImage(self.pathImage)
+#         palette = QPalette()
+#         palette.setBrush(QPalette.Window, QBrush(oImage))                    
+#         self.elemProxy.setPalette(palette)
 
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
-        self.proxyWidget.setWidget(self.elemProxy)
+#         self.proxyWidget.setWidget(self.elemProxy)
         self.proxyWidget.setPos(3, 3)
         self.proxyWidget.setZValue(3)
         
@@ -3648,13 +3655,13 @@ class Imagebox(QGraphicsRectItem):
         self.lab.setPos(0, -30)
         self.lab.setVisible(True)
         
-        self.pathSh = QGraphicsTextItem('path', self)
-        self.pathSh.setDefaultTextColor(ItemColor.text_block_label.value)
-        self.pathSh.setFont(QFont("Times", 12, QFont.Bold))
-        self.pathSh.setPos(0, self.h + 5)
+        self.labshape = QGraphicsTextItem('path', self)
+        self.labshape.setDefaultTextColor(ItemColor.text_block_label.value)
+        self.labshape.setFont(QFont("Times", 12, QFont.Bold))
+        self.labshape.setPos(- 2 + self.w / 2, self.h + 3)
        
         self.setPen(QtGui.QPen(ItemColor.frame_constants.value, 3))
-        color = TypeColor.path.value
+        color = ItemColor.backGround.value
         self.setBrush(QtGui.QBrush(color))
         self.setRect(0.0, 0.0, self.w, self.h)
         
@@ -3662,9 +3669,30 @@ class Imagebox(QGraphicsRectItem):
         self.outputs = []
         self.outputs.append(Port('', 'out', 'path', self.unit, True, self.isMod, 80, -12, self))
         self.outputs[0].setPos(self.w + 2, self.h / 2)
-        if self.isMod:
-            listConstants[editor.currentTab][self.unit] = ('path', self.pathImage, self.label)
-            
+#         if self.isMod:
+#             listConstants[editor.currentTab][self.unit] = ('path_box', self.pathImage, self.label)
+
+        if os.path.isfile(pathImage) and pathImage.split(".")[-1] != 'png':
+            self.pathImage = pathImage
+            self.loadImage(pathImage)
+        else:
+            pathbkg = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            pathbkg = os.path.join(pathbkg, 'no_img.png')
+            self.pathImage = pathbkg
+            self.elemProxy.setGeometry(5,5,128,128)
+            oImage = QImage(self.pathImage)
+            palette = QPalette()
+            palette.setBrush(QPalette.Window, QBrush(oImage))                    
+            self.elemProxy.setPalette(palette)
+            self.proxyWidget.setWidget(self.elemProxy)
+            self.w = self.proxyWidget.boundingRect().size().width() + 11
+            self.h = self.proxyWidget.boundingRect().size().height() + 11
+            self.setRect(0.0, 0.0, self.w, self.h)
+            self.outputs[0].setPos(self.w + 2, self.h / 2)
+            if self.isMod:
+                listConstants[editor.currentTab][self.unit] = ('path_box', self.pathImage, self.label)
+
+
     def mouseDoubleClickEvent(self, event):
         if self.isMod:
             fileDiagram = QFileDialog.getOpenFileName(
@@ -3674,37 +3702,63 @@ class Imagebox(QGraphicsRectItem):
                                 'Nifti (*.nii *.nii.gz)',
                                 None,
                                 QFileDialog.DontUseNativeDialog)
-
             if fileDiagram[0] != '':
-                import nibabel as nib
-                import numpy as np
-                from scipy.ndimage import rotate
-                img = nib.load(fileDiagram[0])
-                sh = img.shape
-                img = img.get_fdata()
-                if len(sh)==3:
-                    img = img[:,:,int(round(sh[2]/2))].copy()
-                elif len(sh)==4:
-                    img = img[:,:,int(round(sh[2]/2)),int(round(sh[3]/2))].copy()
-                elif len(sh)==5:
-                    img = img[:,:,int(round(sh[2]/2)),int(round(sh[3]/2)),int(round(sh[4]/2))].copy()
-                img = rotate(img,-90,reshape=False)
-                img = np.uint8((img - img.min())/img.ptp()*255.0)
-                oImage = QImage(img, sh[1], sh[0], QImage.Format_Indexed8)
-                palette = QPalette()
-                palette.setBrush(QPalette.Window, QBrush(oImage))                    
-                self.elemProxy.setPalette(palette)
-                self.elemProxy.setGeometry(5, 5, sh[1], sh[0])
-                self.proxyWidget.setWidget(self.elemProxy)
-                self.w = self.proxyWidget.boundingRect().size().width() + 11
-                self.h = self.proxyWidget.boundingRect().size().height() + 11
-                self.setRect(0.0, 0.0, self.w, self.h)
-                self.outputs[0].setPos(self.w + 2, self.h / 2)
-#                 self.lab = fileDiagram[0]
-                self.pathSh.setPlainText(os.path.basename(fileDiagram[0]))
-                rect = self.pathSh.boundingRect()
-                self.pathSh.setPos((self.w / 2) - rect.size().width() / 2, self.h + 5)
-                listConstants[editor.currentTab][self.unit] = ('path', fileDiagram[0], self.label)
+                self.loadImage(fileDiagram[0])
+
+    def loadImage(self, pathFile):
+        self.pathImage = pathFile
+        import nibabel as nib
+        import numpy as np
+        from scipy.ndimage import rotate
+        img = nib.load(pathFile)
+        self.sh = img.shape
+        img = img.get_fdata()
+        if len(self.sh)==3:
+            img = img[:,:,int(round(self.sh[2]/2))].copy()
+        elif len(self.sh)==4:
+            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2))].copy()
+        elif len(self.sh)==5:
+            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2)),int(round(self.sh[4]/2))].copy()
+        img = rotate(img,-90,reshape=False)
+        img = np.uint8((img - img.min())/img.ptp()*255.0)
+        oImage = QImage(img, self.sh[1], self.sh[0], QImage.Format_Indexed8)
+        palette = QPalette()
+        palette.setBrush(QPalette.Window, QBrush(oImage))                    
+        self.elemProxy.setPalette(palette)
+        self.elemProxy.setGeometry(5, 5, self.sh[1], self.sh[0])
+        self.proxyWidget.setWidget(self.elemProxy)
+#         self.proxyWidget.setWidget(self.elemProxy)
+#         self.proxyWidget.updateGeometry()
+        self.w = self.proxyWidget.boundingRect().size().width() + 11
+        self.h = self.proxyWidget.boundingRect().size().height() + 11
+        self.setRect(0.0, 0.0, self.w, self.h)
+        self.outputs[0].setPos(self.w + 2, self.h / 2)
+        self.labshape.setPlainText(str(self.sh))
+        rect = self.labshape.boundingRect()
+        self.labshape.setPos((self.w / 2) - rect.size().width() / 2, self.h + 3)
+        listConstants[editor.currentTab][self.unit] = ('path', pathFile, self.label)
+
+    def hoverEnterEvent(self, event):
+        # self.setFocus(True)
+        txt = "<p style=\"background-color: #fff59d;\">"
+        txt += "<br><span style=\" \
+               font-size:9pt; \
+               font-weight:1000; \
+               color:#AA1100; \" >"
+        txt += self.pathImage
+        txt += "<br></span></p>"
+        self.setToolTip(txt)
+        event.accept()
+#         return QGraphicsRectItem.hoverEnterEvent(self, event)
+
+    def contextMenuEvent(self, event):
+        if self.isMod:
+            menu = QMenu()
+            de = menu.addAction('Delete')
+            de.triggered.connect(self.deleteItem)
+            pa = menu.addAction('Change label')
+            pa.triggered.connect(self.changeLabel)
+            menu.exec_(event.screenPos())
 
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_Up:
@@ -3715,6 +3769,25 @@ class Imagebox(QGraphicsRectItem):
             self.setPos(self.x() - 1, self.y())
         if event.key() == QtCore.Qt.Key_Right:
             self.setPos(self.x() + 1, self.y())
+    
+    def changeLabel(self):
+        listLabCts = []
+        for x, y in listConstants[editor.currentTab].items():
+            listLabCts.append(y[2])
+        listVal = listConstants[editor.currentTab][self.unit]
+        oldVal = listVal[2]
+        c = changeLabel('Const', self.unit, oldVal)
+        c.exec_()
+        try:
+            self.label = c.getNewLabel()
+            if self.label in listLabCts:
+                self.label += '-b'
+            self.lab.setPlainText(self.label)
+            del listConstants[editor.currentTab][self.unit]
+            listConstants[editor.currentTab][self.unit] = (listVal[0], listVal[1], self.label)
+            UpdateUndoRedo()
+        except OSError as err:
+            print("OS error: {0}".format(err))
             
     def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
@@ -3922,7 +3995,7 @@ class Checkbox(QGraphicsRectItem):
             print("OS error: {0}".format(err))
         if self.isMod:
             self.updateListItems()
-            
+
 ###############################################################################
 
 
@@ -4250,8 +4323,9 @@ class Constants_text(QTextEdit):
         self.setCursorWidth(0)
         tmpTxt = repr(self.toPlainText())
         tmpTxt = tmpTxt.replace('\\n', '')
+        tmpform = listConstants[editor.currentTab][self.unit][0]
         del listConstants[editor.currentTab][self.unit]
-        listConstants[editor.currentTab][self.unit] = ('str', tmpTxt, self.lab)
+        listConstants[editor.currentTab][self.unit] = (tmpform, tmpTxt, self.lab)
 
 ###############################################################################
 

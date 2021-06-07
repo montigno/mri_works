@@ -171,7 +171,7 @@ class analyze:
                 fort = line[0:line.index('] label')]
                 if not fort:
                     fort = ''
-                elif fort == 'path':
+                elif 'path' in fort:
                     vout = vout.replace('\\n', '')
                 elif fort == 'bool':
                     vout = eval(vout)
