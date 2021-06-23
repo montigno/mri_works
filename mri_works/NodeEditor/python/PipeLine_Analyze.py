@@ -446,6 +446,7 @@ class analyze:
 
         # create list of remaining Block to execute in order ###########
 
+
         self.listBlockExecution = []
         listNodeValue = []
         tmpListBlock = []
@@ -516,7 +517,9 @@ class analyze:
                         if unit in listBlockRemainingNodeGen1:
                             tmpVal = []
                             tmpVal.extend(listBlockRemainingNodeGen1[unit])
-                            tmpVal.extend(ele)
+                            tmpVal.append(ele)
+#                             tmpVal.extend(ele) 
+
                             listBlockRemainingNodeGen1[unit] = tmpVal
                         else:
                             try:
@@ -549,9 +552,10 @@ class analyze:
                             except Exception as e:
                                 listBlockRemainingNodeGen1[unit] = ele
 
-        # print('listBlockRemainingNodeNeed1 2', len(listBlockRemainingNodeNeed1), listBlockRemainingNodeNeed1)
-        # print('listBlockRemainingNodeGen1 2', len(listBlockRemainingNodeGen1), listBlockRemainingNodeGen1)
-        # print('listBlockRemaining 2 : ', listBlockRemaining)
+
+#         print('listBlockRemainingNodeNeed1 2', len(listBlockRemainingNodeNeed1), listBlockRemainingNodeNeed1)
+#         print('listBlockRemainingNodeGen1 2', len(listBlockRemainingNodeGen1), listBlockRemainingNodeGen1)
+#         print('listBlockRemaining 2 : ', listBlockRemaining)
 
         while len(listBlockRemaining) != 0:
             tmpListlistBlockRemaining = listBlockRemaining.copy()

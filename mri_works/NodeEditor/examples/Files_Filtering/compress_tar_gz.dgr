@@ -1,0 +1,29 @@
+[diagram]
+link=[N0] node=[U0:list_repertories#Node#F0m*:in0]
+link=[N1] node=[F0m*:in0#Node#S0:file_in]
+script=[S0] title=[Script_editor] inputs=[['file_in', 'in', 'path']] outputs=[] code=[your code] RectF=[(4.310193066629267, -36.62724540011543, 436.85088962720215, 112.85574390318413)]
+block=[U0] category=[Java.JFileChooser] class=[ChooseRepertories] valInputs=[([], [], ['list_repertories', 'list_files'], ['list_path', 'list_path'])] RectF=[(-303.34409975741744, -11.758215721906915, 150.0, 80.0)]
+loopFor=[F0m*] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[]] listItems=[['S0']] RectF=[(-70.31435645266572, -133.92337983875757, 601.2663557948958, 301.76647195449243)]
+[source S0]
+['file_in=F0m*:in0']
+import subprocess
+
+subprocess.Popen(['tar', '-czvf', file_in+'.tar.gz', file_in])
+
+[]
+[/source S0]
+
+[execution]
+[]
+['U0', 'F0m*']
+{'U0': ('Java.JFileChooser', 'ChooseRepertories', "([], [], ['list_repertories', 'list_files'], ['list_path', 'list_path'])")}
+['F0m*:in0', 'U0:list_repertories']
+{}
+[]
+[loopfor F0m*]
+['F0m*:in0=U0:list_repertories']
+['S0']
+{}
+['F0m*:in0']
+{}
+[]

@@ -1,4 +1,3 @@
-from os import popen
 class Open_Nifti:
     def __init__(self, fileSource='path'):
         import os.path

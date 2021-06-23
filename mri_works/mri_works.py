@@ -102,7 +102,7 @@ class CreateTabs(QWidget):
         self.textInfo.setText('Welcome to Irmage')
 
         self.tabs.addTab(NodeEdit(self.textInfo), "PipeLine Manager")
-        self.tabs.addTab(DataBrowser(self.textInfo), "Image Browser")
+#         self.tabs.addTab(DataBrowser(self.textInfo), "Image Browser")
         self.tabs.setCurrentIndex(0)
 
         self.verticalLayout = QVBoxLayout(self)

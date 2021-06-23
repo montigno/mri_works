@@ -5,10 +5,11 @@
 # https://cecill.info/licences/Licence_CeCILL_V2-en.html
 # for details.
 ##########################################################################
+from PyQt5.Qt import QPoint, QItemSelectionModel, QItemSelection
 
 '''
 Created on 14 December 2017
-Last modification on 18 Apr. 2021
+Last modification on 18 June 2021
 @author: omonti
 '''
 
@@ -26,14 +27,15 @@ from PyQt5.QtCore import QByteArray, Qt, QStringListModel, QLineF, QPointF, \
 from PyQt5.QtGui import QStandardItemModel, QPixmap, QPainterPath, \
     QCursor, QBrush, QStandardItem, QPainter, \
     QImage, QTransform, QColor, QFont, QPolygonF, QLinearGradient, \
-    QKeySequence, QIcon, QFontMetrics, QPalette
+    QKeySequence, QIcon, QFontMetrics, QPalette, QCloseEvent
 from PyQt5.QtWidgets import QMenuBar, QTextEdit, QGraphicsScene, \
     QGraphicsView, QGraphicsPathItem, QGraphicsPolygonItem, \
     QGraphicsRectItem, QDialog, QSpinBox, QDoubleSpinBox, QComboBox, \
     QTreeView, QWidget, QVBoxLayout, QTabBar, QTabWidget, QSplitter, \
     QStylePainter, QStyleOptionTab, QStyle, QFileDialog, QSizePolicy, \
     QGraphicsItem, QMessageBox, QMenu, QAction, QHBoxLayout, QLabel, \
-    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem, QGridLayout, QCheckBox
+    QPushButton, QGraphicsProxyWidget, QGraphicsTextItem, QGridLayout, QCheckBox,\
+    QLineEdit, QCompleter, QAbstractItemView
 
 from . import analyze
 from . import execution
@@ -268,6 +270,8 @@ class Menu(QMenuBar):
                     break
 
             if not connectorPresent:
+                import time
+                start_time = time.time()
                 txt = SaveDiagram()
                 if ('.dgr' not in extension or
                         tmpActText == 'Save Diagram As...'):
@@ -284,6 +288,7 @@ class Menu(QMenuBar):
                         if '.dgr' not in file:
                             file += '.dgr'
                         fileNameonly = os.path.basename(file)
+                
                 try:
                     if file:
                         f = open(file, 'w', encoding='utf8')
@@ -301,11 +306,14 @@ class Menu(QMenuBar):
                             self.saveHistories(file)
                 except OSError as err:
                     print("OS error: {0}".format(err))
+                    
             else:
                 if '.mod' not in extension:
                     tmpActText = 'Create Submodul'
                 else:
                     tmpActText = 'Save Submodul        Ctrl+S'
+
+
 
         if tmpActText == 'Open Diagram':
             fileDiagram = QFileDialog.getOpenFileName(
@@ -508,7 +516,7 @@ class Menu(QMenuBar):
             tmp = str(os.path.join(path_html,
                                    '../../../docs',
                                    'index.html'))
-            webbrowser.open(tmp, encoding='utf8')
+            webbrowser.open(tmp)
 
         if tmpActText == 'Setting Standalone Paths':
             c = windowConfig()
@@ -1101,10 +1109,9 @@ class SaveDiagram(QTextEdit):
                 elif type(item.elemProxy) == Constants_float or type(item.elemProxy) == Constants_int:
                     value = item.elemProxy.value()
                 elif type(item.elemProxy) == QWidget:
-                    if type(item) == Checkbox:
-                        value = item.listItemsBox
-                    else:
-                        value = item.pathImage
+                    value = item.listItemsBox
+                elif type(item.elemProxy) == QLabel:
+                    value = item.pathImage
                 self.append('constant=[' + str(item.unit) +
                             '] value=[' + str(value) +
                             '] format=[' + str(item.form) +
@@ -1376,7 +1383,7 @@ class DiagramScene(QGraphicsScene):
             listItemStored.clear()
             listBlSmStored.clear()
             for el in self.selectedItems():
-                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox']:
+                if type(el).__name__ in ['BlockCreate', 'Constants', 'ScriptItem', 'Probes', 'Checkbox', 'Imagebox']:
                     listItemStored[el.unit] = el
                     if 'U' in el.unit:
                         listBlSmStored[el.unit] = listBlocks[editor.currentTab][el.unit]
@@ -1465,7 +1472,13 @@ class DiagramScene(QGraphicsScene):
                 edit.loadMod(changeUnit[nameUnit], ins.name, posRe, *new_inout)
             if 'A' in nameUnit:
                 values = list_Bl_Sm[nameUnit]
-                if ins.format == 'path':
+                if ins.format == 'list_str':
+                    form = 'list_str'
+                    val = values[1]
+                elif ins.format == 'path_box':
+                    form = 'path_box'
+                    val = values[1]
+                elif ins.format == 'path':
                     form = 'path'
                     if "'" in values[1]:
                         val = values[1][1:-1] # to remove guillemet
@@ -3606,17 +3619,15 @@ class Imagebox(QGraphicsRectItem):
 
         self.sh=("")
         self.form = 'path_box'
-#         pathbkg = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#         pathbkg = os.path.join(pathbkg, 'no_img.png')
-#         self.pathImage = pathbkg
-        
+        self.format = self.form
+
         self.isMod = isMod
         self.setZValue(2)
         if self.isMod:
             self.setFlags(self.ItemIsSelectable | self.ItemIsMovable)
             self.setFlag(self.ItemIsFocusable, True)
             self.setAcceptHoverEvents(True)
-            
+
         if unit in 'newImagebox':
             ConstantExist = True
             inc = 0
@@ -3629,42 +3640,37 @@ class Imagebox(QGraphicsRectItem):
         else:
             self.unit = unit
             
-        if label:
-            self.label = label
-        else:    
-            self.label = self.unit
-            
-        self.elemProxy = QWidget()
-#         self.elemProxy.setGeometry(5,5,128,128)
-#         oImage = QImage(self.pathImage)
-#         palette = QPalette()
-#         palette.setBrush(QPalette.Window, QBrush(oImage))                    
-#         self.elemProxy.setPalette(palette)
+        self.label = label if label else self.unit
+
+        self.elemProxy = QLabel()
+        self.elemProxy.setBackgroundRole(QPalette.Base)
+        self.elemProxy.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+        self.elemProxy.setScaledContents(True)
 
         self.proxyWidget = QGraphicsProxyWidget(self, Qt.Widget)
-#         self.proxyWidget.setWidget(self.elemProxy)
+        self.proxyWidget.setWidget(self.elemProxy)
         self.proxyWidget.setPos(3, 3)
         self.proxyWidget.setZValue(3)
-        
+
         self.w = self.proxyWidget.boundingRect().size().width() + 6
         self.h = self.proxyWidget.boundingRect().size().height() + 6
-        
+
         self.lab = QGraphicsTextItem(self.label, self)
         self.lab.setDefaultTextColor(QtGui.QColor(255, 255, 255, 255))
         self.lab.setFont(QFont("Times", 12, QFont.Bold))
         self.lab.setPos(0, -30)
         self.lab.setVisible(True)
-        
+
         self.labshape = QGraphicsTextItem('path', self)
         self.labshape.setDefaultTextColor(ItemColor.text_block_label.value)
         self.labshape.setFont(QFont("Times", 12, QFont.Bold))
         self.labshape.setPos(- 2 + self.w / 2, self.h + 3)
-       
+
         self.setPen(QtGui.QPen(ItemColor.frame_constants.value, 3))
         color = ItemColor.backGround.value
         self.setBrush(QtGui.QBrush(color))
         self.setRect(0.0, 0.0, self.w, self.h)
-        
+
         self.inputs = []
         self.outputs = []
         self.outputs.append(Port('', 'out', 'path', self.unit, True, self.isMod, 80, -12, self))
@@ -3673,17 +3679,15 @@ class Imagebox(QGraphicsRectItem):
 #             listConstants[editor.currentTab][self.unit] = ('path_box', self.pathImage, self.label)
 
         if os.path.isfile(pathImage) and pathImage.split(".")[-1] != 'png':
-            self.pathImage = pathImage
             self.loadImage(pathImage)
         else:
             pathbkg = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             pathbkg = os.path.join(pathbkg, 'no_img.png')
             self.pathImage = pathbkg
-            self.elemProxy.setGeometry(5,5,128,128)
             oImage = QImage(self.pathImage)
-            palette = QPalette()
-            palette.setBrush(QPalette.Window, QBrush(oImage))                    
-            self.elemProxy.setPalette(palette)
+            self.elemProxy.setPixmap(QPixmap.fromImage(oImage))
+#             self.elemProxy.adjustSize()
+            self.elemProxy.setGeometry(5,5,150,150)
             self.proxyWidget.setWidget(self.elemProxy)
             self.w = self.proxyWidget.boundingRect().size().width() + 11
             self.h = self.proxyWidget.boundingRect().size().height() + 11
@@ -3712,31 +3716,31 @@ class Imagebox(QGraphicsRectItem):
         from scipy.ndimage import rotate
         img = nib.load(pathFile)
         self.sh = img.shape
-        img = img.get_fdata()
+        img = img.get_fdata().copy()
         if len(self.sh)==3:
-            img = img[:,:,int(round(self.sh[2]/2))].copy()
+            img = img[:,:,int(round(self.sh[2]/2))]
         elif len(self.sh)==4:
-            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2))].copy()
+            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2))]
         elif len(self.sh)==5:
-            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2)),int(round(self.sh[4]/2))].copy()
-        img = rotate(img,-90,reshape=False)
+            img = img[:,:,int(round(self.sh[2]/2)),int(round(self.sh[3]/2)),int(round(self.sh[4]/2))]
+        img = np.fliplr(rotate(img,-90,reshape=True))
         img = np.uint8((img - img.min())/img.ptp()*255.0)
-        oImage = QImage(img, self.sh[1], self.sh[0], QImage.Format_Indexed8)
-        palette = QPalette()
-        palette.setBrush(QPalette.Window, QBrush(oImage))                    
-        self.elemProxy.setPalette(palette)
-        self.elemProxy.setGeometry(5, 5, self.sh[1], self.sh[0])
+        oImage = QImage(img, self.sh[0], self.sh[1], QImage.Format_Indexed8)
+        factor = max([self.sh[0], self.sh[1]]) / 300.0
+        self.elemProxy.setPixmap(QPixmap.fromImage(oImage))
+        self.elemProxy.setGeometry(5,5,self.sh[0] / factor, self.sh[1] / factor)
         self.proxyWidget.setWidget(self.elemProxy)
-#         self.proxyWidget.setWidget(self.elemProxy)
-#         self.proxyWidget.updateGeometry()
-        self.w = self.proxyWidget.boundingRect().size().width() + 11
-        self.h = self.proxyWidget.boundingRect().size().height() + 11
+        self.proxyWidget.updateGeometry()
+#         print(self.sh, self.proxyWidget.boundingRect().size())
+        self.w = self.proxyWidget.boundingRect().size().width() + 8
+        self.h = self.proxyWidget.boundingRect().size().height() + 8
         self.setRect(0.0, 0.0, self.w, self.h)
         self.outputs[0].setPos(self.w + 2, self.h / 2)
         self.labshape.setPlainText(str(self.sh))
         rect = self.labshape.boundingRect()
         self.labshape.setPos((self.w / 2) - rect.size().width() / 2, self.h + 3)
-        listConstants[editor.currentTab][self.unit] = ('path', pathFile, self.label)
+        listConstants[editor.currentTab][self.unit] = ('path_box', pathFile, self.label)
+#         UpdateUndoRedo()
 
     def hoverEnterEvent(self, event):
         # self.setFocus(True)
@@ -3758,6 +3762,8 @@ class Imagebox(QGraphicsRectItem):
             de.triggered.connect(self.deleteItem)
             pa = menu.addAction('Change label')
             pa.triggered.connect(self.changeLabel)
+            li = menu.addAction('Load image')
+            li.triggered.connect(self.mouseDoubleClickEvent)
             menu.exec_(event.screenPos())
 
     def keyPressEvent(self, event):
@@ -3788,7 +3794,7 @@ class Imagebox(QGraphicsRectItem):
             UpdateUndoRedo()
         except OSError as err:
             print("OS error: {0}".format(err))
-            
+
     def deleteItem(self):
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
@@ -3808,6 +3814,7 @@ class Checkbox(QGraphicsRectItem):
        
         self.isMod = isMod
         self.form = 'list_str'
+        self.format = self.form
                 
         self.setZValue(2)
         if self.isMod:
@@ -3827,10 +3834,7 @@ class Checkbox(QGraphicsRectItem):
         else:
             self.unit = unit
         
-        if label:
-            self.label = label
-        else:    
-            self.label = self.unit
+        self.label = label if label else self.unit
         
         self.listCheckBox = []
         self.listItemsBox = listItems
@@ -4031,10 +4035,7 @@ class Constants(QGraphicsRectItem):
         else:
             self.unit = unit
 
-        if label:
-            self.label = label
-        else:
-            self.label = self.unit
+        self.label = label if label else self.unit
 
         self.format = form
 
@@ -4478,7 +4479,7 @@ class ForLoopItem(QGraphicsRectItem):
 
     def keyPressEvent(self, keyEvent):
         if keyEvent.key() == QtCore.Qt.Key_Delete:
-            self.deleteLoopFor()
+            self.deleteItem()
             UpdateUndoRedo()
         if keyEvent.key() == QtCore.Qt.Key_Up:
             self.setPos(self.x(), self.y() - 1)
@@ -4673,7 +4674,7 @@ class ForLoopItem(QGraphicsRectItem):
             outtu = menu.addAction('Add tunnel output')
             outtu.triggered.connect(self.addTunnelOutput)
             de = menu.addAction('Delete')
-            de.triggered.connect(self.deleteLoopFor)
+            de.triggered.connect(self.deleteItem)
             if 'm' in self.unit:
                 pa = menu.addAction('Parameters')
                 pa.triggered.connect(self.editParameters)
@@ -4681,7 +4682,7 @@ class ForLoopItem(QGraphicsRectItem):
             menu.exec_(event.screenPos())
 #             return QGraphicsRectItem.contextMenuEvent(self, event)
 
-    def deleteLoopFor(self):
+    def deleteItem(self):
         editor.diagramScene[editor.currentTab].removeItem(self)
         for elem in editor.diagramView[editor.currentTab].items():
             if type(elem) == LinkItem:
@@ -5975,6 +5976,11 @@ class TreeLibrary(QTreeView):
 
     def __init__(self, parent=None):
         super(TreeLibrary, self).__init__(parent)
+#         self.setHeaderHidden(True)
+#         self.setUniformRowHeights(True)
+#         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        model = QStandardItemModel()
+        self.setModel(model)
         self.loading = False
 
     def __new__(self, *args, **kwargs):
@@ -6074,6 +6080,8 @@ class TreeLibrary(QTreeView):
                     bc = ScriptItem('', name, 200, 200, False)
                 elif 'Checkbox' in name:
                     bc = Checkbox('', ['item1', 'item2'], '', False)
+                elif 'Imagebox' in name:
+                    bc = Imagebox('', 'path', '', False)
                 elif name in ['Value', 'Type', 'Length']:
                     bc = Probes('', 'int', name, False)
 
@@ -6480,6 +6488,19 @@ class NodeEdit(QWidget):
         self.tabsDiagram.tabCloseRequested.connect(self.closeTab)
 #         self.tabsDiagram.setMovable(True)
         self.tabsDiagram.currentChanged.connect(self.tabSelected)
+        
+        self.completer = QCompleter()        
+        searchEngine = QWidget(self)
+        hbox = QHBoxLayout(searchEngine)
+        self.searchField = QLabel("Search : ")
+        hbox.addWidget(self.searchField)
+        self.searchField = QLineEdit(searchEngine)
+        self.searchField.setAlignment(QtCore.Qt.AlignTop)
+        self.searchField.setCompleter(self.completer)
+        self.searchField.textChanged.connect(self.searchCurrent)
+        self.completer.activated.connect(self.searchResult)
+#         self.searchField.returnPressed.connect(self.searchResult)
+        hbox.addWidget(self.searchField)
 
         listItems, listBlocks, listNodes, listConnects, listProbes = [], [], [], [], []
         listSubMod, listTools, listConstants, libTools = [], [], [], []
@@ -6487,9 +6508,10 @@ class NodeEdit(QWidget):
         self.diagramScene, self.diagramView, self.pathDiagram = [], [], []
 
         self.splitter1 = QSplitter(Qt.Vertical)
+        self.splitter1.addWidget(searchEngine)
         self.splitter1.addWidget(self.tabLib)
         self.splitter1.addWidget(previewBlock)
-        self.splitter1.setSizes([400, 150])
+        self.splitter1.setSizes([20, 400, 150])
 
         self.splitter2 = QSplitter(Qt.Horizontal)
         self.splitter2.addWidget(textEdit)
@@ -6658,6 +6680,82 @@ class NodeEdit(QWidget):
 
         self.tabLib.addTab(self.libBrowser[len(self.libBrowser) - 1], 'subModules')
         self.tabLib.setCurrentIndex(len(self.tabLib) - 1)
+
+    def searchCurrent(self):
+        self.lstSearch = {}
+        for el in self.getlib():
+            self.lstSearch[el[0]] = el[1]
+        self.completer.setModel(QStringListModel(self.lstSearch.keys()))
+        self.searchField.setCompleter(self.completer)
+        self.searchField.disconnect()
+        self.searchField.returnPressed.connect(self.searchResult2)
+
+    def searchResult(self):
+        itemblock = self.searchField.text()
+        if not itemblock:
+            return
+        tmp2 = self.lstSearch[itemblock]
+        cat = tmp2.split('.')[0]
+        filpy = tmp2.split('.')[1]
+        tabCurrent = None
+        for row in range(self.tabLib.count()):
+            if cat == self.tabLib.tabText(row):
+                self.tabLib.setCurrentIndex(row)
+                tabCurrent = self.tabLib.widget(row)
+                break
+
+        if tabCurrent:
+            model = tabCurrent.model()
+            root = model.invisibleRootItem()
+
+#             for item in self.iterItems(root):
+#                 try:
+#                     it = item.text()
+#                     print('it : ', it)
+#                 except:
+#                     pass
+
+            category_idx, child_idx = self.indexItems(root, filpy, itemblock)
+            
+            tabCurrent.selectionModel().clear()
+            idx = model.indexFromItem(model.item(category_idx).child(child_idx))
+            tabCurrent.setCurrentIndex(idx)
+
+    def iterItems(self, root):
+        def recurse(parent):
+            for row in range(parent.rowCount()):
+                for column in range(parent.columnCount()):
+                    child = parent.child(row, column)
+                    yield child
+                    try:
+                        if child.hasChildren():
+                            yield from recurse(child)
+                    except:
+                        pass
+        if root is not None:
+            yield from recurse(root)
+            
+    def indexItems(self, root, cat, item):
+        for row in range(root.rowCount()):
+            for column in range(root.columnCount()):
+                child = root.child(row, column)
+                try:
+                    if child.hasChildren():
+                        if child.text() == cat:
+                            for row2 in range(child.rowCount()):
+                                for column2 in range(child.columnCount()):
+                                    child2 = child.child(row2, column2)
+                                    try:
+                                        if child2.text() == item:
+                                            return row, row2
+                                    except:
+                                        pass
+                except:
+                    pass
+        return 0, 0
+
+    def searchResult2(self):
+        pass
 
     def startLink(self, port, format, pos):
         self.startConnection = Connection('', port, None, format)
@@ -7111,3 +7209,4 @@ class NodeEdit(QWidget):
                     
                     UpdateUndoRedo()
             self.startConnection = None
+

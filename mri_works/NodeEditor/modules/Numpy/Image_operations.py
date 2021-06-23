@@ -95,3 +95,5 @@ class MaxPool3D:
 
     def out_maxpool(self:'array_float'):
         return self.pool
+
+###############################################################

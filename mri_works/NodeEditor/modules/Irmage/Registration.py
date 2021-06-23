@@ -56,7 +56,7 @@ class Non_linear_registration_for_Atlases:
     
     def out_label_registred(self:'path'):
         return self.lab_reg
-    
+
 ###############################################################################
 
 class Non_linear_registration_multiple_Images:
@@ -104,7 +104,11 @@ class Non_linear_registration_multiple_Images:
         warpedmoveout = ants.registration(fixed=img_fi,
                                       moving=img_mo,
                                       type_of_transform = transform)
+        warp_mov_out = warpedmoveout['warpedmovout']
+        warp_mov_transf = warpedmoveout['fwdtransforms']
         list_transf = []
+        if images_apply_transform[0] == 'path':
+            images_apply_transform = []
         for lst_img in images_apply_transform:
             dir = os.path.dirname(lst_img)
             tmp = os.path.basename(lst_img)
@@ -112,17 +116,30 @@ class Non_linear_registration_multiple_Images:
             ext = tmp.split('.')[-1]
             out_img_transform = os.path.join(dir, name + suffix_transformed_name + '.'+ext)
             img_tra = ants.image_read(lst_img)
-            imagetransformed = ants.apply_transforms(fixed=warpedmoveout['warpedmovout'], moving=img_tra,
-                                           transformlist = warpedmoveout['fwdtransforms'],
+            imagetransformed = ants.apply_transforms(fixed = warp_mov_out, moving=img_tra,
+                                           transformlist = warp_mov_transf,
                                            interpolator=interpolator)
             ants.image_write(imagetransformed, out_img_transform)
             list_transf.append(out_img_transform)
-        ants.image_write(warpedmoveout['warpedmovout'], output_moved_name)
+        ants.image_write(warp_mov_out, output_moved_name)
+        dir = os.path.dirname(output_moved_name)
+        tmp = os.path.basename(output_moved_name)
+        name = ('.').join(tmp.split('.')[:-1])
+        ants.image_write(warp_mov_out, output_moved_name)
+        self.matrice = os.path.join(dir, name + suffix_transformed_name + '.mat')
+        print(type(warp_mov_transf))
+        file_mat = open(self.matrice, 'w')
+        file_mat.write(str(warp_mov_transf))
+        file_mat.close()
         self.img_reg = output_moved_name
         self.img_tra = list_transf
+        
         
     def out_image_registred(self:'path'):
         return self.img_reg
     
     def out_image_transformed(self:'list_path'):
         return self.img_tra
+    
+    def out_matrix_file(self:'path'):
+        return self.matrice

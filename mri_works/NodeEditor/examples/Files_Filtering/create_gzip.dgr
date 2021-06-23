@@ -1,7 +1,7 @@
 [diagram]
 link=[N1] node=[F0:in0#Node#U0:file_in]
 link=[N0] node=[U1:filesPath#Node#F0:in0]
-block=[U0] category=[File_IO.Save_image_nii_gz] class=[Create_gzip] valInputs=[(['file_in'], ['Node(N1)'], [], [])] RectF=[(-201.0, -30.0, 150.0, 80.0)]
+block=[U0] category=[File_IO.Save_image_nii_gz] class=[Create_gzip] valInputs=[(['file_in', 'delete_file'], ['Node(N1)', False], [], [])] RectF=[(-201.0, -30.0, 150.0, 80.0)]
 loopFor=[F0] inputs=[[[['in0', 'in', 'list_path'], ['in0', 'out', 'path']]]] outputs=[[]] listItems=[['U0']] RectF=[(-290.0, -113.0, 317.0, 237.0)]
 block=[U1] category=[File_IO.Dialog_files_directories] class=[Choose_multi_files] valInputs=[(['filesDefault', 'extension', 'title'], [['path'], '*', 'Open files'], ['filesPath', 'numberOfFiles'], ['list_path', 'int'])] RectF=[(-599.0, -24.0, 206.59375, 80.0)]
 [execution]

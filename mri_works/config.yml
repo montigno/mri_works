@@ -28,15 +28,6 @@ paths:
   data: /tmp/
   diagrams: []
   histories:
-  - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_Bruker_br.dgr
-  - /home/omontigon/Documents/mri_works_projects/testUnit_mri_conv/test_unit_mriconv.dgr
-  - /home/omontigon/Bureau/test_mri_works/test_DicomToNifti.dgr
-  - /home/omontigon/Bureau/test_mri_works/test_BrukerToNifti.dgr
-  - /home/omontigon/Documents/mri_works_projects/Is_Gu/Full_treatment_multiprocessing.dgr
-  - /home/omontigon/Documents/mri_works_projects/Toff/test-RegistrationLinear_Atlas.dgr
-  - /home/omontigon/Documents/mri_works_projects/Toff/1-N4bias.dgr
-  - /home/omontigon/Documents/mri_works_projects/Toff/3-Registration_Atlas.dgr
-  - /home/omontigon/Documents/mri_works_projects/Toff/4-Calcul_ROI.dgr
-  - /home/omontigon/Documents/mri_works_projects/Toff/2-ExtractionBrain.dgr
+  - /home/domicile-xubuntu/Documents/mri_works_projects/Petteri/test_ZTE_registration.dgr
   projects: ../data
-version: 21.05.18a
+version: 21.06.23a
